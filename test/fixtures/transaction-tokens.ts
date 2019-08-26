@@ -15,8 +15,8 @@ export function generateFixture(): TransactionTokenItem {
         data: {
             card: {
                 cardholder: 'Joe Doe',
-                expMonth: '12',
-                expYear: '99',
+                expMonth: 12,
+                expYear: 99,
                 lastFour: '4242',
                 brand: CardBrand.VISA,
                 cardType: CardType.CREDIT,
