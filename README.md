@@ -4,6 +4,7 @@
 [webpack]: https://webpack.js.org/
 [rollup]: https://rollupjs.org/
 
+[circle-ci-url]: https://circleci.com/gh/univapay/univapay-node/tree/master
 [univapay-url]: https://univapay.com/
 [npm-url]: https://www.npmjs.com/package/univapay-node
 [github-url]: https://github.com/univapay/univapay-node/
@@ -16,6 +17,7 @@
 [es-url]: http://www.ecma-international.org/ecma-262/6.0/
 [tree-url]: https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking
 
+[shield-circle-ci]: https://circleci.com/gh/univapay/univapay-node/tree/master.svg
 [shield-node]: https://img.shields.io/node/v/univapay-node.svg
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
 [shield-downloads]: https://img.shields.io/npm/dm/univapay-node.svg
@@ -33,6 +35,7 @@ univapay-node
 
 SDK library for [Node.js][node] to consume [UnivaPay][univapay-url] API.
 
+[![CircleCI][shield-circle-ci]][circle-ci-url]
 [![NPM version][shield-npm]][npm-url]
 [![Node.js version support][shield-node]][node]
 [![Code coverage][shield-coverage]][coveralls-url]
