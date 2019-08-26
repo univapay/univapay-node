@@ -6,12 +6,12 @@
 
 [univapay-url]: https://univapay.com/
 [npm-url]: https://www.npmjs.com/package/univapay-node
-[github-url]: https://github.com/univapay/univapay-node/
-[github-issues-url]: https://github.com/univapay/univapay-node/issues
-[github-pr-url]: https://github.com/univapay/univapay-node/pulls
-[coveralls-url]: https://coveralls.io/github/univapay/univapay-node?branch=master
-[license-url]: https://github.com/univapay/univapay-node/blob/master/LICENSE
-[cla-url]: https://cla-assistant.io/univapay/univapay-node
+[github-url]: https://github.com/gyro-n/univapay-node/
+[github-issues-url]: https://github.com/gyro-n/univapay-node/issues
+[github-pr-url]: https://github.com/gyro-n/univapay-node/pulls
+[coveralls-url]: https://coveralls.io/github/gyro-n/univapay-node?branch=0.7.0
+[license-url]: https://github.com/gyro-n/univapay-node/blob/master/LICENSE
+[cla-url]: https://cla-assistant.io/gyro-n/univapay-node
 [es-module-url]: https://npmjs.com/package/univapay-node-es
 [es-url]: http://www.ecma-international.org/ecma-262/6.0/
 [tree-url]: https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking
@@ -20,13 +20,13 @@
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
 [shield-downloads]: https://img.shields.io/npm/dm/univapay-node.svg
 [shield-license]: https://img.shields.io/npm/l/univapay-node.svg
-[shield-dependencies]: https://img.shields.io/david/univapay/univapay-node.svg
-[shield-devDependencies]: https://img.shields.io/david/dev/univapay/univapay-node.svg
-[shield-optionalDependencies]: https://img.shields.io/david/optional/univapay/univapay-node.svg
-[shield-coverage]: https://img.shields.io/coveralls/github/univapay/univapay-node/0.7.0.svg
-[shield-issues]: https://img.shields.io/github/issues/univapay/univapay-node.svg
-[shield-pullRequests]: https://img.shields.io/github/issues-pr/univapay/univapay-node.svg
-[shield-cla]: https://cla-assistant.io/readme/badge/univapay/univapay-node
+[shield-dependencies]: https://img.shields.io/david/gyro-n/univapay-node.svg
+[shield-devDependencies]: https://img.shields.io/david/dev/gyro-n/univapay-node.svg
+[shield-optionalDependencies]: https://img.shields.io/david/optional/gyro-n/univapay-node.svg
+[shield-coverage]: https://img.shields.io/coveralls/github/gyro-n/univapay-node/0.7.0.svg
+[shield-issues]: https://img.shields.io/github/issues/gyro-n/univapay-node.svg
+[shield-pullRequests]: https://img.shields.io/github/issues-pr/gyro-n/univapay-node.svg
+[shield-cla]: https://cla-assistant.io/readme/badge/gyro-n/univapay-node
 
 univapay-node
 ==========

@@ -1,0 +1,45 @@
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "downlevelIteration": true,
+        "importHelpers": true,
+        "sourceMap": true,
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "declaration": true,
+        "allowJs": false,
+        "checkJs": false,
+        "lib": [
+            "dom",
+            "scripthost",
+            "es2015",
+            "es2016",
+            "es2017",
+            "esnext",
+            "esnext.asynciterable"
+        ],
+        "forceConsistentCasingInFileNames": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": false,
+        "noUnusedLocals": true,
+        "skipLibCheck": true,
+        "strictNullChecks": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": ["types/*"]
+        }
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

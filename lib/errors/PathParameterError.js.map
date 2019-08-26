@@ -1,0 +1,1 @@
+{"version":3,"file":"PathParameterError.js","sourceRoot":"","sources":["../../src/errors/PathParameterError.ts"],"names":[],"mappings":";AAAA;;GAEG;;;AAEH;IAAwC,8CAAK;IAGzC,4BAAY,SAAiB;QAA7B,YACI,iBAAO,SAGV;QAFG,KAAI,CAAC,SAAS,GAAG,SAAS,CAAC;QAC3B,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,kBAAkB,CAAC,SAAS,CAAC,CAAC;;IAC9D,CAAC;IACL,yBAAC;AAAD,CAAC,AARD,CAAwC,KAAK,GAQ5C;AARY,gDAAkB"}
