@@ -106,12 +106,12 @@ workflows:
       - test:
           filters:
             tags:
-              only: /.*/
+              only: /^\d+\.\d+\.\d+$/
       - deploy:
           requires:
             - test
           filters:
-            tags:
-              only: /.*/
             branches:
-              only: master
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
