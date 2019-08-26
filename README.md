@@ -17,7 +17,7 @@
 [es-url]: http://www.ecma-international.org/ecma-262/6.0/
 [tree-url]: https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking
 
-[shield-circle-ci]: https://circleci.com/gh/univapay/univapay-node/tree/master.svg?style=plastic
+[shield-circle-ci]: https://circleci.com/gh/univapay/univapay-node/tree/master.svg?style=shields
 [shield-node]: https://img.shields.io/node/v/univapay-node.svg
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
 [shield-downloads]: https://img.shields.io/npm/dm/univapay-node.svg
