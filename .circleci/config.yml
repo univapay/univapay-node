@@ -82,12 +82,22 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+
       - run:
-          name: Publish package
-          command: npm publish
+          name: Build
+          command: npm run build
+
+      - run:
+          name: Publish package LIB
+          # command: npm publish lib
+
+      - run:
+          name: Publish package ES
+          # command: npm publish es
 
 workflows:
   version: 2
@@ -96,12 +106,12 @@ workflows:
       - test:
           filters:
             tags:
-              only: /^v.*/
+              only: /.*/
       - deploy:
           requires:
             - test
           filters:
             tags:
-              only: /^v.*/
+              only: /.*/
             branches:
-              ignore: /.*/
+              only: master
