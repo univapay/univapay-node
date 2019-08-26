@@ -93,11 +93,11 @@ jobs:
 
       - run:
           name: Publish package LIB
-          # command: npm publish lib
+          command: npm publish lib
 
       - run:
           name: Publish package ES
-          # command: npm publish es
+          command: npm publish es
 
 workflows:
   version: 2
