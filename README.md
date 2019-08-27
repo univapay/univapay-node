@@ -66,7 +66,7 @@ Requirements
 
 `univapay-node` requires the following to run:
 
-  * [Node.js][node] 6.0+
+  * [Node.js][node] 8.0+
   * [npm][npm] (normally comes with Node.js) or [yarn][yarn]
 
 
@@ -152,4 +152,4 @@ License
 -------
 
 `univapay-node` is licensed under the [MIT][license-url] license.
-Copyright &copy; 2018, [UnivaPay][univapay-url] Team
+Copyright &copy; 2019, [UnivaPay][univapay-url] Team
