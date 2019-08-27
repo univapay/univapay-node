@@ -83,5 +83,9 @@ export function generateFixture(): ConfigurationItem {
             suspendOnCancel: true,
             failedChargesToCancel: 10,
         },
+        descriptorProvidedConfiguration: {
+            name: 'test descriptor',
+            phoneNumber: '+81123456789',
+        },
     };
 }
