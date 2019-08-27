@@ -1,0 +1,25 @@
+{
+  "extension": [
+    ".ts"
+  ],
+  "require": [
+    "ts-node/register/type-check"
+  ],
+  "exclude": [
+    "coverage/**",
+    "**/*.d.ts"
+  ],
+  "reporter": [
+    "text",
+    "text-summary",
+    "html"
+  ],
+  "cwd": "src",
+  "all": true,
+  "check-coverage": false,
+  "per-file": false,
+  "lines": 90,
+  "statements": 90,
+  "functions": 90,
+  "branches": 0
+}

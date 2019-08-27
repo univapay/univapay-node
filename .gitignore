@@ -1,0 +1,14 @@
+node_modules/
+lib/
+es/
+docs/
+
+.DS_Store
+*.swp
+*.log*
+*.iml
+.idea
+*.orig
+.nyc_output
+coverage/
+reports/

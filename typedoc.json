@@ -1,0 +1,11 @@
+{
+    "mode": "modules",
+    "theme": "default",
+    "out": "docs",
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "excludeNotExported": true,
+    "preserveConstEnums": true,
+    "stripInternal": true
+}
