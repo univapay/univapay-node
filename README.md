@@ -25,7 +25,7 @@
 [shield-dependencies]: https://img.shields.io/david/univapay/univapay-node.svg
 [shield-devDependencies]: https://img.shields.io/david/dev/univapay/univapay-node.svg
 [shield-optionalDependencies]: https://img.shields.io/david/optional/univapay/univapay-node.svg
-[shield-coverage]: https://img.shields.io/coveralls/github/univapay/univapay-node/0.7.0.svg
+[shield-coverage]: https://coveralls.io/repos/github/univapay/univapay-node/badge.svg?branch=master
 [shield-issues]: https://img.shields.io/github/issues/univapay/univapay-node.svg
 [shield-pullRequests]: https://img.shields.io/github/issues-pr/univapay/univapay-node.svg
 [shield-cla]: https://cla-assistant.io/readme/badge/univapay/univapay-node
@@ -66,7 +66,7 @@ Requirements
 
 `univapay-node` requires the following to run:
 
-  * [Node.js][node] 6.0+
+  * [Node.js][node] 8.0+
   * [npm][npm] (normally comes with Node.js) or [yarn][yarn]
 
 
@@ -152,4 +152,4 @@ License
 -------
 
 `univapay-node` is licensed under the [MIT][license-url] license.
-Copyright &copy; 2018, [UnivaPay][univapay-url] Team
+Copyright &copy; 2019, [UnivaPay][univapay-url] Team

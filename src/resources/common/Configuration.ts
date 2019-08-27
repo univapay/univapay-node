@@ -84,6 +84,11 @@ export interface SubscriptionsConfiguration {
     suspendOnCancel: boolean;
 }
 
+export interface DescriptorProvidedConfiguration {
+    name: string;
+    phoneNumber: string;
+}
+
 export interface ConfigurationItem {
     cardBrandPercentFees: CardBrandPercentFeesItem;
     cardConfiguration: CardConfigurationItem;
@@ -104,6 +109,7 @@ export interface ConfigurationItem {
     securityConfiguration: SecurityConfiguration;
     subscriptionConfiguration: SubscriptionsConfiguration;
     userTransactionsConfiguration?: UserTransactionsConfiguration;
+    descriptorProvidedConfiguration?: DescriptorProvidedConfiguration;
 }
 
 export interface ConfigurationParams {
