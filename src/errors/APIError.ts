@@ -185,6 +185,8 @@ export enum ResponseErrorCode {
     TransferScheduleWaitPeriodAndPeriodRequired = 'TRANSFER_SCHEDULE_WAIT_PERIOD_AND_PERIOD_REQUIRED',
     ChargeAmountTooLow = 'CHARGE_AMOUNT_TOO_LOW',
     ChargeAmountTooHigh = 'CHARGE_AMOUNT_TOO_HIGH',
+    MustHaveAtLeastOneElement = 'MUST_HAVE_AT_LEAST_ONE_ELEMENT',
+    MustContainPlatformCurrency = 'MUST_CONTAIN_PLATFORM_CURRENCY',
 
     /** Used when creating a new Merchant */
     OnlyASCII = 'ONLY_ASCII',
