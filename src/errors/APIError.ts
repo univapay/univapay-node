@@ -318,6 +318,9 @@ export enum ResponseErrorCode {
     PrepaidDisabled = 'PREPAID_DISABLED',
     CountryNotSupported = 'COUNTRY_NOT_SUPPORTED',
     Unspecified = 'UNSPECIFIED',
+
+    /* gateway configuration errors */
+    InvalidMerchantCategoryCode = 'INVALID_MERCHANT_CATEGORY_CODE'
 }
 
 export class APIError extends Error {
