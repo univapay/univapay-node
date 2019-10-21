@@ -320,7 +320,7 @@ export enum ResponseErrorCode {
     Unspecified = 'UNSPECIFIED',
 
     /* gateway configuration errors */
-    InvalidMerchantCategoryCode = 'INVALID_MERCHANT_CATEGORY_CODE'
+    InvalidMerchantCategoryCode = 'INVALID_MERCHANT_CATEGORY_CODE',
 }
 
 export class APIError extends Error {
