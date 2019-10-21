@@ -80,6 +80,7 @@ export function generateFixture(): ConfigurationItem {
         displayTimeZone: 'Asia/Tokyo',
         recurringTokenConfiguration: {},
         subscriptionConfiguration: {
+            enabled: true,
             suspendOnCancel: true,
             failedChargesToCancel: 10,
         },

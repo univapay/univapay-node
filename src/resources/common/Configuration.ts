@@ -80,6 +80,7 @@ export interface RecurringTokenConfiguration {
 }
 
 export interface SubscriptionsConfiguration {
+    enabled?: boolean;
     failedChargesToCancel: number;
     suspendOnCancel: boolean;
 }

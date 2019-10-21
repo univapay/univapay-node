@@ -2,5 +2,5 @@ jshint:
   enabled: false
 
 eslint:
-  enabled: true
+  version: 6.3.0
   config_file: .eslintrc
