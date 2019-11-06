@@ -42,3 +42,32 @@ export enum ProcessingMode {
     LIVE = 'live',
     LIVE_TEST = 'live_test',
 }
+
+export enum QRBrand {
+    ALIPAY = 'alipay',
+    ALIPAY_CHINA = 'alipay_china',
+    ALIPAY_HK = 'alipay_hk',
+    ALIPAY_SINGAPORE = 'alipay_singapore',
+    DASH = 'dash',
+    D_BARAI = 'd_barai',
+    GLOBAL_PAY = 'global_pay',
+    KAKAOPAY = 'kakaopay',
+    ORIGAMI = 'origami',
+    PAY_PAY = 'pay_pay',
+    QQ = 'qq',
+    RAKUTEN_PAY = 'rakuten_pay',
+    WE_CHAT = 'we_chat',
+}
+
+export enum QRGateway {
+    ALIPAY = 'alipay',
+    ALIPAY_CONNECT = 'alipay_connect',
+    BARTONG = 'bartong',
+    D_BARAI = 'd_barai',
+    QQ = 'qq',
+    ORIGAMI = 'origami',
+    PAY_PAY = 'pay_pay',
+    RAKUTEN_PAY = 'rakuten_pay',
+    VIA = 'via',
+    WE_CHAT = 'we_chat',
+}
