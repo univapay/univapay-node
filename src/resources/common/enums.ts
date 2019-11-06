@@ -54,7 +54,7 @@ export enum QRBrand {
     KAKAOPAY = 'kakaopay',
     ORIGAMI = 'origami',
     PAY_PAY = 'pay_pay',
-    QQ = 'qq',
+    QQ = 'q_q',
     RAKUTEN_PAY = 'rakuten_pay',
     WE_CHAT = 'we_chat',
 }
@@ -64,7 +64,7 @@ export enum QRGateway {
     ALIPAY_CONNECT = 'alipay_connect',
     BARTONG = 'bartong',
     D_BARAI = 'd_barai',
-    QQ = 'qq',
+    QQ = 'q_q',
     ORIGAMI = 'origami',
     PAY_PAY = 'pay_pay',
     RAKUTEN_PAY = 'rakuten_pay',
