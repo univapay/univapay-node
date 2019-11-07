@@ -4,7 +4,7 @@
 
 import { ResponseCallback, ErrorResponse, HTTPMethod, SendData } from '../api/RestAPI';
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from './CRUDResource';
-import { CardBrand, CardSubBrand, CardCategory, ProcessingMode, CardType } from './common/enums';
+import { CardBrand, CardSubBrand, CardCategory, ProcessingMode, CardType, QRBrand, QRGateway } from './common/enums';
 import { Metadata, PhoneNumber } from './common/types';
 
 export enum UsageLimit {
@@ -138,7 +138,12 @@ export interface TransactionTokenCardDataItem {
     card?: TransactionTokenCardDetails;
     billing?: TransactionTokenCardBilling;
 }
-export type TransactionTokenQRScanDataItem = object;
+
+export interface TransactionTokenQRScanDataItem {
+    brand: QRBrand;
+    gateway?: QRGateway;
+}
+
 export interface TransactionTokenConvenienceDataItem {
     convenienceStore?: ConvenienceStore;
     customerName?: string;
