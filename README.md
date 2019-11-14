@@ -66,7 +66,7 @@ Requirements
 
 `univapay-node` requires the following to run:
 
-  * [Node.js][node] 8.0+
+  * [Node.js][node] 10 or 12
   * [npm][npm] (normally comes with Node.js) or [yarn][yarn]
 
 
