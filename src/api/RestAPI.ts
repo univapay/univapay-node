@@ -253,7 +253,7 @@ export class RestAPI {
                 }
             }
 
-            return response.blob();
+            return await response.blob();
         }, callback);
     }
 
