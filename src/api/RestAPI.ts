@@ -237,6 +237,11 @@ export class RestAPI {
 
             await checkStatus(response);
 
+            const noContentStatus = 204;
+            if (response.status === noContentStatus) {
+                return null;
+            }
+
             const contentType = response.headers.get('content-type');
             if (contentType === 'application/json') {
                 return await parseJSON(response);
@@ -248,9 +253,7 @@ export class RestAPI {
                 }
             }
 
-            const noContentStatus = 204;
-            const { status } = response;
-            return status !== noContentStatus ? await response.blob() : response;
+            return response.blob();
         }, callback);
     }
 
