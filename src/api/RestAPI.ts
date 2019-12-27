@@ -239,7 +239,7 @@ export class RestAPI {
 
             const noContentStatus = 204;
             if (response.status === noContentStatus) {
-                return null;
+                return '';
             }
 
             const contentType = response.headers.get('content-type');
