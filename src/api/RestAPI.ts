@@ -248,7 +248,9 @@ export class RestAPI {
                 }
             }
 
-            return await response.blob();
+            const noContentStatus = 204;
+            const { status } = response;
+            return status !== noContentStatus ? await response.blob() : response;
         }, callback);
     }
 
