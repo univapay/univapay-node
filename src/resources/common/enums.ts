@@ -57,11 +57,14 @@ export enum QRBrand {
     GLOBAL_PAY = 'global_pay',
     JKOPAY = 'jkopay',
     KAKAOPAY = 'kakaopay',
+    // LIIV = 'liiv',\
+    // MERPAY = 'merpay',
     ORIGAMI = 'origami',
     PAY_PAY = 'pay_pay',
     QQ = 'qq',
     RAKUTEN_PAY = 'rakuten_pay',
     TNG = 'tng',
+    // TOUCH_N_GO = 'touch_n_go',
     TRUEMONEY = 'truemoney',
     WE_CHAT = 'we_chat',
 }
