@@ -107,16 +107,18 @@ export class Refunds extends CRUDResource {
         storeId: string,
         chargeId: string,
         id: string,
-        data?: SendData<void>,
+        data?: SendData<PollParams>,
         callback?: ResponseCallback<ResponseRefund>,
-    ): Promise<ResponseRefund> {
-        const promise: () => Promise<ResponseRefund> = () =>
-            this.get(storeId, chargeId, id, { ...(data as object), polling: true });
 
-        return this.api.longPolling(
-            promise,
-            (response: ResponseRefund) => response.status !== RefundStatus.PENDING,
-            callback,
-        );
+        /**
+         * Condition for the resource to be successfully loaded. Default to pending status check.
+         */
+        cancelCondition?: (response: ResponseRefund) => boolean,
+    ): Promise<ResponseRefund> {
+        const pollData = { ...data, polling: true };
+        const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData);
+        const successCondition = ({ status }: ResponseRefund) => status !== RefundStatus.PENDING;
+
+        return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }
 }

@@ -333,16 +333,19 @@ export class Subscriptions extends CRUDResource {
     poll(
         storeId: string,
         id: string,
-        data?: SendData<void>,
+        data?: SendData<PollParams>,
         callback?: ResponseCallback<ResponseSubscription>,
+
+        /**
+         * Condition for the resource to be successfully loaded. Default to pending status check.
+         */
+        cancelCondition?: (response: ResponseSubscription) => boolean,
     ): Promise<ResponseSubscription> {
-        const promise: () => Promise<ResponseSubscription> = () =>
-            this.get(storeId, id, { ...(data as object), polling: true });
-        return this.api.longPolling(
-            promise,
-            (response: ResponseSubscription) => response.status !== SubscriptionStatus.UNVERIFIED,
-            callback,
-        );
+        const pollData = { ...data, polling: true };
+        const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData);
+        const successCondition = ({ status }: ResponseSubscription) => status !== SubscriptionStatus.UNVERIFIED;
+
+        return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }
 
     simulation<InstallmentPlanData extends InstallmentBaseParams>(

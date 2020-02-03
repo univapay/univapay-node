@@ -100,15 +100,18 @@ export class Charges extends CRUDResource {
     poll(
         storeId: string,
         id: string,
-        data?: SendData<void>,
+        data?: SendData<PollParams>,
         callback?: ResponseCallback<ResponseCharge>,
+
+        /**
+         * Condition for the resource to be successfully loaded. Default to pending status check.
+         */
+        cancelCondition?: (response: ResponseCharge) => boolean,
     ): Promise<ResponseCharge> {
-        const promise: () => Promise<ResponseCharge> = () =>
-            this.get(storeId, id, { ...(data as object), polling: true });
-        return this.api.longPolling(
-            promise,
-            (response: ResponseCharge) => response.status !== ChargeStatus.PENDING,
-            callback,
-        );
+        const pollingData = { ...data, polling: true };
+        const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollingData);
+        const successCondition = ({ status }: ResponseCharge) => status !== ChargeStatus.PENDING;
+
+        return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }
 }

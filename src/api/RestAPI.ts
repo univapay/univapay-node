@@ -307,10 +307,11 @@ export class RestAPI {
     async longPolling<A>(
         promise: PromiseCreator<A>,
         condition: (response: A) => boolean,
+        cancelCondition?: (response: A) => boolean,
         callback?: ResponseCallback<A>,
         timeout: number = POLLING_TIMEOUT,
     ): Promise<A> {
-        return await execRequest(async () => {
+        return execRequest(async () => {
             let timedOut = false;
 
             return Promise.race([
@@ -325,8 +326,12 @@ export class RestAPI {
                 (async function repeater(): Promise<A> {
                     const result = await promise();
 
+                    if (cancelCondition && cancelCondition(result)) {
+                        return null;
+                    }
+
                     if (!timedOut && !condition(result)) {
-                        return await repeater();
+                        return repeater();
                     }
 
                     return result;
