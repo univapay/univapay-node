@@ -73,15 +73,18 @@ export class Cancels extends CRUDResource {
         storeId: string,
         chargeId: string,
         id: string,
-        data?: SendData<void>,
+        data?: SendData<PollParams>,
         callback?: ResponseCallback<ResponseCancel>,
+
+        /**
+         * Condition to cancel the polling and return `null`,
+         */
+        cancelCondition?: (response: ResponseCancel) => boolean,
     ): Promise<ResponseCancel> {
-        const promise: () => Promise<ResponseCancel> = () =>
-            this.get(storeId, chargeId, id, { ...(data as object), polling: true });
-        return this.api.longPolling(
-            promise,
-            (response: ResponseCancel) => response.status !== CancelStatus.PENDING,
-            callback,
-        );
+        const pollingData = { ...data, polling: true };
+        const promise: () => Promise<ResponseCancel> = () => this.get(storeId, chargeId, id, pollingData);
+        const successCondition = ({ status }: ResponseCancel) => status !== CancelStatus.PENDING;
+
+        return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }
 }
