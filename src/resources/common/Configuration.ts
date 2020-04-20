@@ -48,7 +48,7 @@ export type PaidyConfigurationItem = PaymentTypeConfiguration;
 
 export interface InstallmentsConfiguration {
     enabled?: boolean;
-    minChargeAmount?: number;
+    minChargeAmount?: AmountWithCurrency;
     maxPayoutPeriod?: string;
     failedCyclesToCancel?: number;
     onlyWithProcessor?: boolean;
@@ -121,6 +121,7 @@ export interface ConfigurationParams {
     convenienceConfiguration?: Partial<ConvenienceConfigurationItem>;
     paidyConfiguration?: Partial<PaidyConfigurationItem>;
     installmentsConfiguration?: Partial<InstallmentsConfigurationItem>;
+    recurringTokenConfiguration?: Partial<RecurringTokenConfiguration>;
 }
 
 export type ConfigurationCreateParams = ConfigurationParams;
