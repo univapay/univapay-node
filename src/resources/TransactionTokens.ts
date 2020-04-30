@@ -11,7 +11,7 @@ export enum UsageLimit {
     DAILY = 'daily',
     WEEKLY = 'weekly',
     MONTHLY = 'monthly',
-    YEARLY = 'yearly',
+    ANNUALLY = 'annually',
 }
 
 export enum PaymentType {
