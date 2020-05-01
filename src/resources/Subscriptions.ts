@@ -340,10 +340,11 @@ export class Subscriptions extends CRUDResource {
          * Condition for the resource to be successfully loaded. Default to pending status check.
          */
         cancelCondition?: (response: ResponseSubscription) => boolean,
+        successCondition: ({ status }: ResponseSubscription) => boolean = ({ status }) =>
+            status !== SubscriptionStatus.UNVERIFIED,
     ): Promise<ResponseSubscription> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData);
-        const successCondition = ({ status }: ResponseSubscription) => status !== SubscriptionStatus.UNVERIFIED;
 
         return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }

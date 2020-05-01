@@ -107,10 +107,10 @@ export class Charges extends CRUDResource {
          * Condition for the resource to be successfully loaded. Default to pending status check.
          */
         cancelCondition?: (response: ResponseCharge) => boolean,
+        successCondition: ({ status }: ResponseCharge) => boolean = ({ status }) => status !== ChargeStatus.PENDING,
     ): Promise<ResponseCharge> {
         const pollingData = { ...data, polling: true };
         const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollingData);
-        const successCondition = ({ status }: ResponseCharge) => status !== ChargeStatus.PENDING;
 
         return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }
