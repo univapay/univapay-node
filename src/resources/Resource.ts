@@ -10,15 +10,35 @@ import { missingKeys } from '../utils/object';
 
 export type DefinedRoute = (data?: any, callback?: any, pathParams?: string[], ...params: string[]) => Promise<any>;
 
-function compilePath(path: string, pathParams: any): string {
+/**
+ * Returns a path with pathParams filled into `:paramName`.
+ *
+ * If the path is wrapped in `()`, the path within will
+ * be omitted if one or more required params are missing.
+ *
+ * e.g.
+ * ```
+ * path = "(/merchant/:merchantId/store/:storeId)/platforms"
+ * pathParams = { merchantId: "123" }
+ * // result: "/platforms"
+ *
+ * path = "(/merchant/:merchantId/store/:storeId)/platforms"
+ * pathParams = { merchantId: "123", storeId: "456" }
+ * // result: "merchant/123/store/456/platforms"
+ * ```
+ *
+ * @param path The full path to compile, e.g. `(/merchant/:merchantId)/store/:storeId`
+ * @param pathParams Object of params to fill into the path, e.g. `{ merchantId: "abc" }`
+ */
+function compilePath(path: string, pathParams: Record<string, any>): string {
     return path
         .replace(/\((\w|:|\/)+\)/gi, (o: string) => {
             const part: string = o.replace(/:(\w+)/gi, (s: string, p: string) => {
-                return (pathParams as any)[p] || s;
+                return pathParams[p] || s;
             });
             return part.indexOf(':') === -1 ? part.replace(/\(|\)/g, '') : '';
         })
-        .replace(/:(\w+)/gi, (s: string, p: string) => (pathParams as any)[p] || s);
+        .replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);
 }
 
 export abstract class Resource {
