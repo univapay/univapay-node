@@ -43,7 +43,7 @@ export function fromError(error: Error): RequestResponseBaseError {
         return new ResponseError({
             code: error.response ? error.response.code : getCodeByStatus(error.status),
             httpCode: error.status,
-            errors: error.response ? error.response.errors || [] : [],
+            errors: error.response ? error.response.errors || error.response : [],
         });
     }
 
