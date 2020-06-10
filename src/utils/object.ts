@@ -27,7 +27,10 @@ export function transformKeys(obj: any, transformer: Transformer, ignoreKeys: st
     }, {});
 }
 
-export function missingKeys(obj: any, keys: string[] = []): string[] {
+/**
+ * Returns a list from `keys` that are not found in `obj`
+ */
+export function missingKeys(obj: Record<string, any>, keys: string[] = []): string[] {
     if (!obj) {
         return keys;
     }
