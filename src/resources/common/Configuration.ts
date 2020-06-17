@@ -111,6 +111,7 @@ export interface ConfigurationItem {
     subscriptionConfiguration: SubscriptionsConfiguration;
     userTransactionsConfiguration?: UserTransactionsConfiguration;
     descriptorProvidedConfiguration?: DescriptorProvidedConfiguration;
+    platformCredentialsEnabled?: boolean;
 }
 
 export interface ConfigurationParams {

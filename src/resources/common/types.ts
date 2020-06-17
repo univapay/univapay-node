@@ -18,6 +18,7 @@ export interface WithConfig<T> {
 export interface AmountWithCurrency {
     amount: number;
     currency: string;
+    duration?: string;
 }
 
 export interface PhoneNumber {
