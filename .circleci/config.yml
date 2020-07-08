@@ -36,7 +36,7 @@ jobs:
 
       - run:
           name: Code Coverage
-          command: npm run coverage
+          command: npm run test && npm run coverage
           when: always
 
       - save_cache:
