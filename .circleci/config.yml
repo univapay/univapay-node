@@ -34,6 +34,11 @@ jobs:
             ./node_modules/.bin/eslint ./ --format junit --output-file ./reports/eslint/eslint.xml
           when: always
 
+      - run:
+          name: Code Coverage
+          command: npm run coverage
+          when: always
+
       - save_cache:
           paths:
             - node_modules
