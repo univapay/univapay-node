@@ -1,25 +1,38 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "eslint.autoFixOnSave": true,
-    "eslint.validate": [
-      "javascript",
-      { "language": "typescript", "autoFix": true }
-    ],
-    "editor.formatOnSave": true,
-    "[javascript]": {
-      "editor.formatOnSave": false
+    "files.exclude": {
+        "**/.git": true,
+        "**/.idea": true,
+        "**/.DS_Store": true,
+        "**/dist": false,
+        ".vscode/chrome/**": true,
+        "**/logs": true,
+        "**/node_modules": true,
+        "**/screenshots": true,
+        "report.**.json": true
     },
-    "[typescript]": {
-      "editor.formatOnSave": false
-    },
-    "[markdown]": {
-      "editor.formatOnSave": false
+    "files.insertFinalNewline": true,
+    "files.watcherExclude": {
+        ".vscode/**": true
     },
     "search.exclude": {
-      "**/node_modules": true,
-      "**/bower_components": true,
-      "**/dist": true,
-      "**/coverge": true
+        "dist/**": true,
+        "src/types/**": true,
+        "temp/**": true,
+        ".vscode/chrome/**": true
     },
-    "typescript.referencesCodeLens.enabled": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        { "language": "typescript", "autoFix": true },
+        { "language": "typescriptreact", "autoFix": true }
+    ],
+    "scss.validate": false,
+    "prettier.ignorePath": "../.prettierignore",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.fixAll.tslint": false,
+        "source.fixAll.stylelint": true
+    }
 }

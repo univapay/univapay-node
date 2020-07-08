@@ -2,39 +2,39 @@
  *  @module Resources/Subscriptions
  */
 
-import { Omit } from 'type-zoo';
-import { ErrorResponse, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from '../api/RestAPI';
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from './CRUDResource';
-import { Metadata } from './common/types';
-import { ProcessingMode } from './common/enums';
-import { ChargesListParams, ResponseCharges } from './Charges';
-import { PaymentType } from './TransactionTokens';
-import { ignoreDescriptor } from './common/ignoreDescriptor';
+import { ErrorResponse, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
+
+import { ProcessingMode } from "./common/enums";
+import { ignoreDescriptor } from "./common/ignoreDescriptor";
+import { Metadata } from "./common/types";
+import { ChargesListParams, ResponseCharges } from "./Charges";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+import { PaymentType } from "./TransactionTokens";
 
 export enum SubscriptionPeriod {
-    DAILY = 'daily',
-    WEEKLY = 'weekly',
-    BIWEEKLY = 'biweekly',
-    MONTHLY = 'monthly',
-    QUARTERLY = 'quarterly',
-    SEMIANNUALLY = 'semiannually',
-    ANNUALLY = 'annually',
+    DAILY = "daily",
+    WEEKLY = "weekly",
+    BIWEEKLY = "biweekly",
+    MONTHLY = "monthly",
+    QUARTERLY = "quarterly",
+    SEMIANNUALLY = "semiannually",
+    ANNUALLY = "annually",
 }
 
 export enum SubscriptionStatus {
-    UNVERIFIED = 'unverified',
-    CURRENT = 'current',
-    SUSPENDED = 'suspended',
-    UNPAID = 'unpaid',
-    CANCELED = 'canceled',
-    UNCONFIRMED = 'unconfirmed',
-    COMPLETED = 'completed',
+    UNVERIFIED = "unverified",
+    CURRENT = "current",
+    SUSPENDED = "suspended",
+    UNPAID = "unpaid",
+    CANCELED = "canceled",
+    UNCONFIRMED = "unconfirmed",
+    COMPLETED = "completed",
 }
 
 export enum InstallmentPlan {
-    REVOLVING = 'revolving',
-    FIXED_CYCLES = 'fixed_cycles',
-    FIXED_CYCLE_AMOUNT = 'fixed_cycle_amount',
+    REVOLVING = "revolving",
+    FIXED_CYCLES = "fixed_cycles",
+    FIXED_CYCLE_AMOUNT = "fixed_cycle_amount",
 }
 
 /* Request */
@@ -178,7 +178,7 @@ export type SubscriptionSimulationLegacyItem<InstallmentPlanData extends Install
 };
 
 export interface SubscriptionSimulationNewItem {
-    [index: string]: Omit<ScheduledPaymentItem, 'id' | 'createdOn'>;
+    [index: string]: Omit<ScheduledPaymentItem, "id" | "createdOn">;
 }
 
 export type SubscriptionSimulationItem<InstallmentPlanData extends InstallmentBaseParams> =
@@ -192,20 +192,20 @@ export type ResponsePayment = ScheduledPaymentItem;
 export type ResponsePayments = CRUDItemsResponse<ScheduledPaymentItem>;
 
 export class ScheduledPayments extends CRUDResource {
-    static routeBase = '/stores/:storeId/subscriptions/:subscriptionsId/payments';
+    static routeBase = "/stores/:storeId/subscriptions/:subscriptionsId/payments";
 
     list(
         storeId: string,
         subscriptionsId: string,
         data?: SendData<ScheduledPaymentsListParams>,
-        callback?: ResponseCallback<ResponsePayments>,
+        callback?: ResponseCallback<ResponsePayments>
     ): Promise<ResponsePayments> {
         return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}`)(
             data,
             callback,
-            ['storeId', 'subscriptionsId'],
+            ["storeId", "subscriptionsId"],
             storeId,
-            subscriptionsId,
+            subscriptionsId
         );
     }
 
@@ -214,9 +214,9 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         id: string,
         data?: SendData<void>,
-        callback?: ResponseCallback<ResponsePayment>,
+        callback?: ResponseCallback<ResponsePayment>
     ): Promise<ResponsePayment> {
-        return this._getRoute()(data, callback, ['storeId', 'subscriptionsId', 'id'], storeId, subscriptionsId, id);
+        return this._getRoute()(data, callback, ["storeId", "subscriptionsId", "id"], storeId, subscriptionsId, id);
     }
 
     update(
@@ -224,9 +224,9 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         id: string,
         data?: SendData<PaymentUpdateParams>,
-        callback?: ResponseCallback<ResponsePayment>,
+        callback?: ResponseCallback<ResponsePayment>
     ): Promise<ResponsePayment> {
-        return this._updateRoute()(data, callback, ['storeId', 'subscriptionsId', 'id'], storeId, subscriptionsId, id);
+        return this._updateRoute()(data, callback, ["storeId", "subscriptionsId", "id"], storeId, subscriptionsId, id);
     }
 
     listCharges(
@@ -234,24 +234,24 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         paymentId: string,
         data?: SendData<ChargesListParams>,
-        callback?: ResponseCallback<ResponseCharges>,
+        callback?: ResponseCallback<ResponseCharges>
     ): Promise<ResponseCharges> {
         return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}/:paymentId/charges`)(
             data,
             callback,
-            ['storeId', 'subscriptionsId', 'paymentId'],
+            ["storeId", "subscriptionsId", "paymentId"],
             storeId,
             subscriptionsId,
-            paymentId,
+            paymentId
         );
     }
 }
 
 export class Subscriptions extends CRUDResource {
-    static requiredParams: string[] = ['transactionTokenId', 'amount', 'currency', 'period'];
-    static requiredSimulationParams: string[] = ['installmentPlan', 'paymentType', 'currency', 'period'];
+    static requiredParams: string[] = ["transactionTokenId", "amount", "currency", "period"];
+    static requiredSimulationParams: string[] = ["installmentPlan", "paymentType", "currency", "period"];
 
-    static routeBase = '/stores/:storeId/subscriptions';
+    static routeBase = "/stores/:storeId/subscriptions";
 
     payments: ScheduledPayments;
 
@@ -264,27 +264,28 @@ export class Subscriptions extends CRUDResource {
     list(
         data?: SendData<SubscriptionsListParams>,
         callback?: ResponseCallback<ResponseSubscriptions>,
-        storeId?: string,
+        storeId?: string
     ): Promise<ResponseSubscriptions> {
-        return this.defineRoute(HTTPMethod.GET, '(/stores/:storeId)/subscriptions')(
+        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions")(
             data,
             callback,
-            ['storeId'],
-            storeId,
+            ["storeId"],
+            storeId
         );
     }
 
     create(
         data: SubscriptionCreateParams,
-        callback?: ResponseCallback<ResponseSubscription>,
+        callback?: ResponseCallback<ResponseSubscription>
     ): Promise<ResponseSubscription> {
         return ignoreDescriptor(
-            (updatedData: any) =>
-                this.defineRoute(HTTPMethod.POST, '/subscriptions', Subscriptions.requiredParams)(
-                    updatedData,
-                    callback,
-                ),
-            data,
+            (updatedData: SubscriptionCreateParams) =>
+                this.defineRoute(
+                    HTTPMethod.POST,
+                    "/subscriptions",
+                    Subscriptions.requiredParams
+                )(updatedData, callback),
+            data
         );
     }
 
@@ -292,41 +293,41 @@ export class Subscriptions extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<PollParams>,
-        callback?: ResponseCallback<ResponseSubscription>,
+        callback?: ResponseCallback<ResponseSubscription>
     ): Promise<ResponseSubscription> {
-        return this._getRoute()(data, callback, ['storeId', 'id'], storeId, id);
+        return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 
     update(
         storeId: string,
         id: string,
         data?: SendData<SubscriptionUpdateParams>,
-        callback?: ResponseCallback<ResponseSubscription>,
+        callback?: ResponseCallback<ResponseSubscription>
     ): Promise<ResponseSubscription> {
-        return this._updateRoute()(data, callback, ['storeId', 'id'], storeId, id);
+        return this._updateRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 
     delete(
         storeId: string,
         id: string,
         data?: SendData<void>,
-        callback?: ResponseCallback<ErrorResponse>,
+        callback?: ResponseCallback<ErrorResponse>
     ): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ['storeId', 'id'], storeId, id);
+        return this._deleteRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 
     charges(
         storeId: string,
         id: string,
         data?: SendData<ChargesListParams>,
-        callback?: ResponseCallback<ResponseCharges>,
+        callback?: ResponseCallback<ResponseCharges>
     ): Promise<ResponseCharges> {
         return this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`)(
             data,
             callback,
-            ['storeId', 'id'],
+            ["storeId", "id"],
             storeId,
-            id,
+            id
         );
     }
 
@@ -341,7 +342,7 @@ export class Subscriptions extends CRUDResource {
          */
         cancelCondition?: (response: ResponseSubscription) => boolean,
         successCondition: ({ status }: ResponseSubscription) => boolean = ({ status }) =>
-            status !== SubscriptionStatus.UNVERIFIED,
+            status !== SubscriptionStatus.UNVERIFIED
     ): Promise<ResponseSubscription> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData);
@@ -352,12 +353,12 @@ export class Subscriptions extends CRUDResource {
     simulation<InstallmentPlanData extends InstallmentBaseParams>(
         data: SendData<SubscriptionSimulationParams<InstallmentPlanData>>,
         callback?: ResponseCallback<SubscriptionSimulationItem<InstallmentPlanData>>,
-        storeId?: string,
+        storeId?: string
     ): Promise<SubscriptionSimulationItem<InstallmentPlanData>> {
         return this.defineRoute(
             HTTPMethod.POST,
-            '(/stores/:storeId)/subscriptions/simulate_plan',
-            Subscriptions.requiredSimulationParams,
-        )(data, callback, ['storeId'], storeId);
+            "(/stores/:storeId)/subscriptions/simulate_plan",
+            Subscriptions.requiredSimulationParams
+        )(data, callback, ["storeId"], storeId);
     }
 }

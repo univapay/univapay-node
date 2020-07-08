@@ -1,19 +1,20 @@
-import { expect } from 'chai';
-import fetchMock from 'fetch-mock';
-import sinon, { SinonSandbox } from 'sinon';
-import uuid from 'uuid';
-import { testEndpoint } from '../utils';
-import { pathToRegexMatcher } from '../utils/routes';
-import { Cancels, CancelCreateParams, CancelStatus } from '../../src/resources/Cancels';
-import { HTTPMethod, RestAPI } from '../../src/api/RestAPI';
-import { generateList } from '../fixtures/list';
-import { generateFixture as generateCancel } from '../fixtures/cancel';
-import { RequestError } from '../../src/errors/RequestResponseError';
-import { createRequestError } from '../fixtures/errors';
-import { POLLING_TIMEOUT } from '../../src/common/constants';
-import { TimeoutError } from '../../src/errors/TimeoutError';
+import { expect } from "chai";
+import fetchMock from "fetch-mock";
+import sinon, { SinonSandbox } from "sinon";
+import { v4 as uuid } from "uuid";
 
-describe('Cancels', function() {
+import { HTTPMethod, RestAPI } from "../../src/api/RestAPI";
+import { POLLING_TIMEOUT } from "../../src/common/constants";
+import { RequestError } from "../../src/errors/RequestResponseError";
+import { TimeoutError } from "../../src/errors/TimeoutError";
+import { CancelCreateParams, Cancels, CancelStatus } from "../../src/resources/Cancels";
+import { generateFixture as generateCancel } from "../fixtures/cancel";
+import { createRequestError } from "../fixtures/errors";
+import { generateList } from "../fixtures/list";
+import { testEndpoint } from "../utils";
+import { pathToRegexMatcher } from "../utils/routes";
+
+describe("Cancels", () => {
     let api: RestAPI;
     let cancels: Cancels;
     let sandbox: SinonSandbox;
@@ -22,26 +23,26 @@ describe('Cancels', function() {
     const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/charges/:chargeId/cancels/:id`);
     const recordData = generateCancel();
 
-    beforeEach(function() {
+    beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
         cancels = new Cancels(api);
         sandbox = sinon.createSandbox({
-            properties: ['spy', 'clock'],
+            properties: ["spy", "clock"],
             useFakeTimers: true,
         });
     });
 
-    afterEach(function() {
+    afterEach(() => {
         fetchMock.restore();
         sandbox.restore();
     });
 
-    context('POST /stores/:storeId/charges/:chargeId/cancels', function() {
-        it('should get response', async function() {
+    context("POST /stores/:storeId/charges/:chargeId/cancels", () => {
+        it("should get response", async () => {
             fetchMock.postOnce(basePathMatcher, {
                 status: 201,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             const data: CancelCreateParams = {};
@@ -50,8 +51,8 @@ describe('Cancels', function() {
         });
     });
 
-    context('GET /stores/:storeId/charges/:chargeId/cancels', function() {
-        it('should get response', async function() {
+    context("GET /stores/:storeId/charges/:chargeId/cancels", () => {
+        it("should get response", async () => {
             const listData = generateList({
                 count: 10,
                 recordGenerator: generateCancel,
@@ -60,25 +61,25 @@ describe('Cancels', function() {
             fetchMock.get(basePathMatcher, {
                 status: 200,
                 body: listData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             await expect(cancels.list(uuid(), uuid())).to.eventually.eql(listData);
         });
     });
 
-    context('GET /stores/:storeId/charges/:chargeId/cancels/:id', function() {
-        it('should get response', async function() {
+    context("GET /stores/:storeId/charges/:chargeId/cancels/:id", () => {
+        it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             await expect(cancels.get(uuid(), uuid(), uuid())).to.eventually.eql(recordData);
         });
 
-        it('should perform long polling', async function() {
+        it("should perform long polling", async () => {
             const recordPendingData = { ...recordData, status: CancelStatus.PENDING };
 
             fetchMock.getOnce(
@@ -86,12 +87,12 @@ describe('Cancels', function() {
                 {
                     status: 200,
                     body: recordPendingData,
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { "Content-Type": "application/json" },
                 },
                 {
                     method: HTTPMethod.GET,
-                    name: 'pending',
-                },
+                    name: "pending",
+                }
             );
 
             fetchMock.getOnce(
@@ -99,24 +100,24 @@ describe('Cancels', function() {
                 {
                     status: 200,
                     body: recordData,
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { "Content-Type": "application/json" },
                 },
                 {
                     method: HTTPMethod.GET,
-                    name: 'success',
-                },
+                    name: "success",
+                }
             );
 
             await expect(cancels.poll(uuid(), uuid(), uuid())).to.eventually.eql(recordData);
         });
 
-        it('should timeout polling', async function() {
+        it("should timeout polling", async () => {
             const recordPendingData = { ...recordData, status: CancelStatus.PENDING };
 
             fetchMock.get(recordPathMatcher, {
                 status: 200,
                 body: recordPendingData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             const request = cancels.poll(uuid(), uuid(), uuid());
@@ -127,10 +128,10 @@ describe('Cancels', function() {
         });
     });
 
-    it('should return request error when parameters for route are invalid', async function() {
-        const errorId = createRequestError(['id']);
-        const errorStoreId = createRequestError(['storeId']);
-        const errorChargeId = createRequestError(['chargeId']);
+    it("should return request error when parameters for route are invalid", async () => {
+        const errorId = createRequestError(["id"]);
+        const errorStoreId = createRequestError(["storeId"]);
+        const errorChargeId = createRequestError(["chargeId"]);
 
         const asserts: [Promise<any>, RequestError][] = [
             [cancels.create(null, null, null), errorStoreId],
@@ -151,7 +152,7 @@ describe('Cancels', function() {
         for (const [request, error] of asserts) {
             await expect(request)
                 .to.eventually.be.rejectedWith(RequestError)
-                .that.has.property('errorResponse')
+                .that.has.property("errorResponse")
                 .which.eql(error.errorResponse);
         }
     });

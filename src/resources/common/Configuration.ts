@@ -3,9 +3,10 @@
  *  @module Types
  */
 
-import { CardBrand } from './enums';
-import { AmountWithCurrency } from './types';
-import { RecurringTokenPrivilege } from '../TransactionTokens';
+import { RecurringTokenPrivilege } from "../TransactionTokens";
+
+import { CardBrand } from "./enums";
+import { AmountWithCurrency } from "./types";
 
 export interface PaymentTypeConfiguration {
     enabled?: boolean;

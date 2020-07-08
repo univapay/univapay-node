@@ -2,12 +2,13 @@
  *  @internal
  *  @module Resources
  */
-import { RestAPI, HTTPMethod } from '../api/RestAPI';
-import { Resource, DefinedRoute } from './Resource';
+import { HTTPMethod, RestAPI } from "../api/RestAPI";
+
+import { DefinedRoute, Resource } from "./Resource";
 
 export enum CursorDirection {
-    ASC = 'asc',
-    DESC = 'desc',
+    ASC = "asc",
+    DESC = "desc",
 }
 
 /* Request */

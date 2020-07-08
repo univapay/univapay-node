@@ -1,92 +1,83 @@
 import {
     CardConfigurationItem,
-    PaymentTypeConfiguration,
     ConfigurationItem,
     InstallmentsConfigurationItem,
-    SubscriptionsConfiguration,
+    PaymentTypeConfiguration,
     QRScanConfigurationItem,
-} from '../../../src/resources/common/Configuration';
-import { CardBrand } from '../../../src/resources/common/enums';
+    SubscriptionsConfiguration,
+} from "../../../src/resources/common/Configuration";
+import { CardBrand } from "../../../src/resources/common/enums";
 
-export function generateFixturePaymentType(): PaymentTypeConfiguration {
-    return {
-        enabled: true,
-    };
-}
+export const generateFixturePaymentType = (): PaymentTypeConfiguration => ({
+    enabled: true,
+});
 
-export function generateFixtureQRScanConfiguration(): QRScanConfigurationItem {
-    return { ...generateFixturePaymentType(), forbiddenQrScanGateways: [] };
-}
+export const generateFixtureQRScanConfiguration = (): QRScanConfigurationItem => ({
+    ...generateFixturePaymentType(),
+    forbiddenQrScanGateways: [],
+});
 
-export function generateFixtureCardConfiguration(): CardConfigurationItem {
-    return {
-        ...generateFixturePaymentType(),
-        debitEnabled: true,
-        prepaidEnabled: true,
-        forbiddenCardBrands: [CardBrand.AMEX],
-        foreignCardsAllowed: true,
-        failOnNewEmail: false,
-        allowedCountriesByIp: ['JP'],
-        allowEmptyCvv: false,
-        cardLimit: {
-            amount: 1000,
-            currency: 'JPY',
+export const generateFixtureCardConfiguration = (): CardConfigurationItem => ({
+    ...generateFixturePaymentType(),
+    debitEnabled: true,
+    prepaidEnabled: true,
+    forbiddenCardBrands: [CardBrand.AMEX],
+    foreignCardsAllowed: true,
+    failOnNewEmail: false,
+    allowedCountriesByIp: ["JP"],
+    allowEmptyCvv: false,
+    cardLimit: {
+        amount: 1000,
+        currency: "JPY",
+    },
+    onlyDirectCurrency: false,
+});
+
+export const generateFixtureInstallmentConfiguration = (): InstallmentsConfigurationItem => ({
+    ...generateFixturePaymentType(),
+    enabled: true,
+    onlyWithProcessor: false,
+    minChargeAmount: { amount: 1000, currency: "JPY" },
+    maxPayoutPeriod: "P7D",
+    failedCyclesToCancel: 3,
+});
+
+export const generateFixtureSubscriptionConfiguration = (): SubscriptionsConfiguration => ({
+    failedChargesToCancel: 5,
+    suspendOnCancel: true,
+});
+
+export const generateFixture = (): ConfigurationItem => ({
+    cardBrandPercentFees: {},
+    cardConfiguration: generateFixtureCardConfiguration(),
+    qrScanConfiguration: generateFixtureQRScanConfiguration(),
+    qrMerchantConfiguration: generateFixturePaymentType(),
+    convenienceConfiguration: generateFixturePaymentType(),
+    paidyConfiguration: generateFixturePaymentType(),
+    flatFees: [{ amount: 30, currency: "JPY" }],
+    percentFee: 3.5,
+    logoUrl: "http://fake.com/logo.jpg",
+    securityConfiguration: {
+        inspectSuspiciousLoginAfter: "TODO",
+        limitChargeByCardConfiguration: {
+            quantityOfCharges: 1000,
+            durationWindow: "P1M",
         },
-        onlyDirectCurrency: false,
-    };
-}
-
-export function generateFixtureInstallmentConfiguration(): InstallmentsConfigurationItem {
-    return {
-        ...generateFixturePaymentType(),
+        refundPercentLimit: 5,
+    },
+    installmentsConfiguration: generateFixtureInstallmentConfiguration(),
+    maximumChargeAmounts: [],
+    country: "JP",
+    language: "ja_JP",
+    displayTimeZone: "Asia/Tokyo",
+    recurringTokenConfiguration: {},
+    subscriptionConfiguration: {
         enabled: true,
-        onlyWithProcessor: false,
-        minChargeAmount: { amount: 1000, currency: 'JPY' },
-        maxPayoutPeriod: 'P7D',
-        failedCyclesToCancel: 3,
-    };
-}
-
-export function generateFixtureSubscriptionConfiguration(): SubscriptionsConfiguration {
-    return {
-        failedChargesToCancel: 5,
         suspendOnCancel: true,
-    };
-}
-
-export function generateFixture(): ConfigurationItem {
-    return {
-        cardBrandPercentFees: {},
-        cardConfiguration: generateFixtureCardConfiguration(),
-        qrScanConfiguration: generateFixtureQRScanConfiguration(),
-        qrMerchantConfiguration: generateFixturePaymentType(),
-        convenienceConfiguration: generateFixturePaymentType(),
-        paidyConfiguration: generateFixturePaymentType(),
-        flatFees: [{ amount: 30, currency: 'JPY' }],
-        percentFee: 3.5,
-        logoUrl: 'http://fake.com/logo.jpg',
-        securityConfiguration: {
-            inspectSuspiciousLoginAfter: 'TODO',
-            limitChargeByCardConfiguration: {
-                quantityOfCharges: 1000,
-                durationWindow: 'P1M',
-            },
-            refundPercentLimit: 5,
-        },
-        installmentsConfiguration: generateFixtureInstallmentConfiguration(),
-        maximumChargeAmounts: [],
-        country: 'JP',
-        language: 'ja_JP',
-        displayTimeZone: 'Asia/Tokyo',
-        recurringTokenConfiguration: {},
-        subscriptionConfiguration: {
-            enabled: true,
-            suspendOnCancel: true,
-            failedChargesToCancel: 10,
-        },
-        descriptorProvidedConfiguration: {
-            name: 'test descriptor',
-            phoneNumber: '+81123456789',
-        },
-    };
-}
+        failedChargesToCancel: 10,
+    },
+    descriptorProvidedConfiguration: {
+        name: "test descriptor",
+        phoneNumber: "+81123456789",
+    },
+});

@@ -2,9 +2,10 @@
  *  @module Resources/Stores
  */
 
-import { ResponseCallback, ErrorResponse, SendData } from '../api/RestAPI';
-import { CRUDResource, CRUDPaginationParams, CRUDItemsResponse } from './CRUDResource';
-import { ConfigurationCreateParams, ConfigurationUpdateParams, ConfigurationItem } from './common/Configuration';
+import { ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { ConfigurationCreateParams, ConfigurationItem, ConfigurationUpdateParams } from "./common/Configuration";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 /* Request */
 export interface StoresListParams extends CRUDPaginationParams {
@@ -34,9 +35,9 @@ export type ResponseStore = StoreItem;
 export type ResponseStores = CRUDItemsResponse<StoreItem>;
 
 export class Stores extends CRUDResource {
-    static requiredParams: string[] = ['name'];
+    static requiredParams: string[] = ["name"];
 
-    static routeBase = '/stores';
+    static routeBase = "/stores";
 
     list(data?: SendData<StoresListParams>, callback?: ResponseCallback<ResponseStores>): Promise<ResponseStores> {
         return this._listRoute()(data, callback);
@@ -47,18 +48,18 @@ export class Stores extends CRUDResource {
     }
 
     get(id: string, data?: SendData<void>, callback?: ResponseCallback<ResponseStore>): Promise<ResponseStore> {
-        return this._getRoute()(data, callback, ['id'], id);
+        return this._getRoute()(data, callback, ["id"], id);
     }
 
     update(
         id: string,
         data?: SendData<StoreUpdateParams>,
-        callback?: ResponseCallback<ResponseStore>,
+        callback?: ResponseCallback<ResponseStore>
     ): Promise<ResponseStore> {
-        return this._updateRoute()(data, callback, ['id'], id);
+        return this._updateRoute()(data, callback, ["id"], id);
     }
 
     delete(id: string, data?: SendData<void>, callback?: ResponseCallback<ErrorResponse>): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ['id'], id);
+        return this._deleteRoute()(data, callback, ["id"], id);
     }
 }

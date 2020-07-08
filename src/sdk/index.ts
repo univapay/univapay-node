@@ -1,2 +1,2 @@
-import { PaymentsSDK } from './PaymentsSDK';
+import { PaymentsSDK } from "./PaymentsSDK";
 export default PaymentsSDK;

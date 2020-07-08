@@ -2,22 +2,23 @@
  *  @module Resources/Charges
  */
 
-import { HTTPMethod, PollParams, ResponseCallback, SendData } from '../api/RestAPI';
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from './CRUDResource';
-import { Metadata, PaymentError } from './common/types';
-import { ProcessingMode } from './common/enums';
-import { CaptureStatus } from './Captures';
-import { TransactionTokenType } from './TransactionTokens';
-import { ignoreDescriptor } from './common/ignoreDescriptor';
+import { HTTPMethod, PollParams, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { ProcessingMode } from "./common/enums";
+import { ignoreDescriptor } from "./common/ignoreDescriptor";
+import { Metadata, PaymentError } from "./common/types";
+import { CaptureStatus } from "./Captures";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+import { TransactionTokenType } from "./TransactionTokens";
 
 export enum ChargeStatus {
-    PENDING = 'pending',
-    SUCCESSFUL = 'successful',
-    FAILED = 'failed',
-    ERROR = 'error',
-    CANCELED = 'canceled',
-    AWAITING = 'awaiting',
-    AUTHORIZED = 'authorized',
+    PENDING = "pending",
+    SUCCESSFUL = "successful",
+    FAILED = "failed",
+    ERROR = "error",
+    CANCELED = "canceled",
+    AWAITING = "awaiting",
+    AUTHORIZED = "authorized",
 }
 
 /* Request */
@@ -65,26 +66,26 @@ export type ResponseCharge = ChargeItem;
 export type ResponseCharges = CRUDItemsResponse<ChargeItem>;
 
 export class Charges extends CRUDResource {
-    static requiredParams: string[] = ['transactionTokenId', 'amount', 'currency'];
+    static requiredParams: string[] = ["transactionTokenId", "amount", "currency"];
 
-    static routeBase = '/stores/:storeId/charges';
+    static routeBase = "/stores/:storeId/charges";
 
     list(
         data?: SendData<ChargesListParams>,
         callback?: ResponseCallback<ResponseCharges>,
-        storeId?: string,
+        storeId?: string
     ): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, '(/stores/:storeId)/charges')(data, callback, ['storeId'], storeId);
+        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges")(data, callback, ["storeId"], storeId);
     }
 
     async create(
         data: SendData<ChargeCreateParams>,
-        callback?: ResponseCallback<ResponseCharge>,
+        callback?: ResponseCallback<ResponseCharge>
     ): Promise<ResponseCharge> {
-        return await ignoreDescriptor(
-            (updatedData: any) =>
-                this.defineRoute(HTTPMethod.POST, '/charges', Charges.requiredParams)(updatedData, callback),
-            data,
+        return ignoreDescriptor(
+            (updatedData: ChargeCreateParams) =>
+                this.defineRoute(HTTPMethod.POST, "/charges", Charges.requiredParams)(updatedData, callback),
+            data
         );
     }
 
@@ -92,9 +93,9 @@ export class Charges extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<PollParams>,
-        callback?: ResponseCallback<ResponseCharge>,
+        callback?: ResponseCallback<ResponseCharge>
     ): Promise<ResponseCharge> {
-        return this._getRoute()(data, callback, ['storeId', 'id'], storeId, id);
+        return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 
     poll(
@@ -107,7 +108,7 @@ export class Charges extends CRUDResource {
          * Condition for the resource to be successfully loaded. Default to pending status check.
          */
         cancelCondition?: (response: ResponseCharge) => boolean,
-        successCondition: ({ status }: ResponseCharge) => boolean = ({ status }) => status !== ChargeStatus.PENDING,
+        successCondition: ({ status }: ResponseCharge) => boolean = ({ status }) => status !== ChargeStatus.PENDING
     ): Promise<ResponseCharge> {
         const pollingData = { ...data, polling: true };
         const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollingData);

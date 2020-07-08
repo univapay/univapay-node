@@ -1,19 +1,20 @@
-import { expect } from 'chai';
-import fetchMock from 'fetch-mock';
-import sinon, { SinonSandbox } from 'sinon';
-import uuid from 'uuid';
-import { testEndpoint } from '../utils';
-import { pathToRegexMatcher } from '../utils/routes';
-import { ChargeCreateParams, ChargeStatus, Charges } from '../../src/resources/Charges';
-import { HTTPMethod, RestAPI } from '../../src/api/RestAPI';
-import { generateList } from '../fixtures/list';
-import { generateFixture as generateCharge } from '../fixtures/charge';
-import { RequestError } from '../../src/errors/RequestResponseError';
-import { createRequestError } from '../fixtures/errors';
-import { POLLING_TIMEOUT } from '../../src/common/constants';
-import { TimeoutError } from '../../src/errors/TimeoutError';
+import { expect } from "chai";
+import fetchMock from "fetch-mock";
+import sinon, { SinonSandbox } from "sinon";
+import { v4 as uuid } from "uuid";
 
-describe('Charges', function() {
+import { HTTPMethod, RestAPI } from "../../src/api/RestAPI";
+import { POLLING_TIMEOUT } from "../../src/common/constants";
+import { RequestError } from "../../src/errors/RequestResponseError";
+import { TimeoutError } from "../../src/errors/TimeoutError";
+import { ChargeCreateParams, Charges, ChargeStatus } from "../../src/resources/Charges";
+import { generateFixture as generateCharge } from "../fixtures/charge";
+import { createRequestError } from "../fixtures/errors";
+import { generateList } from "../fixtures/list";
+import { testEndpoint } from "../utils";
+import { pathToRegexMatcher } from "../utils/routes";
+
+describe("Charges", () => {
     let api: RestAPI;
     let charges: Charges;
     let sandbox: SinonSandbox;
@@ -21,55 +22,55 @@ describe('Charges', function() {
     const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/charges/:id`);
     const recordData = generateCharge();
 
-    beforeEach(function() {
+    beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
         charges = new Charges(api);
         sandbox = sinon.createSandbox({
-            properties: ['spy', 'clock'],
+            properties: ["spy", "clock"],
             useFakeTimers: true,
         });
     });
 
-    afterEach(function() {
+    afterEach(() => {
         fetchMock.restore();
         sandbox.restore();
     });
 
-    context('POST /subscriptions', function() {
-        it('should get response', async function() {
+    context("POST /subscriptions", () => {
+        it("should get response", async () => {
             fetchMock.postOnce(`${testEndpoint}/charges`, {
                 status: 201,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             const data: ChargeCreateParams = {
                 transactionTokenId: uuid(),
                 amount: 1000,
-                currency: 'JPY',
+                currency: "JPY",
             };
 
             await expect(charges.create(data)).to.eventually.eql(recordData);
         });
 
-        it('should return validation error if data is invalid', async function() {
+        it("should return validation error if data is invalid", async () => {
             const asserts: [Partial<ChargeCreateParams>, RequestError][] = [
-                [{}, createRequestError(['transactionTokenId'])],
-                [{ transactionTokenId: uuid() }, createRequestError(['amount'])],
-                [{ transactionTokenId: uuid(), amount: 1000 }, createRequestError(['currency'])],
+                [{}, createRequestError(["transactionTokenId"])],
+                [{ transactionTokenId: uuid() }, createRequestError(["amount"])],
+                [{ transactionTokenId: uuid(), amount: 1000 }, createRequestError(["currency"])],
             ];
 
             for (const [data, error] of asserts) {
                 await expect(charges.create(data as ChargeCreateParams))
                     .to.eventually.be.rejectedWith(RequestError)
-                    .that.has.property('errorResponse')
+                    .that.has.property("errorResponse")
                     .which.eql(error.errorResponse);
             }
         });
     });
 
-    context('GET [/stores/:storeId]/charges', function() {
-        it('should get response', async function() {
+    context("GET [/stores/:storeId]/charges", () => {
+        it("should get response", async () => {
             const listData = generateList({
                 count: 10,
                 recordGenerator: generateCharge,
@@ -78,7 +79,7 @@ describe('Charges', function() {
             fetchMock.get(pathToRegexMatcher(`${testEndpoint}/:storesPart(stores/[^/]+)?/charges`), {
                 status: 200,
                 body: listData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             const asserts = [charges.list(null, null), charges.list(null, null, uuid())];
@@ -89,18 +90,18 @@ describe('Charges', function() {
         });
     });
 
-    context('GET /stores/:storeId/charges/:id', function() {
-        it('should get response', async function() {
+    context("GET /stores/:storeId/charges/:id", () => {
+        it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             await expect(charges.get(uuid(), uuid())).to.eventually.eql(recordData);
         });
 
-        it('should perform long polling', async function() {
+        it("should perform long polling", async () => {
             const recordPendingData = { ...recordData, status: ChargeStatus.PENDING };
 
             fetchMock.getOnce(
@@ -108,12 +109,12 @@ describe('Charges', function() {
                 {
                     status: 200,
                     body: recordPendingData,
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { "Content-Type": "application/json" },
                 },
                 {
                     method: HTTPMethod.GET,
-                    name: 'pending',
-                },
+                    name: "pending",
+                }
             );
 
             fetchMock.getOnce(
@@ -121,24 +122,24 @@ describe('Charges', function() {
                 {
                     status: 200,
                     body: recordData,
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { "Content-Type": "application/json" },
                 },
                 {
                     method: HTTPMethod.GET,
-                    name: 'success',
-                },
+                    name: "success",
+                }
             );
 
             await expect(charges.poll(uuid(), uuid())).to.eventually.eql(recordData);
         });
 
-        it('should timeout polling', async function() {
+        it("should timeout polling", async () => {
             const recordPendingData = { ...recordData, status: ChargeStatus.PENDING };
 
             fetchMock.get(recordPathMatcher, {
                 status: 200,
                 body: recordPendingData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             const request = charges.poll(uuid(), uuid());
@@ -149,9 +150,9 @@ describe('Charges', function() {
         });
     });
 
-    it('should return request error when parameters for route are invalid', async function() {
-        const errorId = createRequestError(['id']);
-        const errorStoreId = createRequestError(['storeId']);
+    it("should return request error when parameters for route are invalid", async () => {
+        const errorId = createRequestError(["id"]);
+        const errorStoreId = createRequestError(["storeId"]);
 
         const asserts: [Promise<any>, RequestError][] = [
             [charges.get(null, null), errorStoreId],
@@ -162,7 +163,7 @@ describe('Charges', function() {
         for (const [request, error] of asserts) {
             await expect(request)
                 .to.eventually.be.rejectedWith(RequestError)
-                .that.has.property('errorResponse')
+                .that.has.property("errorResponse")
                 .which.eql(error.errorResponse);
         }
     });

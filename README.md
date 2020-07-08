@@ -137,14 +137,15 @@ Contributing
 ------------
 
 To contribute to `univapay-node`, clone this repo locally and commit your code on a separate branch. Please write unit tests for your code
-and run the linter before opening a pull request:
+and run the lint before opening a pull request:
 
 ```bash
 npm test        # run the tests
 ```
 
 ```bash
-npm run linter  # run the linter
+npm run lint -- --fix
+npm run format
 ```
 
 

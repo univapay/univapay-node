@@ -8,7 +8,7 @@ export class TimeoutError extends Error {
     constructor(timeout: number) {
         super(`Timed out after ${timeout} milliseconds.`);
         this.timeout = timeout;
-        this.name = 'TimeoutError';
+        this.name = "TimeoutError";
         Object.setPrototypeOf(this, TimeoutError.prototype);
     }
 }
