@@ -38,7 +38,7 @@
     "chai": "4.2.0",
     "chai-arrays": "2.2.0",
     "chai-as-promised": "7.1.1",
-    "coveralls": "3.1.0",
+    "coveralls": "3.0.8",
     "eslint": "7.4.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-prettier": "3.1.4",
