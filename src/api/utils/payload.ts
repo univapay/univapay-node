@@ -1,7 +1,7 @@
-import decamelize from 'decamelize';
+import decamelize from "decamelize";
 
 function isPrimitive(value: any): boolean {
-    return typeof value === 'object' ? value === null : typeof value !== 'function';
+    return typeof value === "object" ? value === null : typeof value !== "function";
 }
 
 function isObject(value: any): boolean {
@@ -9,7 +9,7 @@ function isObject(value: any): boolean {
 }
 
 function isClassInstance(value: any): boolean {
-    return typeof value === 'object' && !(value instanceof Array) && value.constructor !== Object;
+    return typeof value === "object" && !(value instanceof Array) && value.constructor !== Object;
 }
 
 export function containsBinaryData(data: any): boolean {
@@ -26,12 +26,12 @@ export function containsBinaryData(data: any): boolean {
     return false;
 }
 
-export function objectToFormData(obj: any, rootName = '', ignoreList: string[] = null) {
+export function objectToFormData(obj: any, rootName = "", ignoreList: string[] = null) {
     const formData = new FormData();
 
     function isBlob(data: any): boolean {
         if (isObject(data)) {
-            return typeof data.size === 'number' && typeof data.type === 'string' && typeof data.slice === 'function';
+            return typeof data.size === "number" && typeof data.type === "string" && typeof data.slice === "function";
         }
         return false;
     }
@@ -39,13 +39,13 @@ export function objectToFormData(obj: any, rootName = '', ignoreList: string[] =
     function ignore(root) {
         return (
             Array.isArray(ignoreList) &&
-            ignoreList.some(function(x) {
+            ignoreList.some(function (x) {
                 return x === root;
             })
         );
     }
 
-    function appendFormData(data: any, root = '') {
+    function appendFormData(data: any, root = "") {
         if (!ignore(root)) {
             if (isBlob(data)) {
                 formData.append(decamelize(root), data);
@@ -55,14 +55,14 @@ export function objectToFormData(obj: any, rootName = '', ignoreList: string[] =
                 }
             } else if (isObject(data) && data && !Buffer.isBuffer(data)) {
                 for (const key in data) {
-                    if (root === '') {
+                    if (root === "") {
                         appendFormData(data[key], key);
                     } else {
                         appendFormData(data[key], `${root}.${key}`);
                     }
                 }
             } else {
-                if (data !== null && typeof data !== 'undefined') {
+                if (data !== null && typeof data !== "undefined") {
                     formData.append(decamelize(root), data);
                 }
             }

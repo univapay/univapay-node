@@ -1,20 +1,25 @@
-import { ResponseErrorCode } from '../../errors/APIError';
+import { ResponseErrorCode } from "../../errors/APIError";
 
-export async function ignoreDescriptor(callback: (data: any) => any, data) {
+type WithOptionalDescriptor<Data> = Data | Omit<Data, "descriptor">;
+export async function ignoreDescriptor<Data extends { descriptor?: string }>(
+    callback: (data: WithOptionalDescriptor<Data>) => Promise<WithOptionalDescriptor<Data>>,
+    data: Data
+): Promise<WithOptionalDescriptor<Data>> {
     try {
-        return await callback(data);
+        return callback(data);
     } catch (error) {
         const isDescriptorNotSupportedError =
             error.errorResponse.code === ResponseErrorCode.ValidationError &&
             error.errorResponse.errors.length === 1 &&
             error.errorResponse.errors.find(
-                e => e.field === 'descriptor' && e.reason === ResponseErrorCode.NotSupportedByProcessor,
+                (e) => e.field === "descriptor" && e.reason === ResponseErrorCode.NotSupportedByProcessor
             );
 
         if (isDescriptorNotSupportedError) {
-            const { descriptor, ...reducedData } = data;
+            const { ...clonedData } = data;
+            delete clonedData.descriptor;
 
-            return callback(reducedData);
+            return callback(clonedData);
         } else {
             throw error;
         }

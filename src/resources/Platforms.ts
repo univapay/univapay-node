@@ -2,12 +2,13 @@
  *  @module Resources/Platforms
  */
 
-import { ResponseCallback, HTTPMethod, SendData } from '../api/RestAPI';
-import { CRUDResource } from './CRUDResource';
-import { CardBrand } from './common/enums';
-import { PlatformItem, PlatformConfiguration as PlatformConfig } from './common/Platform';
-import { WithConfig } from './common/types';
-import { PaymentType } from './TransactionTokens';
+import { HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { CardBrand } from "./common/enums";
+import { PlatformConfiguration as PlatformConfig, PlatformItem } from "./common/Platform";
+import { WithConfig } from "./common/types";
+import { CRUDResource } from "./CRUDResource";
+import { PaymentType } from "./TransactionTokens";
 
 /* Request */
 
@@ -22,8 +23,8 @@ export type ResponsePlatformConfiguration = Readonly<PlatformConfigurationItem>;
 export class Platforms extends CRUDResource {
     getConfiguration(
         data?: SendData<void>,
-        callback?: ResponseCallback<ResponsePlatformConfiguration>,
+        callback?: ResponseCallback<ResponsePlatformConfiguration>
     ): Promise<ResponsePlatformConfiguration> {
-        return this.defineRoute(HTTPMethod.GET, '/platform', undefined, false)(data, callback);
+        return this.defineRoute(HTTPMethod.GET, "/platform", undefined, false)(data, callback);
     }
 }

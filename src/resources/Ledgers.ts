@@ -2,13 +2,14 @@
  *  @module Resources/Ledgers
  */
 
-import { ResponseCallback, HTTPMethod, SendData } from '../api/RestAPI';
-import { CRUDResource, CRUDPaginationParams, CRUDItemsResponse } from './CRUDResource';
+import { HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 export enum LedgerOrigin {
-    CHARGE = 'charge',
-    REFUND = 'refund',
-    MANUAL = 'manual',
+    CHARGE = "charge",
+    REFUND = "refund",
+    MANUAL = "manual",
 }
 
 /* Request */
@@ -44,17 +45,17 @@ export type ResponseLedgers = CRUDItemsResponse<LedgerItem>;
 export type ResponseLedger = LedgerItem;
 
 export class Ledgers extends CRUDResource {
-    static routeBase = '/transfers/:transferId/ledgers';
+    static routeBase = "/transfers/:transferId/ledgers";
 
     list(
         transferId: string,
         data?: LedgersListParams,
-        callback?: ResponseCallback<ResponseLedgers>,
+        callback?: ResponseCallback<ResponseLedgers>
     ): Promise<ResponseLedgers> {
-        return this._listRoute()(data, callback, ['transferId'], transferId);
+        return this._listRoute()(data, callback, ["transferId"], transferId);
     }
 
     get(id: string, data?: SendData<void>, callback?: ResponseCallback<ResponseLedger>): Promise<ResponseLedger> {
-        return this.defineRoute(HTTPMethod.GET, '/ledgers/:id')(data, callback, ['id'], id);
+        return this.defineRoute(HTTPMethod.GET, "/ledgers/:id")(data, callback, ["id"], id);
     }
 }

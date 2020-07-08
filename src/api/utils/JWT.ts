@@ -3,10 +3,11 @@
  *  @module Utils
  */
 
-import jwtDecode from 'jwt-decode';
-import camelCase from 'camelcase';
-import { JWTError } from '../../errors/JWTError';
-import { transformKeys } from '../../utils/object';
+import camelCase from "camelcase";
+import jwtDecode from "jwt-decode";
+
+import { JWTError } from "../../errors/JWTError";
+import { transformKeys } from "../../utils/object";
 
 export interface JWTBasePayload {
     iss?: string;
@@ -25,7 +26,7 @@ export function parseJWT<Payload>(jwt: string, keepKeys = false): JWTPayload<Pay
         return null;
     }
 
-    if (jwt.split('.').length !== 3) {
+    if (jwt.split(".").length !== 3) {
         throw new JWTError();
     }
 
@@ -43,7 +44,7 @@ const BearerRegexp = /^Bearer (.*)$/i;
  *  @internal
  */
 export function extractJWT(response: Response): string | null {
-    const headerNames = ['authorization', 'x-amzn-remapped-authorization'];
+    const headerNames = ["authorization", "x-amzn-remapped-authorization"];
     const header = headerNames.reduce((acc: string, name: string) => response.headers.get(name) || acc, null);
 
     if (header === null) {

@@ -1,11 +1,11 @@
-import { WithCreatedOn, AmountWithCurrency, InvoiceChargeFee } from './types';
 import {
     CardBrandPercentFeesItem,
     InstallmentsConfiguration,
     SubscriptionsConfiguration,
     UserTransactionsConfiguration,
-} from './Configuration';
-import { TransferScheduleItem } from './TransferSchedule';
+} from "./Configuration";
+import { TransferScheduleItem } from "./TransferSchedule";
+import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types";
 
 export interface PlatformUserDefaults {
     percentFee: number;

@@ -2,37 +2,39 @@
  *  @module SDK/API
  */
 
-import 'isomorphic-fetch';
-import 'isomorphic-form-data';
-import decamelize from 'decamelize';
+import decamelize from "decamelize";
+import { stringify as stringifyQuery } from "query-string";
+
+import "isomorphic-fetch";
+import "isomorphic-form-data";
+
 import {
     DEFAULT_ENDPOINT,
-    ENV_KEY_ENDPOINT,
     ENV_KEY_APP_ID,
+    ENV_KEY_ENDPOINT,
     ENV_KEY_SECRET,
-    POLLING_TIMEOUT,
     IDEMPOTENCY_KEY_HEADER,
-} from '../common/constants';
-import { transformKeys, omit } from '../utils/object';
-import { checkStatus, parseJSON } from '../utils/fetch';
-import { TimeoutError } from '../errors/TimeoutError';
-import { fromError } from '../errors/parser';
-import { stringify as stringifyQuery } from 'query-string';
-import { ResponseErrorCode, RequestErrorCode } from '../errors/APIError';
-import { extractJWT, JWTPayload, parseJWT } from './utils/JWT';
-import { ProcessingMode } from '../resources/common/enums';
-import { RequestError } from '../errors/RequestResponseError';
-import { Omit } from 'type-zoo';
-import { containsBinaryData, objectToFormData } from './utils/payload';
+    POLLING_TIMEOUT,
+} from "../common/constants";
+import { RequestErrorCode, ResponseErrorCode } from "../errors/APIError";
+import { fromError } from "../errors/parser";
+import { RequestError } from "../errors/RequestResponseError";
+import { TimeoutError } from "../errors/TimeoutError";
+import { ProcessingMode } from "../resources/common/enums";
+import { checkStatus, parseJSON } from "../utils/fetch";
+import { omit, transformKeys } from "../utils/object";
+
+import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT";
+import { containsBinaryData, objectToFormData } from "./utils/payload";
 
 export enum HTTPMethod {
-    GET = 'GET',
-    POST = 'POST',
-    PATCH = 'PATCH',
-    PUT = 'PUT',
-    DELETE = 'DELETE',
-    OPTION = 'OPTION',
-    HEAD = 'HEAD',
+    GET = "GET",
+    POST = "POST",
+    PATCH = "PATCH",
+    PUT = "PUT",
+    DELETE = "DELETE",
+    OPTION = "OPTION",
+    HEAD = "HEAD",
 }
 
 export interface RestAPIOptions {
@@ -48,7 +50,7 @@ export interface RestAPIOptions {
 }
 
 export interface ApplicationToken {
-    sub: 'app_token';
+    sub: "app_token";
 }
 
 export interface StoreToken extends ApplicationToken {
@@ -99,20 +101,20 @@ export interface OriginParams {
 }
 
 const internalParams: (keyof AuthParams | keyof IdempotentParams | keyof OriginParams)[] = [
-    'appId',
-    'secret',
-    'authToken',
-    'jwt',
-    'idempotentKey',
-    'origin',
+    "appId",
+    "secret",
+    "authToken",
+    "jwt",
+    "idempotentKey",
+    "origin",
 ];
 
 export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data & AuthParams & IdempotentParams & OriginParams;
 
-function getData<Data extends object>(
-    data: SendData<Data>,
+function getData<Data extends Record<string, any>>(
+    data: SendData<Data>
 ): Omit<Data, keyof AuthParams | keyof IdempotentParams | keyof OriginParams> {
     return omit(data, internalParams);
 }
@@ -122,30 +124,33 @@ function getRequestBody<Data>(data: SendData<Data>): string | FormData {
 }
 
 function getIdempotencyKey<Data>(data: SendData<Data>): string | null {
-    return typeof data === 'object' && !!data ? data.idempotentKey : null;
+    return typeof data === "object" && !!data ? data.idempotentKey : null;
 }
 
 function getOrigin<Data>(data: SendData<Data>): string | null {
-    return typeof data === 'object' && !!data ? data.origin : null;
+    return typeof data === "object" && !!data ? data.origin : null;
 }
 
-function stringifyParams<Data extends object>(data: Data): string {
-    const query = stringifyQuery(transformKeys(data, decamelize), { arrayFormat: 'bracket' });
-    return query ? `?${query}` : '';
+function stringifyParams<Data extends Record<string, any>>(data: Data): string {
+    const query = stringifyQuery(transformKeys(data, decamelize), { arrayFormat: "bracket" });
+
+    return query ? `?${query}` : "";
 }
 
 async function execRequest<A>(executor: () => Promise<A>, callback?: ResponseCallback<A>): Promise<A> {
     try {
         const response = await executor();
-        if (typeof callback === 'function') {
+        if (typeof callback === "function") {
             callback(response);
         }
+
         return response;
     } catch (error) {
         const err: Error = error instanceof TimeoutError ? error : fromError(error);
-        if (typeof callback === 'function') {
+        if (typeof callback === "function") {
             callback(err);
         }
+
         throw err;
     }
 }
@@ -153,9 +158,8 @@ async function execRequest<A>(executor: () => Promise<A>, callback?: ResponseCal
 export class RestAPI {
     endpoint: string;
     jwt: JWTPayload<any>;
-    protected handleUpdateJWT: (jwt: string) => void = () => undefined;
-    secret: string;
     origin: string;
+    secret: string;
 
     /**
      *  @deprecated
@@ -169,12 +173,14 @@ export class RestAPI {
 
     private _jwtRaw: string = null;
 
+    protected handleUpdateJWT: (jwt: string) => void = () => undefined;
+
     constructor(options: RestAPIOptions = {}) {
         this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
         this.jwtRaw = options.jwt;
 
-        if (options.handleUpdateJWT && typeof options.handleUpdateJWT === 'function') {
+        if (options.handleUpdateJWT && typeof options.handleUpdateJWT === "function") {
             this.handleUpdateJWT = options.handleUpdateJWT;
         }
 
@@ -201,7 +207,7 @@ export class RestAPI {
         data?: SendData<Data>,
         callback?: ResponseCallback<A>,
         requireAuth = true,
-        acceptType?: string,
+        acceptType?: string
     ): Promise<A> {
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
@@ -222,11 +228,11 @@ export class RestAPI {
 
         const requestData = getData(data);
         const request: Request = new Request(
-            `${this.endpoint}${uri}${payload ? '' : stringifyParams(requestData)}`,
-            payload ? { ...params, body: getRequestBody(requestData) } : params,
+            `${this.endpoint}${uri}${payload ? "" : stringifyParams(requestData)}`,
+            payload ? { ...params, body: getRequestBody(requestData) } : params
         );
 
-        return await execRequest(async () => {
+        return execRequest(async () => {
             const response = await fetch(request);
             const jwt = await extractJWT(response);
 
@@ -239,41 +245,41 @@ export class RestAPI {
 
             const noContentStatus = 204;
             if (response.status === noContentStatus) {
-                return '';
+                return "";
             }
 
-            const contentType = response.headers.get('content-type');
-            if (contentType === 'application/json') {
-                return await parseJSON(response);
+            const contentType = response.headers.get("content-type");
+            if (contentType === "application/json") {
+                return parseJSON(response, ["metadata"]);
             } else if (contentType) {
-                if (contentType.indexOf('text/') === 0) {
-                    return await response.text();
-                } else if (contentType.indexOf('multipart/') === 0) {
-                    return await response.formData();
+                if (contentType.indexOf("text/") === 0) {
+                    return response.text();
+                } else if (contentType.indexOf("multipart/") === 0) {
+                    return response.formData();
                 }
             }
 
-            return await response.blob();
+            return response.blob();
         }, callback);
     }
 
-    protected getHeaders<Data extends object>(
+    protected getHeaders<Data extends Record<string, any>>(
         data: SendData<Data>,
         payload: boolean,
-        acceptType = 'application/json',
+        acceptType = "application/json"
     ): Headers {
         const headers: Headers = new Headers();
         const isFormData = containsBinaryData(data);
 
-        headers.append('Accept', acceptType);
+        headers.append("Accept", acceptType);
 
         if (!isFormData && payload) {
-            headers.append('Content-Type', 'application/json');
+            headers.append("Content-Type", "application/json");
         }
 
         const origin = getOrigin(data) || this.origin;
         if (origin) {
-            headers.append('Origin', origin);
+            headers.append("Origin", origin);
         }
 
         const idempotentKey = getIdempotencyKey(data);
@@ -282,19 +288,19 @@ export class RestAPI {
         }
 
         // Deprecated
-        const { authToken = this.authToken, appId = this.appId, secret = this.secret, jwt = this._jwtRaw } = {
+        const { authToken = this.authToken, appId = this.appId, secret = this.secret, jwt = this.jwtRaw } = {
             ...(!isFormData ? data : {}),
         };
 
         if (authToken) {
-            headers.append('Authorization', `Token ${authToken}`);
+            headers.append("Authorization", `Token ${authToken}`);
         } else if (appId) {
-            headers.append('Authorization', `ApplicationToken ${appId}|${secret || ''}`);
+            headers.append("Authorization", `ApplicationToken ${appId}|${secret || ""}`);
         } else if (jwt) {
             if (secret) {
-                headers.append('Authorization', `Bearer ${secret}.${jwt}`);
+                headers.append("Authorization", `Bearer ${secret}.${jwt}`);
             } else {
-                headers.append('Authorization', `Bearer ${jwt}`);
+                headers.append("Authorization", `Bearer ${jwt}`);
             }
         }
 
@@ -309,7 +315,7 @@ export class RestAPI {
         condition: (response: A) => boolean,
         cancelCondition?: (response: A) => boolean,
         callback?: ResponseCallback<A>,
-        timeout: number = POLLING_TIMEOUT,
+        timeout: number = POLLING_TIMEOUT
     ): Promise<A> {
         return execRequest(async () => {
             let timedOut = false;
@@ -341,6 +347,6 @@ export class RestAPI {
     }
 
     async ping(callback?: ResponseCallback<void>): Promise<void> {
-        await this.send(HTTPMethod.GET, '/heartbeat', null, callback, false);
+        await this.send(HTTPMethod.GET, "/heartbeat", null, callback, false);
     }
 }

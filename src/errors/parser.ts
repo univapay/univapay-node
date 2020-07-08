@@ -3,13 +3,13 @@
  *  @module Errors
  */
 
-import { APIError, ResponseErrorCode } from './APIError';
-import { PathParameterError } from './PathParameterError';
-import { RequestParameterError } from './RequestParameterError';
-import { RequestError, RequestResponseBaseError, ResponseError } from './RequestResponseError';
+import { APIError, ResponseErrorCode } from "./APIError";
+import { PathParameterError } from "./PathParameterError";
+import { RequestParameterError } from "./RequestParameterError";
+import { RequestError, RequestResponseBaseError, ResponseError } from "./RequestResponseError";
 
 function getCodeByStatus(status: number): string {
-    const codeMap: any = {
+    const codeMap: Record<number, string> = {
         400: ResponseErrorCode.BadRequest,
         401: ResponseErrorCode.NotAuthorized,
         403: ResponseErrorCode.Forbidden,
@@ -22,7 +22,7 @@ function getCodeByStatus(status: number): string {
     };
 
     if (Object.keys(codeMap).indexOf(status.toString()) !== -1) {
-        return (codeMap as any)[status];
+        return codeMap[status];
     }
 
     return ResponseErrorCode.UnknownError;

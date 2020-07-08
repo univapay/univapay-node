@@ -2,7 +2,7 @@
  *  @module SDK
  */
 
-import { RestAPI, RestAPIOptions } from '../api/RestAPI';
+import { RestAPI, RestAPIOptions } from "../api/RestAPI";
 
 export abstract class PaymentsSDK {
     api: RestAPI;

@@ -2,11 +2,12 @@
  *  @module Resources/Verification
  */
 
-import { ResponseCallback, HTTPMethod, SendData } from '../api/RestAPI';
-import { CRUDResource } from './CRUDResource';
-import { ContactInfo, ContactInfoPartial } from './common/ContactInfo';
-import { PhoneNumber } from './common/types';
-import { RecurringTokenPrivilege } from './TransactionTokens';
+import { HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { ContactInfo, ContactInfoPartial } from "./common/ContactInfo";
+import { PhoneNumber } from "./common/types";
+import { CRUDResource } from "./CRUDResource";
+import { RecurringTokenPrivilege } from "./TransactionTokens";
 
 export interface BaseVerification<T> {
     homepageUrl: string;
@@ -35,18 +36,18 @@ export type ResponseVerification = VerificationItem;
 
 export class Verification extends CRUDResource {
     static requiredParams: string[] = [
-        'homepageUrl',
-        'companyDescription',
-        'companyContactInfo',
-        'businessType',
-        'systemManagerName',
+        "homepageUrl",
+        "companyDescription",
+        "companyContactInfo",
+        "businessType",
+        "systemManagerName",
     ];
 
-    static routeBase = '/verification';
+    static routeBase = "/verification";
 
     create(
         data: SendData<VerificationCreateParams>,
-        callback?: ResponseCallback<ResponseVerification>,
+        callback?: ResponseCallback<ResponseVerification>
     ): Promise<ResponseVerification> {
         return this._createRoute(Verification.requiredParams)(data, callback);
     }
@@ -57,7 +58,7 @@ export class Verification extends CRUDResource {
 
     update(
         data?: SendData<VerificationUpdateParams>,
-        callback?: ResponseCallback<ResponseVerification>,
+        callback?: ResponseCallback<ResponseVerification>
     ): Promise<ResponseVerification> {
         return this.defineRoute(HTTPMethod.PATCH, this._routeBase)(data, callback);
     }

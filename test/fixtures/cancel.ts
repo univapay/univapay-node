@@ -1,15 +1,14 @@
-import uuid from 'uuid';
-import { ProcessingMode } from '../../src/resources/common/enums';
-import { CancelItem, CancelStatus } from '../../src/resources/Cancels';
+import { v4 as uuid } from "uuid";
 
-export function generateFixture(): CancelItem {
-    return {
-        id: uuid(),
-        chargeId: uuid(),
-        storeId: uuid(),
-        status: CancelStatus.SUCCESSFUL,
-        metadata: {},
-        mode: ProcessingMode.TEST,
-        createdOn: new Date().toISOString(),
-    };
-}
+import { CancelItem, CancelStatus } from "../../src/resources/Cancels";
+import { ProcessingMode } from "../../src/resources/common/enums";
+
+export const generateFixture = (): CancelItem => ({
+    id: uuid(),
+    chargeId: uuid(),
+    storeId: uuid(),
+    status: CancelStatus.SUCCESSFUL,
+    metadata: {},
+    mode: ProcessingMode.TEST,
+    createdOn: new Date().toISOString(),
+});

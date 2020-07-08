@@ -1,22 +1,23 @@
-import { expect } from 'chai';
-import fetchMock from 'fetch-mock';
-import { testEndpoint } from '../utils';
-import { pathToRegexMatcher } from '../utils/routes';
-import { RestAPI } from '../../src/api/RestAPI';
-import { generateFixture as generateTemporaryTokenAlias } from '../fixtures/temporary-token-alias';
+import { expect } from "chai";
+import fetchMock from "fetch-mock";
+import { Response } from "node-fetch";
+import { parse } from "query-string";
+import url from "url";
+
+import { RestAPI } from "../../src/api/RestAPI";
 import {
-    TemporaryTokenAliasItem,
     TemporaryTokenAlias,
     TemporaryTokenAliasCreateParams,
+    TemporaryTokenAliasItem,
     TemporaryTokenAliasMedia,
-    TemporaryTokenAliasQrOptions,
     TemporaryTokenAliasParams,
-} from '../../src/resources/TemporaryTokenAlias';
-import { parse } from 'query-string';
-import { Response } from 'node-fetch';
-import url from 'url';
+    TemporaryTokenAliasQrOptions,
+} from "../../src/resources/TemporaryTokenAlias";
+import { generateFixture as generateTemporaryTokenAlias } from "../fixtures/temporary-token-alias";
+import { testEndpoint } from "../utils";
+import { pathToRegexMatcher } from "../utils/routes";
 
-describe('Temporary Token Alias', function() {
+describe("Temporary Token Alias", () => {
     let api: RestAPI;
     let temporaryTokenAlias: TemporaryTokenAlias;
 
@@ -24,21 +25,21 @@ describe('Temporary Token Alias', function() {
     const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/tokens/alias/:id`);
     const recordData: TemporaryTokenAliasItem = generateTemporaryTokenAlias();
 
-    beforeEach(function() {
+    beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
         temporaryTokenAlias = new TemporaryTokenAlias(api);
     });
 
-    afterEach(function() {
+    afterEach(() => {
         fetchMock.restore();
     });
 
-    context('POST /tokens/alias', function() {
-        it('should get response', async function() {
+    context("POST /tokens/alias", () => {
+        it("should get response", async () => {
             fetchMock.postOnce(recordBasePathMatcher, {
                 status: 201,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
             const data: TemporaryTokenAliasCreateParams = {
                 transactionTokenId: recordData.id,
@@ -48,11 +49,11 @@ describe('Temporary Token Alias', function() {
         });
     });
 
-    context('GET /stores/:storeId/tokens/alias/:id', function() {
-        it('should get response', async function() {
+    context("GET /stores/:storeId/tokens/alias/:id", () => {
+        it("should get response", async () => {
             const blobBody = await new Response(new ArrayBuffer(2)).blob();
 
-            fetchMock.get(recordPathMatcher, uri => {
+            fetchMock.get(recordPathMatcher, (uri) => {
                 const params = parse(url.parse(uri).query);
                 const isBlob = params.media === TemporaryTokenAliasMedia.QR;
 
@@ -60,7 +61,7 @@ describe('Temporary Token Alias', function() {
                     status: 200,
                     body: isBlob ? blobBody : recordData,
                     headers: {
-                        'Content-Type': isBlob ? 'application/octet-stream' : 'application/json',
+                        "Content-Type": isBlob ? "application/octet-stream" : "application/json",
                     },
                 };
             });
@@ -76,23 +77,19 @@ describe('Temporary Token Alias', function() {
                 const response = await temporaryTokenAlias.get(recordData.storeId, recordData.id, data);
 
                 if (response.constructor === Object) {
-                    expect(response)
-                        .to.be.an('object')
-                        .that.eql(recordData);
+                    expect(response).to.be.an("object").that.eql(recordData);
                 } else {
-                    expect(response)
-                        .to.have.property('size')
-                        .that.eql((blobBody as any).size);
+                    expect(response).to.have.property("size").that.eql(blobBody.size);
                 }
             }
         });
     });
 
-    context('DELETE /stores/:storeId/tokens/alias/:id', function() {
-        it('should get response', async function() {
+    context("DELETE /stores/:storeId/tokens/alias/:id", () => {
+        it("should get response", async () => {
             fetchMock.deleteOnce(recordPathMatcher, {
                 status: 204,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
             await expect(temporaryTokenAlias.delete(recordData.storeId, recordData.id)).to.eventually.be.empty;
         });

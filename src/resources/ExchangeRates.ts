@@ -1,6 +1,7 @@
 /* Request */
-import { Resource } from './Resource';
-import { HTTPMethod, ResponseCallback, SendData } from '../api/RestAPI';
+import { HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { Resource } from "./Resource";
 
 export interface ExchangeRateParams {
     amount: number;
@@ -19,8 +20,8 @@ export type ResponseExchangeRate = ExchangeRateItem;
 export class ExchangeRates extends Resource {
     calculate(
         data: SendData<ExchangeRateParams>,
-        callback?: ResponseCallback<ResponseExchangeRate>,
+        callback?: ResponseCallback<ResponseExchangeRate>
     ): Promise<ResponseExchangeRate> {
-        return this.defineRoute(HTTPMethod.POST, '/exchange_rates/calculate')(data, callback);
+        return this.defineRoute(HTTPMethod.POST, "/exchange_rates/calculate")(data, callback);
     }
 }

@@ -3,11 +3,13 @@
  *  @module Utils
  */
 
-import camelCase from 'camelcase';
-import { APIError } from '../errors/APIError';
-import { transformKeys } from './object';
+import camelCase from "camelcase";
 
-export async function parseJSON(response: Response, ignoreKeys: string[] = ['metadata']): Promise<any> {
+import { APIError } from "../errors/APIError";
+
+import { transformKeys } from "./object";
+
+export async function parseJSON(response: Response, ignoreKeys: string[] = ["metadata"]): Promise<any> {
     const text = await response.text();
     return text ? transformKeys(JSON.parse(text), camelCase, ignoreKeys) : {};
 }
@@ -17,6 +19,6 @@ export async function checkStatus(response: Response): Promise<Response> {
         return response;
     }
 
-    const json = await parseJSON(response);
+    const json = await parseJSON(response, ["metadata"]);
     throw new APIError(response.status, json);
 }

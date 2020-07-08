@@ -2,35 +2,36 @@
  *  @internal
  *  @module Utils
  */
-import { Omit } from 'type-zoo';
 
 export type Transformer = (...args: any[]) => string;
 
-export function transformKeys(obj: any, transformer: Transformer, ignoreKeys: string[] = []): any {
-    const isObject = (o: any): boolean => typeof o === 'object' && Boolean(o);
+export function transformKeys(obj: Record<string, any>, transformer: Transformer, ignoreKeys: string[] = []): any {
+    const isObject = (value: unknown): value is Record<string, any> => typeof value === "object" && Boolean(value);
 
-    const transformArray = arr => (arr as any[]).map((i: any) => (isObject(i) ? transformKeys(i, transformer) : i));
+    const transformArray = <T>(arr: T[]): T[] =>
+        arr.map((item) => (isObject(item) ? transformKeys(item, transformer) : item));
 
     if (Array.isArray(obj)) {
         return transformArray(obj);
     }
 
-    return Object.keys(obj || {}).reduce((r: any, k: string) => {
-        let v: any = (obj as any)[k];
+    return Object.keys(obj || {}).reduce((acc: Record<string, any>, key: string) => {
+        let value = obj[key];
 
-        if (ignoreKeys.includes(k)) {
-            return { ...r, [k]: v };
+        if (ignoreKeys.includes(key)) {
+            return { ...acc, [key]: value };
         }
 
-        if (isObject(v)) {
-            if (Array.isArray(v)) {
-                v = transformArray(v);
+        if (isObject(value)) {
+            if (Array.isArray(value)) {
+                value = transformArray(value);
             } else {
-                v = transformKeys(v, transformer);
+                value = transformKeys(value, transformer);
             }
         }
-        (r as any)[transformer(k)] = v;
-        return r;
+
+        acc[transformer(key)] = value;
+        return acc;
     }, {});
 }
 
@@ -54,8 +55,8 @@ export function missingKeys(obj: Record<string, any>, keys: string[] = []): stri
     return missing;
 }
 
-export function omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
-    return Object.keys(obj || {}).reduce((acc: any, key: any) => {
-        return keys.indexOf(key) === -1 ? { ...acc, [key]: obj[key] } : acc;
+export function omit<T extends Record<string, unknown>, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
+    return Object.keys(obj || {}).reduce((acc: any, key: unknown) => {
+        return keys.indexOf(key as K) === -1 ? { ...acc, [key as K]: obj[key as K] } : acc;
     }, {});
 }

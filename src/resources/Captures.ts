@@ -2,14 +2,15 @@
  *  @module Resources/Captures
  */
 
-import { ResponseCallback, SendData } from '../api/RestAPI';
-import { CRUDResource } from './CRUDResource';
+import { ResponseCallback, SendData } from "../api/RestAPI";
+
+import { CRUDResource } from "./CRUDResource";
 
 /* Request */
 export enum CaptureStatus {
-    Authorized = 'authorized',
-    Captured = 'captured',
-    NotAuthorized = 'not_authorized',
+    Authorized = "authorized",
+    Captured = "captured",
+    NotAuthorized = "not_authorized",
 }
 
 export interface CaptureCreateParams {
@@ -20,16 +21,16 @@ export interface CaptureCreateParams {
 /* Response */
 
 export class Captures extends CRUDResource {
-    static requiredParams: string[] = ['amount', 'currency'];
+    static requiredParams: string[] = ["amount", "currency"];
 
-    static routeBase = '/stores/:storeId/charges/:chargeId/capture';
+    static routeBase = "/stores/:storeId/charges/:chargeId/capture";
 
     create(
         storeId: string,
         chargeId: string,
         data: SendData<CaptureCreateParams>,
-        callback?: ResponseCallback<any>,
+        callback?: ResponseCallback<any>
     ): Promise<any> {
-        return this._createRoute(Captures.requiredParams)(data, callback, ['storeId', 'chargeId'], storeId, chargeId);
+        return this._createRoute(Captures.requiredParams)(data, callback, ["storeId", "chargeId"], storeId, chargeId);
     }
 }

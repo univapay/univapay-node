@@ -1,21 +1,20 @@
-import uuid from 'uuid';
-import { ProcessingMode } from '../../src/resources/common/enums';
-import { RefundItem, RefundStatus, RefundReason } from '../../src/resources/Refunds';
+import { v4 as uuid } from "uuid";
 
-export function generateFixture(): RefundItem {
-    return {
-        id: uuid(),
-        chargeId: uuid(),
-        storeId: uuid(),
-        ledgerId: uuid(),
-        status: RefundStatus.SUCCESSFUL,
-        amount: 1000,
-        currency: 'JPY',
-        amountFormatted: 1000,
-        reason: RefundReason.CUSTOMER_REQUEST,
-        message: 'Refund',
-        metadata: {},
-        mode: ProcessingMode.TEST,
-        createdOn: new Date().toISOString(),
-    };
-}
+import { ProcessingMode } from "../../src/resources/common/enums";
+import { RefundItem, RefundReason, RefundStatus } from "../../src/resources/Refunds";
+
+export const generateFixture = (): RefundItem => ({
+    id: uuid(),
+    chargeId: uuid(),
+    storeId: uuid(),
+    ledgerId: uuid(),
+    status: RefundStatus.SUCCESSFUL,
+    amount: 1000,
+    currency: "JPY",
+    amountFormatted: 1000,
+    reason: RefundReason.CUSTOMER_REQUEST,
+    message: "Refund",
+    metadata: {},
+    mode: ProcessingMode.TEST,
+    createdOn: new Date().toISOString(),
+});

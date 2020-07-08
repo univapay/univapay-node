@@ -1,31 +1,32 @@
-import { expect } from 'chai';
-import fetchMock from 'fetch-mock';
-import { testEndpoint } from '../utils';
-import { Platforms } from '../../src/resources/Platforms';
-import { RestAPI } from '../../src/api/RestAPI';
-import { generateFixture as generatePlatform } from '../fixtures/platforms';
+import { expect } from "chai";
+import fetchMock from "fetch-mock";
 
-describe('Platforms', function() {
+import { RestAPI } from "../../src/api/RestAPI";
+import { Platforms } from "../../src/resources/Platforms";
+import { generateFixture as generatePlatform } from "../fixtures/platforms";
+import { testEndpoint } from "../utils";
+
+describe("Platforms", () => {
     let api: RestAPI;
     let platforms: Platforms;
 
     const recordData = generatePlatform();
 
-    beforeEach(function() {
+    beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
         platforms = new Platforms(api);
     });
 
-    afterEach(function() {
+    afterEach(() => {
         fetchMock.restore();
     });
 
-    context('GET /platform', function() {
-        it('should get response', async function() {
+    context("GET /platform", () => {
+        it("should get response", async () => {
             fetchMock.getOnce(`${testEndpoint}/platform`, {
                 status: 200,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             await expect(platforms.getConfiguration()).to.eventually.eql(recordData);

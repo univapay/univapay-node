@@ -1,8 +1,6 @@
-import pathToRegex from 'path-to-regexp';
-import { MockMatcher } from 'fetch-mock';
+import { MockMatcher } from "fetch-mock";
+import pathToRegex from "path-to-regexp";
 
-export function pathToRegexMatcher(path: string): MockMatcher {
-    return function(url: any) {
-        return pathToRegex(path).exec(typeof url === 'object' ? url.url : url) !== null;
-    };
-}
+export const pathToRegexMatcher = (path: string): MockMatcher => {
+    return (url: string | { url: string }) => pathToRegex(path).exec(typeof url === "object" ? url.url : url) !== null;
+};

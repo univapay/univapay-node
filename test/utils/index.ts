@@ -1,9 +1,10 @@
-import 'isomorphic-fetch';
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import sinonChai from 'sinon-chai';
-import chaiArrays from 'chai-arrays';
-import fetchMock from 'fetch-mock';
+import chai from "chai";
+import chaiArrays from "chai-arrays";
+import chaiAsPromised from "chai-as-promised";
+import fetchMock from "fetch-mock";
+import sinonChai from "sinon-chai";
+
+import "isomorphic-fetch";
 
 /* Chai plugins */
 chai.use(chaiAsPromised);
@@ -11,6 +12,6 @@ chai.use(sinonChai);
 chai.use(chaiArrays);
 chai.should();
 
-(fetchMock as any).config.Request = Request;
+fetchMock.config.Request = Request;
 
-export const testEndpoint = 'http://mock-api';
+export const testEndpoint = "http://mock-api";

@@ -2,16 +2,17 @@
  *  @module Resources/Cancels
  */
 
-import { ResponseCallback, PollParams, SendData } from '../api/RestAPI';
-import { CRUDResource, CRUDPaginationParams, CRUDItemsResponse } from './CRUDResource';
-import { PaymentError, Metadata } from './common/types';
-import { ProcessingMode } from './common/enums';
+import { PollParams, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { ProcessingMode } from "./common/enums";
+import { Metadata, PaymentError } from "./common/types";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 export enum CancelStatus {
-    PENDING = 'pending',
-    SUCCESSFUL = 'successful',
-    FAILED = 'failed',
-    ERROR = 'error',
+    PENDING = "pending",
+    SUCCESSFUL = "successful",
+    FAILED = "failed",
+    ERROR = "error",
 }
 
 /* Request */
@@ -39,24 +40,24 @@ export type ResponseCancels = CRUDItemsResponse<CancelItem>;
 export class Cancels extends CRUDResource {
     static requiredParams: string[] = [];
 
-    static routeBase = '/stores/:storeId/charges/:chargeId/cancels';
+    static routeBase = "/stores/:storeId/charges/:chargeId/cancels";
 
     list(
         storeId: string,
         chargeId: string,
         data?: SendData<CancelsListParams>,
-        callback?: ResponseCallback<ResponseCancels>,
+        callback?: ResponseCallback<ResponseCancels>
     ): Promise<ResponseCancels> {
-        return this._listRoute()(data, callback, ['storeId', 'chargeId'], storeId, chargeId);
+        return this._listRoute()(data, callback, ["storeId", "chargeId"], storeId, chargeId);
     }
 
     create(
         storeId: string,
         chargeId: string,
         data: SendData<CancelCreateParams>,
-        callback?: ResponseCallback<ResponseCancel>,
+        callback?: ResponseCallback<ResponseCancel>
     ): Promise<ResponseCancel> {
-        return this._createRoute(Cancels.requiredParams)(data, callback, ['storeId', 'chargeId'], storeId, chargeId);
+        return this._createRoute(Cancels.requiredParams)(data, callback, ["storeId", "chargeId"], storeId, chargeId);
     }
 
     get(
@@ -64,9 +65,9 @@ export class Cancels extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<PollParams>,
-        callback?: ResponseCallback<ResponseCancel>,
+        callback?: ResponseCallback<ResponseCancel>
     ): Promise<ResponseCancel> {
-        return this._getRoute()(data, callback, ['storeId', 'chargeId', 'id'], storeId, chargeId, id);
+        return this._getRoute()(data, callback, ["storeId", "chargeId", "id"], storeId, chargeId, id);
     }
 
     poll(
@@ -80,7 +81,7 @@ export class Cancels extends CRUDResource {
          * Condition to cancel the polling and return `null`,
          */
         cancelCondition?: (response: ResponseCancel) => boolean,
-        successCondition: ({ status }: ResponseCancel) => boolean = ({ status }) => status !== CancelStatus.PENDING,
+        successCondition: ({ status }: ResponseCancel) => boolean = ({ status }) => status !== CancelStatus.PENDING
     ): Promise<ResponseCancel> {
         const pollingData = { ...data, polling: true };
         const promise: () => Promise<ResponseCancel> = () => this.get(storeId, chargeId, id, pollingData);

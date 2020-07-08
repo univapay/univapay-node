@@ -2,50 +2,51 @@
  *  @module Resources/TransactionTokens
  */
 
-import { ResponseCallback, ErrorResponse, HTTPMethod, SendData } from '../api/RestAPI';
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from './CRUDResource';
-import { CardBrand, CardSubBrand, CardCategory, ProcessingMode, CardType, QRBrand, QRGateway } from './common/enums';
-import { Metadata, PhoneNumber } from './common/types';
+import { ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { CardBrand, CardCategory, CardSubBrand, CardType, ProcessingMode, QRBrand, QRGateway } from "./common/enums";
+import { Metadata, PhoneNumber } from "./common/types";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 export enum UsageLimit {
-    DAILY = 'daily',
-    WEEKLY = 'weekly',
-    MONTHLY = 'monthly',
-    ANNUALLY = 'annually',
+    DAILY = "daily",
+    WEEKLY = "weekly",
+    MONTHLY = "monthly",
+    ANNUALLY = "annually",
 }
 
 export enum PaymentType {
-    CARD = 'card',
-    QR_SCAN = 'qr_scan',
-    KONBINI = 'konbini',
-    APPLE_PAY = 'apple_pay',
-    PAIDY = 'paidy',
-    QR_MERCHANT = 'qr_merchant',
+    CARD = "card",
+    QR_SCAN = "qr_scan",
+    KONBINI = "konbini",
+    APPLE_PAY = "apple_pay",
+    PAIDY = "paidy",
+    QR_MERCHANT = "qr_merchant",
 }
 
 export enum ConvenienceStore {
-    SEVEN_ELEVEN = 'seven_eleven',
-    FAMILY_MART = 'family_mart',
-    LAWSON = 'lawson',
-    MINI_STOP = 'mini_stop',
-    SEICO_MART = 'seico_mart',
-    PAY_EASY = 'pay_easy',
-    CIRCLE_K = 'circle_k',
-    SUNKUS = 'sunkus',
-    DAILY_YAMAZAKI = 'daily_yamazaki',
-    YAMAZAKI_DAILY_STORE = 'yamazaki_daily_store',
+    SEVEN_ELEVEN = "seven_eleven",
+    FAMILY_MART = "family_mart",
+    LAWSON = "lawson",
+    MINI_STOP = "mini_stop",
+    SEICO_MART = "seico_mart",
+    PAY_EASY = "pay_easy",
+    CIRCLE_K = "circle_k",
+    SUNKUS = "sunkus",
+    DAILY_YAMAZAKI = "daily_yamazaki",
+    YAMAZAKI_DAILY_STORE = "yamazaki_daily_store",
 }
 
 export enum TransactionTokenType {
-    ONE_TIME = 'one_time',
-    SUBSCRIPTION = 'subscription',
-    RECURRING = 'recurring',
+    ONE_TIME = "one_time",
+    SUBSCRIPTION = "subscription",
+    RECURRING = "recurring",
 }
 
 export enum RecurringTokenPrivilege {
-    NONE = 'none',
-    BOUNDED = 'bounded',
-    INFINITE = 'infinite',
+    NONE = "none",
+    BOUNDED = "bounded",
+    INFINITE = "infinite",
 }
 
 /* Request */
@@ -173,64 +174,64 @@ export type ResponseTransactionToken = TransactionTokenItem;
 export type ResponseTransactionTokens = CRUDItemsResponse<TransactionTokenItem>;
 
 export class TransactionTokens extends CRUDResource {
-    static requiredParams: string[] = ['paymentType', 'type', 'data'];
+    static requiredParams: string[] = ["paymentType", "type", "data"];
 
-    static routeBase = '/stores/:storeId/tokens';
+    static routeBase = "/stores/:storeId/tokens";
 
     create(
         data: SendData<TransactionTokenCreateParams>,
-        callback?: ResponseCallback<ResponseTransactionToken>,
+        callback?: ResponseCallback<ResponseTransactionToken>
     ): Promise<ResponseTransactionToken> {
-        return this.defineRoute(HTTPMethod.POST, '/tokens', TransactionTokens.requiredParams)(data, callback);
+        return this.defineRoute(HTTPMethod.POST, "/tokens", TransactionTokens.requiredParams)(data, callback);
     }
 
     get(
         storeId: string,
         id: string,
         data?: SendData<void>,
-        callback?: ResponseCallback<ResponseTransactionToken>,
+        callback?: ResponseCallback<ResponseTransactionToken>
     ): Promise<ResponseTransactionToken> {
-        return this._getRoute()(data, callback, ['storeId', 'id'], storeId, id);
+        return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 
     list(
         data?: SendData<TransactionTokenListParams>,
         callback?: ResponseCallback<ResponseTransactionTokens>,
-        storeId?: string,
+        storeId?: string
     ): Promise<ResponseTransactionTokens> {
-        return this.defineRoute(HTTPMethod.GET, '(/stores/:storeId)/tokens')(data, callback, ['storeId'], storeId);
+        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens")(data, callback, ["storeId"], storeId);
     }
 
     update(
         storeId: string,
         id: string,
         data?: SendData<TransactionTokenUpdateParams>,
-        callback?: ResponseCallback<ResponseTransactionToken>,
+        callback?: ResponseCallback<ResponseTransactionToken>
     ): Promise<ResponseTransactionToken> {
-        return this._updateRoute()(data, callback, ['storeId', 'id'], storeId, id);
+        return this._updateRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 
     delete(
         storeId: string,
         id: string,
         data?: SendData<void>,
-        callback?: ResponseCallback<ErrorResponse>,
+        callback?: ResponseCallback<ErrorResponse>
     ): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ['storeId', 'id'], storeId, id);
+        return this._deleteRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 
     confirm(
         storeId: string,
         id: string,
         data: SendData<TransactionTokenConfirmParams>,
-        callback?: ResponseCallback<ErrorResponse>,
+        callback?: ResponseCallback<ErrorResponse>
     ): Promise<ErrorResponse> {
-        return this.defineRoute(HTTPMethod.POST, '/stores/:storeId/tokens/:id/confirm')(
+        return this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:id/confirm")(
             data,
             callback,
-            ['storeId', 'id'],
+            ["storeId", "id"],
             storeId,
-            id,
+            id
         );
     }
 }

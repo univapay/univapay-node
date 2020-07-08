@@ -1,16 +1,17 @@
-import { expect } from 'chai';
-import fetchMock from 'fetch-mock';
-import uuid from 'uuid';
-import { testEndpoint } from '../utils';
-import { pathToRegexMatcher } from '../utils/routes';
-import { Stores, StoreCreateParams, StoreUpdateParams } from '../../src/resources/Stores';
-import { RestAPI } from '../../src/api/RestAPI';
-import { generateList } from '../fixtures/list';
-import { generateFixture as generateStore } from '../fixtures/store';
-import { RequestError } from '../../src/errors/RequestResponseError';
-import { createRequestError } from '../fixtures/errors';
+import { expect } from "chai";
+import fetchMock from "fetch-mock";
+import { v4 as uuid } from "uuid";
 
-describe('Stores', function() {
+import { RestAPI } from "../../src/api/RestAPI";
+import { RequestError } from "../../src/errors/RequestResponseError";
+import { StoreCreateParams, Stores, StoreUpdateParams } from "../../src/resources/Stores";
+import { createRequestError } from "../fixtures/errors";
+import { generateList } from "../fixtures/list";
+import { generateFixture as generateStore } from "../fixtures/store";
+import { testEndpoint } from "../utils";
+import { pathToRegexMatcher } from "../utils/routes";
+
+describe("Stores", () => {
     let api: RestAPI;
     let stores: Stores;
 
@@ -18,44 +19,44 @@ describe('Stores', function() {
     const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:id`);
     const recordData = generateStore();
 
-    beforeEach(function() {
+    beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
         stores = new Stores(api);
     });
 
-    afterEach(function() {
+    afterEach(() => {
         fetchMock.restore();
     });
 
-    context('POST /stores', function() {
-        it('should get response', async function() {
+    context("POST /stores", () => {
+        it("should get response", async () => {
             fetchMock.postOnce(recordBasePathMatcher, {
                 status: 201,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             const data: StoreCreateParams = {
-                name: 'Store',
+                name: "Store",
             };
 
             await expect(stores.create(data)).to.eventually.eql(recordData);
         });
 
-        it('should return validation error if data is invalid', async function() {
-            const asserts: [Partial<StoreCreateParams>, RequestError][] = [[{}, createRequestError(['name'])]];
+        it("should return validation error if data is invalid", async () => {
+            const asserts: [Partial<StoreCreateParams>, RequestError][] = [[{}, createRequestError(["name"])]];
 
             for (const [data, error] of asserts) {
                 await expect(stores.create(data as StoreCreateParams))
                     .to.eventually.be.rejectedWith(RequestError)
-                    .that.has.property('errorResponse')
+                    .that.has.property("errorResponse")
                     .which.eql(error.errorResponse);
             }
         });
     });
 
-    context('GET /stores', function() {
-        it('should get response', async function() {
+    context("GET /stores", () => {
+        it("should get response", async () => {
             const listData = generateList({
                 count: 10,
                 recordGenerator: generateStore,
@@ -64,54 +65,54 @@ describe('Stores', function() {
             fetchMock.getOnce(recordBasePathMatcher, {
                 status: 200,
                 body: listData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             await expect(stores.list()).to.eventually.eql(listData);
         });
     });
 
-    context('GET /stores/:id', function() {
-        it('should get response', async function() {
+    context("GET /stores/:id", () => {
+        it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             await expect(stores.get(uuid())).to.eventually.eql(recordData);
         });
     });
 
-    context('PATCH /stores/:id', function() {
-        it('should get response', async function() {
+    context("PATCH /stores/:id", () => {
+        it("should get response", async () => {
             fetchMock.patchOnce(recordPathMatcher, {
                 status: 200,
                 body: recordData,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             const data: StoreUpdateParams = {
-                name: 'Store',
+                name: "Store",
             };
 
             await expect(stores.update(uuid(), data)).to.eventually.eql(recordData);
         });
     });
 
-    context('DELETE /stores/:id', function() {
-        it('should get response', async function() {
+    context("DELETE /stores/:id", () => {
+        it("should get response", async () => {
             fetchMock.deleteOnce(recordPathMatcher, {
                 status: 204,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
             });
 
             await expect(stores.delete(uuid())).to.eventually.be.empty;
         });
     });
 
-    it('should return request error when parameters for route are invalid', async function() {
-        const errorId = createRequestError(['id']);
+    it("should return request error when parameters for route are invalid", async () => {
+        const errorId = createRequestError(["id"]);
 
         const asserts: [Promise<any>, RequestError][] = [
             [stores.get(null), errorId],
@@ -122,7 +123,7 @@ describe('Stores', function() {
         for (const [request, error] of asserts) {
             await expect(request)
                 .to.eventually.be.rejectedWith(RequestError)
-                .that.has.property('errorResponse')
+                .that.has.property("errorResponse")
                 .which.eql(error.errorResponse);
         }
     });

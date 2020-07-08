@@ -2,11 +2,12 @@
  *  @module Resources/TemporaryTokenAlias
  */
 
-import { CRUDResource } from './CRUDResource';
-import { ErrorResponse, HTTPMethod, ResponseCallback, SendData } from '../api/RestAPI';
-import { PaymentType, TransactionTokenType } from './TransactionTokens';
-import { ProcessingMode } from './common/enums';
-import { Metadata } from './common/types';
+import { ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+
+import { ProcessingMode } from "./common/enums";
+import { Metadata } from "./common/types";
+import { CRUDResource } from "./CRUDResource";
+import { PaymentType, TransactionTokenType } from "./TransactionTokens";
 
 export interface TemporaryTokenAliasItem {
     id?: string;
@@ -39,14 +40,14 @@ export interface TemporaryTokenAliasCreateParams {
 }
 
 export enum TemporaryTokenAliasQrLogoType {
-    None = 'None',
-    Centered = 'Centered',
-    Background = 'Background',
+    None = "None",
+    Centered = "Centered",
+    Background = "Background",
 }
 
 export enum TemporaryTokenAliasMedia {
-    Json = 'json',
-    QR = 'qr',
+    Json = "json",
+    QR = "qr",
 }
 
 export interface TemporaryTokenAliasParams {
@@ -66,55 +67,55 @@ export type MethodGet<P, R> = (
     storeId: string,
     id: string,
     data?: SendData<P>,
-    callback?: ResponseCallback<R>,
+    callback?: ResponseCallback<R>
 ) => Promise<R>;
 
 export class TemporaryTokenAlias extends CRUDResource {
-    static requiredParams: string[] = ['transactionTokenId'];
+    static requiredParams: string[] = ["transactionTokenId"];
 
-    static routeBase = '/stores/:storeId/tokens/alias';
+    static routeBase = "/stores/:storeId/tokens/alias";
 
     create(
         data: SendData<TemporaryTokenAliasCreateParams>,
-        callback?: ResponseCallback<ResponseTemporaryTokenAlias>,
+        callback?: ResponseCallback<ResponseTemporaryTokenAlias>
     ): Promise<ResponseTemporaryTokenAlias> {
-        return this.defineRoute(HTTPMethod.POST, '/tokens/alias', TemporaryTokenAlias.requiredParams)(data, callback);
+        return this.defineRoute(HTTPMethod.POST, "/tokens/alias", TemporaryTokenAlias.requiredParams)(data, callback);
     }
 
     get(
         storeId: string,
         id: string,
         data?: SendData<TemporaryTokenAliasQrOptions>,
-        callback?: ResponseCallback<Blob>,
+        callback?: ResponseCallback<Blob>
     ): Promise<Blob>;
     get(
         storeId: string,
         id: string,
         data?: SendData<TemporaryTokenAliasParams>,
-        callback?: ResponseCallback<ResponseTemporaryTokenAlias>,
+        callback?: ResponseCallback<ResponseTemporaryTokenAlias>
     ): Promise<ResponseTemporaryTokenAlias>;
 
     get(
         storeId: string,
         id: string,
         data?: SendData<TemporaryTokenAliasParams>,
-        callback?: ResponseCallback<any>,
+        callback?: ResponseCallback<any>
     ): Promise<any> {
         return this.defineRoute(
             HTTPMethod.GET,
             `${this._routeBase}/:id`,
             undefined,
             undefined,
-            data && data.media === TemporaryTokenAliasMedia.QR ? 'image/png' : undefined,
-        )(data, callback, ['storeId', 'id'], storeId, id);
+            data && data.media === TemporaryTokenAliasMedia.QR ? "image/png" : undefined
+        )(data, callback, ["storeId", "id"], storeId, id);
     }
 
     delete(
         storeId: string,
         id: string,
         data?: SendData<void>,
-        callback?: ResponseCallback<ErrorResponse>,
+        callback?: ResponseCallback<ErrorResponse>
     ): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ['storeId', 'id'], storeId, id);
+        return this._deleteRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 }

@@ -4,28 +4,28 @@
  */
 
 export enum TransferPeriod {
-    WEEKLY = 'weekly',
-    BIWEEKLY = 'biweekly',
-    SEMIMONTHLY = 'semimonthly',
-    MONTHLY = 'monthly',
+    WEEKLY = "weekly",
+    BIWEEKLY = "biweekly",
+    SEMIMONTHLY = "semimonthly",
+    MONTHLY = "monthly",
 }
 
 export enum DayOfWeek {
-    SUNDAY = 'sunday',
-    MONDAY = 'monday',
-    TUESDAY = 'tuesday',
-    WEDNESDAY = 'wednesday',
-    THURSDAY = 'thursday',
-    FRIDAY = 'friday',
-    SATURDAY = 'saturday',
+    SUNDAY = "sunday",
+    MONDAY = "monday",
+    TUESDAY = "tuesday",
+    WEDNESDAY = "wednesday",
+    THURSDAY = "thursday",
+    FRIDAY = "friday",
+    SATURDAY = "saturday",
 }
 
 export enum WeekOfMonth {
-    FIRST = 'first',
-    SECOND = 'second',
-    THIRD = 'third',
-    FOURTH = 'fourth',
-    LAST = 'last',
+    FIRST = "first",
+    SECOND = "second",
+    THIRD = "third",
+    FOURTH = "fourth",
+    LAST = "last",
 }
 
 export interface TransferScheduleItem {
