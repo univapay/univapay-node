@@ -16,8 +16,7 @@ export async function ignoreDescriptor<Data extends { descriptor?: string }>(
             );
 
         if (isDescriptorNotSupportedError) {
-            const { ...clonedData } = data;
-            delete clonedData.descriptor;
+            const { descriptor, ...clonedData } = data; // eslint-disable-line @typescript-eslint/no-unused-vars
 
             return callback(clonedData);
         } else {
