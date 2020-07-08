@@ -3,11 +3,9 @@
     ".ts"
   ],
   "require": [
-    "ts-node/register"
+    "ts-node/register/type-check"
   ],
   "exclude": [
-    "src/src/",
-    "src/",
     "coverage/**",
     "**/*.d.ts"
   ],
@@ -20,8 +18,8 @@
   "all": true,
   "check-coverage": false,
   "per-file": false,
-  "lines": 80,
-  "statements": 80,
-  "functions": 80,
+  "lines": 90,
+  "statements": 90,
+  "functions": 90,
   "branches": 0
 }

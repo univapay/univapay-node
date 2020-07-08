@@ -82,8 +82,8 @@
   "scripts": {
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
     "format": "prettier \"src/**/*.{ts,tsx}\" \"test/**/*.{ts,tsx}\" --write",
-    "test": "nyc mocha test/specs/**/*.ts --require ts-node/register",
-    "coverage": "nyc report --require ts-node/register --reporter=text-lcov | coveralls",
+    "test": "nyc mocha test/specs/**/*.ts",
+    "coverage": "nyc report",
     "build": "./scripts/build.sh",
     "preversion": "npm test",
     "docs": "typedoc --options typedoc.json",
