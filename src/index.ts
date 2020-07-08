@@ -3,24 +3,25 @@
  */
 
 import { RestAPIOptions } from "./api/RestAPI";
-// Resources
-import { BankAccounts } from "./resources/BankAccounts";
-import { Cancels } from "./resources/Cancels";
-import { Captures } from "./resources/Captures";
-import { Charges } from "./resources/Charges";
-import { CheckoutInfo } from "./resources/CheckoutInfo";
-import { ExchangeRates } from "./resources/ExchangeRates";
-import { Ledgers } from "./resources/Ledgers";
-import { Merchants } from "./resources/Merchants";
-import { Platforms } from "./resources/Platforms";
-import { Refunds } from "./resources/Refunds";
-import { Stores } from "./resources/Stores";
-import { Subscriptions } from "./resources/Subscriptions";
-import { TransactionTokens } from "./resources/TransactionTokens";
-import { Transfers } from "./resources/Transfers";
-import { Verification } from "./resources/Verification";
-import { WebHooks } from "./resources/WebHooks";
-import { PaymentsSDK } from "./sdk/PaymentsSDK";
+import {
+    BankAccounts,
+    Cancels,
+    Captures,
+    Charges,
+    CheckoutInfo,
+    ExchangeRates,
+    Ledgers,
+    Merchants,
+    Platforms,
+    Refunds,
+    Stores,
+    Subscriptions,
+    TransactionTokens,
+    Transfers,
+    Verification,
+    WebHooks,
+} from "./resources";
+import PaymentsSDK from "./sdk";
 
 export default class SDK extends PaymentsSDK {
     public bankAccounts: BankAccounts;

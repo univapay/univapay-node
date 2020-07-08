@@ -82,7 +82,7 @@
   "scripts": {
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
     "format": "prettier \"src/**/*.{ts,tsx}\" \"test/**/*.{ts,tsx}\" --write",
-    "test": "nyc mocha test/specs/**/*.ts",
+    "test": "nyc mocha test/specs/*.ts test/specs/**/*.ts",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "build": "./scripts/build.sh",
     "preversion": "npm test",
