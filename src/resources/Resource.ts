@@ -64,7 +64,7 @@ export abstract class Resource {
             ...params: string[]
         ): Promise<B> {
             const _params: any = params.reduce((p: any, param: string, i: number) => {
-                if (pathParams && pathParams[i]) {
+                if (pathParams && pathParams?.[i]) {
                     p[pathParams[i]] = param;
                 }
                 return p;
@@ -78,17 +78,13 @@ export abstract class Resource {
 
             if (missingPathParams.length > 0) {
                 err = fromError(new PathParameterError(missingPathParams[0]));
-                if (typeof callback === "function") {
-                    callback(err);
-                }
+                callback?.(err);
                 return Promise.reject(err);
             }
 
             if (missingParams.length > 0) {
                 err = fromError(new RequestParameterError(missingParams[0]));
-                if (typeof callback === "function") {
-                    callback(err);
-                }
+                callback?.(err);
                 return Promise.reject(err);
             }
 
