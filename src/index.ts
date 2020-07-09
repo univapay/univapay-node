@@ -3,7 +3,7 @@
  */
 
 import { RestAPIOptions } from "./api/RestAPI";
-import { WebHookTrigger } from "./resources/WebHooks";
+import { WebHookTrigger as PublicWebHookTrigger } from "./resources/WebHooks";
 import {
     BankAccounts,
     Cancels,
@@ -24,7 +24,7 @@ import {
 } from "./resources";
 import PaymentsSDK from "./sdk";
 
-export default class SDK<WebhookTrigger = WebHookTrigger> extends PaymentsSDK {
+export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends PaymentsSDK {
     public bankAccounts: BankAccounts;
     public cancels: Cancels;
     public captures: Captures;
