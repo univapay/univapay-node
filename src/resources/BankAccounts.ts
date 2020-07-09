@@ -36,10 +36,9 @@ export interface BankAccountCreateParams {
     ifscCode?: string;
     routingCode?: string;
     accountType: BankAccountType;
-}
-export type BankAccountUpdateParams = Partial<BankAccountCreateParams> & {
     primary?: boolean;
-};
+}
+export type BankAccountUpdateParams = Partial<BankAccountCreateParams>;
 
 /* Response */
 export interface BankAccountItem {
@@ -62,8 +61,10 @@ export interface BankAccountItem {
     accountType: BankAccountType;
 }
 
+export type BankAccountListItem = BankAccountItem;
+
 export type ResponseBankAccount = BankAccountItem;
-export type ResponseBankAccounts = CRUDItemsResponse<BankAccountItem>;
+export type ResponseBankAccounts = CRUDItemsResponse<BankAccountListItem>;
 
 export class BankAccounts extends CRUDResource {
     static requiredParams: string[] = ["accountNumber", "country", "currency", "holderName", "bankName"];

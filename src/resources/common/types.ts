@@ -40,3 +40,6 @@ export interface InvoiceChargeFee {
     chargeVolume: number;
     chargeInvoiceFee: number;
 }
+
+export type WithMerchantName<Item> = Item & { merchantName: string };
+export type WithStoreMerchantName<Item> = Item & { merchantName: string; storeName: string };

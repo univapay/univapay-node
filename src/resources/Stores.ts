@@ -5,6 +5,7 @@
 import { ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { ConfigurationCreateParams, ConfigurationItem, ConfigurationUpdateParams } from "./common/Configuration";
+import { WithMerchantName } from "./common/types";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 /* Request */
@@ -31,8 +32,10 @@ export interface StoreItem {
     configuration: ConfigurationItem;
 }
 
+export type StoreListItem = WithMerchantName<StoreItem>;
+
 export type ResponseStore = StoreItem;
-export type ResponseStores = CRUDItemsResponse<StoreItem>;
+export type ResponseStores = CRUDItemsResponse<StoreListItem>;
 
 export class Stores extends CRUDResource {
     static requiredParams: string[] = ["name"];

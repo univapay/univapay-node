@@ -4,6 +4,7 @@
 
 import { ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
 
+import { WithStoreMerchantName } from "./common/types";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 export enum WebHookTrigger {
@@ -46,10 +47,12 @@ export interface WebHookItem<Trigger = WebHookTrigger> {
     createdOn: string;
 }
 
-export type ResponseWebHook = WebHookItem;
-export type ResponseWebHooks = CRUDItemsResponse<WebHookItem>;
+export type WebHookListItem = WithStoreMerchantName<WebHookItem>;
 
-export class WebHooks extends CRUDResource {
+export type ResponseWebHook<TriggerType> = WebHookItem<TriggerType>;
+export type ResponseWebHooks = CRUDItemsResponse<WebHookListItem>;
+
+export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
     static requiredParams: string[] = ["triggers", "url"];
 
     static routeBase = "(/stores/:storeId)/webhooks";
@@ -63,28 +66,28 @@ export class WebHooks extends CRUDResource {
     }
 
     create(
-        data: SendData<WebHookCreateParams>,
-        callback?: ResponseCallback<ResponseWebHook>,
+        data: SendData<WebHookCreateParams<TriggerType>>,
+        callback?: ResponseCallback<ResponseWebHook<TriggerType>>,
         storeId?: string
-    ): Promise<ResponseWebHook> {
+    ): Promise<ResponseWebHook<TriggerType>> {
         return this._createRoute(WebHooks.requiredParams)(data, callback, ["storeId"], storeId);
     }
 
     get(
         id: string,
         data?: SendData<void>,
-        callback?: ResponseCallback<ResponseWebHook>,
+        callback?: ResponseCallback<ResponseWebHook<TriggerType>>,
         storeId?: string
-    ): Promise<ResponseWebHook> {
+    ): Promise<ResponseWebHook<TriggerType>> {
         return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 
     update(
         id: string,
         data?: SendData<WebHookUpdateParams>,
-        callback?: ResponseCallback<ResponseWebHook>,
+        callback?: ResponseCallback<ResponseWebHook<TriggerType>>,
         storeId?: string
-    ): Promise<ResponseWebHook> {
+    ): Promise<ResponseWebHook<TriggerType>> {
         return this._updateRoute()(data, callback, ["storeId", "id"], storeId, id);
     }
 

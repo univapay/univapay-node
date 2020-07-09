@@ -6,7 +6,7 @@ import { ErrorResponse, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendD
 
 import { ProcessingMode } from "./common/enums";
 import { ignoreDescriptor } from "./common/ignoreDescriptor";
-import { Metadata } from "./common/types";
+import { Metadata, WithStoreMerchantName } from "./common/types";
 import { ChargesListParams, ResponseCharges } from "./Charges";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 import { PaymentType } from "./TransactionTokens";
@@ -67,6 +67,8 @@ export interface ScheduledPaymentItem {
     isLastPayment: boolean;
     createdOn: string;
 }
+
+export type SchedulePaymentListItem = ScheduledPaymentItem;
 
 export type InstallmentPlanItem<InstallmentPlanData extends InstallmentBaseParams> = InstallmentPlanData;
 
@@ -143,6 +145,8 @@ export interface SubscriptionItem {
     onlyDirectCurrency: boolean;
 }
 
+export type SubscriptionListItem = WithStoreMerchantName<SubscriptionItem>;
+
 interface SubscriptionSimulationBaseParams<InstallmentPlanData extends InstallmentBaseParams> {
     installmentPlan?: InstallmentPlanData;
     amount: number;
@@ -186,10 +190,10 @@ export type SubscriptionSimulationItem<InstallmentPlanData extends InstallmentBa
     | SubscriptionSimulationNewItem;
 
 export type ResponseSubscription = SubscriptionItem;
-export type ResponseSubscriptions = CRUDItemsResponse<SubscriptionItem>;
+export type ResponseSubscriptions = CRUDItemsResponse<SubscriptionListItem>;
 
 export type ResponsePayment = ScheduledPaymentItem;
-export type ResponsePayments = CRUDItemsResponse<ScheduledPaymentItem>;
+export type ResponsePayments = CRUDItemsResponse<SchedulePaymentListItem>;
 
 export class ScheduledPayments extends CRUDResource {
     static routeBase = "/stores/:storeId/subscriptions/:subscriptionsId/payments";

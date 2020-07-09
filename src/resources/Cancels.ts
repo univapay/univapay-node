@@ -34,8 +34,10 @@ export interface CancelItem {
     createdOn: string;
 }
 
+export type CancelListItem = CancelItem;
+
 export type ResponseCancel = CancelItem;
-export type ResponseCancels = CRUDItemsResponse<CancelItem>;
+export type ResponseCancels = CRUDItemsResponse<CancelListItem>;
 
 export class Cancels extends CRUDResource {
     static requiredParams: string[] = [];

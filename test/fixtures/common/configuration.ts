@@ -29,6 +29,7 @@ export const generateFixtureCardConfiguration = (): CardConfigurationItem => ({
     cardLimit: {
         amount: 1000,
         currency: "JPY",
+        duration: "P1D",
     },
     onlyDirectCurrency: false,
 });

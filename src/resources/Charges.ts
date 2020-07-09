@@ -6,7 +6,7 @@ import { HTTPMethod, PollParams, ResponseCallback, SendData } from "../api/RestA
 
 import { ProcessingMode } from "./common/enums";
 import { ignoreDescriptor } from "./common/ignoreDescriptor";
-import { Metadata, PaymentError } from "./common/types";
+import { Metadata, PaymentError, WithStoreMerchantName } from "./common/types";
 import { CaptureStatus } from "./Captures";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 import { TransactionTokenType } from "./TransactionTokens";
@@ -62,8 +62,10 @@ export interface ChargeItem {
     onlyDirectCurrency: boolean;
 }
 
+export type ChargeListItem = WithStoreMerchantName<ChargeItem>;
+
 export type ResponseCharge = ChargeItem;
-export type ResponseCharges = CRUDItemsResponse<ChargeItem>;
+export type ResponseCharges = CRUDItemsResponse<ChargeListItem>;
 
 export class Charges extends CRUDResource {
     static requiredParams: string[] = ["transactionTokenId", "amount", "currency"];
