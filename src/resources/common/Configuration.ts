@@ -23,7 +23,7 @@ export interface CardBrandPercentFeesItem {
     visa?: number;
 }
 
-export type CardConfigurationMonthlyLimit = AmountWithCurrency;
+export type CardConfigurationMonthlyLimit = AmountWithCurrency & { duration: string };
 
 export interface CardConfigurationItem extends PaymentTypeConfiguration {
     debitEnabled: boolean;
@@ -124,6 +124,9 @@ export interface ConfigurationParams {
     paidyConfiguration?: Partial<PaidyConfigurationItem>;
     installmentsConfiguration?: Partial<InstallmentsConfigurationItem>;
     recurringTokenConfiguration?: Partial<RecurringTokenConfiguration>;
+    descriptorProvidedConfiguration?: Partial<DescriptorProvidedConfiguration>;
+    subscriptionConfiguration?: Partial<SubscriptionsConfiguration>;
+    securityConfiguration?: Partial<SecurityConfiguration>;
 }
 
 export type ConfigurationCreateParams = ConfigurationParams;
