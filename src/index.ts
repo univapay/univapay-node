@@ -3,6 +3,7 @@
  */
 
 import { RestAPIOptions } from "./api/RestAPI";
+import { WebHookTrigger } from "./resources/WebHooks";
 import {
     BankAccounts,
     Cancels,
@@ -23,7 +24,7 @@ import {
 } from "./resources";
 import PaymentsSDK from "./sdk";
 
-export default class SDK extends PaymentsSDK {
+export default class SDK<WebhookTrigger = WebHookTrigger> extends PaymentsSDK {
     public bankAccounts: BankAccounts;
     public cancels: Cancels;
     public captures: Captures;
@@ -39,7 +40,7 @@ export default class SDK extends PaymentsSDK {
     public transactionTokens: TransactionTokens;
     public transfers: Transfers;
     public verification: Verification;
-    public webHooks: WebHooks;
+    public webHooks: WebHooks<WebhookTrigger>;
 
     constructor(options?: RestAPIOptions) {
         super(options);
