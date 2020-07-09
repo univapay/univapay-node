@@ -47,10 +47,10 @@ export interface WebHookItem<Trigger = WebHookTrigger> {
     createdOn: string;
 }
 
-export type WebHookListItem = WithStoreMerchantName<WebHookItem>;
+export type WebHookListItem<TriggerType> = WithStoreMerchantName<WebHookItem<TriggerType>>;
 
 export type ResponseWebHook<TriggerType> = WebHookItem<TriggerType>;
-export type ResponseWebHooks = CRUDItemsResponse<WebHookListItem>;
+export type ResponseWebHooks<TriggerType> = CRUDItemsResponse<WebHookListItem<TriggerType>>;
 
 export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
     static requiredParams: string[] = ["triggers", "url"];
@@ -59,9 +59,9 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
 
     list(
         data?: SendData<WebHooksListParams>,
-        callback?: ResponseCallback<ResponseWebHooks>,
+        callback?: ResponseCallback<ResponseWebHooks<TriggerType>>,
         storeId?: string
-    ): Promise<ResponseWebHooks> {
+    ): Promise<ResponseWebHooks<TriggerType>> {
         return this._listRoute()(data, callback, ["storeId"], storeId);
     }
 
