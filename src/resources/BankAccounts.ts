@@ -61,8 +61,10 @@ export interface BankAccountItem {
     accountType: BankAccountType;
 }
 
+export type BankAccountListItem = BankAccountItem;
+
 export type ResponseBankAccount = BankAccountItem;
-export type ResponseBankAccounts = CRUDItemsResponse<BankAccountItem>;
+export type ResponseBankAccounts = CRUDItemsResponse<BankAccountListItem>;
 
 export class BankAccounts extends CRUDResource {
     static requiredParams: string[] = ["accountNumber", "country", "currency", "holderName", "bankName"];

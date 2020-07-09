@@ -5,7 +5,7 @@
 import { ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { CardBrand, CardCategory, CardSubBrand, CardType, ProcessingMode, QRBrand, QRGateway } from "./common/enums";
-import { Metadata, PhoneNumber } from "./common/types";
+import { Metadata, PhoneNumber, WithStoreMerchantName } from "./common/types";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 export enum UsageLimit {
@@ -170,8 +170,10 @@ export interface TransactionTokenItem {
     metadata?: Metadata;
 }
 
+export type TransactionTokenListItem = WithStoreMerchantName<TransactionTokenItem>;
+
 export type ResponseTransactionToken = TransactionTokenItem;
-export type ResponseTransactionTokens = CRUDItemsResponse<TransactionTokenItem>;
+export type ResponseTransactionTokens = CRUDItemsResponse<TransactionTokenListItem>;
 
 export class TransactionTokens extends CRUDResource {
     static requiredParams: string[] = ["paymentType", "type", "data"];

@@ -58,8 +58,10 @@ export interface RefundItem {
     createdOn: string;
 }
 
+export type RefundListItem = RefundItem;
+
 export type ResponseRefund = RefundItem;
-export type ResponseRefunds = CRUDItemsResponse<RefundItem>;
+export type ResponseRefunds = CRUDItemsResponse<RefundListItem>;
 
 export class Refunds extends CRUDResource {
     static requiredParams: string[] = ["amount", "currency"];

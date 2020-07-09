@@ -4,7 +4,7 @@
 
 import { HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
-import { Metadata } from "./common/types";
+import { Metadata, WithMerchantName } from "./common/types";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 export enum TransferStatus {
@@ -42,6 +42,8 @@ export interface TransferItem {
     to: string;
 }
 
+export type TransferListItem = WithMerchantName<TransferItem>;
+
 export interface TransferStatusChangeItem {
     id: string;
     merchantId: string;
@@ -53,7 +55,7 @@ export interface TransferStatusChangeItem {
 }
 
 export type ResponseTransfer = TransferItem;
-export type ResponseTransfers = CRUDItemsResponse<TransferItem>;
+export type ResponseTransfers = CRUDItemsResponse<TransferListItem>;
 export type ResponseTransferStatusChanges = CRUDItemsResponse<TransferStatusChangeItem>;
 
 export class Transfers extends CRUDResource {

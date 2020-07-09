@@ -41,7 +41,9 @@ export interface LedgerItem {
     createdOn: string;
 }
 
-export type ResponseLedgers = CRUDItemsResponse<LedgerItem>;
+export type LedgerListItem = LedgerItem;
+
+export type ResponseLedgers = CRUDItemsResponse<LedgerListItem>;
 export type ResponseLedger = LedgerItem;
 
 export class Ledgers extends CRUDResource {

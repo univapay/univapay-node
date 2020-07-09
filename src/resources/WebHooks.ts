@@ -4,6 +4,7 @@
 
 import { ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
 
+import { WithStoreMerchantName } from "./common/types";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
 export enum WebHookTrigger {
@@ -46,8 +47,10 @@ export interface WebHookItem<Trigger = WebHookTrigger> {
     createdOn: string;
 }
 
+export type WebHookListItem = WithStoreMerchantName<WebHookItem>;
+
 export type ResponseWebHook<TriggerType> = WebHookItem<TriggerType>;
-export type ResponseWebHooks = CRUDItemsResponse<WebHookItem>;
+export type ResponseWebHooks = CRUDItemsResponse<WebHookListItem>;
 
 export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
     static requiredParams: string[] = ["triggers", "url"];
