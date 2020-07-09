@@ -36,10 +36,9 @@ export interface BankAccountCreateParams {
     ifscCode?: string;
     routingCode?: string;
     accountType: BankAccountType;
-}
-export type BankAccountUpdateParams = Partial<BankAccountCreateParams> & {
     primary?: boolean;
-};
+}
+export type BankAccountUpdateParams = Partial<BankAccountCreateParams>;
 
 /* Response */
 export interface BankAccountItem {
