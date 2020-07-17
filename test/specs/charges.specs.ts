@@ -150,6 +150,23 @@ describe("Charges", () => {
         });
     });
 
+    context("GET /stores/:storeId/charges/:chargeId/issuerToken", () => {
+        it("should get response", async () => {
+            const pathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/charges/:chargeId/issuerToken`);
+            const recordIssuerToken = {
+                issuerToken: "mytoken",
+                httpMethod: "POST",
+            };
+            fetchMock.getOnce(pathMatcher, {
+                status: 200,
+                body: recordIssuerToken,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            await expect(charges.getIssuerToken(uuid(), uuid())).to.eventually.eql(recordIssuerToken);
+        });
+    });
+
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);

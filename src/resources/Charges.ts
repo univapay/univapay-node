@@ -36,6 +36,8 @@ export interface ChargeCreateParams {
     metadata?: Metadata;
 }
 
+export type ChargeIssuerTokenGetParams = null;
+
 /* Response */
 export interface ChargeItem {
     id: string;
@@ -62,10 +64,19 @@ export interface ChargeItem {
     onlyDirectCurrency: boolean;
 }
 
+export interface IssuerTokenItem {
+    chargeId: string;
+    storeId: string;
+    issuerToken: string;
+    httpMethod: string;
+}
+
 export type ChargeListItem = WithStoreMerchantName<ChargeItem>;
 
 export type ResponseCharge = ChargeItem;
 export type ResponseCharges = CRUDItemsResponse<ChargeListItem>;
+
+export type ResponseIssuerToken = IssuerTokenItem;
 
 export class Charges extends CRUDResource {
     static requiredParams: string[] = ["transactionTokenId", "amount", "currency"];
@@ -98,6 +109,21 @@ export class Charges extends CRUDResource {
         callback?: ResponseCallback<ResponseCharge>
     ): Promise<ResponseCharge> {
         return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
+    }
+
+    getIssuerToken(
+        storeId: string,
+        chargeId: string,
+        data?: SendData<ChargeIssuerTokenGetParams>,
+        callback?: ResponseCallback<ResponseIssuerToken>
+    ): Promise<ResponseCharge> {
+        return this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken")(
+            data,
+            callback,
+            ["storeId", "chargeId"],
+            storeId,
+            chargeId
+        );
     }
 
     poll(
