@@ -36,7 +36,7 @@ export interface ChargeCreateParams {
     metadata?: Metadata;
 }
 
-export type ChargeIssuerTokenGetParams = null;
+export type ChargeIssuerTokenGetParams = void;
 
 /* Response */
 export interface ChargeItem {
