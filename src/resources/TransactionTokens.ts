@@ -22,6 +22,7 @@ export enum PaymentType {
     APPLE_PAY = "apple_pay",
     PAIDY = "paidy",
     QR_MERCHANT = "qr_merchant",
+    ONLINE = "online",
 }
 
 export enum ConvenienceStore {
