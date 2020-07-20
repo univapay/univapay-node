@@ -77,6 +77,10 @@ export interface TransactionTokenConvenienceData {
     phoneNumber: PhoneNumber;
 }
 
+export interface TransactionTokenOnlineData {
+    email?: string;
+}
+
 export interface TransactionTokenPaidyData {
     paidyToken: string;
     phoneNumber: PhoneNumber;
@@ -91,6 +95,7 @@ export interface TransactionTokenCreateParams {
         | TransactionTokenCardData
         | TransactionTokenQRScanData
         | TransactionTokenConvenienceData
+        | TransactionTokenOnlineData
         | TransactionTokenPaidyData;
     metadata?: Metadata;
     useConfirmation?: boolean;
