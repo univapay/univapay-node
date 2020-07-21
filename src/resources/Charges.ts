@@ -116,7 +116,7 @@ export class Charges extends CRUDResource {
         chargeId: string,
         data?: SendData<ChargeIssuerTokenGetParams>,
         callback?: ResponseCallback<ResponseIssuerToken>
-    ): Promise<ResponseCharge> {
+    ): Promise<ResponseIssuerToken> {
         return this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken")(
             data,
             callback,
