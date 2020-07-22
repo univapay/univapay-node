@@ -4,7 +4,16 @@
 
 import { ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
-import { CardBrand, CardCategory, CardSubBrand, CardType, ProcessingMode, QRBrand, QRGateway } from "./common/enums";
+import {
+    CardBrand,
+    CardCategory,
+    CardSubBrand,
+    CardType,
+    OnlineGateway,
+    ProcessingMode,
+    QRBrand,
+    QRGateway,
+} from "./common/enums";
 import { Metadata, PhoneNumber, WithStoreMerchantName } from "./common/types";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
@@ -151,6 +160,10 @@ export interface TransactionTokenQRScanDataItem {
     gateway?: QRGateway;
 }
 
+export interface TransactionTokenOnlineDataItem {
+    gateway: OnlineGateway;
+}
+
 export interface TransactionTokenConvenienceDataItem {
     convenienceStore?: ConvenienceStore;
     customerName?: string;
@@ -172,6 +185,7 @@ export interface TransactionTokenItem {
         | TransactionTokenCardDataItem
         | TransactionTokenQRScanDataItem
         | TransactionTokenConvenienceDataItem
+        | TransactionTokenOnlineDataItem
         | TransactionTokenPaidyData;
     metadata?: Metadata;
 }
