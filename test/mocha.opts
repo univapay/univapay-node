@@ -1,5 +1,0 @@
---ui bdd
---reporter tap
---recursive
---full-trace
-test/specs/*.specs.ts test/specs/**/*.specs.ts
