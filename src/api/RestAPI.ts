@@ -11,6 +11,7 @@ import "isomorphic-form-data";
 import {
     DEFAULT_ENDPOINT,
     ENV_KEY_APP_ID,
+    ENV_KEY_APPLICATION_JWT,
     ENV_KEY_ENDPOINT,
     ENV_KEY_SECRET,
     IDEMPOTENCY_KEY_HEADER,
@@ -178,7 +179,7 @@ export class RestAPI {
     constructor(options: RestAPIOptions = {}) {
         this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
-        this.jwtRaw = options.jwt;
+        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT];
 
         if (options.handleUpdateJWT && typeof options.handleUpdateJWT === "function") {
             this.handleUpdateJWT = options.handleUpdateJWT;
