@@ -6,7 +6,12 @@ import { parseUrl } from "query-string";
 import sinon, { SinonSandbox } from "sinon";
 
 import { HTTPMethod, RestAPI, RestAPIOptions } from "../../src/api/RestAPI";
-import { ENV_KEY_APP_ID, ENV_KEY_SECRET, IDEMPOTENCY_KEY_HEADER } from "../../src/common/constants";
+import {
+    ENV_KEY_APP_ID,
+    ENV_KEY_APPLICATION_JWT,
+    ENV_KEY_SECRET,
+    IDEMPOTENCY_KEY_HEADER,
+} from "../../src/common/constants";
 import { APIError, ResponseErrorCode } from "../../src/errors/APIError";
 import { fromError } from "../../src/errors/parser";
 import { RequestError, ResponseError } from "../../src/errors/RequestResponseError";
@@ -67,6 +72,20 @@ describe("API", function () {
         expect(api.secret).to.equal("envSecret");
 
         delete process.env[ENV_KEY_APP_ID];
+        delete process.env[ENV_KEY_SECRET];
+    });
+
+    it("should take jwt and secret from environment variable", function () {
+        const jwtToken = jwt.sign({ foo: "bar" }, "foo");
+        process.env[ENV_KEY_APPLICATION_JWT] = jwtToken;
+        process.env[ENV_KEY_SECRET] = "envSecret";
+
+        const api: RestAPI = new RestAPI({ endpoint: "/" });
+
+        expect(api.jwt).to.deep.equal(jwt.decode(jwtToken));
+        expect(api.secret).to.equal("envSecret");
+
+        delete process.env[ENV_KEY_APPLICATION_JWT];
         delete process.env[ENV_KEY_SECRET];
     });
 
