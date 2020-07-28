@@ -202,7 +202,6 @@ describe("API", function () {
         await api.send(HTTPMethod.GET, "/ok");
 
         expect(onResponse).to.have.been.calledOnce;
-        console.log(onResponse.firstCall.lastArg);
         expect(onResponse.firstCall.lastArg)
             .to.include({
                 status: 200,
