@@ -65,8 +65,6 @@ export interface ChargeItem {
 }
 
 export interface IssuerTokenItem {
-    chargeId: string;
-    storeId: string;
     issuerToken: string;
     httpMethod: string;
 }
