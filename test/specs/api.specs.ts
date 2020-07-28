@@ -166,6 +166,52 @@ describe("API", function () {
         }
     });
 
+    it("should emit request event", async function () {
+        fetchMock.getOnce(`${testEndpoint}/ok`, {
+            status: 200,
+            body: okResponse,
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const onRequest = sinon.spy();
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+        api.on("request", onRequest);
+        await api.send(HTTPMethod.GET, "/ok");
+
+        expect(onRequest).to.have.been.calledOnce;
+        expect(onRequest.firstCall.lastArg).to.include({
+            path: "/ok",
+            method: "GET",
+            url: "http://mock-api/ok",
+            body: undefined,
+        });
+    });
+
+    it("should emit response event", async function () {
+        fetchMock.getOnce(`${testEndpoint}/ok`, {
+            status: 200,
+            body: okResponse,
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const onResponse = sinon.spy();
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+        api.on("response", onResponse);
+        await api.send(HTTPMethod.GET, "/ok");
+
+        expect(onResponse).to.have.been.calledOnce;
+        console.log(onResponse.firstCall.lastArg);
+        expect(onResponse.firstCall.lastArg)
+            .to.include({
+                status: 200,
+                statusText: "OK",
+            })
+            .and.have.property("body")
+            .eql(Buffer.from(JSON.stringify(okResponse)));
+    });
+
     it("should send request with Origin header", async function () {
         interface Origin {
             origin?: string;
