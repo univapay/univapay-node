@@ -87,7 +87,7 @@ export interface TransactionTokenConvenienceData {
 }
 
 export interface TransactionTokenOnlineData {
-    email?: string;
+    gateway: OnlineGateway;
 }
 
 export interface TransactionTokenPaidyData {
