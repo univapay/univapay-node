@@ -122,7 +122,7 @@ const customSdk = new CustomSDK();
 
 The `PaymentsSDK` and `Resource` based classes such as `Charges` and `Stores` are [EventEmitters](https://nodejs.org/api/events.html). You can subscribe to the following events:
 
-```
+```javascript
 const sdk = new SDK();
 sdk.on('request', (req: Request) => void)
 sdk.on('response', (res: Response) => void)
