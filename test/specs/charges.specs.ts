@@ -82,7 +82,7 @@ describe("Charges", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [charges.list(null, null), charges.list(null, null, uuid())];
+            const asserts = [charges.list(null, null), charges.list(null, undefined, null, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);

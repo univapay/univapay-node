@@ -102,6 +102,35 @@ describe("API", function () {
         expect(response).to.eql(okResponse);
     });
 
+    it("should override jwt and secret from environment variable with auth parameter", async function () {
+        const secret = "myActualSecret";
+        const jwtToken = jwt.sign({ my: "payload" }, "foo");
+        fetchMock.getOnce(
+            `${testEndpoint}/ok`,
+            {
+                status: 200,
+                body: okResponse,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            },
+            {
+                headers: { Authorization: `Bearer ${secret}.${jwtToken}` },
+            }
+        );
+
+        process.env[ENV_KEY_APPLICATION_JWT] = jwt.sign({}, "foo");
+        process.env[ENV_KEY_SECRET] = "envSecret";
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+        const response = await api.send(HTTPMethod.GET, "/ok", null, { jwt: jwtToken, secret });
+
+        delete process.env[ENV_KEY_APPLICATION_JWT];
+        delete process.env[ENV_KEY_SECRET];
+
+        expect(response).to.eql(okResponse);
+    });
+
     it("should return error response", async function () {
         fetchMock.get(`${testEndpoint}/error`, { status: 503 });
 
@@ -113,7 +142,8 @@ describe("API", function () {
             httpCode: 503,
         });
 
-        const resError = await expect(api.send(HTTPMethod.GET, "/error", null, spy)).to.eventually.be.rejected;
+        const resError = await expect(api.send(HTTPMethod.GET, "/error", null, undefined, spy)).to.eventually.be
+            .rejected;
 
         expect(resError).to.be.instanceOf(ResponseError);
         expect(resError.errorResponse).to.eql(error.errorResponse);

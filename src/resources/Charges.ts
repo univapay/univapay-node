@@ -2,7 +2,7 @@
  *  @module Resources/Charges
  */
 
-import { HTTPMethod, PollParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, PollParams, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { ProcessingMode } from "./common/enums";
 import { ignoreDescriptor } from "./common/ignoreDescriptor";
@@ -83,19 +83,21 @@ export class Charges extends CRUDResource {
 
     list(
         data?: SendData<ChargesListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCharges>,
         storeId?: string
     ): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges")(data, callback, ["storeId"], storeId);
+        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges")(data, callback, auth, { storeId });
     }
 
     async create(
         data: SendData<ChargeCreateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCharge>
     ): Promise<ResponseCharge> {
         return ignoreDescriptor(
             (updatedData: ChargeCreateParams) =>
-                this.defineRoute(HTTPMethod.POST, "/charges", Charges.requiredParams)(updatedData, callback),
+                this.defineRoute(HTTPMethod.POST, "/charges", Charges.requiredParams)(updatedData, callback, auth),
             data
         );
     }
@@ -104,23 +106,24 @@ export class Charges extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<PollParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCharge>
     ): Promise<ResponseCharge> {
-        return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._getRoute()(data, callback, auth, { storeId, id });
     }
 
     getIssuerToken(
         storeId: string,
         chargeId: string,
         data?: SendData<ChargeIssuerTokenGetParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseIssuerToken>
     ): Promise<ResponseIssuerToken> {
         return this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken")(
             data,
             callback,
-            ["storeId", "chargeId"],
-            storeId,
-            chargeId
+            auth,
+            { storeId, chargeId }
         );
     }
 
@@ -128,6 +131,7 @@ export class Charges extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<PollParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCharge>,
 
         /**
@@ -137,7 +141,7 @@ export class Charges extends CRUDResource {
         successCondition: ({ status }: ResponseCharge) => boolean = ({ status }) => status !== ChargeStatus.PENDING
     ): Promise<ResponseCharge> {
         const pollingData = { ...data, polling: true };
-        const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollingData);
+        const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollingData, auth);
 
         return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }

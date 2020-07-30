@@ -2,7 +2,7 @@
  *  @module Resources/Stores
  */
 
-import { ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { ConfigurationCreateParams, ConfigurationItem, ConfigurationUpdateParams } from "./common/Configuration";
 import { WithMerchantName } from "./common/types";
@@ -42,27 +42,46 @@ export class Stores extends CRUDResource {
 
     static routeBase = "/stores";
 
-    list(data?: SendData<StoresListParams>, callback?: ResponseCallback<ResponseStores>): Promise<ResponseStores> {
-        return this._listRoute()(data, callback);
+    list(
+        data?: SendData<StoresListParams>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ResponseStores>
+    ): Promise<ResponseStores> {
+        return this._listRoute()(data, callback, auth);
     }
 
-    create(data: SendData<StoreCreateParams>, callback?: ResponseCallback<ResponseStore>): Promise<ResponseStore> {
-        return this._createRoute(Stores.requiredParams)(data, callback);
+    create(
+        data: SendData<StoreCreateParams>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ResponseStore>
+    ): Promise<ResponseStore> {
+        return this._createRoute(Stores.requiredParams)(data, callback, auth);
     }
 
-    get(id: string, data?: SendData<void>, callback?: ResponseCallback<ResponseStore>): Promise<ResponseStore> {
-        return this._getRoute()(data, callback, ["id"], id);
+    get(
+        id: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ResponseStore>
+    ): Promise<ResponseStore> {
+        return this._getRoute()(data, callback, auth, { id });
     }
 
     update(
         id: string,
         data?: SendData<StoreUpdateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseStore>
     ): Promise<ResponseStore> {
-        return this._updateRoute()(data, callback, ["id"], id);
+        return this._updateRoute()(data, callback, auth, { id });
     }
 
-    delete(id: string, data?: SendData<void>, callback?: ResponseCallback<ErrorResponse>): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ["id"], id);
+    delete(
+        id: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ErrorResponse>
+    ): Promise<ErrorResponse> {
+        return this._deleteRoute()(data, callback, auth, { id });
     }
 }

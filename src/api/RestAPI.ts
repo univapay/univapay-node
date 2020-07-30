@@ -209,6 +209,7 @@ export class RestAPI extends EventEmitter {
         method: HTTPMethod,
         uri: string,
         data?: SendData<Data>,
+        auth?: AuthParams,
         callback?: ResponseCallback<A>,
         requireAuth = true,
         acceptType?: string
@@ -226,7 +227,7 @@ export class RestAPI extends EventEmitter {
         const payload: boolean = [HTTPMethod.GET, HTTPMethod.DELETE].indexOf(method) === -1;
 
         const params: RequestInit = {
-            headers: this.getHeaders(data, payload, acceptType),
+            headers: this.getHeaders(data, auth, payload, acceptType),
             method,
         };
 
@@ -243,7 +244,7 @@ export class RestAPI extends EventEmitter {
 
             this.emit("response", response);
 
-            const jwt = await extractJWT(response);
+            const jwt = extractJWT(response);
 
             if (jwt) {
                 this.jwtRaw = jwt;
@@ -274,6 +275,7 @@ export class RestAPI extends EventEmitter {
 
     protected getHeaders<Data extends Record<string, any>>(
         data: SendData<Data>,
+        auth: AuthParams,
         payload: boolean,
         acceptType = "application/json"
     ): Headers {
@@ -298,6 +300,7 @@ export class RestAPI extends EventEmitter {
 
         // Deprecated
         const { authToken = this.authToken, appId = this.appId, secret = this.secret, jwt = this.jwtRaw } = {
+            ...auth,
             ...(!isFormData ? data : {}),
         };
 
@@ -356,6 +359,6 @@ export class RestAPI extends EventEmitter {
     }
 
     async ping(callback?: ResponseCallback<void>): Promise<void> {
-        await this.send(HTTPMethod.GET, "/heartbeat", null, callback, false);
+        await this.send(HTTPMethod.GET, "/heartbeat", null, null, callback, false);
     }
 }

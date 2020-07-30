@@ -4,13 +4,18 @@
  */
 import { EventEmitter } from "events";
 
-import { HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
 import { fromError } from "../errors/parser";
 import { PathParameterError } from "../errors/PathParameterError";
 import { RequestParameterError } from "../errors/RequestParameterError";
 import { missingKeys } from "../utils/object";
 
-export type DefinedRoute = (data?: any, callback?: any, pathParams?: string[], ...params: string[]) => Promise<any>;
+export type DefinedRoute = (
+    data?: any,
+    callback?: any,
+    auth?: AuthParams,
+    pathParams?: Record<string, string>
+) => Promise<any>;
 
 /**
  * Returns a path with pathParams filled into `:paramName`.
@@ -32,7 +37,7 @@ export type DefinedRoute = (data?: any, callback?: any, pathParams?: string[], .
  * @param path The full path to compile, e.g. `(/merchant/:merchantId)/store/:storeId`
  * @param pathParams Object of params to fill into the path, e.g. `{ merchantId: "abc" }`
  */
-function compilePath(path: string, pathParams: Record<string, any>): string {
+function compilePath(path: string, pathParams: Record<string, string>): string {
     return path
         .replace(/\((\w|:|\/)+\)/gi, (o: string) => {
             const part: string = o.replace(/:(\w+)/gi, (s: string, p: string) => {
@@ -66,17 +71,10 @@ export abstract class Resource extends EventEmitter {
         return function route<A, B>(
             data?: SendData<A>,
             callback?: ResponseCallback<B>,
-            pathParams: string[] = [],
-            ...params: string[]
+            auth?: AuthParams,
+            pathParams: Record<string, string> = {}
         ): Promise<B> {
-            const _params: any = params.reduce((p: any, param: string, i: number) => {
-                if (pathParams && pathParams?.[i]) {
-                    p[pathParams[i]] = param;
-                }
-                return p;
-            }, {});
-
-            const url: string = compilePath(path, _params);
+            const url: string = compilePath(path, pathParams);
 
             const missingPathParams: string[] = (url.match(/:([a-z]+)/gi) || []).map((m: string) => m.replace(":", ""));
             const missingParams: string[] = missingKeys(data, required);
@@ -94,7 +92,7 @@ export abstract class Resource extends EventEmitter {
                 return Promise.reject(err);
             }
 
-            return api.send(method, url, data, callback, requireAuth, acceptType);
+            return api.send(method, url, data, auth, callback, requireAuth, acceptType);
         };
     }
 }

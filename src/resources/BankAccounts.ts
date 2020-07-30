@@ -2,7 +2,7 @@
  *  @module Resources/BankAccounts
  */
 
-import { ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
@@ -80,32 +80,44 @@ export class BankAccounts extends CRUDResource {
 
     create(
         data: SendData<BankAccountCreateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseBankAccount>
     ): Promise<ResponseBankAccount> {
-        return this._createRoute(BankAccounts.requiredParams)(data, callback);
+        return this._createRoute(BankAccounts.requiredParams)(data, callback, auth);
     }
 
     get(
         id: string,
         data?: SendData<void>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseBankAccount>
     ): Promise<ResponseBankAccount> {
-        return this._getRoute()(data, callback, ["id"], id);
+        return this._getRoute()(data, callback, auth, { id });
     }
 
     update(
         id: string,
         data?: SendData<BankAccountUpdateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseBankAccount>
     ): Promise<ResponseBankAccount> {
-        return this._updateRoute()(data, callback, ["id"], id);
+        return this._updateRoute()(data, callback, auth, { id });
     }
 
-    delete(id: string, data?: SendData<void>, callback?: ResponseCallback<ErrorResponse>): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ["id"], id);
+    delete(
+        id: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ErrorResponse>
+    ): Promise<ErrorResponse> {
+        return this._deleteRoute()(data, callback, auth, { id });
     }
 
-    getPrimary(data?: SendData<void>, callback?: ResponseCallback<ResponseBankAccount>): Promise<ResponseBankAccount> {
-        return this.defineRoute(HTTPMethod.GET, `${this._routeBase}/primary`)(data, callback);
+    getPrimary(
+        data?: SendData<void>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ResponseBankAccount>
+    ): Promise<ResponseBankAccount> {
+        return this.defineRoute(HTTPMethod.GET, `${this._routeBase}/primary`)(data, callback, auth);
     }
 }

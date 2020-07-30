@@ -2,7 +2,7 @@
  *  @module Resources/Cancels
  */
 
-import { PollParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, PollParams, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { ProcessingMode } from "./common/enums";
 import { Metadata, PaymentError } from "./common/types";
@@ -48,18 +48,20 @@ export class Cancels extends CRUDResource {
         storeId: string,
         chargeId: string,
         data?: SendData<CancelsListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCancels>
     ): Promise<ResponseCancels> {
-        return this._listRoute()(data, callback, ["storeId", "chargeId"], storeId, chargeId);
+        return this._listRoute()(data, callback, auth, { storeId, chargeId });
     }
 
     create(
         storeId: string,
         chargeId: string,
         data: SendData<CancelCreateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCancel>
     ): Promise<ResponseCancel> {
-        return this._createRoute(Cancels.requiredParams)(data, callback, ["storeId", "chargeId"], storeId, chargeId);
+        return this._createRoute(Cancels.requiredParams)(data, callback, auth, { storeId, chargeId });
     }
 
     get(
@@ -67,9 +69,10 @@ export class Cancels extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<PollParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCancel>
     ): Promise<ResponseCancel> {
-        return this._getRoute()(data, callback, ["storeId", "chargeId", "id"], storeId, chargeId, id);
+        return this._getRoute()(data, callback, auth, { storeId, chargeId, id });
     }
 
     poll(
@@ -77,6 +80,7 @@ export class Cancels extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<PollParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCancel>,
 
         /**
@@ -86,7 +90,7 @@ export class Cancels extends CRUDResource {
         successCondition: ({ status }: ResponseCancel) => boolean = ({ status }) => status !== CancelStatus.PENDING
     ): Promise<ResponseCancel> {
         const pollingData = { ...data, polling: true };
-        const promise: () => Promise<ResponseCancel> = () => this.get(storeId, chargeId, id, pollingData);
+        const promise: () => Promise<ResponseCancel> = () => this.get(storeId, chargeId, id, pollingData, auth);
 
         return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }

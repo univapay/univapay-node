@@ -2,7 +2,7 @@
  *  @module Resources/TransactionTokens
  */
 
-import { ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import {
     CardBrand,
@@ -202,58 +202,61 @@ export class TransactionTokens extends CRUDResource {
 
     create(
         data: SendData<TransactionTokenCreateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseTransactionToken>
     ): Promise<ResponseTransactionToken> {
-        return this.defineRoute(HTTPMethod.POST, "/tokens", TransactionTokens.requiredParams)(data, callback);
+        return this.defineRoute(HTTPMethod.POST, "/tokens", TransactionTokens.requiredParams)(data, callback, auth);
     }
 
     get(
         storeId: string,
         id: string,
         data?: SendData<void>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseTransactionToken>
     ): Promise<ResponseTransactionToken> {
-        return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._getRoute()(data, callback, auth, { storeId, id });
     }
 
     list(
         data?: SendData<TransactionTokenListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseTransactionTokens>,
         storeId?: string
     ): Promise<ResponseTransactionTokens> {
-        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens")(data, callback, ["storeId"], storeId);
+        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens")(data, callback, auth, { storeId });
     }
 
     update(
         storeId: string,
         id: string,
         data?: SendData<TransactionTokenUpdateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseTransactionToken>
     ): Promise<ResponseTransactionToken> {
-        return this._updateRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._updateRoute()(data, callback, auth, { storeId, id });
     }
 
     delete(
         storeId: string,
         id: string,
         data?: SendData<void>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ErrorResponse>
     ): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._deleteRoute()(data, callback, auth, { storeId, id });
     }
 
     confirm(
         storeId: string,
         id: string,
         data: SendData<TransactionTokenConfirmParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ErrorResponse>
     ): Promise<ErrorResponse> {
-        return this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:id/confirm")(
-            data,
-            callback,
-            ["storeId", "id"],
+        return this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:id/confirm")(data, callback, auth, {
             storeId,
-            id
-        );
+            id,
+        });
     }
 }
