@@ -2,6 +2,8 @@
  *  @internal
  *  @module Resources
  */
+import { EventEmitter } from "events";
+
 import { HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
 import { fromError } from "../errors/parser";
 import { PathParameterError } from "../errors/PathParameterError";
@@ -41,11 +43,15 @@ function compilePath(path: string, pathParams: Record<string, any>): string {
         .replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);
 }
 
-export abstract class Resource {
+export abstract class Resource extends EventEmitter {
     protected api: RestAPI;
 
     constructor(api: RestAPI) {
+        super();
+
         this.api = api;
+        this.on("newListener", (event, listener) => api.on(event, listener));
+        this.on("removeListener", (event, listener) => api.removeListener(event, listener));
     }
 
     protected defineRoute(

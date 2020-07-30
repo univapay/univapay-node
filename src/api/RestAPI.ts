@@ -3,7 +3,7 @@
  */
 
 import decamelize from "decamelize";
-import EventEmitter from "eventemitter3";
+import { EventEmitter } from "events";
 import { stringify as stringifyQuery } from "query-string";
 
 import "isomorphic-fetch";
@@ -115,11 +115,6 @@ export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data & AuthParams & IdempotentParams & OriginParams;
 
-export type APIEvents = {
-    request: (req: Request) => void;
-    response: (res: Response) => void;
-};
-
 function getData<Data extends Record<string, any>>(
     data: SendData<Data>
 ): Omit<Data, keyof AuthParams | keyof IdempotentParams | keyof OriginParams> {
@@ -162,7 +157,7 @@ async function execRequest<A>(executor: () => Promise<A>, callback?: ResponseCal
     }
 }
 
-export class RestAPI extends EventEmitter<APIEvents> {
+export class RestAPI extends EventEmitter {
     endpoint: string;
     jwt: JWTPayload<any>;
     origin: string;
