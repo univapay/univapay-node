@@ -2,7 +2,7 @@
  *  @module Resources/Refunds
  */
 
-import { PollParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, PollParams, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { ProcessingMode } from "./common/enums";
 import { Metadata, PaymentError } from "./common/types";
@@ -72,18 +72,20 @@ export class Refunds extends CRUDResource {
         storeId: string,
         chargeId: string,
         data?: SendData<RefundsListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseRefunds>
     ): Promise<ResponseRefunds> {
-        return this._listRoute()(data, callback, ["storeId", "chargeId"], storeId, chargeId);
+        return this._listRoute()(data, callback, auth, { storeId, chargeId });
     }
 
     create(
         storeId: string,
         chargeId: string,
         data: SendData<RefundCreateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseRefund>
     ): Promise<ResponseRefund> {
-        return this._createRoute(Refunds.requiredParams)(data, callback, ["storeId", "chargeId"], storeId, chargeId);
+        return this._createRoute(Refunds.requiredParams)(data, callback, auth, { storeId, chargeId });
     }
 
     get(
@@ -91,9 +93,10 @@ export class Refunds extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<PollParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseRefund>
     ): Promise<ResponseRefund> {
-        return this._getRoute()(data, callback, ["storeId", "chargeId", "id"], storeId, chargeId, id);
+        return this._getRoute()(data, callback, auth, { storeId, chargeId, id });
     }
 
     update(
@@ -101,9 +104,10 @@ export class Refunds extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<RefundUpdateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseRefund>
     ): Promise<ResponseRefund> {
-        return this._updateRoute()(data, callback, ["storeId", "chargeId", "id"], storeId, chargeId, id);
+        return this._updateRoute()(data, callback, auth, { storeId, chargeId, id });
     }
 
     poll(
@@ -111,6 +115,7 @@ export class Refunds extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<PollParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseRefund>,
 
         /**
@@ -120,7 +125,7 @@ export class Refunds extends CRUDResource {
         successCondition: ({ status }: ResponseRefund) => boolean = ({ status }) => status !== RefundStatus.PENDING
     ): Promise<ResponseRefund> {
         const pollData = { ...data, polling: true };
-        const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData);
+        const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData, auth);
 
         return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }

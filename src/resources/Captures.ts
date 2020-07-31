@@ -2,7 +2,7 @@
  *  @module Resources/Captures
  */
 
-import { ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { CRUDResource } from "./CRUDResource";
 
@@ -29,8 +29,9 @@ export class Captures extends CRUDResource {
         storeId: string,
         chargeId: string,
         data: SendData<CaptureCreateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<any>
     ): Promise<any> {
-        return this._createRoute(Captures.requiredParams)(data, callback, ["storeId", "chargeId"], storeId, chargeId);
+        return this._createRoute(Captures.requiredParams)(data, callback, auth, { storeId, chargeId });
     }
 }

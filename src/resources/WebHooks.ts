@@ -2,7 +2,7 @@
  *  @module Resources/WebHooks
  */
 
-import { ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { WithStoreMerchantName } from "./common/types";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
@@ -59,44 +59,49 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
 
     list(
         data?: SendData<WebHooksListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseWebHooks<TriggerType>>,
         storeId?: string
     ): Promise<ResponseWebHooks<TriggerType>> {
-        return this._listRoute()(data, callback, ["storeId"], storeId);
+        return this._listRoute()(data, callback, auth, { storeId });
     }
 
     create(
         data: SendData<WebHookCreateParams<TriggerType>>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseWebHook<TriggerType>>,
         storeId?: string
     ): Promise<ResponseWebHook<TriggerType>> {
-        return this._createRoute(WebHooks.requiredParams)(data, callback, ["storeId"], storeId);
+        return this._createRoute(WebHooks.requiredParams)(data, callback, auth, { storeId });
     }
 
     get(
         id: string,
         data?: SendData<void>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseWebHook<TriggerType>>,
         storeId?: string
     ): Promise<ResponseWebHook<TriggerType>> {
-        return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._getRoute()(data, callback, auth, { storeId, id });
     }
 
     update(
         id: string,
         data?: SendData<WebHookUpdateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseWebHook<TriggerType>>,
         storeId?: string
     ): Promise<ResponseWebHook<TriggerType>> {
-        return this._updateRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._updateRoute()(data, callback, auth, { storeId, id });
     }
 
     delete(
         id: string,
         data?: SendData<void>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ErrorResponse>,
         storeId?: string
     ): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._deleteRoute()(data, callback, auth, { storeId, id });
     }
 }

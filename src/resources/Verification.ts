@@ -2,7 +2,7 @@
  *  @module Resources/Verification
  */
 
-import { HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { ContactInfo, ContactInfoPartial } from "./common/ContactInfo";
 import { PhoneNumber } from "./common/types";
@@ -47,19 +47,25 @@ export class Verification extends CRUDResource {
 
     create(
         data: SendData<VerificationCreateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseVerification>
     ): Promise<ResponseVerification> {
-        return this._createRoute(Verification.requiredParams)(data, callback);
+        return this._createRoute(Verification.requiredParams)(data, callback, auth);
     }
 
-    get(data?: SendData<void>, callback?: ResponseCallback<ResponseVerification>): Promise<ResponseVerification> {
-        return this.defineRoute(HTTPMethod.GET, this._routeBase)(data, callback);
+    get(
+        data?: SendData<void>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ResponseVerification>
+    ): Promise<ResponseVerification> {
+        return this.defineRoute(HTTPMethod.GET, this._routeBase)(data, callback, auth);
     }
 
     update(
         data?: SendData<VerificationUpdateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseVerification>
     ): Promise<ResponseVerification> {
-        return this.defineRoute(HTTPMethod.PATCH, this._routeBase)(data, callback);
+        return this.defineRoute(HTTPMethod.PATCH, this._routeBase)(data, callback, auth);
     }
 }

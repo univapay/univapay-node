@@ -2,7 +2,7 @@
  *  @module Resources/Subscriptions
  */
 
-import { ErrorResponse, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
+import { AuthParams, ErrorResponse, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
 
 import { ProcessingMode } from "./common/enums";
 import { ignoreDescriptor } from "./common/ignoreDescriptor";
@@ -202,15 +202,13 @@ export class ScheduledPayments extends CRUDResource {
         storeId: string,
         subscriptionsId: string,
         data?: SendData<ScheduledPaymentsListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponsePayments>
     ): Promise<ResponsePayments> {
-        return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}`)(
-            data,
-            callback,
-            ["storeId", "subscriptionsId"],
+        return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}`)(data, callback, auth, {
             storeId,
-            subscriptionsId
-        );
+            subscriptionsId,
+        });
     }
 
     get(
@@ -218,9 +216,10 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         id: string,
         data?: SendData<void>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponsePayment>
     ): Promise<ResponsePayment> {
-        return this._getRoute()(data, callback, ["storeId", "subscriptionsId", "id"], storeId, subscriptionsId, id);
+        return this._getRoute()(data, callback, auth, { storeId, subscriptionsId, id });
     }
 
     update(
@@ -228,9 +227,10 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         id: string,
         data?: SendData<PaymentUpdateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponsePayment>
     ): Promise<ResponsePayment> {
-        return this._updateRoute()(data, callback, ["storeId", "subscriptionsId", "id"], storeId, subscriptionsId, id);
+        return this._updateRoute()(data, callback, auth, { storeId, subscriptionsId, id });
     }
 
     listCharges(
@@ -238,15 +238,18 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         paymentId: string,
         data?: SendData<ChargesListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCharges>
     ): Promise<ResponseCharges> {
         return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}/:paymentId/charges`)(
             data,
             callback,
-            ["storeId", "subscriptionsId", "paymentId"],
-            storeId,
-            subscriptionsId,
-            paymentId
+            auth,
+            {
+                storeId,
+                subscriptionsId,
+                paymentId,
+            }
         );
     }
 }
@@ -267,28 +270,25 @@ export class Subscriptions extends CRUDResource {
 
     list(
         data?: SendData<SubscriptionsListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseSubscriptions>,
         storeId?: string
     ): Promise<ResponseSubscriptions> {
-        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions")(
-            data,
-            callback,
-            ["storeId"],
-            storeId
-        );
+        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions")(data, callback, auth, { storeId });
     }
 
     create(
         data: SubscriptionCreateParams,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseSubscription>
     ): Promise<ResponseSubscription> {
         return ignoreDescriptor(
             (updatedData: SubscriptionCreateParams) =>
-                this.defineRoute(
-                    HTTPMethod.POST,
-                    "/subscriptions",
-                    Subscriptions.requiredParams
-                )(updatedData, callback),
+                this.defineRoute(HTTPMethod.POST, "/subscriptions", Subscriptions.requiredParams)(
+                    updatedData,
+                    callback,
+                    auth
+                ),
             data
         );
     }
@@ -297,48 +297,50 @@ export class Subscriptions extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<PollParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseSubscription>
     ): Promise<ResponseSubscription> {
-        return this._getRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._getRoute()(data, callback, auth, { storeId, id });
     }
 
     update(
         storeId: string,
         id: string,
         data?: SendData<SubscriptionUpdateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseSubscription>
     ): Promise<ResponseSubscription> {
-        return this._updateRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._updateRoute()(data, callback, auth, { storeId, id });
     }
 
     delete(
         storeId: string,
         id: string,
         data?: SendData<void>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ErrorResponse>
     ): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._deleteRoute()(data, callback, auth, { storeId, id });
     }
 
     charges(
         storeId: string,
         id: string,
         data?: SendData<ChargesListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCharges>
     ): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`)(
-            data,
-            callback,
-            ["storeId", "id"],
+        return this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`)(data, callback, auth, {
             storeId,
-            id
-        );
+            id,
+        });
     }
 
     poll(
         storeId: string,
         id: string,
         data?: SendData<PollParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseSubscription>,
 
         /**
@@ -349,13 +351,14 @@ export class Subscriptions extends CRUDResource {
             status !== SubscriptionStatus.UNVERIFIED
     ): Promise<ResponseSubscription> {
         const pollData = { ...data, polling: true };
-        const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData);
+        const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
 
         return this.api.longPolling(promise, successCondition, cancelCondition, callback);
     }
 
     simulation<InstallmentPlanData extends InstallmentBaseParams>(
         data: SendData<SubscriptionSimulationParams<InstallmentPlanData>>,
+        auth?: AuthParams,
         callback?: ResponseCallback<SubscriptionSimulationItem<InstallmentPlanData>>,
         storeId?: string
     ): Promise<SubscriptionSimulationItem<InstallmentPlanData>> {
@@ -363,6 +366,6 @@ export class Subscriptions extends CRUDResource {
             HTTPMethod.POST,
             "(/stores/:storeId)/subscriptions/simulate_plan",
             Subscriptions.requiredSimulationParams
-        )(data, callback, ["storeId"], storeId);
+        )(data, callback, auth, { storeId });
     }
 }

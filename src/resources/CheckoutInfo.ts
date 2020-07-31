@@ -2,7 +2,7 @@
  *  @module Resources/CheckoutInfo
  */
 
-import { HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import {
     CardConfigurationItem,
@@ -67,8 +67,9 @@ export type ResponseCheckoutInfo = CheckoutInfoItem;
 export class CheckoutInfo extends Resource {
     get(
         data?: SendData<CheckoutInfoParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseCheckoutInfo>
     ): Promise<ResponseCheckoutInfo> {
-        return this.defineRoute(HTTPMethod.GET, "/checkout_info")(data, callback);
+        return this.defineRoute(HTTPMethod.GET, "/checkout_info")(data, callback, auth);
     }
 }

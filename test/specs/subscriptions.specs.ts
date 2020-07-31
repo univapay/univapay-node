@@ -96,7 +96,7 @@ describe("Subscriptions", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [subscriptions.list(null, null), subscriptions.list(null, null, uuid())];
+            const asserts = [subscriptions.list(null, null, null), subscriptions.list(null, null, null, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -241,7 +241,7 @@ describe("Subscriptions", () => {
                 period: SubscriptionPeriod.MONTHLY,
             };
 
-            const asserts = [subscriptions.simulation(data), subscriptions.simulation(data, null, uuid())];
+            const asserts = [subscriptions.simulation(data), subscriptions.simulation(data, null, null, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(simulationData);

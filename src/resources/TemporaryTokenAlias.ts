@@ -2,7 +2,7 @@
  *  @module Resources/TemporaryTokenAlias
  */
 
-import { ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { ProcessingMode } from "./common/enums";
 import { Metadata } from "./common/types";
@@ -77,21 +77,28 @@ export class TemporaryTokenAlias extends CRUDResource {
 
     create(
         data: SendData<TemporaryTokenAliasCreateParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseTemporaryTokenAlias>
     ): Promise<ResponseTemporaryTokenAlias> {
-        return this.defineRoute(HTTPMethod.POST, "/tokens/alias", TemporaryTokenAlias.requiredParams)(data, callback);
+        return this.defineRoute(HTTPMethod.POST, "/tokens/alias", TemporaryTokenAlias.requiredParams)(
+            data,
+            callback,
+            auth
+        );
     }
 
     get(
         storeId: string,
         id: string,
         data?: SendData<TemporaryTokenAliasQrOptions>,
+        auth?: AuthParams,
         callback?: ResponseCallback<Blob>
     ): Promise<Blob>;
     get(
         storeId: string,
         id: string,
         data?: SendData<TemporaryTokenAliasParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseTemporaryTokenAlias>
     ): Promise<ResponseTemporaryTokenAlias>;
 
@@ -99,6 +106,7 @@ export class TemporaryTokenAlias extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<TemporaryTokenAliasParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<any>
     ): Promise<any> {
         return this.defineRoute(
@@ -107,15 +115,16 @@ export class TemporaryTokenAlias extends CRUDResource {
             undefined,
             undefined,
             data && data.media === TemporaryTokenAliasMedia.QR ? "image/png" : undefined
-        )(data, callback, ["storeId", "id"], storeId, id);
+        )(data, callback, auth, { storeId, id });
     }
 
     delete(
         storeId: string,
         id: string,
         data?: SendData<void>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ErrorResponse>
     ): Promise<ErrorResponse> {
-        return this._deleteRoute()(data, callback, ["storeId", "id"], storeId, id);
+        return this._deleteRoute()(data, callback, auth, { storeId, id });
     }
 }
