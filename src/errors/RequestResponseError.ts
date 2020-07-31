@@ -4,15 +4,17 @@
 
 import { ErrorResponse } from "../api/RestAPI";
 
-const serializeErrorResponse = ({ code, httpCode, errors }: Omit<ErrorResponse, "status">): string =>
-    `Code: ${code}, HttpCode: ${httpCode}, Errors: ${errors
+type ErrorRequest = Omit<ErrorResponse, "status">;
+
+const serializeErrorResponse = ({ code, httpCode, errors }: ErrorRequest): string =>
+    `Code: ${code}, HttpCode: ${httpCode}, Errors: ${(errors || [])
         .map((error) => ("field" in error ? `${error.reason} (${error.field})` : error.reason))
         .join(", ")}`;
 
 export class RequestResponseBaseError extends Error {
     errorResponse: ErrorResponse;
 
-    constructor(errorResponse: Omit<ErrorResponse, "status">) {
+    constructor(errorResponse: ErrorRequest) {
         super(serializeErrorResponse(errorResponse));
         Object.setPrototypeOf(this, RequestResponseBaseError.prototype);
         this.errorResponse = { status: "error", ...errorResponse };
@@ -20,14 +22,14 @@ export class RequestResponseBaseError extends Error {
 }
 
 export class RequestError extends RequestResponseBaseError {
-    constructor(errorResponse: Omit<ErrorResponse, "status">) {
+    constructor(errorResponse: ErrorRequest) {
         super(errorResponse);
         Object.setPrototypeOf(this, RequestError.prototype);
     }
 }
 
 export class ResponseError extends RequestResponseBaseError {
-    constructor(errorResponse: Omit<ErrorResponse, "status">) {
+    constructor(errorResponse: ErrorRequest) {
         super(errorResponse);
         Object.setPrototypeOf(this, ResponseError.prototype);
     }
