@@ -104,8 +104,8 @@ export interface TransactionTokenCreateParams {
         | TransactionTokenCardData
         | TransactionTokenQRScanData
         | TransactionTokenConvenienceData
-        | TransactionTokenOnlineData
-        | TransactionTokenPaidyData;
+        | TransactionTokenPaidyData
+        | TransactionTokenOnlineData;
     metadata?: Metadata;
     useConfirmation?: boolean;
 }
