@@ -298,10 +298,9 @@ export class RestAPI extends EventEmitter {
             headers.append(IDEMPOTENCY_KEY_HEADER, idempotentKey);
         }
 
-        // Deprecated
         const { authToken = this.authToken, appId = this.appId, secret = this.secret, jwt = this.jwtRaw } = {
-            ...auth,
             ...(!isFormData ? data : {}),
+            ...auth,
         };
 
         if (authToken) {
