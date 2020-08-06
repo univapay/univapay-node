@@ -13,7 +13,13 @@ export abstract class PaymentsSDK extends EventEmitter {
         super();
 
         this.api = new RestAPI(options);
-        this.on("newListener", (event, listener) => this.api.on(event, listener));
+        this.on("newListener", (event, listener) => {
+            if (event === "newListener" || event === "removeListener") {
+                return;
+            }
+
+            this.api.on(event, listener);
+        });
         this.on("removeListener", (event, listener) => this.api.removeListener(event, listener));
     }
 }

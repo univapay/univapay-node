@@ -55,7 +55,13 @@ export abstract class Resource extends EventEmitter {
         super();
 
         this.api = api;
-        this.on("newListener", (event, listener) => api.on(event, listener));
+        this.on("newListener", (event, listener) => {
+            if (event === "newListener" || event === "removeListener") {
+                return;
+            }
+
+            api.on(event, listener);
+        });
         this.on("removeListener", (event, listener) => api.removeListener(event, listener));
     }
 
