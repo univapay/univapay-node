@@ -73,9 +73,10 @@ export class BankAccounts extends CRUDResource {
 
     list(
         data?: SendData<BankAccountsListParams>,
+        auth?: AuthParams,
         callback?: ResponseCallback<ResponseBankAccounts>
     ): Promise<ResponseBankAccounts> {
-        return this._listRoute()(data, callback);
+        return this._listRoute()(data, callback, auth);
     }
 
     create(
