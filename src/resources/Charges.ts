@@ -66,7 +66,7 @@ export interface ChargeItem {
 
 export interface IssuerTokenItem {
     issuerToken: string;
-    httpMethod: string;
+    callMethod: string;
 }
 
 export type ChargeListItem = WithStoreMerchantName<ChargeItem>;
