@@ -155,7 +155,7 @@ describe("Charges", () => {
             const pathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/charges/:chargeId/issuerToken`);
             const recordIssuerToken = {
                 issuerToken: "mytoken",
-                httpMethod: "POST",
+                callMethod: "http_get",
             };
             fetchMock.getOnce(pathMatcher, {
                 status: 200,
