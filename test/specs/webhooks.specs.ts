@@ -48,6 +48,26 @@ describe("Web Hooks", () => {
             }
         });
 
+        it("should get response with auth token", async () => {
+            fetchMock.post(recordBasePathMatcher, {
+                status: 201,
+                body: recordData,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            const data: WebHookCreateParams = {
+                triggers: [WebHookTrigger.CHARGE_FINISHED],
+                url: "http://fake.com",
+                authToken: "Bearer mytoken",
+            };
+
+            const asserts = [webHooks.create(data), webHooks.create(data, null, null, uuid())];
+
+            for (const assert of asserts) {
+                await expect(assert).to.eventually.eql(recordData);
+            }
+        });
+
         it("should return validation error if data is invalid", async () => {
             const asserts: [Partial<WebHookCreateParams>, RequestError][] = [
                 [{}, createRequestError(["triggers"])],
