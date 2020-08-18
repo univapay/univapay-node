@@ -87,4 +87,5 @@ export enum QRGateway {
 
 export enum OnlineGateway {
     ALIPAY_ONLINE = "alipay_online",
+    PAY_PAY_ONLINE = "pay_pay_online",
 }
