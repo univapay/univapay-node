@@ -45,6 +45,8 @@ export type QRMerchantConfigurationItem = PaymentTypeConfiguration;
 
 export type ConvenienceConfigurationItem = PaymentTypeConfiguration;
 
+export type OnlineConfigurationItem = PaymentTypeConfiguration;
+
 export type PaidyConfigurationItem = PaymentTypeConfiguration;
 
 export type OnlineConfigurationItem = PaymentTypeConfiguration;
@@ -97,6 +99,7 @@ export interface ConfigurationItem {
     cardBrandPercentFees: CardBrandPercentFeesItem;
     cardConfiguration: CardConfigurationItem;
     convenienceConfiguration: ConvenienceConfigurationItem;
+    onlineConfiguration: OnlineConfigurationItem;
     paidyConfiguration: PaidyConfigurationItem;
     onlineConfiguration: OnlineConfigurationItem;
     country: string;
@@ -124,6 +127,7 @@ export interface ConfigurationParams {
     qrScanConfiguration?: Partial<QRScanConfigurationItem>;
     qrMerchantConfiguration?: Partial<QRMerchantConfigurationItem>;
     convenienceConfiguration?: Partial<ConvenienceConfigurationItem>;
+    onlineConfiguration?: Partial<OnlineConfigurationItem>;
     paidyConfiguration?: Partial<PaidyConfigurationItem>;
     onlineConfiguration?: Partial<PaidyConfigurationItem>;
     installmentsConfiguration?: Partial<InstallmentsConfigurationItem>;
