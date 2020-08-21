@@ -47,6 +47,8 @@ export type ConvenienceConfigurationItem = PaymentTypeConfiguration;
 
 export type PaidyConfigurationItem = PaymentTypeConfiguration;
 
+export type OnlineConfigurationItem = PaymentTypeConfiguration;
+
 export interface InstallmentsConfiguration {
     enabled?: boolean;
     minChargeAmount?: AmountWithCurrency;
@@ -96,6 +98,7 @@ export interface ConfigurationItem {
     cardConfiguration: CardConfigurationItem;
     convenienceConfiguration: ConvenienceConfigurationItem;
     paidyConfiguration: PaidyConfigurationItem;
+    onlineConfiguration: OnlineConfigurationItem;
     country: string;
     displayTimeZone: string;
     flatFees: AmountWithCurrency[];

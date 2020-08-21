@@ -18,6 +18,7 @@ export const generateFixture = (): CheckoutInfoItem => ({
     qrScanConfiguration: generateFixtureQRScanConfiguration(),
     convenienceConfiguration: generateFixturePaymentType(),
     paidyConfiguration: generateFixturePaymentType(),
+    onlineConfiguration: generateFixturePaymentType(),
     paidyPublicKey: uuid(),
     recurringCardChargeCvvConfirmation: {
         enabled: false,

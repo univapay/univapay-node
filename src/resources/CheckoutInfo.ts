@@ -7,6 +7,7 @@ import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestA
 import {
     CardConfigurationItem,
     ConvenienceConfigurationItem,
+    OnlineConfigurationItem,
     PaidyConfigurationItem,
     QRScanConfigurationItem,
 } from "./common/Configuration";
@@ -50,6 +51,7 @@ export interface CheckoutInfoItem {
     qrScanConfiguration: QRScanConfigurationItem;
     convenienceConfiguration: ConvenienceConfigurationItem;
     paidyConfiguration: PaidyConfigurationItem;
+    onlineConfiguration: OnlineConfigurationItem;
     paidyPublicKey: string;
     recurringCardChargeCvvConfirmation: {
         enabled?: boolean;
