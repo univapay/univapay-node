@@ -125,6 +125,7 @@ export interface ConfigurationParams {
     qrMerchantConfiguration?: Partial<QRMerchantConfigurationItem>;
     convenienceConfiguration?: Partial<ConvenienceConfigurationItem>;
     paidyConfiguration?: Partial<PaidyConfigurationItem>;
+    onlineConfiguration?: Partial<PaidyConfigurationItem>;
     installmentsConfiguration?: Partial<InstallmentsConfigurationItem>;
     recurringTokenConfiguration?: Partial<RecurringTokenConfiguration>;
     descriptorProvidedConfiguration?: Partial<DescriptorProvidedConfiguration>;
