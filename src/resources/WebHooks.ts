@@ -31,10 +31,12 @@ export type WebHooksListParams = CRUDPaginationParams;
 export interface WebHookCreateParams<Trigger = WebHookTrigger> {
     triggers: Trigger[];
     url: string;
+    authToken?: string;
 }
 export interface WebHookUpdateParams<Trigger = WebHookTrigger> {
     triggers?: Trigger[];
     url?: string;
+    authToken?: string;
 }
 
 /* Response */
@@ -44,6 +46,7 @@ export interface WebHookItem<Trigger = WebHookTrigger> {
     storeId: string;
     triggers: Trigger[];
     url: string;
+    authToken?: string;
     createdOn: string;
 }
 
