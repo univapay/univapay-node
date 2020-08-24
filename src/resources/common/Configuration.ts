@@ -49,8 +49,6 @@ export type OnlineConfigurationItem = PaymentTypeConfiguration;
 
 export type PaidyConfigurationItem = PaymentTypeConfiguration;
 
-export type OnlineConfigurationItem = PaymentTypeConfiguration;
-
 export interface InstallmentsConfiguration {
     enabled?: boolean;
     minChargeAmount?: AmountWithCurrency;
@@ -101,7 +99,6 @@ export interface ConfigurationItem {
     convenienceConfiguration: ConvenienceConfigurationItem;
     onlineConfiguration: OnlineConfigurationItem;
     paidyConfiguration: PaidyConfigurationItem;
-    onlineConfiguration: OnlineConfigurationItem;
     country: string;
     displayTimeZone: string;
     flatFees: AmountWithCurrency[];
@@ -129,7 +126,6 @@ export interface ConfigurationParams {
     convenienceConfiguration?: Partial<ConvenienceConfigurationItem>;
     onlineConfiguration?: Partial<OnlineConfigurationItem>;
     paidyConfiguration?: Partial<PaidyConfigurationItem>;
-    onlineConfiguration?: Partial<PaidyConfigurationItem>;
     installmentsConfiguration?: Partial<InstallmentsConfigurationItem>;
     recurringTokenConfiguration?: Partial<RecurringTokenConfiguration>;
     descriptorProvidedConfiguration?: Partial<DescriptorProvidedConfiguration>;
