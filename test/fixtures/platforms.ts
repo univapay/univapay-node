@@ -48,6 +48,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             debitEnabled: true,
             convenienceEnabled: true,
             paidyEnabled: true,
+            onlineEnabled: true,
         },
         maximumChargeAmounts: [],
         minimumChargeAmounts: [],

@@ -55,6 +55,7 @@ export const generateFixture = (): ConfigurationItem => ({
     qrMerchantConfiguration: generateFixturePaymentType(),
     convenienceConfiguration: generateFixturePaymentType(),
     paidyConfiguration: generateFixturePaymentType(),
+    onlineConfiguration: generateFixturePaymentType(),
     flatFees: [{ amount: 30, currency: "JPY" }],
     percentFee: 3.5,
     logoUrl: "http://fake.com/logo.jpg",
