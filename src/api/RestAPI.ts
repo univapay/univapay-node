@@ -260,7 +260,7 @@ export class RestAPI extends EventEmitter {
 
         const {
             origin = this.origin,
-            idempotentKey,
+            idempotentKey = null,
             authToken = this.authToken,
             appId = this.appId,
             secret = this.secret,
