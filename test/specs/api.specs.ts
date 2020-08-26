@@ -187,7 +187,7 @@ describe("API", function () {
 
         for (const [initParams, sendParams, authHeader] of asserts) {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint, ...initParams });
-            const response = await api.send(HTTPMethod.GET, "/header", sendParams);
+            const response = await api.send(HTTPMethod.GET, "/header", null, sendParams);
             const { headers } = mock.lastCall()[1];
             const reqAuthHeader = getHeader(headers, "Authorization");
 
@@ -267,7 +267,7 @@ describe("API", function () {
 
         for (const [initParams, sendParams] of asserts) {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint, ...initParams });
-            const response = await api.send(HTTPMethod.GET, "/origin", sendParams);
+            const response = await api.send(HTTPMethod.GET, "/origin", null, sendParams);
             const { headers } = mock.lastCall()[1];
             const reqOriginHeader = getHeader(headers, "Origin");
 
@@ -370,7 +370,7 @@ describe("API", function () {
         });
 
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
-        await api.send(HTTPMethod.GET, "/header", { idempotentKey: "test" });
+        await api.send(HTTPMethod.GET, "/header", null, { idempotentKey: "test" });
 
         const { headers } = mock.lastCall()[1];
         const keyHeader = getHeader(headers, IDEMPOTENCY_KEY_HEADER);

@@ -24,7 +24,7 @@ import { RequestError } from "../errors/RequestResponseError";
 import { TimeoutError } from "../errors/TimeoutError";
 import { ProcessingMode } from "../resources/common/enums";
 import { checkStatus, parseJSON } from "../utils/fetch";
-import { omit, transformKeys } from "../utils/object";
+import { transformKeys } from "../utils/object";
 
 import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT";
 import { containsBinaryData, objectToFormData } from "./utils/payload";
@@ -84,6 +84,8 @@ export type PromiseReject = (reason?: any) => void;
 export interface AuthParams {
     jwt?: string;
     secret?: string;
+    idempotentKey?: string;
+    origin?: string;
 
     // Deprecated
     authToken?: string;
@@ -94,43 +96,12 @@ export interface PollParams {
     polling?: boolean;
 }
 
-export interface IdempotentParams {
-    idempotentKey?: string;
-}
-
-export interface OriginParams {
-    origin?: string;
-}
-
-const internalParams: (keyof AuthParams | keyof IdempotentParams | keyof OriginParams)[] = [
-    "appId",
-    "secret",
-    "authToken",
-    "jwt",
-    "idempotentKey",
-    "origin",
-];
-
 export type PromiseCreator<A> = () => Promise<A>;
 
-export type SendData<Data> = Data & AuthParams & IdempotentParams & OriginParams;
-
-function getData<Data extends Record<string, any>>(
-    data: SendData<Data>
-): Omit<Data, keyof AuthParams | keyof IdempotentParams | keyof OriginParams> {
-    return omit(data, internalParams);
-}
+export type SendData<Data> = Data;
 
 function getRequestBody<Data>(data: SendData<Data>): string | FormData {
     return containsBinaryData(data) ? objectToFormData(data) : JSON.stringify(transformKeys(data, decamelize));
-}
-
-function getIdempotencyKey<Data>(data: SendData<Data>): string | null {
-    return typeof data === "object" && !!data ? data.idempotentKey : null;
-}
-
-function getOrigin<Data>(data: SendData<Data>): string | null {
-    return typeof data === "object" && !!data ? data.origin : null;
 }
 
 function stringifyParams<Data extends Record<string, any>>(data: Data): string {
@@ -231,10 +202,9 @@ export class RestAPI extends EventEmitter {
             method,
         };
 
-        const requestData = getData(data);
         const request: Request = new Request(
-            `${this.endpoint}${uri}${payload ? "" : stringifyParams(requestData)}`,
-            payload ? { ...params, body: getRequestBody(requestData) } : params
+            `${this.endpoint}${uri}${payload ? "" : stringifyParams(data)}`,
+            payload ? { ...params, body: getRequestBody(data) } : params
         );
 
         this.emit("request", request);
@@ -288,20 +258,22 @@ export class RestAPI extends EventEmitter {
             headers.append("Content-Type", "application/json");
         }
 
-        const origin = getOrigin(data) || this.origin;
+        const {
+            origin = this.origin,
+            idempotentKey = null,
+            authToken = this.authToken,
+            appId = this.appId,
+            secret = this.secret,
+            jwt = this.jwtRaw,
+        } = auth || {};
+
         if (origin) {
             headers.append("Origin", origin);
         }
 
-        const idempotentKey = getIdempotencyKey(data);
         if (idempotentKey) {
             headers.append(IDEMPOTENCY_KEY_HEADER, idempotentKey);
         }
-
-        const { authToken = this.authToken, appId = this.appId, secret = this.secret, jwt = this.jwtRaw } = {
-            ...(!isFormData ? data : {}),
-            ...auth,
-        };
 
         if (authToken) {
             headers.append("Authorization", `Token ${authToken}`);
