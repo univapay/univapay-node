@@ -84,12 +84,12 @@ export type PromiseReject = (reason?: any) => void;
 export interface AuthParams {
     jwt?: string;
     secret?: string;
+    idempotentKey?: string;
+    origin?: string;
 
     // Deprecated
     authToken?: string;
     appId?: string;
-    idempotentKey?: string;
-    origin?: string;
 }
 
 export interface PollParams {
