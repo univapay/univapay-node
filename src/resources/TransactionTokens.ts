@@ -95,7 +95,7 @@ export interface TransactionTokenPaidyData {
     phoneNumber: PhoneNumber;
 }
 
-export interface TransactionTokenCreateParams {
+export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
     paymentType: PaymentType;
     type: TransactionTokenType;
     email?: string;
@@ -106,7 +106,7 @@ export interface TransactionTokenCreateParams {
         | TransactionTokenConvenienceData
         | TransactionTokenOnlineData
         | TransactionTokenPaidyData;
-    metadata?: Metadata;
+    metadata?: T;
     useConfirmation?: boolean;
 }
 
@@ -171,7 +171,7 @@ export interface TransactionTokenConvenienceDataItem {
     phoneNumber?: PhoneNumber;
 }
 
-export interface TransactionTokenItem {
+export interface TransactionTokenItem<T extends Metadata = Metadata> {
     id: string;
     storeId: string;
     email: string;
@@ -187,7 +187,7 @@ export interface TransactionTokenItem {
         | TransactionTokenConvenienceDataItem
         | TransactionTokenOnlineDataItem
         | TransactionTokenPaidyData;
-    metadata?: Metadata;
+    metadata?: T;
 }
 
 export type TransactionTokenListItem = WithStoreMerchantName<TransactionTokenItem>;

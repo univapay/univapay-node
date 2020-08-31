@@ -2,7 +2,7 @@
  *  @module Resources/WebHooks
  */
 
-import { AuthParams, ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { WithStoreMerchantName } from "./common/types";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
@@ -102,9 +102,9 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
         id: string,
         data?: SendData<void>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ErrorResponse>,
+        callback?: ResponseCallback<void>,
         storeId?: string
-    ): Promise<ErrorResponse> {
+    ): Promise<void> {
         return this._deleteRoute()(data, callback, auth, { storeId, id });
     }
 }
