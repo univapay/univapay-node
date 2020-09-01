@@ -18,18 +18,18 @@ export enum CancelStatus {
 /* Request */
 export type CancelsListParams = CRUDPaginationParams;
 
-export interface CancelCreateParams {
-    metadata?: Metadata;
+export interface CancelCreateParams<T extends Metadata = Metadata> {
+    metadata?: T;
 }
 
 /* Response */
-export interface CancelItem {
+export interface CancelItem<T extends Metadata = Metadata> {
     id: string;
     chargeId: string;
     storeId?: string;
     status: CancelStatus;
     error?: PaymentError;
-    metadata?: Metadata;
+    metadata?: T;
     mode: ProcessingMode;
     createdOn: string;
 }

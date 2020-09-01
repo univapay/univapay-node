@@ -24,7 +24,7 @@ export enum ChargeStatus {
 /* Request */
 export type ChargesListParams = CRUDPaginationParams;
 
-export interface ChargeCreateParams {
+export interface ChargeCreateParams<T extends Metadata = Metadata> {
     transactionTokenId: string;
     amount: number;
     currency: string;
@@ -33,13 +33,13 @@ export interface ChargeCreateParams {
     descriptor?: string;
     ignoreDescriptorOnError?: boolean;
     onlyDirectCurrency?: boolean;
-    metadata?: Metadata;
+    metadata?: T;
 }
 
 export type ChargeIssuerTokenGetParams = void;
 
 /* Response */
-export interface ChargeItem {
+export interface ChargeItem<T extends Metadata = Metadata> {
     id: string;
     merchantId: string;
     storeId: string;
@@ -55,7 +55,7 @@ export interface ChargeItem {
     captureStatus?: CaptureStatus;
     status: ChargeStatus;
     error?: PaymentError;
-    metadata?: Metadata;
+    metadata?: T;
     mode: ProcessingMode;
     createdOn: string;
     transactionTokenId?: string;

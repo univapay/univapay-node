@@ -25,23 +25,23 @@ export enum RefundReason {
 /* Request */
 export type RefundsListParams = CRUDPaginationParams;
 
-export interface RefundCreateParams {
+export interface RefundCreateParams<T extends Metadata = Metadata> {
     amount: number;
     currency: string;
     reason?: RefundReason;
     message?: string;
-    metadata?: Metadata;
+    metadata?: T;
 }
 
-export interface RefundUpdateParams {
+export interface RefundUpdateParams<T extends Metadata = Metadata> {
     status?: RefundStatus;
     reason?: RefundReason;
     message?: string;
-    metadata?: Metadata;
+    metadata?: T;
 }
 
 /* Response */
-export interface RefundItem {
+export interface RefundItem<T extends Metadata = Metadata> {
     id: string;
     storeId: string;
     chargeId: string;
@@ -53,7 +53,7 @@ export interface RefundItem {
     reason?: RefundReason;
     message?: string;
     error?: PaymentError;
-    metadata?: Metadata;
+    metadata?: T;
     mode: ProcessingMode;
     createdOn: string;
 }

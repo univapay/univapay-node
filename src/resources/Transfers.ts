@@ -25,7 +25,7 @@ export interface TransfersListParams extends CRUDPaginationParams {
 }
 
 /* Response */
-export interface TransferItem {
+export interface TransferItem<T extends Metadata = Metadata> {
     id: string;
     merchantId: string;
     bankAccountId: string;
@@ -35,7 +35,7 @@ export interface TransferItem {
     status: TransferStatus;
     errorCode?: string;
     errorText?: string;
-    metadata?: Metadata;
+    metadata?: T;
     startedBy: string;
     createdOn: string;
     from: string;
