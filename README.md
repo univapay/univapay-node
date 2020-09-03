@@ -47,7 +47,7 @@ SDK library for [Node.js][node] to consume [UnivaPay][univapay-url] API.
 ## Installation
 
 ```bash
-# With npm (prefered)
+# With npm (preferred)
 npm install --save univapay-node
 npm install --save-dev tslib # with JavaScript, needed to use the sdk
 
@@ -62,7 +62,7 @@ yarn add --dev tslib # with JavaScript, needed to use the sdk
 
 If you do not already have your store application token, please create it first:
 
--   Go to the `Store > For developpers > Application tokens` page
+-   Go to the `Store > For developers > Application tokens` page
 -   Click on `Add`
 -   Add your domain and your mode
 -   Copy the JWT from the created token
@@ -124,7 +124,7 @@ try {
 
 ### Polling
 
-After creating a charge the status will be initialized to `peding`. It will become `successful` or `failed`after API fully processes it. You can poll the charge if you need to know when the charge bacomes `failed` or `suceeded`:
+After creating a charge the status will be initialized to `pending`. It will become `successful` or `failed`after API fully processes it. You can poll the charge if you need to know when the charge becomes `failed` or `successful`:
 
 ```typescript
 import SDK from "univapay-node";
@@ -150,7 +150,7 @@ const charge = await sdk.charges.poll(
     // Optional (charge: ResponseCharge) => boolean
     cancelCondition,
 
-    // Condition where the poll should suceed. By default when the status is not Pending.
+    // Condition where the poll should succeed. By default when the status is not Pending.
     // Optional: (charge: ResponseCharge) => boolean
     successCondition
 );
