@@ -64,7 +64,7 @@ If you do not already have your store application token, please create it first:
 
 -   Go to the `Store > For developpers > Application tokens` page
 -   Click on `Add`
--   Add you domain and your mode
+-   Add your domain and your mode
 -   Copy the JWT from the created token
 -   Do not forget to store your secret
 
@@ -103,8 +103,8 @@ try {
     // Data type varies depending on the payment type
     data: { cardholder, cardNumber, expMonth, expYear, cvv }
   });
-} catch (tokenCreatError: ResponseError) {
-  handleError(errtokenCreatErroror);
+} catch (tokenCreateError: ResponseError) {
+  handleError(tokenCreateError);
 }
 
 // Create charge
@@ -124,7 +124,7 @@ try {
 
 ### Polling
 
-After creating a charge the status will rarely directly be `successful` or `failed` and can be `pending` until the API fully processes it. You can poll the charge if you need to know if the charge failed or suceeded.
+After creating a charge the status will be initialized to `peding`. It will become `successful` or `failed`after API fully processes it. You can poll the charge if you need to know when the charge bacomes `failed` or `suceeded`:
 
 ```typescript
 import SDK from "univapay-node";
@@ -158,19 +158,15 @@ const charge = await sdk.charges.poll(
 
 ### Create authorization charge
 
-By default, creating a charge captures it. If you need to authorize it instead, you can do so passing the `capture` property set to `false` with an optional `captureAt` porpety to automatically capture at a certain date:
+By default, creating a charge captures it. If you need to authorize it instead, you can do so passing the `capture` property set to `false` with an optional `captureAt` property to automatically capture at a certain date:
 
 ```typescript
 const charge = await sdk.charges.create({
   amount: 1000;
   currency: "JPY",
   transactionTokenId: transactionToken.id,
-
-  // Do not catpure the charge directly
-  capture: false,
-
-  // Optional
-  captureAt: "2020-08-12",
+  capture: false, // Do not capture the charge directly
+  captureAt: "2020-08-12", // Optional
 });
 ```
 
