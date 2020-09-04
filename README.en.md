@@ -30,9 +30,9 @@
 
 # univapay-node
 
-[Node.js][node]が[UnivaPay][univapay-url]API を使用するための SDK ライブラリです。
+SDK library for [Node.js][node] to consume [UnivaPay][univapay-url] API.
 
-[English readme](README.en.md)
+[日本語](README.md)
 
 [![CircleCI][shield-circle-ci]][circle-ci-url]
 [![NPM version][shield-npm]][npm-url]
@@ -46,38 +46,38 @@
 [![CLA assistant][shield-cla]][cla-url]
 [![MIT licensed][shield-license]][license-url]
 
-## インストール
+## Installation
 
 ```bash
-# npm (推奨)
+# With npm (preferred)
 npm install --save univapay-node
-npm install --save-dev tslib # SDKの利用にJavaScriptが必要
+npm install --save-dev tslib # with JavaScript, needed to use the sdk
 
-# yarn
+# With yarn
 yarn add univapay-node
-yarn add --dev tslib # SDKの利用にJavaScriptが必要
+yarn add --dev tslib # with JavaScript, needed to use the sdk
 ```
 
-## 利用方法
+## Usage
 
-### 準備
+### Requirements
 
-ストアアプリケーショントークンがない場合は、まず以下の手順で作成してください。
+If you do not already have your store application token, please create it first:
 
--   `店舗` > 店舗を選択 > `開発` > `アプリトークン` ページに移動
--   `追加` をクリック
--   ドメインとモードを追加する
--   作成されたトークンから JWT をコピーする
--   シークレットを保存することを忘れないでください
+-   Go to the `Store` > Select store > `For developers` > `Application tokens` page
+-   Click on `Add`
+-   Add your domain and your mode
+-   Copy the JWT from the created token
+-   Do not forget to store your secret
 
-### SDK のセットアップ
+### Setup SDK
 
 ```typescript
 import SDK from "univapay-node";
 
-const apiEndpoint = "https://api.univapay.com"; // TODO: 環境変数を調査する
-const storeJwt = jwt; // `準備`を参照
-const storeJwtSecret = secret; // `準備`を参照
+const apiEndpoint = "https://api.univapay.com"; // TODO: Investigate env variable
+const storeJwt = jwt; // see `Requirements`
+const storeJwtSecret = secret; // see `Requirements`
 
 const sdk = new SDK({
     endpoint: apiEndpoint,
@@ -86,7 +86,7 @@ const sdk = new SDK({
 });
 ```
 
-### 課金を作成する
+### Create charge
 
 ```typescript
 import SDK from "univapay-node";
@@ -95,21 +95,21 @@ import { ResponseError } from "univapay-node/errors/RequestResponseError";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
-// 課金用のトークンを作成
+// Create charge token
 let transactionToken;
 try {
   const transactionToken = await sdk.transactionTokens.create({
-    type: TransactionTokenType.ONE_TIME, // 1回のみ利用可
+    type: TransactionTokenType.ONE_TIME, // Can be used only once
     paymentType: PaymentType.CARD,
 
-    // データの型は決済方法によって異なります
+    // Data type varies depending on the payment type
     data: { cardholder, cardNumber, expMonth, expYear, cvv }
   });
 } catch (tokenCreateError: ResponseError) {
   handleError(tokenCreateError);
 }
 
-// 課金を作成
+// Create charge
 try {
   const charge = await sdk.charges.create({
     amount: 1000;
@@ -117,16 +117,16 @@ try {
     transactionTokenId: transactionToken.id,
   });
 } catch (chargeCreateError: ResponseError) {
-  // 未使用のトークンをクリーンアップして、次の課金のために別のトークンを再作成します
+  // Cleanup unused token to recreate another one for the next charge
   await sdk.transactionTokens.delete(transactionToken.id);
 
   handleError(chargeCreateError);
 }
 ```
 
-### ポーリング
+### Polling
 
-課金を作成した後、ステータスは`pending`に初期化されます。 API が完全に処理し終わると、`successful`または`failed`になります。課金が`failed`または`successful`になったタイミングを知る必要がある場合は、課金をポーリングすることができます。
+After creating a charge the status will be initialized to `pending`. It will become `successful` or `failed`after API fully processes it. You can poll the charge if you need to know when the charge becomes `failed` or `successful`:
 
 ```typescript
 import SDK from "univapay-node";
@@ -139,7 +139,7 @@ import { ResponseError } from "univapay-node/errors/RequestResponseError";
 const sdk = new SDK({ endpoint, jwt, secret });
 
 const transactionToken = await sdk.transactionTokens.create(/* */);
-const createdCharge = await sdk.charges.create(/* */); // Pending ステータス
+const createdCharge = await sdk.charges.create(/* */); // Pending status
 
 const charge = await sdk.charges.poll(
     createdCharge.storeId,
@@ -148,35 +148,35 @@ const charge = await sdk.charges.poll(
     null,
     null,
 
-    // ポーリングが停止してnullを返す条件
-    // 任意: (charge：ResponseCharge) => boolean
+    // Condition where the poll should stop and return null
+    // Optional: (charge: ResponseCharge) => boolean
     cancelCondition,
 
-    // ポーリングが成功する条件。デフォルトは、statusがpendingではないこと
-    // 任意: (charge: ResponseCharge) => boolean
+    // Condition where the poll should succeed. By default when the status is not Pending.
+    // Optional: (charge: ResponseCharge) => boolean
     successCondition
 );
 ```
 
-### 認証が必要な課金の作成
+### Create authorization charge
 
-デフォルトでは、課金を作成するとそのままキャプチャされます。そうではなく、認証する必要がある場合は、`capture`プロパティを `false`に設定し、任意の`captureAt`プロパティを指定して特定の日付で自動的にキャプチャするようにすることができます。
+By default, creating a charge captures it. If you need to authorize it instead, you can do so passing the `capture` property set to `false` with an optional `captureAt` property to automatically capture at a certain date:
 
 ```typescript
 const charge = await sdk.charges.create({
   amount: 1000;
   currency: "JPY",
   transactionTokenId: transactionToken.id,
-  capture: false, // 課金を直接はキャプチャしない
-  captureAt: "2020-08-12", // 任意
+  capture: false, // Do not capture the charge directly
+  captureAt: "2020-08-12", // Optional
 });
 ```
 
-## API リファレンス
+## API Documentation
 
-### イベント
+### Events
 
-`Charges`や`Stores`などの、`PaymentsSDK`および`Resource`ベースのクラスは[EventEmitter](https://nodejs.org/api/events.html)です。次のイベントをサブスクライブできます。
+The `PaymentsSDK` and `Resource` based classes such as `Charges` and `Stores` are [EventEmitters](https://nodejs.org/api/events.html). You can subscribe to the following events:
 
 ```javascript
 const sdk = new SDK();
@@ -184,17 +184,20 @@ sdk.on('request', (req: Request) => void)
 sdk.on('response', (res: Response) => void)
 ```
 
-`Request`と`Response`は[`fetch`API](https://developer.mozilla.org/ja/docs/Web/API/Fetch_API)の型です。
+`Request` and `Response` are the [`fetch` API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) types.
 
-## ブラウザでの利用方法
+## Browser usage
 
-このモジュールは主に[Node.js][node]用に設計されていますが、[Webpack][webpack]や[Rollup][rollup]などのバンドラによってトランスパイルされたときに、ブラウザで使用することができます。
+This module is primarily design for [Node.js][node], However it is possible
+to use it in the browser when it is transpiled by a bundler such as [Webpack][webpack] or [Rollup][rollup].
 
-ビルドを最適化して小さくするために、[ES][es-url]モジュールとしてエクスポートされた[`univapay-node-es`][es-module-url]を使用することもできます。これは、[Tree shaking][tree-url]をサポートします。
+For optimizing your build and making it smaller you can also use a module [`univapay-node-es`][es-module-url] which is exported
+as [ES][es-url] module and thus supports [Tree shaking][tree-url].
 
-## コントリビュート
+## Contributing
 
-`univapay-node`の開発に寄与するには、このリポジトリをローカルで clone し、コードを別のブランチとして commit します。その際、コードの単体テストを記述し、プルリクエストを作成する前に Lint を実行してください。
+To contribute to `univapay-node`, clone this repo locally and commit your code on a separate branch. Please write unit tests for your code
+and run the lint before opening a pull request:
 
 ```bash
 npm run lint -- --fix
@@ -203,8 +206,7 @@ npm run format
 npm test
 ```
 
-## ライセンス
+## License
 
-`univapay-node`は、[MIT][license-url]ライセンスの下で配布されています。
-
+`univapay-node` is licensed under the [MIT][license-url] license.
 Copyright &copy; 2019, [UnivaPay][univapay-url] Team
