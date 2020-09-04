@@ -13,6 +13,16 @@
   "sideEffects": false,
   "main": "dist/cjs",
   "module": "dist/esm",
+  "exports": {
+    ".": {
+      "require":  "./dist/cjs/index.js",
+      "default": "./dist/esm/index.js"
+    },
+    "./": {
+      "require":  "./dist/cjs/",
+      "default": "./dist/esm/"
+    }
+  },
   "jsnext:main": "dist/esm",
   "keywords": [
     "sdk",
