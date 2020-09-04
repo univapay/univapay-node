@@ -11,9 +11,9 @@
     "node": "^10 || ^12"
   },
   "sideEffects": false,
-  "main": "index.js",
-  "module": "index.js",
-  "jsnext:main": "index.js",
+  "main": "dist/cjs",
+  "module": "dist/esm",
+  "jsnext:main": "dist/esm",
   "keywords": [
     "sdk",
     "univapay",
@@ -85,7 +85,9 @@
     "format": "prettier \"src/**/*.{ts,tsx}\" \"test/**/*.{ts,tsx}\" --write",
     "test": "nyc mocha test/specs/*.ts test/specs/**/*.ts",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "build": "./scripts/build.sh",
+    "build:cjs": "tsc",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build": "npm run build:cjs && npm run build:esm",
     "preversion": "npm test",
     "docs": "typedoc --options typedoc.json",
     "copy": "cp -rf package.json CHANGELOG.md LICENSE README.md dist",

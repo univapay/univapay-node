@@ -88,8 +88,8 @@ const sdk = new SDK({
 
 ```typescript
 import SDK from "univapay-node";
-import { PaymentType, TransactionTokenType } from "univapay-node/resources/TransactionTokens";
-import { ResponseError } from "univapay-node/errors/RequestResponseError";
+import { PaymentType, TransactionTokenType } from "univapay-node/dist/esm/resources/TransactionTokens";
+import { ResponseError } from "univapay-node/dist/esm/errors/RequestResponseError";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
@@ -131,8 +131,8 @@ import SDK from "univapay-node";
 import {
     PaymentType,
     TransactionTokenType,
-} from "univapay-node/resources/TransactionTokens";
-import { ResponseError } from "univapay-node/errors/RequestResponseError";
+} from "univapay-node/dist/esm/resources/TransactionTokens";
+import { ResponseError } from "univapay-node/dist/esm/errors/RequestResponseError";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
