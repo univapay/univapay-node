@@ -86,6 +86,14 @@ export enum QRGateway {
     WE_CHAT = "we_chat",
 }
 
+export enum OnlineBrand {
+    ALIPAY_ONLINE = "alipay_online",
+    PAY_PAY_ONLINE = "pay_pay_online",
+}
+
+/**
+ * @deprecated Use `brand` parameter and the `OnlineBrand` enum
+ */
 export enum OnlineGateway {
     ALIPAY_ONLINE = "alipay_online",
     PAY_PAY_ONLINE = "pay_pay_online",

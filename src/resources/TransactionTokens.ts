@@ -87,6 +87,9 @@ export interface TransactionTokenConvenienceData {
 }
 
 export interface TransactionTokenOnlineData {
+    brand: OnlineBrand;
+
+    /** @deprecated Use `brand` instead */
     gateway: OnlineGateway;
 }
 
@@ -161,6 +164,9 @@ export interface TransactionTokenQRScanDataItem {
 }
 
 export interface TransactionTokenOnlineDataItem {
+    brand: OnlineBrand;
+
+    /** @deprecated Use `brand` instead */
     gateway: OnlineGateway;
 }
 
