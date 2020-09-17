@@ -75,7 +75,7 @@ yarn add --dev tslib # SDKの利用にJavaScriptが必要
 ```typescript
 import SDK from "univapay-node";
 
-const apiEndpoint = "https://api.univapay.com"; // TODO: 環境変数を調査する
+const apiEndpoint = "https://api.univapay.com";
 const storeJwt = jwt; // `準備`を参照
 const storeJwtSecret = secret; // `準備`を参照
 
