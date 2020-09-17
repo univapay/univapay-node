@@ -9,6 +9,7 @@ import {
     CardCategory,
     CardSubBrand,
     CardType,
+    OnlineBrand,
     OnlineGateway,
     ProcessingMode,
     QRBrand,
@@ -90,7 +91,7 @@ export interface TransactionTokenOnlineData {
     brand: OnlineBrand;
 
     /** @deprecated Use `brand` instead */
-    gateway: OnlineGateway;
+    gateway?: OnlineGateway;
 }
 
 export interface TransactionTokenPaidyData {
@@ -167,7 +168,7 @@ export interface TransactionTokenOnlineDataItem {
     brand: OnlineBrand;
 
     /** @deprecated Use `brand` instead */
-    gateway: OnlineGateway;
+    gateway?: OnlineGateway;
 }
 
 export interface TransactionTokenConvenienceDataItem {
