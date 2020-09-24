@@ -75,7 +75,7 @@ If you do not already have your store application token, please create it first:
 ```typescript
 import SDK from "univapay-node";
 
-const apiEndpoint = "https://api.univapay.com"; // TODO: Investigate env variable
+const apiEndpoint = "https://api.univapay.com";
 const storeJwt = jwt; // see `Requirements`
 const storeJwtSecret = secret; // see `Requirements`
 
