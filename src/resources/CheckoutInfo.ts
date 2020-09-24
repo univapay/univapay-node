@@ -34,7 +34,8 @@ export interface CheckoutColors {
 }
 
 export interface SupportedBrand {
-    cardBrand: CardBrand;
+    cardBrand?: CardBrand;
+    onlineBrand?: CardBrand;
     supportAuthCapture: boolean;
     requiresFullName: boolean;
     supportDynamicDescriptor: boolean;
