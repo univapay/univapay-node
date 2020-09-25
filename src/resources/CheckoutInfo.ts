@@ -11,7 +11,7 @@ import {
     PaidyConfigurationItem,
     QRScanConfigurationItem,
 } from "./common/Configuration";
-import { CardBrand, ProcessingMode } from "./common/enums";
+import { CardBrand, OnlineBrand, ProcessingMode } from "./common/enums";
 import { AmountWithCurrency } from "./common/types";
 import { Resource } from "./Resource";
 import { RecurringTokenPrivilege } from "./TransactionTokens";
@@ -34,7 +34,8 @@ export interface CheckoutColors {
 }
 
 export interface SupportedBrand {
-    cardBrand: CardBrand;
+    cardBrand?: CardBrand;
+    onlineBrand?: OnlineBrand;
     supportAuthCapture: boolean;
     requiresFullName: boolean;
     supportDynamicDescriptor: boolean;
