@@ -24,6 +24,13 @@ import {
 } from "./resources";
 import PaymentsSDK from "./sdk";
 
+export * from "./api";
+export * from "./common";
+export * from "./errors";
+export * from "./resources";
+export * from "./utils";
+export const BaseSDK = PaymentsSDK;
+
 export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends PaymentsSDK {
     public bankAccounts: BankAccounts;
     public cancels: Cancels;
