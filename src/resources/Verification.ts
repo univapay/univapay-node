@@ -17,6 +17,8 @@ export interface BaseVerification<T> {
     systemManagerName: string;
     systemManagerNumber?: PhoneNumber;
     systemManagerEmail?: string;
+    customerContactEmail?: string;
+    customerContactNumber?: PhoneNumber;
     recurringTokenRequest?: RecurringTokenPrivilege;
     recurringTokenRequestReason?: string;
     allowEmptyCvv?: boolean;
