@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:12
+    - image: circleci/node:14
 
 jobs:
   test:
@@ -74,11 +74,7 @@ jobs:
 
       - run:
           name: Publish package LIB
-          command: npm publish lib
-
-      - run:
-          name: Publish package ES
-          command: npm publish es
+          command: npm publish
 
 workflows:
   version: 2
