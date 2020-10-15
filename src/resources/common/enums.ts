@@ -48,6 +48,7 @@ export enum QRBrand {
     ALIPAY_CHINA = "alipay_china",
     ALIPAY_HK = "alipay_hk",
     ALIPAY_SINGAPORE = "alipay_singapore",
+    AU_PAY = "au_pay",
     BARTONG = "bartong",
     DANA = "dana",
     DASH = "dash",
