@@ -86,7 +86,7 @@
     "@types/camelcase": "^5.2",
     "@types/decamelize": "^3.0",
     "@types/flat": "5.0.1",
-    "@types/jwt-decode": "^3.0.0",
+    "@types/jwt-decode": "^2.2.1",
     "@types/query-string": "^6.3.0"
   },
   "scripts": {
