@@ -18,6 +18,7 @@ export enum WebHookTrigger {
     SUBSCRIPTION_SUSPENDED = "subscription_suspended",
     REFUND_FINISHED = "refund_finished",
     CANCEL_FINISHED = "cancel_finished",
+    RECURRING_TOKEN_DELETED = "recurring_token_deleted",
 
     // Merchant
     TRANSFER_CREATED = "transfer_created",
