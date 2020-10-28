@@ -51,10 +51,10 @@ export interface WebHookItem<Trigger = WebHookTrigger> {
     createdOn: string;
 }
 
-export type WebHookListItem<TriggerType> = WithStoreMerchantName<WebHookItem<TriggerType>>;
+export type WebHookListItem<TriggerType = WebHookTrigger> = WithStoreMerchantName<WebHookItem<TriggerType>>;
 
-export type ResponseWebHook<TriggerType> = WebHookItem<TriggerType>;
-export type ResponseWebHooks<TriggerType> = CRUDItemsResponse<WebHookListItem<TriggerType>>;
+export type ResponseWebHook<TriggerType = WebHookTrigger> = WebHookItem<TriggerType>;
+export type ResponseWebHooks<TriggerType = WebHookTrigger> = CRUDItemsResponse<WebHookListItem<TriggerType>>;
 
 export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
     static requiredParams: string[] = ["triggers", "url"];
