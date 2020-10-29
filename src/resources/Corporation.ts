@@ -1,4 +1,4 @@
-export enum businessTypes {
+export enum BusinessTypes {
     PRODUCT_SALES = "product_sales",
     CONSULTING = "consulting",
     TRAVEL = "travel",
