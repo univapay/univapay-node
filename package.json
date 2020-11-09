@@ -77,7 +77,7 @@
     "decamelize": "^4.0.0",
     "events": "^3.2.0",
     "flat": "^5.0.2",
-    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0",
     "jwt-decode": "^3.1.1",
     "query-string": "^6.13.7"
