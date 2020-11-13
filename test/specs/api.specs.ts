@@ -18,10 +18,13 @@ import { RequestError, ResponseError } from "../../src/errors/RequestResponseErr
 import { Merchants } from "../../src/resources/Merchants";
 import { testEndpoint } from "../utils";
 
-const getHeader = (headers: any, header: string): string => {
-    const values = headers[header.toLowerCase()];
+const getHeader = (headers: HeadersInit, key: string): string => {
+    const values = headers[key];
+    if (!values) {
+        return null;
+    }
 
-    return !values ? null : Array.isArray(values) && values.length === 1 ? values[0] : values;
+    return Array.isArray(values) ? values[0] || null : values;
 };
 
 describe("API", function () {
@@ -191,7 +194,7 @@ describe("API", function () {
             const { headers } = mock.lastCall()[1];
             const reqAuthHeader = getHeader(headers, "Authorization");
 
-            expect(reqAuthHeader).to.be.equal(authHeader ? authHeader : null);
+            expect(reqAuthHeader).to.eql(authHeader || null);
             expect(response).to.eql(okResponse);
         }
     });
@@ -211,10 +214,9 @@ describe("API", function () {
 
         expect(onRequest).to.have.been.calledOnce;
         expect(onRequest.firstCall.lastArg).to.include({
-            path: "/ok",
             method: "GET",
             url: "http://mock-api/ok",
-            body: undefined,
+            body: null,
         });
     });
 
