@@ -103,7 +103,8 @@ export interface TransactionTokenOnlineData {
 
 export interface TransactionTokenPaidyData {
     paidyToken: string;
-    phoneNumber: PhoneNumber;
+    phoneNumber?: PhoneNumber;
+    shippingAddress: TransactionTokenPaidyBilling;
 }
 
 export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
@@ -148,6 +149,14 @@ export interface TransactionTokenCardDetails {
     subBrand?: CardSubBrand;
     issuer?: string;
     category?: CardCategory;
+}
+
+export interface TransactionTokenPaidyBilling {
+    line1?: string;
+    line2?: string;
+    city?: string;
+    state?: string;
+    zip: string;
 }
 
 export interface TransactionTokenCardBilling {
