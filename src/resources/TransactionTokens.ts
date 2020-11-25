@@ -60,6 +60,13 @@ export enum RecurringTokenPrivilege {
     INFINITE = "infinite",
 }
 
+export enum CvvAuthorizedStatus {
+    PENDING = "pending",
+    FAILED = "failed",
+    CURRENT = "current",
+    INACTIVE = "inactive",
+}
+
 /* Request */
 
 export interface TransactionTokenCardData {
@@ -130,7 +137,6 @@ export interface TransactionTokenConfirmParams {
 }
 
 /* Response */
-
 export interface TransactionTokenCardDetails {
     cardholder: string;
     expMonth: number;
@@ -157,15 +163,27 @@ export interface TransactionTokenCardBilling {
 export interface TransactionTokenCardDataItem {
     card?: TransactionTokenCardDetails;
     billing?: TransactionTokenCardBilling;
+    cvvAuthorize?: {
+        enabled: boolean;
+        status: CvvAuthorizedStatus;
+    };
 }
 
 export interface TransactionTokenQRScanDataItem {
     brand: QRBrand;
     gateway?: QRGateway;
+    cvvAuthorize?: {
+        enabled: boolean;
+        status: CvvAuthorizedStatus;
+    };
 }
 
 export interface TransactionTokenOnlineDataItem {
     brand: OnlineBrand;
+    cvvAuthorize?: {
+        enabled: boolean;
+        status: CvvAuthorizedStatus;
+    };
 
     /** @deprecated Use `brand` instead */
     gateway?: OnlineGateway;
@@ -176,8 +194,11 @@ export interface TransactionTokenConvenienceDataItem {
     customerName?: string;
     expirationPeriod?: string;
     phoneNumber?: PhoneNumber;
+    cvvAuthorize?: {
+        enabled: boolean;
+        status: CvvAuthorizedStatus;
+    };
 }
-
 export interface TransactionTokenItem<T extends Metadata = Metadata> {
     id: string;
     storeId: string;
