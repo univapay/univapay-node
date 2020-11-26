@@ -169,44 +169,37 @@ export interface TransactionTokenCardBilling {
     phoneNumber?: PhoneNumber;
 }
 
-export interface TransactionTokenCardDataItem {
+export interface TransactionTokenBase {
+    cvvAuthorize?: {
+        enabled: boolean;
+        status: CvvAuthorizedStatus;
+        chargeId?: string;
+        credentialsId: string;
+        currency?: string;
+    };
+}
+
+export interface TransactionTokenCardDataItem extends TransactionTokenBase {
     card?: TransactionTokenCardDetails;
     billing?: TransactionTokenCardBilling;
-    cvvAuthorize?: {
-        enabled: boolean;
-        status: CvvAuthorizedStatus;
-    };
 }
-
-export interface TransactionTokenQRScanDataItem {
+export interface TransactionTokenQRScanDataItem extends TransactionTokenBase {
     brand: QRBrand;
     gateway?: QRGateway;
-    cvvAuthorize?: {
-        enabled: boolean;
-        status: CvvAuthorizedStatus;
-    };
 }
 
-export interface TransactionTokenOnlineDataItem {
+export interface TransactionTokenOnlineDataItem extends TransactionTokenBase {
     brand: OnlineBrand;
-    cvvAuthorize?: {
-        enabled: boolean;
-        status: CvvAuthorizedStatus;
-    };
 
     /** @deprecated Use `brand` instead */
     gateway?: OnlineGateway;
 }
 
-export interface TransactionTokenConvenienceDataItem {
+export interface TransactionTokenConvenienceDataItem extends TransactionTokenBase {
     convenienceStore?: ConvenienceStore;
     customerName?: string;
     expirationPeriod?: string;
     phoneNumber?: PhoneNumber;
-    cvvAuthorize?: {
-        enabled: boolean;
-        status: CvvAuthorizedStatus;
-    };
 }
 export interface TransactionTokenItem<T extends Metadata = Metadata> {
     id: string;
