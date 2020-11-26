@@ -322,6 +322,8 @@ export enum ResponseErrorCode {
 
     /* gateway configuration errors */
     InvalidMerchantCategoryCode = "INVALID_MERCHANT_CATEGORY_CODE",
+
+    InvalidJapanesePostalCode = "INVALID_JAPANESE_POSTAL_CODE",
 }
 
 export class APIError extends Error {
