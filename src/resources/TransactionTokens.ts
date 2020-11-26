@@ -165,7 +165,7 @@ export interface TransactionTokenBase {
         enabled: boolean;
         status: CvvAuthorizedStatus;
         chargeId?: string;
-        credentialId: string;
+        credentialsId: string;
         currency?: string;
     };
 }
