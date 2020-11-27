@@ -18,6 +18,7 @@ export interface PlatformUserDefaults {
     userTransactionsConfiguration?: UserTransactionsConfiguration;
     subscriptionConfiguration: Partial<SubscriptionsConfiguration>;
     onlyDirectCurrency: boolean;
+    platformCredentialsEnabled: boolean;
 }
 
 export interface PlatformPaymentDefaults {
