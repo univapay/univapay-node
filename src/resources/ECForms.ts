@@ -6,7 +6,7 @@ import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 import { AmountWithCurrency } from "./common/types";
 import { CRUDResource } from "./CRUDResource";
 import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions";
-import { TransactionTokenType, UsageLimit } from "./TransactionTokens";
+import { PaymentType, TransactionTokenType, UsageLimit } from "./TransactionTokens";
 
 type BaseMetadata = Record<string, string>;
 
@@ -43,7 +43,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     /* Charge and token data */
     appId: string;
     checkout: CheckoutType;
-    paymentType: PaymentShippingType;
+    paymentType: PaymentType;
     tokenType: TransactionTokenType;
     univapayCustomerId: string | null;
     capture: boolean;
