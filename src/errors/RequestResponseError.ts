@@ -15,7 +15,7 @@ const serializeErrorResponse = ({ code, httpCode, errors }: ErrorRequest): strin
                 return error; // (pH) TODO: special handling for wrongly formatted. Fix the ErrorRequest type.
 
             default:
-                return `${error.reason}${"field" in error && ` (${error.field})`}`;
+                return "field" in error ? `${error.reason} (${error.field})` : `${error.reason}`;
         }
     });
 
