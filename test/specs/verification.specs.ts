@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
-import { pick } from "lodash";
 
 import { RestAPI } from "../../src/api/RestAPI";
 import { RequestError } from "../../src/errors/RequestResponseError";
@@ -71,19 +70,15 @@ describe("Verification", () => {
         });
 
         it("should return validation error if data is invalid", async () => {
+            const { homepageUrl, companyDescription, companyContactInfo, businessType } = verificationData;
+
             const asserts: [Partial<VerificationCreateParams>, RequestError][] = [
                 [{}, createRequestError(["homepageUrl"])],
-                [pick(verificationData, "homepageUrl"), createRequestError(["companyDescription"])],
+                [{ homepageUrl }, createRequestError(["companyDescription"])],
+                [{ homepageUrl, companyDescription }, createRequestError(["companyContactInfo"])],
+                [{ homepageUrl, companyDescription, companyContactInfo }, createRequestError(["businessType"])],
                 [
-                    pick(verificationData, "homepageUrl", "companyDescription"),
-                    createRequestError(["companyContactInfo"]),
-                ],
-                [
-                    pick(verificationData, "homepageUrl", "companyDescription", "companyContactInfo"),
-                    createRequestError(["businessType"]),
-                ],
-                [
-                    pick(verificationData, "homepageUrl", "companyDescription", "companyContactInfo", "businessType"),
+                    { homepageUrl, companyDescription, companyContactInfo, businessType },
                     createRequestError(["systemManagerName"]),
                 ],
             ];

@@ -2,8 +2,6 @@
  *  @module Errors
  */
 
-import { isObject } from "lodash";
-
 import { ErrorResponse } from "../api/RestAPI";
 
 type ErrorRequest = Omit<ErrorResponse, "status">;
@@ -11,7 +9,7 @@ type ErrorRequest = Omit<ErrorResponse, "status">;
 const serializeErrorResponse = ({ code, httpCode, errors }: ErrorRequest): string =>
     `Code: ${code}, HttpCode: ${httpCode}, Errors: ${(errors || [])
         .map((error) =>
-            isObject(error) ? ("field" in error ? `${error.reason} (${error.field})` : error.reason) : error
+            typeof error === "object" ? ("field" in error ? `${error.reason} (${error.field})` : error.reason) : error
         )
         .join(", ")}`;
 
