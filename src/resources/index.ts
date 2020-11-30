@@ -12,6 +12,7 @@ export * from "./Charges";
 export * from "./CheckoutInfo";
 export * from "./Corporation";
 export * from "./CRUDResource";
+export * from "./ECForms";
 export * from "./ExchangeRates";
 export * from "./Ledgers";
 export * from "./Merchants";
