@@ -2,18 +2,25 @@
  *  @module Errors
  */
 
-import { isObject } from "lodash";
-
 import { ErrorResponse } from "../api/RestAPI";
 
 type ErrorRequest = Omit<ErrorResponse, "status">;
 
-const serializeErrorResponse = ({ code, httpCode, errors }: ErrorRequest): string =>
-    `Code: ${code}, HttpCode: ${httpCode}, Errors: ${(errors || [])
-        .map((error) =>
-            isObject(error) ? ("field" in error ? `${error.reason} (${error.field})` : error.reason) : error
-        )
-        .join(", ")}`;
+const serializeErrorResponse = ({ code, httpCode, errors }: ErrorRequest): string => {
+    const formattedErrors = (errors || []).filter(Boolean).map((error) => {
+        switch (typeof error) {
+            case "string":
+            case "number":
+            case "boolean":
+                return error; // (pH) TODO: special handling for wrongly formatted. Fix the ErrorRequest type.
+
+            default:
+                return "field" in error ? `${error.reason} (${error.field})` : `${error.reason}`;
+        }
+    });
+
+    return `Code: ${code}, HttpCode: ${httpCode}, Errors: ${formattedErrors.join(", ")}`;
+};
 
 export class RequestResponseBaseError extends Error {
     errorResponse: ErrorResponse;
