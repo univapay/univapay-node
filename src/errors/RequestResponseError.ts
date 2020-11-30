@@ -10,7 +10,7 @@ const serializeErrorResponse = ({ code, httpCode, errors }: ErrorRequest): strin
     `Code: ${code}, HttpCode: ${httpCode}, Errors: ${(errors || [])
         .filter(Boolean)
         .map((error) =>
-            typeof error === "object" ? ("field" in error ? `${error.reason} (${error.field})` : error.reason) : error
+            typeof error === "string" ? error : `${error.reason}${"field" in error ? ` (${error.field})` : ""}`
         )
         .join(", ")}`;
 
