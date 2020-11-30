@@ -8,6 +8,7 @@ type ErrorRequest = Omit<ErrorResponse, "status">;
 
 const serializeErrorResponse = ({ code, httpCode, errors }: ErrorRequest): string =>
     `Code: ${code}, HttpCode: ${httpCode}, Errors: ${(errors || [])
+        .filter(Boolean)
         .map((error) =>
             typeof error === "object" ? ("field" in error ? `${error.reason} (${error.field})` : error.reason) : error
         )
