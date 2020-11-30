@@ -3,10 +3,7 @@
  */
 import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
-import { AmountWithCurrency } from "./common/types";
 import { CRUDResource } from "./CRUDResource";
-import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions";
-import { PaymentType, TransactionTokenType, UsageLimit } from "./TransactionTokens";
 
 type BaseMetadata = Record<string, string>;
 
@@ -33,7 +30,6 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     id: string;
     storeId: string;
     name: string;
-    appTokenId: string;
     createdOn: string;
 
     /* Redirects */
@@ -42,63 +38,24 @@ export type ECFormItem<Metadata = BaseMetadata> = {
 
     /* Charge and token data */
     appId: string;
-    checkout: CheckoutType;
-    paymentType: PaymentType;
-    tokenType: TransactionTokenType;
-    univapayCustomerId: string | null;
-    capture: boolean;
-    captureAt?: string | null;
-    onlyDirectCurrency: boolean;
 
     /* Display */
-    title: string | null;
-    description: string | null;
-    confirmationRequired: boolean;
     locale: string | null;
-    header: string | null;
     dark: boolean;
-    submitButtonText?: string | null;
-    showCvv: boolean;
     displayStoreName: boolean;
     displayStoreLogo: boolean;
     headerColor?: string;
     buttonColor?: string;
     backgroundColor?: string;
 
-    /* Subscription */
-    subscriptionId?: string | null;
-    subscriptionPeriod?: SubscriptionPeriod | null;
-    subscriptionInitialAmount?: AmountWithCurrency | null;
-    subscriptionStart?: string | null;
-    installmentPlan?: InstallmentPlan | null;
-    installmentQty?: number | null;
-    installmentAmount?: AmountWithCurrency | null;
-    subscriptionTimezone?: string | null;
-    subscriptionPreserveEndOfMonth?: boolean | null;
-
-    /* Recurring token */
-    usageLimit?: UsageLimit | null;
-    cvvAuthorize: boolean;
-
     /* Address */
     address?: boolean | null;
     requireName?: boolean | null;
     requireEmail?: boolean | null;
     requireBillingAddress?: boolean | null;
-    email?: string | null;
-    shippingAddressLine1: string | null;
-    shippingAddressLine2: string | null;
-    shippingAddressCity: string | null;
-    shippingAddressState: string | null;
-    shippingAddressZip: string | null;
-    shippingAddressCountryCode: string | null;
-    buyerName: string | null;
-    buyerNameTransliteration: string | null;
-    buyerDateOfBirth: string | null;
+    requirePhoneNumber?: boolean | null;
 
     /* Metadata */
-    descriptor: string | null;
-    ignoreDescriptorOnError: boolean | null;
     metadata: Metadata | null;
     customFieldsTitles?: Record<string, string>; // keyed by language
     customFields?: Record<string, ECFormCustomField[]>; // keyed by language
