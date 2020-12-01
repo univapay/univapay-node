@@ -66,6 +66,7 @@ export interface ScheduledPaymentItem {
     isPaid: boolean;
     isLastPayment: boolean;
     createdOn: string;
+    successfulPaymentDate?: string;
 }
 
 export type SchedulePaymentListItem = ScheduledPaymentItem;
