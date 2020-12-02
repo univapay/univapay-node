@@ -108,14 +108,15 @@ export type ResponseECForm<Metadata = BaseMetadata> = ECFormItem<Metadata>;
 
 export class ECForms extends CRUDResource {
     static requiredParams: string[] = [];
-    static routeBase = "/forms";
+    static routeBase = "/merchants/:merchantId/forms";
 
     get(
+        merchantId: string,
         id: string,
         data?: SendData<void>,
         auth?: AuthParams,
         callback?: ResponseCallback<ECFormItem>
     ): Promise<ResponseECForm> {
-        return this._getRoute()(data, callback, auth, { id });
+        return this._getRoute()(data, callback, auth, { merchantId, id });
     }
 }
