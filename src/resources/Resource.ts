@@ -2,6 +2,7 @@
  *  @internal
  *  @module Resources
  */
+import decamelize from "decamelize";
 import { EventEmitter } from "events";
 
 import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
@@ -70,7 +71,8 @@ export abstract class Resource extends EventEmitter {
         path: string,
         required: string[] = [],
         requireAuth = true,
-        acceptType?: string
+        acceptType?: string,
+        keyFormatter = decamelize
     ): DefinedRoute {
         const api: RestAPI = this.api;
 
@@ -98,7 +100,7 @@ export abstract class Resource extends EventEmitter {
                 return Promise.reject(err);
             }
 
-            return api.send(method, url, data, auth, callback, requireAuth, acceptType);
+            return api.send(method, url, data, auth, callback, requireAuth, acceptType, keyFormatter);
         };
     }
 }

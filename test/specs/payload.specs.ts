@@ -105,4 +105,25 @@ describe("Payload Helpers", () => {
             .containingAllOf(["foo", "foo1.bar", "foo2[0]", "foo3[0].bar", "foo4", "foo_bar.fizz_buzz"])
             .and.not.containingAnyOf(["foo5", "foo6.bar"]);
     });
+
+    it("should create FormData object from raw data object with a specific key formatter", () => {
+        const obj = {
+            foo: "bar",
+            foo2: ["bar"],
+            fooBar: {
+                fizzBuzz: "test",
+            },
+        };
+
+        const formData = objectToFormData(obj, undefined, undefined, (key) => key);
+
+        expect(formData).to.be.instanceOf(FormData);
+
+        // This will only work in nodeJs environment
+        const names = arrayChunk((formData as any)._streams, 3).map(
+            ([name]: string[]) => name.match(/name="(.*)"/i)[1]
+        );
+
+        expect(names).to.be.array().which.deep.equals(["foo", "foo2[0]", "fooBar.fizzBuzz"]);
+    });
 });

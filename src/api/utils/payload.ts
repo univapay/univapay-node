@@ -26,7 +26,7 @@ export function containsBinaryData(data: any): boolean {
     return false;
 }
 
-export function objectToFormData(obj: any, rootName = "", ignoreList: string[] = null) {
+export function objectToFormData(obj: any, rootName = "", ignoreList: string[] = null, keyFormatter = decamelize) {
     const formData = new FormData();
 
     function isBlob(data: any): boolean {
@@ -48,7 +48,7 @@ export function objectToFormData(obj: any, rootName = "", ignoreList: string[] =
     function appendFormData(data: any, root = "") {
         if (!ignore(root)) {
             if (isBlob(data)) {
-                formData.append(decamelize(root), data);
+                formData.append(keyFormatter(root), data);
             } else if (Array.isArray(data)) {
                 for (let i = 0; i < data.length; i++) {
                     appendFormData(data[i], `${root}[${i}]`);
@@ -63,7 +63,7 @@ export function objectToFormData(obj: any, rootName = "", ignoreList: string[] =
                 }
             } else {
                 if (data !== null && typeof data !== "undefined") {
-                    formData.append(decamelize(root), data);
+                    formData.append(keyFormatter(root), data);
                 }
             }
         }
