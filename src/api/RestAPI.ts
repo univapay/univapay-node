@@ -100,8 +100,10 @@ export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
 
-function getRequestBody<Data>(data: SendData<Data>): string | FormData {
-    return containsBinaryData(data) ? objectToFormData(data) : JSON.stringify(transformKeys(data, decamelize));
+function getRequestBody<Data>(data: SendData<Data>, keyFormatter = decamelize): string | FormData {
+    return containsBinaryData(data)
+        ? objectToFormData(data, undefined, undefined, keyFormatter)
+        : JSON.stringify(transformKeys(data, keyFormatter));
 }
 
 function stringifyParams<Data extends Record<string, any>>(data: Data): string {
@@ -183,7 +185,8 @@ export class RestAPI extends EventEmitter {
         auth?: AuthParams,
         callback?: ResponseCallback<A>,
         requireAuth = true,
-        acceptType?: string
+        acceptType?: string,
+        keyFormatter = decamelize
     ): Promise<A> {
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
@@ -204,7 +207,7 @@ export class RestAPI extends EventEmitter {
 
         const request: Request = new Request(
             `${this.endpoint}${uri}${payload ? "" : stringifyParams(data)}`,
-            payload ? { ...params, body: getRequestBody(data) } : params
+            payload ? { ...params, body: getRequestBody(data, keyFormatter) } : params
         );
 
         this.emit("request", request);
