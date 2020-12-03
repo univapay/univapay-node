@@ -43,12 +43,12 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     /* Charge and token data */
     appId: string;
     checkout: CheckoutType;
-    paymentType: PaymentType;
+    paymentType?: PaymentType;
     tokenType: TransactionTokenType;
     univapayCustomerId: string | null;
     capture: boolean;
     captureAt?: string | null;
-    onlyDirectCurrency: boolean;
+    onlyDirectCurrency?: boolean;
     supportedPaymentMethods: (PaymentType | OnlineBrand)[];
 
     /* Display */
