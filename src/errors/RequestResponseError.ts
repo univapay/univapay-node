@@ -2,23 +2,22 @@
  *  @module Errors
  */
 
-import { ErrorResponse } from "../api/RestAPI";
+import { ErrorResponse, SubError, ValidationError } from "../api/RestAPI";
 
 type ErrorRequest = Omit<ErrorResponse, "status">;
 
+const isSymbol = (value: unknown): value is symbol => ["string", "number", "boolean"].includes(typeof value);
 const serializeErrorResponse = ({ code, httpCode, errors }: ErrorRequest): string => {
     // (pH) FIXME: `errors sometimes is not an array. Fix type and maybe the cause of it
-    const formattedErrors = (errors || [])?.filter(Boolean).map((error) => {
-        switch (typeof error) {
-            case "string":
-            case "number":
-            case "boolean":
-                return error; // (pH) FIXME: special handling for wrongly formatted. Fix the ErrorRequest type.
+    const formattedErrors = isSymbol(errors)
+        ? errors
+        : (errors || []).filter(Boolean).map((error: SubError | ValidationError | symbol) => {
+              if (isSymbol(error)) {
+                  return error; // (pH) FIXME: special handling for wrongly formatted. Fix the ErrorRequest type.
+              }
 
-            default:
-                return "field" in error ? `${error.reason} (${error.field})` : `${error.reason}`;
-        }
-    });
+              return "field" in error ? `${error.reason} (${error.field})` : `${error.reason}`;
+          });
 
     return `Code: ${code}, HttpCode: ${httpCode}, Errors: ${formattedErrors.join(", ")}`;
 };
