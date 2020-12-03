@@ -3,6 +3,7 @@
  */
 import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
+import { OnlineBrand } from "./common/enums";
 import { AmountWithCurrency } from "./common/types";
 import { CRUDResource } from "./CRUDResource";
 import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions";
@@ -33,7 +34,6 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     id: string;
     storeId: string;
     name: string;
-    appTokenId: string;
     createdOn: string;
 
     /* Redirects */
@@ -49,6 +49,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     capture: boolean;
     captureAt?: string | null;
     onlyDirectCurrency: boolean;
+    supportedPaymentMethods: (PaymentType | OnlineBrand)[];
 
     /* Display */
     title: string | null;
@@ -85,6 +86,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     requireName?: boolean | null;
     requireEmail?: boolean | null;
     requireBillingAddress?: boolean | null;
+    requirePhoneNumber?: boolean | null;
     email?: string | null;
     shippingAddressLine1: string | null;
     shippingAddressLine2: string | null;
