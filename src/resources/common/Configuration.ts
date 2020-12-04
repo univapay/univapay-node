@@ -71,6 +71,7 @@ export interface SecurityConfiguration {
 export interface UserTransactionsConfiguration {
     enabled?: boolean;
     notifyCustomer?: boolean;
+    notifyOnTest?: boolean;
 }
 
 export interface RecurringTokenConfiguration {
