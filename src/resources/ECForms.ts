@@ -102,8 +102,8 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     descriptor: string | null;
     ignoreDescriptorOnError: boolean | null;
     metadata: Metadata | null;
-    customFieldsTitles?: Record<"jaJp" | "enUs", string>;
-    customFields?: Record<"jaJp" | "enUs", ECFormCustomField[]>;
+    customFieldsTitles?: Partial<Record<"jaJp" | "enUs", string>>;
+    customFields?: Partial<Record<"jaJp" | "enUs", ECFormCustomField[]>>;
 };
 
 export type ResponseECForm<Metadata = BaseMetadata> = ECFormItem<Metadata>;
