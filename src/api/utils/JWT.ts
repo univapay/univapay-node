@@ -44,7 +44,7 @@ const BearerRegexp = /^Bearer (.*)$/i;
  *  @internal
  */
 export function extractJWT(response: Response): string | null {
-    const headerNames = ["authorization", "x-amzn-remapped-authorization"];
+    const headerNames = ["authorization", "x-amzn-remapped-authorization", "X-REFRESH-AUTHORIZATION"];
     const header = headerNames.reduce((acc: string, name: string) => response.headers.get(name) || acc, null);
 
     if (header === null) {
