@@ -2,7 +2,7 @@
  *  @internal
  *  @module Utils
  */
-import { snakeCase } from "change-case";
+import { camelCase } from "change-case";
 import jwtDecode from "jwt-decode";
 
 import { JWTError } from "../../errors/JWTError";
