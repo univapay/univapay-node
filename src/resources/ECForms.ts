@@ -32,6 +32,7 @@ export type ECFormCustomField = {
 export type ECFormItem<Metadata = BaseMetadata> = {
     /* EC Form data */
     id: string;
+    merchantId: string;
     storeId: string;
     name: string;
     createdOn: string;
