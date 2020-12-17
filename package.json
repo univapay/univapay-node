@@ -74,16 +74,12 @@
     "camelcase": "^6.2.0",
     "decamelize": "^4.0.0",
     "events": "^3.2.0",
-    "flat": "^5.0.2",
     "isomorphic-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0",
     "jwt-decode": "^3.1.2",
     "query-string": "^6.13.7"
   },
   "optionalDependencies": {
-    "@types/camelcase": "^5.2",
-    "@types/decamelize": "^3.0",
-    "@types/flat": "5.0.1",
     "@types/jwt-decode": "^2.2.1",
     "@types/query-string": "^6.3.0"
   },
