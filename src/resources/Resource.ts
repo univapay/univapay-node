@@ -2,7 +2,7 @@
  *  @internal
  *  @module Resources
  */
-import decamelize from "decamelize";
+import { snakeCase } from "change-case";
 import { EventEmitter } from "events";
 
 import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
@@ -72,7 +72,7 @@ export abstract class Resource extends EventEmitter {
         required: string[] = [],
         requireAuth = true,
         acceptType?: string,
-        keyFormatter = decamelize
+        keyFormatter = snakeCase
     ): DefinedRoute {
         const api: RestAPI = this.api;
 

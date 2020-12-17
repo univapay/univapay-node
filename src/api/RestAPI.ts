@@ -2,7 +2,7 @@
  *  @module SDK/API
  */
 
-import decamelize from "decamelize";
+import { snakeCase } from "change-case";
 import { EventEmitter } from "events";
 import { stringify as stringifyQuery } from "query-string";
 
@@ -100,14 +100,14 @@ export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
 
-function getRequestBody<Data>(data: SendData<Data>, keyFormatter = decamelize): string | FormData {
+function getRequestBody<Data>(data: SendData<Data>, keyFormatter = snakeCase): string | FormData {
     return containsBinaryData(data)
         ? objectToFormData(data, undefined, undefined, keyFormatter)
         : JSON.stringify(transformKeys(data, keyFormatter));
 }
 
 function stringifyParams<Data extends Record<string, any>>(data: Data): string {
-    const query = stringifyQuery(transformKeys(data, decamelize), { arrayFormat: "bracket" });
+    const query = stringifyQuery(transformKeys(data, snakeCase), { arrayFormat: "bracket" });
 
     return query ? `?${query}` : "";
 }
@@ -186,7 +186,7 @@ export class RestAPI extends EventEmitter {
         callback?: ResponseCallback<A>,
         requireAuth = true,
         acceptType?: string,
-        keyFormatter = decamelize
+        keyFormatter = snakeCase
     ): Promise<A> {
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);

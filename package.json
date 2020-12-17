@@ -71,9 +71,7 @@
     "uuid": "8.3.2"
   },
   "dependencies": {
-    "camelcase": "^6.2.0",
-    "change-object-case": "^0.2.1",
-    "decamelize": "^4.0.0",
+    "change-case": "^4.1.2",
     "events": "^3.2.0",
     "isomorphic-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0",

@@ -1,4 +1,4 @@
-import decamelize from "decamelize";
+import { snakeCase } from "change-case";
 
 function isPrimitive(value: any): boolean {
     return typeof value === "object" ? value === null : typeof value !== "function";
@@ -26,7 +26,7 @@ export function containsBinaryData(data: any): boolean {
     return false;
 }
 
-export function objectToFormData(obj: any, rootName = "", ignoreList: string[] = null, keyFormatter = decamelize) {
+export function objectToFormData(obj: any, rootName = "", ignoreList: string[] = null, keyFormatter = snakeCase) {
     const formData = new FormData();
 
     function isBlob(data: any): boolean {
