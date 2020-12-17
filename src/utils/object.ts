@@ -19,12 +19,16 @@ export const transformKeys = (
         return transformArray(obj, transformer);
     }
 
-    const ignoredKeySet = new Set(ignoreKeys);
+    const ignoredKeySet = new Set(ignoreKeys || []);
     return Object.keys(obj || {}).reduce((acc: Record<string, any>, key: string) => {
-        const formattedKey = ignoredKeySet.has(key) ? key : transformer(key);
-        const value = isObject(obj[key]) ? transformKeys(obj[key], transformer) : obj[key];
+        const value = obj[key];
 
-        acc[formattedKey] = value;
+        if (ignoredKeySet.has(key)) {
+            return { ...acc, [key]: value };
+        }
+
+        const formattedValue = isObject(obj[key]) ? transformKeys(obj[key], transformer) : obj[key];
+        acc[transformer(key)] = formattedValue;
         return acc;
     }, {});
 };
