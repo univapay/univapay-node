@@ -102,7 +102,7 @@ export type SendData<Data> = Data;
 
 function getRequestBody<Data>(data: SendData<Data>, keyFormatter = snakeCase): string | FormData {
     return containsBinaryData(data)
-        ? objectToFormData(data, undefined, undefined, keyFormatter)
+        ? objectToFormData(data, keyFormatter)
         : JSON.stringify(transformKeys(data, keyFormatter));
 }
 

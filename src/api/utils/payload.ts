@@ -1,18 +1,20 @@
 import { snakeCase } from "change-case";
 
-function isPrimitive(value: any): boolean {
-    return typeof value === "object" ? value === null : typeof value !== "function";
-}
+const isPrimitive = (value: unknown): value is symbol | null =>
+    typeof value === "object" ? value === null : typeof value !== "function";
 
-function isObject(value: any): boolean {
-    return value === Object(value);
-}
+const isObject = (value: unknown): value is Record<string, unknown> => value === Object(value);
 
-function isClassInstance(value: any): boolean {
-    return typeof value === "object" && !(value instanceof Array) && value.constructor !== Object;
-}
+const isClassInstance = (value: unknown): boolean =>
+    typeof value === "object" && !(value instanceof Array) && value.constructor !== Object;
 
-export function containsBinaryData(data: any): boolean {
+const isBlob = (data: unknown): data is Blob =>
+    isObject(data) &&
+    typeof data.size === "number" &&
+    typeof data.type === "string" &&
+    typeof data.slice === "function";
+
+export const containsBinaryData = (data: unknown): boolean => {
     if (isPrimitive(data)) {
         return false;
     } else if (isClassInstance(data)) {
@@ -24,52 +26,35 @@ export function containsBinaryData(data: any): boolean {
     }
 
     return false;
-}
+};
 
-export function objectToFormData(obj: any, rootName = "", ignoreList: string[] = null, keyFormatter = snakeCase) {
+export const objectToFormData = (obj: unknown, keyFormatter = snakeCase) => {
     const formData = new FormData();
 
-    function isBlob(data: any): boolean {
-        if (isObject(data)) {
-            return typeof data.size === "number" && typeof data.type === "string" && typeof data.slice === "function";
-        }
-        return false;
-    }
+    const appendFormData = (data: unknown, root = "", key = "") => {
+        const formattedKey = keyFormatter(key);
+        const path = !root ? formattedKey : formattedKey ? `${root}.${formattedKey}` : root;
 
-    function ignore(root) {
-        return (
-            Array.isArray(ignoreList) &&
-            ignoreList.some(function (x) {
-                return x === root;
-            })
-        );
-    }
-
-    function appendFormData(data: any, root = "") {
-        if (!ignore(root)) {
-            if (isBlob(data)) {
-                formData.append(keyFormatter(root), data);
-            } else if (Array.isArray(data)) {
-                for (let i = 0; i < data.length; i++) {
-                    appendFormData(data[i], `${root}[${i}]`);
-                }
-            } else if (isObject(data) && data && !Buffer.isBuffer(data)) {
-                for (const key in data) {
-                    if (root === "") {
-                        appendFormData(data[key], key);
-                    } else {
-                        appendFormData(data[key], `${root}.${key}`);
-                    }
-                }
-            } else {
-                if (data !== null && typeof data !== "undefined") {
-                    formData.append(keyFormatter(root), data);
-                }
+        if (isBlob(data)) {
+            // Blob
+            formData.append(path, data);
+        } else if (Array.isArray(data)) {
+            // Array
+            for (let i = 0; i < data.length; i++) {
+                appendFormData(data[i], `${path}[${i}]`, "");
             }
+        } else if (data && isObject(data) && !Buffer.isBuffer(data)) {
+            // Object
+            for (const key in data) {
+                appendFormData(data[key], path, key);
+            }
+        } else if (data !== null && typeof data !== "undefined") {
+            // symbols & Buffer
+            formData.append(path, data as string);
         }
-    }
+    };
 
-    appendFormData(obj, rootName);
+    appendFormData(obj);
 
     return formData;
-}
+};
