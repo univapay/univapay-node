@@ -27,7 +27,7 @@ export const transformKeys = (
             return { ...acc, [key]: value };
         }
 
-        const formattedValue = isObject(obj[key]) ? transformKeys(obj[key], transformer) : obj[key];
+        const formattedValue = isObject(value) ? transformKeys(value, transformer) : value;
         acc[transformer(key)] = formattedValue;
         return acc;
     }, {});
