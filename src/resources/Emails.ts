@@ -1,9 +1,9 @@
 /**
  *  @module Resources/Emails
  */
-import { ChargeStatus } from "./Charges";
 import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
+import { ChargeStatus } from "./Charges";
 import { CRUDResource } from "./CRUDResource";
 import { ECFormItem } from "./ECForms";
 
