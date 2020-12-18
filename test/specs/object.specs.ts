@@ -1,7 +1,6 @@
 import { expect } from "chai";
-import { snakeCase } from "change-case";
 
-import { transformKeys } from "../../src/utils/object";
+import { toSnakeCase, transformKeys } from "../../src/utils/object";
 
 describe("Object Helpers", () => {
     it("should format the object keys recursively", () => {
@@ -16,6 +15,7 @@ describe("Object Helpers", () => {
             myKey2: [
                 {
                     mySubKey21: "Value 4-1",
+                    "mySub.Key21": "Value 4-1",
                     mySubKey22: "Value 4-2",
                     mySubKey23: ["Value 4-3-1", "Value 4-3-2"],
                 },
@@ -24,7 +24,7 @@ describe("Object Helpers", () => {
             myIgnoredKey1: { myIgnoredKey11: "Ignored value 1", "my-ignored-key=12": "Ignored value 2" },
         };
 
-        const formattedData = transformKeys(data, snakeCase, ["myIgnoredKey1"]);
+        const formattedData = transformKeys(data, toSnakeCase, ["myIgnoredKey1"]);
 
         expect(formattedData).eql({
             key1: "Value 1",
@@ -37,6 +37,7 @@ describe("Object Helpers", () => {
             my_key2: [
                 {
                     my_sub_key21: "Value 4-1",
+                    "my_sub.key21": "Value 4-1",
                     my_sub_key22: "Value 4-2",
                     my_sub_key23: ["Value 4-3-1", "Value 4-3-2"],
                 },

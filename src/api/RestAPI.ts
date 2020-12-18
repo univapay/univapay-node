@@ -2,7 +2,6 @@
  *  @module SDK/API
  */
 
-import { snakeCase } from "change-case";
 import { EventEmitter } from "events";
 import { stringify as stringifyQuery } from "query-string";
 
@@ -24,7 +23,7 @@ import { RequestError } from "../errors/RequestResponseError";
 import { TimeoutError } from "../errors/TimeoutError";
 import { ProcessingMode } from "../resources/common/enums";
 import { checkStatus, parseJSON } from "../utils/fetch";
-import { transformKeys } from "../utils/object";
+import { toSnakeCase, transformKeys } from "../utils/object";
 
 import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT";
 import { containsBinaryData, objectToFormData } from "./utils/payload";
@@ -100,14 +99,14 @@ export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
 
-function getRequestBody<Data>(data: SendData<Data>, keyFormatter = snakeCase): string | FormData {
+function getRequestBody<Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData {
     return containsBinaryData(data)
         ? objectToFormData(data, keyFormatter)
         : JSON.stringify(transformKeys(data, keyFormatter));
 }
 
 function stringifyParams<Data extends Record<string, any>>(data: Data): string {
-    const query = stringifyQuery(transformKeys(data, snakeCase), { arrayFormat: "bracket" });
+    const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });
 
     return query ? `?${query}` : "";
 }
@@ -186,7 +185,7 @@ export class RestAPI extends EventEmitter {
         callback?: ResponseCallback<A>,
         requireAuth = true,
         acceptType?: string,
-        keyFormatter = snakeCase
+        keyFormatter = toSnakeCase
     ): Promise<A> {
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);

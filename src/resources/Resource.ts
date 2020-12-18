@@ -2,14 +2,13 @@
  *  @internal
  *  @module Resources
  */
-import { snakeCase } from "change-case";
 import { EventEmitter } from "events";
 
 import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
 import { fromError } from "../errors/parser";
 import { PathParameterError } from "../errors/PathParameterError";
 import { RequestParameterError } from "../errors/RequestParameterError";
-import { missingKeys } from "../utils/object";
+import { missingKeys, toSnakeCase } from "../utils/object";
 
 export type DefinedRoute = (
     data?: any,
@@ -72,7 +71,7 @@ export abstract class Resource extends EventEmitter {
         required: string[] = [],
         requireAuth = true,
         acceptType?: string,
-        keyFormatter = snakeCase
+        keyFormatter = toSnakeCase
     ): DefinedRoute {
         const api: RestAPI = this.api;
 

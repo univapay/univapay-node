@@ -2,11 +2,10 @@
  *  @internal
  *  @module Utils
  */
-import { camelCase } from "change-case";
 import jwtDecode from "jwt-decode";
 
 import { JWTError } from "../../errors/JWTError";
-import { transformKeys } from "../../utils/object";
+import { toCamelCase, transformKeys } from "../../utils/object";
 
 export interface JWTBasePayload {
     iss?: string;
@@ -31,7 +30,7 @@ export function parseJWT<Payload>(jwt: string, keepKeys = false): JWTPayload<Pay
 
     try {
         const decoded = jwtDecode(jwt);
-        return keepKeys ? decoded : transformKeys(decoded, camelCase);
+        return keepKeys ? decoded : transformKeys(decoded, toCamelCase);
     } catch {
         throw new JWTError();
     }

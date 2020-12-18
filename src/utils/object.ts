@@ -3,7 +3,13 @@
  *  @module Utils
  */
 
+import { camelCase, snakeCase } from "change-case";
+
 export type Transformer = (...args: any[]) => string;
+
+export const toCamelCase = (key: string) => camelCase(key, { stripRegexp: /[^A-Z0-9.]/gi });
+
+export const toSnakeCase = (key: string) => snakeCase(key, { stripRegexp: /[^A-Z0-9.]/gi });
 
 export const transformKeys = (
     obj: Record<string, any> | unknown[],
