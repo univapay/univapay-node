@@ -2,17 +2,16 @@ import { expect } from "chai";
 
 import { containsBinaryData, objectToFormData } from "../../src/api/utils/payload";
 
-function arrayChunk<T>(arr: T[], len: number): T[][] {
-    return Array.from(
+const arrayChunk = <T>(arr: T[], len: number): T[][] =>
+    Array.from(
         Array(Math.ceil(arr.length / len))
             .fill(undefined)
             .map((_, i) => arr.slice(i * len, i * len + len))
     );
-}
 
 describe("Payload Helpers", () => {
     it("should detect binary data in object", () => {
-        const asserts: [any, boolean][] = [
+        const asserts: [Record<string, unknown>, boolean][] = [
             [{ foo: "bar" }, false],
             [{ foo: ["bar"] }, false],
             [
@@ -27,21 +26,21 @@ describe("Payload Helpers", () => {
             [
                 {
                     foo: "bar",
-                    foo2: new Buffer(["test"]),
+                    foo2: Buffer.from("test"),
                 },
                 true,
             ],
             [
                 {
                     foo: "bar",
-                    foo2: [new Buffer(["test"])],
+                    foo2: [Buffer.from("test")],
                 },
                 true,
             ],
             [
                 {
                     foo: "bar",
-                    foo2: [{ fizz: new Buffer(["test"]) }],
+                    foo2: [{ fizz: Buffer.from("test") }],
                 },
                 true,
             ],
@@ -49,7 +48,7 @@ describe("Payload Helpers", () => {
                 {
                     foo: "bar",
                     foo2: {
-                        bar: new Buffer(["test"]),
+                        bar: Buffer.from("test"),
                     },
                 },
                 true,
@@ -58,7 +57,7 @@ describe("Payload Helpers", () => {
                 {
                     foo: "bar",
                     foo2: {
-                        bar: new Buffer(["test"]),
+                        bar: Buffer.from("test"),
                     },
                     foo3: {
                         bar: "fizz",
@@ -81,11 +80,12 @@ describe("Payload Helpers", () => {
             },
             foo2: ["bar"],
             foo3: [{ bar: "fizz" }],
-            foo4: new Buffer(["test"]),
+            foo4: Buffer.from("test"),
             foo5: undefined,
             foo6: {
                 bar: undefined,
             },
+            foo7: [{ fooBar: "fizz" }],
             fooBar: {
                 fizzBuzz: "test",
             },
@@ -96,13 +96,13 @@ describe("Payload Helpers", () => {
         expect(formData).to.be.instanceOf(FormData);
 
         // This will only work in nodeJs environment
-        const names = arrayChunk((formData as any)._streams, 3).map(
+        const names = arrayChunk<string>((formData as any)._streams, 3).map(
             ([name]: string[]) => name.match(/name="(.*)"/i)[1]
         );
 
         expect(names)
             .to.be.array()
-            .containingAllOf(["foo", "foo1.bar", "foo2[0]", "foo3[0].bar", "foo4", "foo_bar.fizz_buzz"])
+            .eql(["foo", "foo1.bar", "foo2[0]", "foo3[0].bar", "foo4", "foo7[0].foo_bar", "foo_bar.fizz_buzz"])
             .and.not.containingAnyOf(["foo5", "foo6.bar"]);
     });
 
@@ -115,12 +115,12 @@ describe("Payload Helpers", () => {
             },
         };
 
-        const formData = objectToFormData(obj, undefined, undefined, (key) => key);
+        const formData = objectToFormData(obj, (key) => key);
 
         expect(formData).to.be.instanceOf(FormData);
 
         // This will only work in nodeJs environment
-        const names = arrayChunk((formData as any)._streams, 3).map(
+        const names = arrayChunk<string>((formData as any)._streams, 3).map(
             ([name]: string[]) => name.match(/name="(.*)"/i)[1]
         );
 

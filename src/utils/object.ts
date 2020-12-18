@@ -5,35 +5,33 @@
 
 export type Transformer = (...args: any[]) => string;
 
-export function transformKeys(obj: Record<string, any>, transformer: Transformer, ignoreKeys: string[] = []): any {
+export const transformKeys = (
+    obj: Record<string, any> | unknown[],
+    transformer: Transformer,
+    ignoreKeys: string[] = []
+): any => {
     const isObject = (value: unknown): value is Record<string, any> => typeof value === "object" && Boolean(value);
 
-    const transformArray = <T>(arr: T[]): T[] =>
+    const transformArray = (arr: unknown[], transformer: Transformer): any =>
         arr.map((item) => (isObject(item) ? transformKeys(item, transformer) : item));
 
     if (Array.isArray(obj)) {
-        return transformArray(obj);
+        return transformArray(obj, transformer);
     }
 
+    const ignoredKeySet = new Set(ignoreKeys || []);
     return Object.keys(obj || {}).reduce((acc: Record<string, any>, key: string) => {
-        let value = obj[key];
+        const value = obj[key];
 
-        if (ignoreKeys.includes(key)) {
+        if (ignoredKeySet.has(key)) {
             return { ...acc, [key]: value };
         }
 
-        if (isObject(value)) {
-            if (Array.isArray(value)) {
-                value = transformArray(value);
-            } else {
-                value = transformKeys(value, transformer);
-            }
-        }
-
-        acc[transformer(key)] = value;
+        const formattedValue = isObject(value) ? transformKeys(value, transformer) : value;
+        acc[transformer(key)] = formattedValue;
         return acc;
     }, {});
-}
+};
 
 /**
  * Returns a list from `keys` that are not found in `obj`
