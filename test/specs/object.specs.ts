@@ -21,10 +21,11 @@ describe("Object Helpers", () => {
                 },
             ],
             myKey3: ["Value 5-1", "Value 5-2"],
-            myIgnoredKey1: { myIgnoredKey11: "Ignored value 1", "my-ignored-key=12": "Ignored value 2" },
+            myIgnoredKey1: { myIgnoredKey11: "Ignored value 11", "my-ignored-key=12": "Ignored value 12" },
+            myKey4: { myIgnoredKey2: "Ignored value 21" },
         };
 
-        const formattedData = transformKeys(data, toSnakeCase, ["myIgnoredKey1"]);
+        const formattedData = transformKeys(data, toSnakeCase, ["myIgnoredKey1", "myIgnoredKey2"]);
 
         expect(formattedData).eql({
             key1: "Value 1",
@@ -44,8 +45,11 @@ describe("Object Helpers", () => {
             ],
             my_key3: ["Value 5-1", "Value 5-2"],
             myIgnoredKey1: {
-                myIgnoredKey11: "Ignored value 1",
-                "my-ignored-key=12": "Ignored value 2",
+                myIgnoredKey11: "Ignored value 11",
+                "my-ignored-key=12": "Ignored value 12",
+            },
+            my_key4: {
+                myIgnoredKey2: "Ignored value 21",
             },
         });
     });

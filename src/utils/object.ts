@@ -19,7 +19,7 @@ export const transformKeys = (
     const isObject = (value: unknown): value is Record<string, any> => typeof value === "object" && Boolean(value);
 
     const transformArray = (arr: unknown[], transformer: Transformer): any =>
-        arr.map((item) => (isObject(item) ? transformKeys(item, transformer) : item));
+        arr.map((item) => (isObject(item) ? transformKeys(item, transformer, ignoreKeys) : item));
 
     if (Array.isArray(obj)) {
         return transformArray(obj, transformer);
@@ -33,7 +33,7 @@ export const transformKeys = (
             return { ...acc, [key]: value };
         }
 
-        const formattedValue = isObject(value) ? transformKeys(value, transformer) : value;
+        const formattedValue = isObject(value) ? transformKeys(value, transformer, ignoreKeys) : value;
         acc[transformer(key)] = formattedValue;
         return acc;
     }, {});
