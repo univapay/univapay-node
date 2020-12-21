@@ -1,4 +1,4 @@
-import { snakeCase } from "change-case";
+import { isBlob, toSnakeCase, transformKeys } from "../../utils";
 
 const isPrimitive = (value: unknown): value is symbol | null =>
     typeof value === "object" ? value === null : typeof value !== "function";
@@ -7,12 +7,6 @@ const isObject = (value: unknown): value is Record<string, unknown> => value ===
 
 const isClassInstance = (value: unknown): boolean =>
     typeof value === "object" && !(value instanceof Array) && value.constructor !== Object;
-
-const isBlob = (data: unknown): data is Blob =>
-    isObject(data) &&
-    typeof data.size === "number" &&
-    typeof data.type === "string" &&
-    typeof data.slice === "function";
 
 export const containsBinaryData = (data: unknown): boolean => {
     if (isPrimitive(data)) {
@@ -28,25 +22,22 @@ export const containsBinaryData = (data: unknown): boolean => {
     return false;
 };
 
-export const objectToFormData = (obj: unknown, keyFormatter = snakeCase) => {
+export const objectToFormData = (obj: unknown, keyFormatter = toSnakeCase, ignoredKeys: string[] = []) => {
     const formData = new FormData();
 
-    const appendFormData = (data: unknown, root = "", key = "") => {
-        const formattedKey = keyFormatter(key);
-        const path = !root ? formattedKey : formattedKey ? `${root}.${formattedKey}` : root;
-
+    const appendFormData = (data: unknown, path = "") => {
         if (isBlob(data)) {
             // Blob
             formData.append(path, data);
         } else if (Array.isArray(data)) {
             // Array
             for (let i = 0; i < data.length; i++) {
-                appendFormData(data[i], `${path}[${i}]`, "");
+                appendFormData(data[i], `${path}[${i}]`);
             }
         } else if (data && isObject(data) && !Buffer.isBuffer(data)) {
             // Object
             for (const key in data) {
-                appendFormData(data[key], path, key);
+                appendFormData(data[key], path ? `${path}.${key}` : key);
             }
         } else if (data !== null && typeof data !== "undefined") {
             // symbols & Buffer
@@ -54,7 +45,7 @@ export const objectToFormData = (obj: unknown, keyFormatter = snakeCase) => {
         }
     };
 
-    appendFormData(obj);
+    appendFormData(transformKeys(obj, keyFormatter, ignoredKeys));
 
     return formData;
 };

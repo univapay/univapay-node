@@ -11,13 +11,19 @@ export const toCamelCase = (key: string) => camelCase(key, { stripRegexp: /[^A-Z
 
 export const toSnakeCase = (key: string) => snakeCase(key, { stripRegexp: /[^A-Z0-9.]/gi });
 
+const isObject = (value: unknown): value is Record<string, any> => typeof value === "object" && Boolean(value);
+
+export const isBlob = (data: unknown): data is Blob =>
+    isObject(data) &&
+    typeof data.size === "number" &&
+    typeof data.type === "string" &&
+    typeof data.slice === "function";
+
 export const transformKeys = (
     obj: Record<string, any> | unknown[],
     transformer: Transformer,
     ignoreKeys: string[] = []
 ): any => {
-    const isObject = (value: unknown): value is Record<string, any> => typeof value === "object" && Boolean(value);
-
     const transformArray = (arr: unknown[], transformer: Transformer): any =>
         arr.map((item) => (isObject(item) ? transformKeys(item, transformer, ignoreKeys) : item));
 
@@ -33,7 +39,9 @@ export const transformKeys = (
             return { ...acc, [key]: value };
         }
 
-        const formattedValue = isObject(value) ? transformKeys(value, transformer, ignoreKeys) : value;
+        const shouldTransformKeys = isObject(value) && !isBlob(value) && !Buffer.isBuffer(value);
+        const formattedValue = shouldTransformKeys ? transformKeys(value, transformer, ignoreKeys) : value;
+
         acc[transformer(key)] = formattedValue;
         return acc;
     }, {});
