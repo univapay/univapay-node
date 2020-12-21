@@ -101,8 +101,8 @@ export type SendData<Data> = Data;
 
 function getRequestBody<Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData {
     return containsBinaryData(data)
-        ? objectToFormData(data, keyFormatter)
-        : JSON.stringify(transformKeys(data, keyFormatter));
+        ? objectToFormData(data, keyFormatter, ["metadata"])
+        : JSON.stringify(transformKeys(data, keyFormatter, ["metadata"]));
 }
 
 function stringifyParams<Data extends Record<string, any>>(data: Data): string {
