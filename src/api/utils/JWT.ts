@@ -2,7 +2,7 @@
  *  @internal
  *  @module Utils
  */
-import jwtDecode from "jwt-decode";
+import { decode } from "jsonwebtoken";
 
 import { JWTError } from "../../errors/JWTError";
 import { toCamelCase, transformKeys } from "../../utils/object";
@@ -29,8 +29,8 @@ export function parseJWT<Payload>(jwt: string, keepKeys = false): JWTPayload<Pay
     }
 
     try {
-        const decoded = jwtDecode(jwt);
-        return keepKeys ? decoded : transformKeys(decoded, toCamelCase);
+        const decoded = decode(jwt);
+        return keepKeys || typeof decoded === "string" ? decoded : transformKeys(decoded, toCamelCase);
     } catch {
         throw new JWTError();
     }
