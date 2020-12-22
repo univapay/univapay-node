@@ -38,18 +38,19 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     createdOn: string;
 
     /* Redirects */
-    successRedirectUrl?: string;
-    failureRedirectUrl?: string;
+    successRedirectUrl: string | null;
+    failureRedirectUrl: string | null;
+    pendingRedirectUrl: string | null;
 
     /* Charge and token data */
     appId: string;
     checkout: CheckoutType;
-    paymentType?: PaymentType;
+    paymentType: PaymentType | null;
     tokenType: TransactionTokenType;
     univapayCustomerId: string | null;
     capture: boolean;
-    captureAt?: string | null;
-    onlyDirectCurrency?: boolean;
+    captureAt: string | null;
+    onlyDirectCurrency: boolean;
     supportedPaymentMethods: (PaymentType | OnlineBrand)[];
 
     /* Display */
@@ -59,36 +60,36 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     locale: string | null;
     header: string | null;
     dark: boolean;
-    submitButtonText?: string | null;
+    submitButtonText: string | null;
     showCvv: boolean;
     displayStoreName: boolean;
     displayStoreLogo: boolean;
-    headerColor?: string;
-    buttonColor?: string;
-    backgroundColor?: string;
+    headerColor: string | null;
+    buttonColor: string | null;
+    backgroundColor: string | null;
 
     /* Subscription */
-    subscriptionId?: string | null;
-    subscriptionPeriod?: SubscriptionPeriod | null;
-    subscriptionInitialAmount?: AmountWithCurrency | null;
-    subscriptionStart?: string | null;
-    installmentPlan?: InstallmentPlan | null;
-    installmentQty?: number | null;
-    installmentAmount?: AmountWithCurrency | null;
-    subscriptionTimezone?: string | null;
-    subscriptionPreserveEndOfMonth?: boolean | null;
+    subscriptionId: string | null;
+    subscriptionPeriod: SubscriptionPeriod | null;
+    subscriptionInitialAmount: AmountWithCurrency | null;
+    subscriptionStart: string | null;
+    installmentPlan: InstallmentPlan | null;
+    installmentQty: number | null;
+    installmentAmount: AmountWithCurrency | null;
+    subscriptionTimezone: string | null;
+    subscriptionPreserveEndOfMonth: boolean | null;
 
     /* Recurring token */
-    usageLimit?: UsageLimit | null;
+    usageLimit: UsageLimit | null;
     cvvAuthorize: boolean;
 
     /* Address */
-    address?: boolean | null;
-    requireName?: boolean | null;
-    requireEmail?: boolean | null;
-    requireBillingAddress?: boolean | null;
-    requirePhoneNumber?: boolean | null;
-    email?: string | null;
+    address: boolean | null;
+    requireName: boolean | null;
+    requireEmail: boolean | null;
+    requireBillingAddress: boolean | null;
+    requirePhoneNumber: boolean | null;
+    email: string | null;
     shippingAddressLine1: string | null;
     shippingAddressLine2: string | null;
     shippingAddressCity: string | null;
@@ -103,8 +104,8 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     descriptor: string | null;
     ignoreDescriptorOnError: boolean | null;
     metadata: Metadata | null;
-    customFieldsTitles?: Partial<Record<"jaJp" | "enUs", string>>;
-    customFields?: Partial<Record<"jaJp" | "enUs", ECFormCustomField[]>>;
+    customFieldsTitles: Partial<Record<"jaJp" | "enUs", string>> | null;
+    customFields: Partial<Record<"jaJp" | "enUs", ECFormCustomField[]>> | null;
 };
 
 export type ResponseECForm<Metadata = BaseMetadata> = ECFormItem<Metadata>;
