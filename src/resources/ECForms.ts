@@ -38,13 +38,14 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     createdOn: string;
 
     /* Redirects */
-    successRedirectUrl?: string;
-    failureRedirectUrl?: string;
+    successRedirectUrl?: string | null;
+    failureRedirectUrl?: string | null;
+    pendingRedirectUrl?: string | null;
 
     /* Charge and token data */
     appId: string;
     checkout: CheckoutType;
-    paymentType?: PaymentType;
+    paymentType?: PaymentType | null;
     tokenType: TransactionTokenType;
     univapayCustomerId: string | null;
     capture: boolean;
@@ -63,9 +64,9 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     showCvv: boolean;
     displayStoreName: boolean;
     displayStoreLogo: boolean;
-    headerColor?: string;
-    buttonColor?: string;
-    backgroundColor?: string;
+    headerColor?: string | null;
+    buttonColor?: string | null;
+    backgroundColor?: string | null;
 
     /* Subscription */
     subscriptionId?: string | null;
@@ -103,8 +104,8 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     descriptor: string | null;
     ignoreDescriptorOnError: boolean | null;
     metadata: Metadata | null;
-    customFieldsTitles?: Partial<Record<"jaJp" | "enUs", string>>;
-    customFields?: Partial<Record<"jaJp" | "enUs", ECFormCustomField[]>>;
+    customFieldsTitles?: Partial<Record<"jaJp" | "enUs", string>> | null;
+    customFields?: Partial<Record<"jaJp" | "enUs", ECFormCustomField[]>> | null;
 };
 
 export type ResponseECForm<Metadata = BaseMetadata> = ECFormItem<Metadata>;
