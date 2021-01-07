@@ -2,7 +2,7 @@
  *  @module Resources/TransactionTokens
  */
 
-import { AuthParams, ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import {
     CardBrand,
@@ -272,8 +272,8 @@ export class TransactionTokens extends CRUDResource {
         id: string,
         data?: SendData<void>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ErrorResponse>
-    ): Promise<ErrorResponse> {
+        callback?: ResponseCallback<void>
+    ): Promise<void> {
         return this._deleteRoute()(data, callback, auth, { storeId, id });
     }
 
@@ -282,8 +282,8 @@ export class TransactionTokens extends CRUDResource {
         id: string,
         data: SendData<TransactionTokenConfirmParams>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ErrorResponse>
-    ): Promise<ErrorResponse> {
+        callback?: ResponseCallback<void>
+    ): Promise<void> {
         return this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:id/confirm")(data, callback, auth, {
             storeId,
             id,

@@ -2,7 +2,7 @@
  *  @module Resources/Stores
  */
 
-import { AuthParams, ErrorResponse, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { ConfigurationCreateParams, ConfigurationItem, ConfigurationUpdateParams } from "./common/Configuration";
 import { WithMerchantName } from "./common/types";
@@ -76,12 +76,7 @@ export class Stores extends CRUDResource {
         return this._updateRoute()(data, callback, auth, { id });
     }
 
-    delete(
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ErrorResponse>
-    ): Promise<ErrorResponse> {
+    delete(id: string, data?: SendData<void>, auth?: AuthParams, callback?: ResponseCallback<void>): Promise<void> {
         return this._deleteRoute()(data, callback, auth, { id });
     }
 }
