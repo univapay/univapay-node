@@ -2,7 +2,7 @@
  *  @module Resources/Subscriptions
  */
 
-import { AuthParams, ErrorResponse, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
 
 import { ProcessingMode } from "./common/enums";
 import { ignoreDescriptor } from "./common/ignoreDescriptor";
@@ -319,8 +319,8 @@ export class Subscriptions extends CRUDResource {
         id: string,
         data?: SendData<void>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ErrorResponse>
-    ): Promise<ErrorResponse> {
+        callback?: ResponseCallback<void>
+    ): Promise<void> {
         return this._deleteRoute()(data, callback, auth, { storeId, id });
     }
 

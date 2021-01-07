@@ -2,7 +2,7 @@
  *  @module Resources/BankAccounts
  */
 
-import { AuthParams, ErrorResponse, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 
@@ -105,12 +105,7 @@ export class BankAccounts extends CRUDResource {
         return this._updateRoute()(data, callback, auth, { id });
     }
 
-    delete(
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ErrorResponse>
-    ): Promise<ErrorResponse> {
+    delete(id: string, data?: SendData<void>, auth?: AuthParams, callback?: ResponseCallback<void>): Promise<void> {
         return this._deleteRoute()(data, callback, auth, { id });
     }
 
