@@ -29,7 +29,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             percentFee: 3.5,
             transferSchedule: generateTransferSchedule(),
             flatFees: [{ amount: 30, currency: "JPY" }],
-            waitPeriod: "FIXME",
+            waitPeriod: "P7D",
             cardBrandPercentFees: {},
             minTransferPayout: {
                 amount: 1000,
