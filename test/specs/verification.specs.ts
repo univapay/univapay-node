@@ -3,6 +3,7 @@ import fetchMock from "fetch-mock";
 
 import { RestAPI } from "../../src/api/RestAPI";
 import { RequestError } from "../../src/errors/RequestResponseError";
+import { BusinessTypes } from "../../src/resources/Corporation";
 import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens";
 import { Verification, VerificationCreateParams, VerificationUpdateParams } from "../../src/resources/Verification";
 import { createRequestError } from "../fixtures/errors";
@@ -30,7 +31,7 @@ describe("Verification", () => {
             country: "JP",
             zip: "111-1111",
         },
-        businessType: "TODO",
+        businessType: BusinessTypes.CONSULTING,
         systemManagerName: "Joe Doe",
         systemManagerNumber: {
             countryCode: "81",

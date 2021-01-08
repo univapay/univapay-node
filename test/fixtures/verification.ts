@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 
+import { BusinessTypes } from "../../src/resources/Corporation";
 import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens";
 import { VerificationItem } from "../../src/resources/Verification";
 
@@ -21,7 +22,7 @@ export const generateFixture = (): VerificationItem => ({
         country: "JP",
         zip: "111-1111",
     },
-    businessType: "TODO",
+    businessType: BusinessTypes.CONSULTING,
     systemManagerName: "Joe Doe",
     systemManagerNumber: {
         countryCode: "81",

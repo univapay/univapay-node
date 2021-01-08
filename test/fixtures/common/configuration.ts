@@ -60,7 +60,7 @@ export const generateFixture = (): ConfigurationItem => ({
     percentFee: 3.5,
     logoUrl: "http://fake.com/logo.jpg",
     securityConfiguration: {
-        inspectSuspiciousLoginAfter: "TODO",
+        inspectSuspiciousLoginAfter: "P7D",
         limitChargeByCardConfiguration: {
             quantityOfCharges: 1000,
             durationWindow: "P1M",
