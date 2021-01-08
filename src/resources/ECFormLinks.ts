@@ -5,31 +5,31 @@ import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { CRUDResource } from "./CRUDResource";
 
-export type EmailItem = {
+export type ECFormLinkItem = {
     id: string;
     merchantId: string;
     storeId: string;
     formId: string;
-    linkId: string;
 
-    email: string;
-    customerName?: string;
-    lang: string;
+    amount: number;
+    amountFormatted: string;
+    currency: string;
     createdOn: string;
+    updatedOn: string;
 };
 
-export type ResponseEmail = EmailItem;
+export type ResponseECFormLink = ECFormLinkItem;
 
-export class Emails extends CRUDResource {
-    static routeBase = "/merchants/:merchantId/checkout/emails";
+export class ECFormLinks extends CRUDResource {
+    static routeBase = "/merchants/:merchantId/checkout/links";
 
     get(
         merchantId: string,
         id: string,
         data?: SendData<void>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ResponseEmail>
-    ): Promise<ResponseEmail> {
+        callback?: ResponseCallback<ResponseECFormLink>
+    ): Promise<ResponseECFormLink> {
         return this._getRoute()(data, callback, auth, { merchantId, id });
     }
 }
