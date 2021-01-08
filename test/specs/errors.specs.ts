@@ -34,21 +34,6 @@ describe("Errors", () => {
         );
     });
 
-    it("should serialize the ResponseError correctly", async () => {
-        const error = new ResponseError({
-            httpCode: 400,
-            code: ResponseErrorCode.ValidationError,
-            errors: [
-                { reason: ResponseErrorCode.InvalidAmount },
-                { reason: ResponseErrorCode.InvalidFormat, field: "dummy_field" },
-            ],
-        });
-
-        expect(error.toString()).to.equal(
-            "Error: Code: VALIDATION_ERROR, HttpCode: 400, Errors: INVALID_AMOUNT, INVALID_FORMAT (dummy_field)"
-        );
-    });
-
     it("should serialize an error with `errors` not being an array", async () => {
         const error = new RequestError({
             httpCode: 400,
