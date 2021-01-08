@@ -66,9 +66,3 @@ export function missingKeys(obj: Record<string, any>, keys: string[] = []): stri
 
     return missing;
 }
-
-export function omit<T extends Record<string, unknown>, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
-    return Object.keys(obj || {}).reduce((acc: any, key: unknown) => {
-        return keys.indexOf(key as K) === -1 ? { ...acc, [key as K]: obj[key as K] } : acc;
-    }, {});
-}
