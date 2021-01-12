@@ -51,11 +51,9 @@
 ```bash
 # npm (推奨)
 npm install --save univapay-node
-npm install --save-dev tslib # SDKの利用にJavaScriptが必要
 
 # yarn
 yarn add univapay-node
-yarn add --dev tslib # SDKの利用にJavaScriptが必要
 ```
 
 ## 利用方法

@@ -51,11 +51,9 @@ SDK library for [Node.js][node] to consume [UnivaPay][univapay-url] API.
 ```bash
 # With npm (preferred)
 npm install --save univapay-node
-npm install --save-dev tslib # with JavaScript, needed to use the sdk
 
 # With yarn
 yarn add univapay-node
-yarn add --dev tslib # with JavaScript, needed to use the sdk
 ```
 
 ## Usage
