@@ -23,6 +23,9 @@
       "default": "./dist/esm/"
     }
   },
+  "files": [
+    "dist"
+  ],
   "jsnext:main": "dist/esm",
   "keywords": [
     "sdk",
