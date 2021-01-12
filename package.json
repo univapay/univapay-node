@@ -61,7 +61,6 @@
     "prettier": "2.2.1",
     "sinon": "9.2.2",
     "sinon-chai": "3.5.0",
-    "ts-node": "9.1.1",
     "typedoc": "0.19.2",
     "typedoc-plugin-external-module-name": "4.0.3",
     "typedoc-plugin-internal-external": "2.2.0",
@@ -74,7 +73,8 @@
     "isomorphic-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
-    "query-string": "^5.1.1"
+    "query-string": "^5.1.1",
+    "ts-node": "9.1.1"
   },
   "scripts": {
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
