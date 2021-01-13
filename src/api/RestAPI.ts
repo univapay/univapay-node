@@ -5,7 +5,7 @@
 import { EventEmitter } from "events";
 import { stringify as stringifyQuery } from "query-string";
 
-import "isomorphic-fetch";
+import "cross-fetch/polyfill";
 import "isomorphic-form-data";
 
 import {

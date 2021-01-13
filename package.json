@@ -70,8 +70,8 @@
   },
   "dependencies": {
     "change-case": "^4.1.2",
+    "cross-fetch": "^3.0.6",
     "events": "^3.2.0",
-    "isomorphic-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "query-string": "^5.1.1",
