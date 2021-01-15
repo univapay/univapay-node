@@ -4,7 +4,7 @@ import chaiAsPromised from "chai-as-promised";
 import fetchMock from "fetch-mock";
 import sinonChai from "sinon-chai";
 
-import "isomorphic-fetch";
+import "cross-fetch/polyfill";
 
 /* Chai plugins */
 chai.use(chaiAsPromised);
