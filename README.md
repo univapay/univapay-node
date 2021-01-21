@@ -87,9 +87,7 @@ const sdk = new SDK({
 ### 課金を作成する
 
 ```typescript
-import SDK from "univapay-node";
-import { PaymentType, TransactionTokenType } from "univapay-node/dist/esm/resources/TransactionTokens";
-import { ResponseError } from "univapay-node/dist/esm/errors/RequestResponseError";
+import SDK, { PaymentType, TransactionTokenType, ResponseError } from "univapay-node";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
@@ -127,12 +125,11 @@ try {
 課金を作成した後、ステータスは`pending`に初期化されます。 API が完全に処理し終わると、`successful`または`failed`になります。課金が`failed`または`successful`になったタイミングを知る必要がある場合は、課金をポーリングすることができます。
 
 ```typescript
-import SDK from "univapay-node";
-import {
+import SDK, {
     PaymentType,
     TransactionTokenType,
-} from "univapay-node/dist/esm/resources/TransactionTokens";
-import { ResponseError } from "univapay-node/dist/esm/errors/RequestResponseError";
+    ResponseError
+} from "univapay-node";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
