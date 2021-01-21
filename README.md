@@ -12,9 +12,6 @@
 [coveralls-url]: https://coveralls.io/github/univapay/univapay-node?branch=master
 [license-url]: https://github.com/univapay/univapay-node/blob/master/LICENSE
 [cla-url]: https://cla-assistant.io/univapay/univapay-node
-[es-module-url]: https://npmjs.com/package/univapay-node-es
-[es-url]: http://www.ecma-international.org/ecma-262/6.0/
-[tree-url]: https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking
 [shield-circle-ci]: https://circleci.com/gh/univapay/univapay-node/tree/master.svg?style=svg
 [shield-node]: https://img.shields.io/node/v/univapay-node.svg
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
@@ -184,8 +181,6 @@ sdk.on('response', (res: Response) => void)
 ## ブラウザでの利用方法
 
 このモジュールは主に[Node.js][node]用に設計されていますが、[Webpack][webpack]や[Rollup][rollup]などのバンドラによってトランスパイルされたときに、ブラウザで使用することができます。
-
-ビルドを最適化して小さくするために、[ES][es-url]モジュールとしてエクスポートされた[`univapay-node-es`][es-module-url]を使用することもできます。これは、[Tree shaking][tree-url]をサポートします。
 
 ## コントリビュート
 
