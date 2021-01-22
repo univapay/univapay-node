@@ -12,9 +12,6 @@
 [coveralls-url]: https://coveralls.io/github/univapay/univapay-node?branch=master
 [license-url]: https://github.com/univapay/univapay-node/blob/master/LICENSE
 [cla-url]: https://cla-assistant.io/univapay/univapay-node
-[es-module-url]: https://npmjs.com/package/univapay-node-es
-[es-url]: http://www.ecma-international.org/ecma-262/6.0/
-[tree-url]: https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking
 [shield-circle-ci]: https://circleci.com/gh/univapay/univapay-node/tree/master.svg?style=svg
 [shield-node]: https://img.shields.io/node/v/univapay-node.svg
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
@@ -87,9 +84,7 @@ const sdk = new SDK({
 ### Create charge
 
 ```typescript
-import SDK from "univapay-node";
-import { PaymentType, TransactionTokenType } from "univapay-node/resources/TransactionTokens";
-import { ResponseError } from "univapay-node/errors/RequestResponseError";
+import SDK, { PaymentType, TransactionTokenType, ResponseError } from "univapay-node";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
@@ -127,12 +122,11 @@ try {
 After creating a charge the status will be initialized to `pending`. It will become `successful` or `failed`after API fully processes it. You can poll the charge if you need to know when the charge becomes `failed` or `successful`:
 
 ```typescript
-import SDK from "univapay-node";
-import {
+import SDK, {
     PaymentType,
     TransactionTokenType,
-} from "univapay-node/resources/TransactionTokens";
-import { ResponseError } from "univapay-node/errors/RequestResponseError";
+    ResponseError
+} from "univapay-node";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
@@ -188,9 +182,6 @@ sdk.on('response', (res: Response) => void)
 
 This module is primarily design for [Node.js][node], However it is possible
 to use it in the browser when it is transpiled by a bundler such as [Webpack][webpack] or [Rollup][rollup].
-
-For optimizing your build and making it smaller you can also use a module [`univapay-node-es`][es-module-url] which is exported
-as [ES][es-url] module and thus supports [Tree shaking][tree-url].
 
 ## Contributing
 

@@ -12,9 +12,6 @@
 [coveralls-url]: https://coveralls.io/github/univapay/univapay-node?branch=master
 [license-url]: https://github.com/univapay/univapay-node/blob/master/LICENSE
 [cla-url]: https://cla-assistant.io/univapay/univapay-node
-[es-module-url]: https://npmjs.com/package/univapay-node-es
-[es-url]: http://www.ecma-international.org/ecma-262/6.0/
-[tree-url]: https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking
 [shield-circle-ci]: https://circleci.com/gh/univapay/univapay-node/tree/master.svg?style=svg
 [shield-node]: https://img.shields.io/node/v/univapay-node.svg
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
@@ -87,9 +84,7 @@ const sdk = new SDK({
 ### 課金を作成する
 
 ```typescript
-import SDK from "univapay-node";
-import { PaymentType, TransactionTokenType } from "univapay-node/dist/esm/resources/TransactionTokens";
-import { ResponseError } from "univapay-node/dist/esm/errors/RequestResponseError";
+import SDK, { PaymentType, TransactionTokenType, ResponseError } from "univapay-node";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
@@ -127,12 +122,11 @@ try {
 課金を作成した後、ステータスは`pending`に初期化されます。 API が完全に処理し終わると、`successful`または`failed`になります。課金が`failed`または`successful`になったタイミングを知る必要がある場合は、課金をポーリングすることができます。
 
 ```typescript
-import SDK from "univapay-node";
-import {
+import SDK, {
     PaymentType,
     TransactionTokenType,
-} from "univapay-node/dist/esm/resources/TransactionTokens";
-import { ResponseError } from "univapay-node/dist/esm/errors/RequestResponseError";
+    ResponseError
+} from "univapay-node";
 
 const sdk = new SDK({ endpoint, jwt, secret });
 
@@ -187,8 +181,6 @@ sdk.on('response', (res: Response) => void)
 ## ブラウザでの利用方法
 
 このモジュールは主に[Node.js][node]用に設計されていますが、[Webpack][webpack]や[Rollup][rollup]などのバンドラによってトランスパイルされたときに、ブラウザで使用することができます。
-
-ビルドを最適化して小さくするために、[ES][es-url]モジュールとしてエクスポートされた[`univapay-node-es`][es-module-url]を使用することもできます。これは、[Tree shaking][tree-url]をサポートします。
 
 ## コントリビュート
 
