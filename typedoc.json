@@ -1,11 +1,7 @@
 {
-    "mode": "modules",
-    "theme": "default",
+    "entryPoints": ["./src/"], 
     "out": "docs",
-    "excludeExternals": true,
+    "theme": "default",
     "excludePrivate": true,
-    "excludeProtected": true,
-    "excludeNotExported": true,
-    "preserveConstEnums": true,
-    "stripInternal": true
+    "excludeProtected": true
 }
