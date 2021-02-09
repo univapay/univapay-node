@@ -18,9 +18,9 @@
       "require": "./dist/cjs/index.js",
       "default": "./dist/esm/index.js"
     },
-    "./": {
-      "require": "./dist/cjs/",
-      "default": "./dist/esm/"
+    "./*": {
+      "require": "./dist/cjs/*.js",
+      "default": "./dist/esm/*.js"
     }
   },
   "files": [
