@@ -30,12 +30,13 @@ const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest): Formatte
     const formattedErrors: (SubError | ValidationError)[] = errorList.filter(Boolean).map((error: ErrorItem) => {
         if (typeof error === "string") {
             const errorCodeKeys = [...Object.keys(ResponseErrorCode), ...Object.keys(RequestErrorCode)];
+            const upperCaseError = error.toUpperCase();
             const isValidError = errorCodeKeys.some(
-                (key) => ResponseErrorCode[key] === error || RequestErrorCode[key] === error
+                (key) => ResponseErrorCode[key] === upperCaseError || RequestErrorCode[key] === upperCaseError
             );
 
             return {
-                reason: isValidError ? (String(error) as ResponseErrorCode) : ResponseErrorCode.UnknownError,
+                reason: isValidError ? (upperCaseError as ResponseErrorCode) : ResponseErrorCode.UnknownError,
                 field: null,
             };
         }
