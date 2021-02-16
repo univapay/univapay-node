@@ -219,6 +219,15 @@ export enum ResponseErrorCode {
 
     /* Gateway simulation */
     PlatformCredentialsDisabled = "PLATFORM_CREDENTIALS_DISABLED",
+    ForbiddenGateway = "FORBIDDEN_GATEWAY",
+    ForbiddenQrGateway = "FORBIDDEN_QR_GATEWAY",
+    BlacklistedTagOnMerchant = "BLACKLISTED_TAG_ON_MERCHANT",
+    BlacklistedTagOnStore = "BLACKLISTED_TAG_ON_STORE",
+    NotOnWhitelist = "NOT_ON_WHITELIST",
+    CannotShareMerchantCredentials = "CANNOT_SHARE_MERCHANT_CREDENTIALS",
+    MissingGatewayConfiguration = "MISSING_GATEWAY_CONFIGURATION",
+    GatewayConfigNotFound = "GATEWAY_CONFIG_NOT_FOUND",
+    NotActive = "NOT_ACTIVE",
 
     /* Refund */
     RefundExceedsChargeAmount = "REFUND_EXCEEDS_CHARGE_AMOUNT",
