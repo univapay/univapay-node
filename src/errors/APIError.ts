@@ -228,6 +228,7 @@ export enum ResponseErrorCode {
     MissingGatewayConfiguration = "MISSING_GATEWAY_CONFIGURATION",
     GatewayConfigNotFound = "GATEWAY_CONFIG_NOT_FOUND",
     NotActive = "NOT_ACTIVE",
+    ModeNotSupported = "MODE_NOT_SUPPORTED",
 
     /* Refund */
     RefundExceedsChargeAmount = "REFUND_EXCEEDS_CHARGE_AMOUNT",
