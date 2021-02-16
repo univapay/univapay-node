@@ -215,11 +215,16 @@ export enum ResponseErrorCode {
 
     /* gateway credentials */
     CredentialsExist = "CREDENTIALS_EXISTS",
+    GatewayConfigurationRequired = "GATEWAY_CONFIGURATION_REQUIRED",
+
+    /* Gateway simulation */
+    PlatformCredentialsDisabled = "PLATFORM_CREDENTIALS_DISABLED",
+
+    /* Refund */
     RefundExceedsChargeAmount = "REFUND_EXCEEDS_CHARGE_AMOUNT",
     CannotRefundUnsuccessfulCharge = "CANNOT_REFUND_UNSUCCESSFUL_CHARGE",
     RefundNotAllowed = "REFUND_NOT_ALLOWED",
     CancelNotAllowed = "CANCEL_NOT_ALLOWED",
-    GatewayConfigurationRequired = "GATEWAY_CONFIGURATION_REQUIRED",
 
     /* apple pay */
     ApplePayNotEnabled = "APPLE_PAY_NOT_ENABLED",
