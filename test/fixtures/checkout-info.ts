@@ -23,6 +23,10 @@ export const generateFixture = (): CheckoutInfoItem => ({
     recurringCardChargeCvvConfirmation: {
         enabled: false,
     },
+    installmentsConfiguration: {
+        enabled: true,
+        onlyWithProcessor: false,
+    },
     logoImage: "http://fake.com/logo.jpg",
     theme: {
         colors: {
