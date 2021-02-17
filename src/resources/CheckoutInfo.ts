@@ -58,6 +58,10 @@ export interface CheckoutInfoItem {
         enabled?: boolean;
         threshold?: AmountWithCurrency[];
     };
+    installmentsConfiguration: {
+        enabled: boolean;
+        onlyWithProcessor: boolean;
+    };
     logoImage?: string;
     theme: {
         colors: CheckoutColors;
