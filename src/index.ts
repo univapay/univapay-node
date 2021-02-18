@@ -10,6 +10,7 @@ import {
     Captures,
     Charges,
     CheckoutInfo,
+    ECFormLinks,
     ECForms,
     Emails,
     ExchangeRates,
@@ -39,6 +40,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
     public captures: Captures;
     public charges: Charges;
     public checkoutInfo: CheckoutInfo;
+    public ecFormLinks: ECFormLinks;
     public ecForms: ECForms;
     public emails: Emails;
     public exchangeRates: ExchangeRates;
@@ -61,6 +63,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
         this.captures = new Captures(this.api);
         this.charges = new Charges(this.api);
         this.checkoutInfo = new CheckoutInfo(this.api);
+        this.ecFormLinks = new ECFormLinks(this.api);
         this.ecForms = new ECForms(this.api);
         this.emails = new Emails(this.api);
         this.exchangeRates = new ExchangeRates(this.api);

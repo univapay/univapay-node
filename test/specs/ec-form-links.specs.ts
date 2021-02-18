@@ -3,28 +3,28 @@ import fetchMock from "fetch-mock";
 import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI";
-import { Emails } from "../../src/resources/Emails";
-import { generateFixture as generateCheckoutInfo } from "../fixtures/emails";
+import { ECFormLinks } from "../../src/resources/ECFormLinks";
+import { generateFixture as generateCheckoutInfo } from "../fixtures/ec-form-link";
 import { testEndpoint } from "../utils";
 import { pathToRegexMatcher } from "../utils/routes";
 
-describe("Emails", () => {
+describe("EC Form links", () => {
     let api: RestAPI;
-    let emails: Emails;
+    let ecFormLinks: ECFormLinks;
 
     const recordData = generateCheckoutInfo();
-    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/merchants/:merchantId/checkout/emails/:id`);
+    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/merchants/:merchantId/checkout/links/:id`);
 
     beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
-        emails = new Emails(api);
+        ecFormLinks = new ECFormLinks(api);
     });
 
     afterEach(() => {
         fetchMock.restore();
     });
 
-    context("GET /merchants/:merchantId/checkout/emails/:id", () => {
+    context("GET /merchants/:merchantId/checkout/links/:id", () => {
         it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
@@ -32,7 +32,7 @@ describe("Emails", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(emails.get(uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(ecFormLinks.get(uuid(), uuid())).to.eventually.eql(recordData);
         });
     });
 });
