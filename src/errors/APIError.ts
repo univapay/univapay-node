@@ -106,6 +106,8 @@ export enum ResponseErrorCode {
     AlreadyCaptured = "ALREADY_CAPTURED",
     CaptureAmountTooLarge = "CAPTURE_AMOUNT_TOO_LARGE",
     PartialCaptureNotSupported = "PARTIAL_CAPTURE_NOT_SUPPORTED",
+    DebitAuthorizationDisabled = "DEBIT_AUTHORIZATION_DISABLED",
+    PrePaidAuthorizationDisabled = "PREPAID_AUTHORIZATION_DISABLED",
 
     NoGatewaysAvailable = "NO_GATEWAY_AVAILABLE",
     CardBrandNotSupported = "CARD_BRAND_NOT_SUPPORTED",
@@ -170,7 +172,7 @@ export enum ResponseErrorCode {
     UnsupportedLanguage = "UNSUPPORTED_LANGUAGE",
     DefaultLanguageNotSupported = "DEFAULT_LANGUAGE_NOT_SUPPORTED",
     CaptureOnlyForCardPayment = "CAPTURE_ONLY_FOR_CARD_PAYMENT",
-    CaptureOnlyForCreditCards = "CAPTURE_ONLY_FOR_CREDIT_CARDS",
+    InvalidCardTypeForCapture = "INVALID_CARD_TYPE_FOR_CAPTURE",
     InvalidScheduledCaptureDate = "INVALID_SCHEDULED_CAPTURE_DATE",
     InvalidMerchantStatus = "INVALID_MERCHANT_STATUS",
     IncoherentDateRange = "INCOHERENT_DATE_RANGE",
