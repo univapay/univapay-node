@@ -69,6 +69,10 @@ yarn add univapay-node
 
 ```typescript
 import SDK from "univapay-node";
+// Node.JSなど、fetchが提供されない環境では
+// import "cross-fetch/polyfill"
+// import "isomorphic-form-data"
+// を使ってください
 
 const apiEndpoint = "https://api.univapay.com";
 const storeJwt = jwt; // `準備`を参照
