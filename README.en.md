@@ -69,6 +69,9 @@ If you do not already have your store application token, please create it first:
 
 ```typescript
 import SDK from "univapay-node";
+// In environments where fetch is not provided, please use the following polyfills:
+// import "cross-fetch/polyfill"
+// import "isomorphic-form-data"
 
 const apiEndpoint = "https://api.univapay.com";
 const storeJwt = jwt; // see `Requirements`

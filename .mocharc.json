@@ -3,5 +3,6 @@
   "reporter": "tap",
   "recursive": true,
   "fullTrace": true,
-  "spec": ["test/specs/*.specs.ts", "test/specs/**/*.specs.ts"]
+  "spec": ["test/specs/*.specs.ts", "test/specs/**/*.specs.ts"],
+  "require": ["cross-fetch/polyfill", "isomorphic-form-data"]
 }

@@ -5,9 +5,6 @@
 import { EventEmitter } from "events";
 import { stringify as stringifyQuery } from "query-string";
 
-import "cross-fetch/polyfill";
-import "isomorphic-form-data";
-
 import {
     DEFAULT_ENDPOINT,
     ENV_KEY_APP_ID,
