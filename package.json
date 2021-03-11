@@ -77,7 +77,7 @@
   },
   "dependencies": {
     "change-case": "^4.1.2",
-    "events": "^3.2.0",
+    "events": "^3.3.0",
     "jsonwebtoken": "^8.5.1",
     "query-string": "^5.1.1",
     "tslib": "^2.1.0"
