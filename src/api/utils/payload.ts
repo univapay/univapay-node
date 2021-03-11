@@ -1,3 +1,5 @@
+import isBuffer from "is-buffer";
+
 import { isBlob, toSnakeCase, transformKeys } from "../../utils";
 
 const isPrimitive = (value: unknown): value is symbol | null =>
@@ -34,7 +36,7 @@ export const objectToFormData = (obj: unknown, keyFormatter = toSnakeCase, ignor
             for (let i = 0; i < data.length; i++) {
                 appendFormData(data[i], `${path}[${i}]`);
             }
-        } else if (data && isObject(data) && !Buffer.isBuffer(data)) {
+        } else if (data && isObject(data) && !isBuffer(data)) {
             // Object
             for (const key in data) {
                 appendFormData(data[key], path ? `${path}.${key}` : key);

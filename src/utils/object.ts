@@ -4,6 +4,7 @@
  */
 
 import { camelCase, snakeCase } from "change-case";
+import isBuffer from "is-buffer";
 
 export type Transformer = (...args: any[]) => string;
 
@@ -24,11 +25,11 @@ export const transformKeys = (
     transformer: Transformer,
     ignoreKeys: string[] = []
 ): any => {
-    const transformArray = (arr: unknown[], transformer: Transformer): any =>
+    const transformArray = (arr: unknown[]): any =>
         arr.map((item) => (isObject(item) ? transformKeys(item, transformer, ignoreKeys) : item));
 
     if (Array.isArray(obj)) {
-        return transformArray(obj, transformer);
+        return transformArray(obj);
     }
 
     const ignoredKeySet = new Set(ignoreKeys || []);
@@ -39,7 +40,7 @@ export const transformKeys = (
             return { ...acc, [key]: value };
         }
 
-        const shouldTransformKeys = isObject(value) && !isBlob(value) && !Buffer.isBuffer(value);
+        const shouldTransformKeys = isObject(value) && !isBlob(value) && !isBuffer(value);
         const formattedValue = shouldTransformKeys ? transformKeys(value, transformer, ignoreKeys) : value;
 
         acc[transformer(key)] = formattedValue;
