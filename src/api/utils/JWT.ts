@@ -2,7 +2,7 @@
  *  @internal
  *  @module Utils
  */
-import { decode } from "jsonwebtoken";
+import decode from "jwt-decode";
 
 import { JWTError } from "../../errors/JWTError";
 import { toCamelCase, transformKeys } from "../../utils/object";
