@@ -221,6 +221,7 @@ export enum ResponseErrorCode {
 
     /* Gateway simulation */
     PlatformCredentialsDisabled = "PLATFORM_CREDENTIALS_DISABLED",
+    TaggedPlatformCredentialsDisabled = "TAGGED_PLATFORM_CREDENTIAL_DISABLED",
     ForbiddenGateway = "FORBIDDEN_GATEWAY",
     ForbiddenQrGateway = "FORBIDDEN_QR_GATEWAY",
     BlacklistedTagOnMerchant = "BLACKLISTED_TAG_ON_MERCHANT",
