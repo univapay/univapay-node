@@ -117,6 +117,7 @@ export interface ConfigurationItem {
     userTransactionsConfiguration?: UserTransactionsConfiguration;
     descriptorProvidedConfiguration?: DescriptorProvidedConfiguration;
     platformCredentialsEnabled?: boolean;
+    taggedPlatformCredentialsEnabled?: boolean;
 }
 
 export interface ConfigurationParams {
