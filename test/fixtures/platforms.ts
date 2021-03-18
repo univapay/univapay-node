@@ -39,6 +39,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             subscriptionConfiguration: generateFixtureSubscriptionConfiguration(),
             onlyDirectCurrency: false,
             platformCredentialsEnabled: true,
+            taggedPlatformCredentialsEnabled: true,
         },
         refundPercentLimit: 5,
         paymentDefaults: {

@@ -19,6 +19,7 @@ export interface PlatformUserDefaults {
     subscriptionConfiguration: Partial<SubscriptionsConfiguration>;
     onlyDirectCurrency: boolean;
     platformCredentialsEnabled: boolean;
+    taggedPlatformCredentialsEnabled: boolean;
 }
 
 export interface PlatformPaymentDefaults {
