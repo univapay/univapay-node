@@ -221,6 +221,7 @@ export enum ResponseErrorCode {
 
     /* Gateway simulation */
     PlatformCredentialsDisabled = "PLATFORM_CREDENTIALS_DISABLED",
+    TaggedPlatformCredentialsDisabled = "TAGGED_PLATFORM_CREDENTIALS_DISABLED",
     ForbiddenGateway = "FORBIDDEN_GATEWAY",
     ForbiddenQrGateway = "FORBIDDEN_QR_GATEWAY",
     BlacklistedTagOnMerchant = "BLACKLISTED_TAG_ON_MERCHANT",
@@ -231,6 +232,7 @@ export enum ResponseErrorCode {
     GatewayConfigNotFound = "GATEWAY_CONFIG_NOT_FOUND",
     NotActive = "NOT_ACTIVE",
     ModeNotSupported = "MODE_NOT_SUPPORTED",
+    NoStratusConfiguration = "NO_STRATUS_CONFIGURATION",
 
     /* Refund */
     RefundExceedsChargeAmount = "REFUND_EXCEEDS_CHARGE_AMOUNT",
