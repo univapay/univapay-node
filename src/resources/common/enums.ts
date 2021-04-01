@@ -35,6 +35,14 @@ export enum CardCategory {
     CLASSIC = "classic",
     CORPORATE = "corporate",
     PREPAID = "prepaid",
+    GOLD = "gold",
+    TITANIUM = "titanium",
+    PLATINUM = "platinum",
+    ATM = "atm",
+    ELECTRON = "electron",
+    MAESTRO = "maestro",
+    WORLD = "world",
+    BUSINESS ="business",
 }
 
 export enum ProcessingMode {
