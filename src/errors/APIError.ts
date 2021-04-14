@@ -239,6 +239,7 @@ export enum ResponseErrorCode {
     CannotRefundUnsuccessfulCharge = "CANNOT_REFUND_UNSUCCESSFUL_CHARGE",
     RefundNotAllowed = "REFUND_NOT_ALLOWED",
     CancelNotAllowed = "CANCEL_NOT_ALLOWED",
+    PartialRefundNotSupported = "PARTIAL_REFUND_NOT_SUPPORTED",
 
     /* apple pay */
     ApplePayNotEnabled = "APPLE_PAY_NOT_ENABLED",
