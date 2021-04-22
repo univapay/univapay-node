@@ -42,7 +42,7 @@ export enum CardCategory {
     ELECTRON = "electron",
     MAESTRO = "maestro",
     WORLD = "world",
-    BUSINESS ="business",
+    BUSINESS = "business",
 }
 
 export enum ProcessingMode {
@@ -65,6 +65,7 @@ export enum QRBrand {
     D_BARAI = "d_barai",
     EZLINK = "ezlink",
     GCASH = "gcash",
+    GINKO_PAY = "ginko_pay",
     GLOBAL_PAY = "global_pay",
     HAMA_PAY = "hama_pay",
     HOKUHOKU_PAY_HOKKAIDO = "hokuhoku_pay_hokkaido",
@@ -77,6 +78,7 @@ export enum QRBrand {
     OKI_PAY = "oki_pay",
     ORIGAMI = "origami",
     PAY_PAY = "pay_pay",
+    PAY_PAY_MERCHANT = "pay_pay_merchant",
     QQ = "qq",
     RAKUTEN_PAY = "rakuten_pay",
     RAKUTEN_PAY_MERCHANT = "rakuten_pay_merchant",
@@ -92,7 +94,7 @@ export enum QRBrand {
 export enum QRGateway {
     ALIPAY = "alipay",
     ALIPAY_CONNECT = "alipay_connect",
-    ALIPAY_CONNECT_ONLINE = "alipay_connect_online",
+    ALIPAY_CONNECT_MPM = "alipay_connect_mpm",
     ALIPAY_MERCHANT_QR = "alipay_merchant_qr",
     AU_PAY = "au_pay",
     BARTONG = "bartong",
@@ -112,6 +114,7 @@ export enum QRGateway {
 
 export enum OnlineBrand {
     ALIPAY_ONLINE = "alipay_online",
+    ALIPAY_CONNECT_ONLINE = "alipay_connect_online",
     PAY_PAY_ONLINE = "pay_pay_online",
 }
 
