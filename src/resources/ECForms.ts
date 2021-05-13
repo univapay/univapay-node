@@ -112,7 +112,7 @@ export type ResponseECForm<Metadata = BaseMetadata> = ECFormItem<Metadata>;
 
 export class ECForms extends CRUDResource {
     static requiredParams: string[] = [];
-    static routeBase = "checkout/forms";
+    static routeBase = "/checkout/forms";
 
     get(
         id: string,

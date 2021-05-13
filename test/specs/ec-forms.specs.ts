@@ -13,7 +13,7 @@ describe("EC Forms", () => {
     let ecForms: ECForms;
 
     const recordData = generateCheckoutInfo();
-    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/merchants/:merchantId/checkout/forms/:id`);
+    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/forms/:id`);
 
     beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
@@ -24,7 +24,7 @@ describe("EC Forms", () => {
         fetchMock.restore();
     });
 
-    context("GET /merchants/:merchantId/checkout/forms/:id", () => {
+    context("GET /checkout/forms/:id", () => {
         it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
@@ -32,7 +32,7 @@ describe("EC Forms", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(ecForms.get(uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(ecForms.get(uuid())).to.eventually.eql(recordData);
         });
     });
 });
