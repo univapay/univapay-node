@@ -21,15 +21,14 @@ export type ECFormLinkItem = {
 export type ResponseECFormLink = ECFormLinkItem;
 
 export class ECFormLinks extends CRUDResource {
-    static routeBase = "/merchants/:merchantId/checkout/links";
+    static routeBase = "/checkout/links";
 
     get(
-        merchantId: string,
         id: string,
         data?: SendData<void>,
         auth?: AuthParams,
         callback?: ResponseCallback<ResponseECFormLink>
     ): Promise<ResponseECFormLink> {
-        return this._getRoute()(data, callback, auth, { merchantId, id });
+        return this._getRoute()(data, callback, auth, { id });
     }
 }

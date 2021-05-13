@@ -13,7 +13,7 @@ describe("Emails", () => {
     let emails: Emails;
 
     const recordData = generateCheckoutInfo();
-    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/merchants/:merchantId/checkout/emails/:id`);
+    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/emails/:id`);
 
     beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
@@ -24,7 +24,7 @@ describe("Emails", () => {
         fetchMock.restore();
     });
 
-    context("GET /merchants/:merchantId/checkout/emails/:id", () => {
+    context("GET /checkout/emails/:id", () => {
         it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
@@ -32,7 +32,7 @@ describe("Emails", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(emails.get(uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(emails.get(uuid())).to.eventually.eql(recordData);
         });
     });
 });
