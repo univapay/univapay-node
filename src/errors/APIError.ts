@@ -240,6 +240,7 @@ export enum ResponseErrorCode {
     RefundNotAllowed = "REFUND_NOT_ALLOWED",
     CancelNotAllowed = "CANCEL_NOT_ALLOWED",
     PartialRefundNotSupported = "PARTIAL_REFUND_NOT_SUPPORTED",
+    RefundPercentageExceeded = "REFUND_PERCENTAGE_EXCEEDED",
 
     /* apple pay */
     ApplePayNotEnabled = "APPLE_PAY_NOT_ENABLED",
