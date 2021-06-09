@@ -1,6 +1,9 @@
 node_modules/
-dist/
 docs/
+dist/*
+!dist/cjs
+dist/cjs/*
+!dist/cjs/package.json
 
 .DS_Store
 *.swp
