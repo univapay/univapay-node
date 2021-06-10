@@ -11,6 +11,7 @@
     "node": "^10 || ^12 || ^14"
   },
   "sideEffects": false,
+  "type": "module",
   "main": "dist/cjs",
   "module": "dist/esm",
   "exports": {
