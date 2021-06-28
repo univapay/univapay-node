@@ -88,8 +88,8 @@
     "scripts": {
         "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
         "format": "prettier \"src/**/*.{ts,tsx}\" \"test/**/*.{ts,tsx}\" --write",
-        "test": "NODE_OPTIONS='--experimental-loader=module --loader=ts-node/esm' nyc mocha",
-        "coverage": "NODE_OPTIONS='--experimental-loader nyc report --reporter=text-lcov | covells'",
+        "test": "nyc mocha",
+        "coverage": "nyc report --reporter=text-lcov | coveralls",
         "build:cjs": "tsc",
         "build:esm": "tsc --project tsconfig.esm.json",
         "build": "npm run build:cjs && npm run build:esm",
