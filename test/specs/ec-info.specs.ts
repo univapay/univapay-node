@@ -8,7 +8,7 @@ import { ECInfo } from "../../src/resources/ECInfo";
 import { generateFixture as generateCheckoutInfo } from "../fixtures/ec-info";
 import { testEndpoint } from "../utils";
 
-describe("EC Form links", () => {
+describe("EC Info", () => {
     let api: RestAPI;
     let ecInfo: ECInfo;
 
