@@ -14,7 +14,7 @@ export type ECInfoItem = {
 
     form: ECFormItem;
     link: ECFormLinkItem;
-    email: EmailItem;
+    email?: EmailItem;
 };
 
 export type ECInfoGetParams = { secret: string };
