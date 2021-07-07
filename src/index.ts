@@ -3,6 +3,7 @@
  */
 
 import { RestAPIOptions } from "./api/RestAPI";
+import { ECInfo } from "./resources/ECInfo";
 import { WebHookTrigger as PublicWebHookTrigger } from "./resources/WebHooks";
 import {
     BankAccounts,
@@ -40,6 +41,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
     public captures: Captures;
     public charges: Charges;
     public checkoutInfo: CheckoutInfo;
+    public ecInfo: ECInfo;
     public ecFormLinks: ECFormLinks;
     public ecForms: ECForms;
     public emails: Emails;
@@ -63,6 +65,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
         this.captures = new Captures(this.api);
         this.charges = new Charges(this.api);
         this.checkoutInfo = new CheckoutInfo(this.api);
+        this.ecInfo = new ECInfo(this.api);
         this.ecFormLinks = new ECFormLinks(this.api);
         this.ecForms = new ECForms(this.api);
         this.emails = new Emails(this.api);
