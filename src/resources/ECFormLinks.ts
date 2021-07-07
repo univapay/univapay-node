@@ -1,5 +1,5 @@
 /**
- *  @module Resources/Emails
+ *  @module Resources/ECFormLinks
  */
 import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
