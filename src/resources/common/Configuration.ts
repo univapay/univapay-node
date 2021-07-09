@@ -27,7 +27,9 @@ export type CardConfigurationMonthlyLimit = AmountWithCurrency & { duration: str
 
 export interface CardConfigurationItem extends PaymentTypeConfiguration {
     debitEnabled: boolean;
+    debitAuthorizationEnabled: boolean;
     prepaidEnabled: boolean;
+    prepaidAuthorizationEnabled: boolean;
     forbiddenCardBrands: CardBrand[];
     foreignCardsAllowed: boolean;
     failOnNewEmail: boolean;

@@ -20,7 +20,9 @@ export const generateFixtureQRScanConfiguration = (): QRScanConfigurationItem =>
 export const generateFixtureCardConfiguration = (): CardConfigurationItem => ({
     ...generateFixturePaymentType(),
     debitEnabled: true,
+    debitAuthorizationEnabled: true,
     prepaidEnabled: true,
+    prepaidAuthorizationEnabled: true,
     forbiddenCardBrands: [CardBrand.AMEX],
     foreignCardsAllowed: true,
     failOnNewEmail: false,
