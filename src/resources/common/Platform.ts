@@ -27,7 +27,9 @@ export interface PlatformPaymentDefaults {
     qrScanEnabled: boolean;
     qrMerchantEnabled: boolean;
     prepaidEnabled: boolean;
+    prepaidAuthorizationEnabled: boolean;
     debitEnabled: boolean;
+    debitAuthorizationEnabled: boolean;
     convenienceEnabled: boolean;
     onlineEnabled: boolean;
     paidyEnabled: boolean;
