@@ -106,6 +106,7 @@ export enum QRGateway {
     QQ = "qq",
     ORIGAMI = "origami",
     PAY_PAY = "pay_pay",
+    PAY_PAY_MERCHANT = "pay_pay_merchant",
     RAKUTEN_PAY = "rakuten_pay",
     RAKUTEN_PAY_MERCHANT = "rakuten_pay_merchant",
     VIA = "via",
