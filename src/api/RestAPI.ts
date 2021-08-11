@@ -12,6 +12,7 @@ import {
     ENV_KEY_ENDPOINT,
     ENV_KEY_SECRET,
     IDEMPOTENCY_KEY_HEADER,
+    POLLING_INTERVAL,
     POLLING_TIMEOUT,
 } from "../common/constants";
 import { RequestErrorCode, ResponseErrorCode } from "../errors/APIError";
@@ -297,7 +298,8 @@ export class RestAPI extends EventEmitter {
         condition: (response: A) => boolean,
         cancelCondition?: (response: A) => boolean,
         callback?: ResponseCallback<A>,
-        timeout: number = POLLING_TIMEOUT
+        timeout: number = POLLING_TIMEOUT,
+        interval: number = POLLING_INTERVAL
     ): Promise<A> {
         return execRequest(async () => {
             let timedOut = false;
@@ -319,6 +321,7 @@ export class RestAPI extends EventEmitter {
                     }
 
                     if (!timedOut && !condition(result)) {
+                        await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
                         return repeater();
                     }
 
