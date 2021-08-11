@@ -314,7 +314,6 @@ export class RestAPI extends EventEmitter {
                 }),
                 // Repeater
                 (async function repeater(): Promise<A> {
-                    await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
                     const result = await promise();
 
                     if (cancelCondition && cancelCondition(result)) {
@@ -322,6 +321,7 @@ export class RestAPI extends EventEmitter {
                     }
 
                     if (!timedOut && !condition(result)) {
+                        await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
                         return repeater();
                     }
 
