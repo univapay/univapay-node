@@ -5,7 +5,7 @@ import { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
 
 import { HTTPMethod, RestAPI } from "../../src/api/RestAPI";
-import { POLLING_TIMEOUT } from "../../src/common/constants";
+import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants";
 import { RequestError } from "../../src/errors/RequestResponseError";
 import { TimeoutError } from "../../src/errors/TimeoutError";
 import {
@@ -144,7 +144,11 @@ describe("Subscriptions", () => {
                 }
             );
 
-            await expect(subscriptions.poll(uuid(), uuid())).to.eventually.eql(recordData);
+            const request = subscriptions.poll(uuid(), uuid());
+            await sandbox.clock.tickAsync(POLLING_INTERVAL);
+            await sandbox.clock.tickAsync(POLLING_INTERVAL);
+
+            await expect(request).to.eventually.eql(recordData);
         });
 
         it("should timeout polling", async () => {
