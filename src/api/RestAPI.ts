@@ -314,12 +314,8 @@ export class RestAPI extends EventEmitter {
                 }),
                 // Repeater
                 (async function repeater(): Promise<A> {
-                    const result = await new Promise<A>((resolve) => {
-                        setTimeout(async () => {
-                            const r = await promise();
-                            resolve(r);
-                        }, interval);
-                    });
+                    await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
+                    const result = await promise();
 
                     if (cancelCondition && cancelCondition(result)) {
                         return null;
