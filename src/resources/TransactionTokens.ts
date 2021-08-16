@@ -131,6 +131,7 @@ export interface TransactionTokenListParams extends CRUDPaginationParams {
 
 export interface TransactionTokenUpdateParams {
     email?: string;
+    data?: { cvv?: string };
 }
 
 export interface TransactionTokenConfirmParams {
