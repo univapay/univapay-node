@@ -89,6 +89,7 @@ export enum QRBrand {
     YOKA_PAY_SHINWA = "yoka_pay_shinwa",
     YUCHO_PAY = "yucho_pay",
     WE_CHAT = "we_chat",
+    WE_CHAT_MPM = "we_chat_mpm",
 }
 
 export enum QRGateway {
@@ -113,12 +114,14 @@ export enum QRGateway {
     RAKUTEN_PAY_MERCHANT = "rakuten_pay_merchant",
     VIA = "via",
     WE_CHAT = "we_chat",
+    WE_CHAT_MPM = "we_chat_mpm",
 }
 
 export enum OnlineBrand {
     ALIPAY_ONLINE = "alipay_online",
     ALIPAY_CONNECT_ONLINE = "alipay_connect_online",
     PAY_PAY_ONLINE = "pay_pay_online",
+    WE_CHAT_ONLINE = "we_chat_online",
 }
 
 /**
@@ -127,4 +130,5 @@ export enum OnlineBrand {
 export enum OnlineGateway {
     ALIPAY_ONLINE = "alipay_online",
     PAY_PAY_ONLINE = "pay_pay_online",
+    WE_CHAT_ONLINE = "we_chat_online",
 }
