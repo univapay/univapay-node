@@ -67,6 +67,13 @@ export enum CvvAuthorizedStatus {
     INACTIVE = "inactive",
 }
 
+export enum OnlineCallMethod {
+    HTTP_GET = "http_get",
+    HTTP_POST = "http_post",
+    SDK = "sdk",
+    WEB = "web",
+}
+
 /* Request */
 
 export interface TransactionTokenCardData {
@@ -96,6 +103,7 @@ export interface TransactionTokenConvenienceData {
 
 export interface TransactionTokenOnlineData {
     brand: OnlineBrand;
+    callMethod?: OnlineCallMethod; // defaults to OnlineCallMethod.HTTP_POST
 
     /** @deprecated Use `brand` instead */
     gateway?: OnlineGateway;
