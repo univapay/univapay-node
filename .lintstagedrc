@@ -1,5 +1,5 @@
 {
-  "{src|test}/**/*.ts": [
+  "src|test/**/*.ts": [
     "pretty-quick - staged",
     "eslint"
   ]

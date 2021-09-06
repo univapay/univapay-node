@@ -1,6 +1,6 @@
 {
   "ts-node": {
-    "compiler": "ttypescript",
+    "compiler": "ttypescript"
   },
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
@@ -44,7 +44,7 @@
   "plugins": [
     {
       "transform": "typescript-transform-extensions",
-      "extensions": {".ts": ".js"}
+      "extensions": { ".ts": ".js" }
     }
   ]
 }
