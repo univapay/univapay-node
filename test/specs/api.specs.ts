@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import fetchMock, { FetchMockStatic } from "fetch-mock";
 import jwt from "jsonwebtoken";
-import { Response } from "node-fetch";
 import { parseUrl } from "query-string";
 import sinon, { SinonSandbox } from "sinon";
 
@@ -500,7 +499,7 @@ describe("API", function () {
     });
 
     it("should parse JSON only if proper header is present in the response", async function () {
-        const blobBody = await new Response(new ArrayBuffer(2)).blob();
+        const blobBody = await new Response(new ArrayBuffer(2) as Buffer).blob();
         const asserts = [
             ["json", { foo: "bar" }, "application/json"],
             ["raw", "foo", "text/plain"],
