@@ -3,11 +3,5 @@
   "compilerOptions": {
     "module": "es2015",
     "outDir": "./dist/esm",
-    "plugins": [
-      {
-        "transform": "typescript-transform-extensions",
-        "extensions": {".ts": ".js"}
-      }
-    ]
   }
 }

@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "compiler": "ttypescript",
+  },
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -37,5 +40,11 @@
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "plugins": [
+    {
+      "transform": "typescript-transform-extensions",
+      "extensions": {".ts": ".js"}
+    }
+  ]
 }
