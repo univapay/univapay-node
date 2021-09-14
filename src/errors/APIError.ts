@@ -25,8 +25,10 @@ export enum ResponseErrorCode {
     InvalidRequest = "INVALID_REQUEST",
     UnableToGetIdempotentResult = "UNABLE_TO_GET_IDEMPOTENT_REQUEST",
     ServiceUnavailableTryAgain = "SERVICE_UNAVAILABLE_TRY_AGAIN",
+    RateLimitExceeded = "RATE_LIMIT_EXCEEDED",
 
     /* auth */
+    InvalidIpAddress = "INVALID_IP_ADDRESS",
     InvalidDomain = "INVALID_DOMAIN",
     InvalidCredentials = "INVALID_CREDENTIALS",
     AuthHeaderMissing = "AUTH_HEADER_MISSING",
@@ -69,30 +71,46 @@ export enum ResponseErrorCode {
     StratusCredentialsExists = "STRATUS_CREDENTIALS_EXISTS",
     StratusRuleStillInUse = "STRATUS_RULE_STILL_IN_USE",
     ResourceLimitReached = "RESOURCE_LIMIT_REACHED",
+    RequiresValidMerchantGatewayConfig = "REQUIRES_VALID_MERCHANT_GATEWAY_CONFIG",
+    MergedConfigurationNotFound = "MERGED_CONFIGURATION_NOT_FOUND",
+    GatewayConfigurationExists = "GATEWAY_CONFIGURATION_EXISTS",
     OnlyOnePaidyCredentialsAllowed = "ONLY_ONE_PAIDY_CREDENTIALS_ALLOWED",
+    OnlyOneDBaraiCredentialsAllowed = "ONLY_ONE_D_BARAI_CREDENTIALS_ALLOWED",
+    OnlyMerchantOrStoreCredentialsAllowed = "ONLY_MERCHANT_OR_STORE_CREDENTIALS_ALLOWED",
 
     /* payments and charges */
     InvalidTokenType = "INVALID_TOKEN_TYPE",
     InvalidToken = "INVALID_TOKEN",
     InvalidCard = "INVALID_CARD",
+    TransactionTokenIsNotRecurring = "TRANSACTION_TOKEN_IS_NOT_RECURRING",
     ForbiddenIP = "FORBIDDEN_IP",
     InvalidUserData = "INVALID_USER_DATA",
     NonUniqueActiveToken = "NON_UNIQUE_ACTIVE_TOKEN",
     TransactionAlreadyProcessed = "TRANSACTION_ALREADY_PROCESSED",
     TransactionTokenExpired = "TRANSACTION_TOKEN_EXPIRED",
     NoTestCardInLiveMode = "NO_TEST_CARD_IN_LIVE_MODE",
+    ProcessingModeMismatch = "PROCESSING_MODE_MISMATCH",
+    PaymentTypeNotAllowed = "PAYMENT_TYPE_NOT_ALLOWED",
     RecurringTokenNotAllowed = "RECURRING_TOKEN_NOT_ALLOWED",
     RecurringTokenDisabled = "RECURRING_TOKEN_DISABLED",
     RecurringUsageLimitRequired = "RECURRING_USAGE_LIMIT_REQUIRED",
     RecurringUsageRequiresCVV = "RECURRING_USAGE_REQUIRES_CVV",
+    CvvAuthorizationNotCompleted = "CVV_AUTHORIZATION_NOT_COMPLETED",
     UsageLimitNotApplicable = "USAGE_LIMIT_NOT_APPLICABLE",
     CardProcessingDisabled = "CARD_PROCESSING_DISABLED",
     QRProcessingDisabled = "QR_PROCESSING_DISABLED",
+    PaidyProcessingDisabled = "PAIDY_PROCESSING_DISABLED",
+    MerchantQRProcessingDisabled = "MERCHANT_QR_PROCESSING_DISABLED",
+    OnlineProcessingDisabled = "ONLINE_PROCESSING_DISABLED",
     ConvenienceProcessingDisabled = "CONVENIENCE_PROCESSING_DISABLED",
     NotOneTimeToken = "NOT_ONE_TIME_TOKEN",
     NotSubscriptionToken = "NOT_SUBSCRIPTION_TOKEN",
     NotRecurringToken = "NOT_RECURRING_TOKEN",
     CurrencyMustMatchCharge = "CURRENCY_MUST_MATCH_CHARGE",
+    NoDirectCurrencyGateway = "NO_DIRECT_CURRENCY_GATEWAY",
+    TokenMustBeConfirmed = "TOKEN_MUST_BE_CONFIRMED",
+    ConfirmationRequiresEmail = "CONFIRMATION_REQUIRES_EMAIL",
+    WrongConfirmationCode = "WRONG_CONFIRMATION_CODE",
     RefundNotWithinBounds = "REFUND_NOT_WITHIN_BOUNDS",
     InvalidTransfer = "INVALID_TRANSFER",
     TransferAlreadyExists = "TRANSFER_ALREADY_EXISTS",
@@ -102,6 +120,7 @@ export enum ResponseErrorCode {
     SelfTransferNotPermitted = "SELF_TRANSFER_NOT_PERMITTED",
     CardLocked = "CARD_LOCKED",
     SubscriptionProcessing = "SUBSCRIPTION_PROCESSING",
+    SubscriptionUnsupportedForInstallment = "SUBSCRIPTION_UNSUPPORTED_FOR_INSTALLMENT",
     CannotUpdateTransactionToken = "CANNOT_UPDATE_TRANSACTION_TOKEN",
     AlreadyCaptured = "ALREADY_CAPTURED",
     CaptureAmountTooLarge = "CAPTURE_AMOUNT_TOO_LARGE",
@@ -110,6 +129,11 @@ export enum ResponseErrorCode {
     PrePaidAuthorizationDisabled = "PREPAID_AUTHORIZATION_DISABLED",
 
     NoGatewaysAvailable = "NO_GATEWAY_AVAILABLE",
+    NoGatewayCredentialsAvailable = "NO_GATEWAY_CREDENTIALS_AVAILABLE",
+    NoGatewayTransactionIdAvailable = "NO_GATEWAY_TRANSACTION_ID_AVAILABLE",
+    PaymentTypeNotSupportedForCheck = "PAYMENT_TYPE_NOT_SUPPORTED_FOR_CHECK",
+    NoGatewayCredentialsForSelectedPaymentType = "NO_GATEWAY_CREDENTIALS_FOR_SELECTED_PAYMENT_TYPE",
+    DisabledPaymentType = "DISABLED_PAYMENT_TYPE",
     CardBrandNotSupported = "CARD_BRAND_NOT_SUPPORTED",
     CardCountryNotSupported = "CARD_COUNTRY_NOT_SUPPORTED",
     CVVRequired = "CVV_REQUIRED",
@@ -117,7 +141,15 @@ export enum ResponseErrorCode {
     AuthNotSupported = "AUTH_NOT_SUPPORTED",
 
     InvalidBinRange = "INVALID_BIN_RANGE",
+    OverlappingStratusTerminalIdRange = "OVERLAPPING_STRATUS_TERMINAL_ID_RANGE",
+    InvalidStratusTerminalIdRange = "INVALID_STRATUS_TERMINAL_ID_RANGE",
+    InvalidCardCompany = "INVALID_CARD_COMPANY",
     VerificationRequired = "VERIFICATION_REQUIRED",
+
+    /* online */
+    AlipayOnlineInvalidSignatureType = "ALIPAY_ONLINE_INVALID_SIGNATURE_TYPE",
+    PayPayOnlineInvalidPayMethod = "PAY_PAY_ONLINE_INVALID_PAY_METHOD",
+    PayPayOnlineInvalidMerchantId = "PAY_PAY_ONLINE_INVALID_MERCHANT_ID",
 
     /* validation responses */
     ChangeProhibited = "CHARGE_PROHIBITED",
@@ -134,6 +166,7 @@ export enum ResponseErrorCode {
     InvalidFormatUUID = "INVALID_UUID",
     InvalidFormatBase64 = "INVALID_FORMAT_BASE64",
     InvalidFormatEmail = "INVALID_FORMAT_EMAIL",
+    InvalidCardDescriptor = "INVALID_CARD_DESCRIPTOR",
     InvalidFormatCurrency = "INVALID_FORMAT_CURRENCY",
     InvalidCurrency = "INVALID_CURRENCY",
     InvalidAmount = "INVALID_AMOUNT",
@@ -160,6 +193,9 @@ export enum ResponseErrorCode {
     InvalidFormatDate = "INVALID_FORMAT_DATE",
     InvalidChargeStatus = "INVALID_CHARGE_STATUS",
     InvalidQRScanGateway = "INVALID_QR_SCAN_GATEWAY",
+    NotQRCharge = "NOT_QR_CHARGE",
+    NotOnlineCharge = "NOT_ONLINE_CHARGE",
+    IssuerTokenEmpty = "ISSUER_TOKEN_EMPTY",
     CardLimitExceededForStore = "CARD_LIMIT_EXCEEDED_FOR_STORE",
     InvalidLanguage = "INVALID_LANGUAGE",
     SubscriptionNotAllowed = "SUBSCRIPTION_NOT_ALLOWED",
@@ -171,6 +207,7 @@ export enum ResponseErrorCode {
     ExpirationDateOutOfBounds = "EXPIRATION_DATE_OUT_OF_BOUNDS",
     UnsupportedLanguage = "UNSUPPORTED_LANGUAGE",
     DefaultLanguageNotSupported = "DEFAULT_LANGUAGE_NOT_SUPPORTED",
+    OnlyForCardPayment = "ONLY_FOR_CARD_PAYMENT",
     CaptureOnlyForCardPayment = "CAPTURE_ONLY_FOR_CARD_PAYMENT",
     InvalidCardTypeForCapture = "INVALID_CARD_TYPE_FOR_CAPTURE",
     InvalidScheduledCaptureDate = "INVALID_SCHEDULED_CAPTURE_DATE",
@@ -182,6 +219,7 @@ export enum ResponseErrorCode {
     UnableToReadCredentials = "UNABLE_TO_READ_CREDENTIALS",
     GatewayError = "GATEWAY_ERROR",
     GatewayNoLongerSupported = "GATEWAY_NO_LONGER_SUPPORTED",
+    MediaCannotBeShortened = "MEDIA_CANNOT_BE_SHORTENED",
     InvalidChargeAmountLimit = "INVALID_CHARGE_AMOUNT_LIMIT",
     PlatformCurrencyRequiredInCvvAmount = "PLATFORM_CURRENCY_REQUIRED_IN_CVV_AMOUNT",
     TransferScheduleWaitPeriodAndPeriodRequired = "TRANSFER_SCHEDULE_WAIT_PERIOD_AND_PERIOD_REQUIRED",
@@ -189,6 +227,9 @@ export enum ResponseErrorCode {
     ChargeAmountTooHigh = "CHARGE_AMOUNT_TOO_HIGH",
     MustHaveAtLeastOneElement = "MUST_HAVE_AT_LEAST_ONE_ELEMENT",
     MustContainPlatformCurrency = "MUST_CONTAIN_PLATFORM_CURRENCY",
+    CurrencyMustBeInAmountsList = "CURRENCY_MUST_BE_IN_AMOUNTS_LIST",
+
+    BrandNotDefined = "BRAND_NOT_DEFINED",
 
     /** Used when creating a new Merchant */
     OnlyASCII = "ONLY_ASCII",
@@ -197,6 +238,7 @@ export enum ResponseErrorCode {
     AtLeastOneLetter = "AT_LEAST_ONE_LETTER",
     EmptyRoles = "EMPTY_ROLES",
     EditOwnRolesNotAllowed = "EDIT_OWN_ROLES_NOT_ALLOWED",
+    EditOwnStatusNotAllowed = "EDIT_OWN_STATUS_NOT_ALLOWED",
     InvalidCardBrand = "INVALID_CARD_BRAND",
     UnsupportedCountry = "UNSUPPORTED_COUNTRY",
     UnsupportedCurrency = "UNSUPPORTED_CURRENCY",
@@ -204,6 +246,7 @@ export enum ResponseErrorCode {
     CannotSelfTerminate = "CANNOT_SELF_TERMINATE",
     NoDuplicateCurrencies = "NO_DUPLICATE_CURRENCIES",
 
+    InvalidPathValue = "INVALID_PATH_VALUE",
     PlatformNotFound = "PLATFORM_NOT_FOUND",
     InvalidPlatform = "INVALID_PLATFORM",
     InvalidInvoiceFeeConfiguration = "INVALID_INVOICE_FEE_CONFIGURATION",
@@ -218,6 +261,7 @@ export enum ResponseErrorCode {
     /* gateway credentials */
     CredentialsExist = "CREDENTIALS_EXISTS",
     GatewayConfigurationRequired = "GATEWAY_CONFIGURATION_REQUIRED",
+    GatewayConfigurationNotRequired = "GATEWAY_CONFIGURATION_NOT_REQUIRED",
 
     /* Gateway simulation */
     PlatformCredentialsDisabled = "PLATFORM_CREDENTIALS_DISABLED",
@@ -245,6 +289,8 @@ export enum ResponseErrorCode {
     /* apple pay */
     ApplePayNotEnabled = "APPLE_PAY_NOT_ENABLED",
     ApplePayAlreadyEnabled = "APPLE_PAY_ALREADY_ENABLED",
+    ApplePayCertificateAlreadySet = "APPLE_PAY_CERTIFICATE_ALREADY_SET",
+    ApplePayCertificateStillInUse = "APPLE_PAY_CERTIFICATE_STILL_IN_USE",
     ApplePayCertificateAlreadyUpdated = "APPLE_PAY_CERTIFICATE_ALREADY_UPDATED",
     ApplePayUnsupportedAlgorithm = "APPLE_PAY_UNSUPPORTED_ALGORITHM",
     ApplePayCertificateNotFound = "APPLE_PAY_CERTIFICATE_NOT_FOUND",
@@ -290,6 +336,7 @@ export enum ResponseErrorCode {
     PaymentInTimePeriod = "PAYMENT_IN_TIME_PERIOD",
     SecondChargeAlreadyMade = "SECOND_CHARGE_ALREADY_MADE",
     NotSupportedByProcessor = "NOT_SUPPORTED_BY_PROCESSOR",
+    SubscriptionAlreadyEnded = "SUBSCRIPTION_ALREADY_ENDED",
     SubscriptionAlreadyCanceled = "SUBSCRIPTION_ALREADY_CANCELED",
     SubscriptionNotFound = "SUBSCRIPTION_NOT_FOUND",
     MustBeLowerThanFullAmount = "MUST_BE_LOWER_THAN_FULL_AMOUNT",
@@ -298,6 +345,8 @@ export enum ResponseErrorCode {
     InstallmentInvalidPlan = "INSTALLMENT_INVALID_PLAN",
     InstallmentInvalidPlanType = "INSTALLMENT_INVALID_PLAN_TYPE",
     InstallmentPaymentTypeNotAllowedForPlan = "INSTALLMENT_PAYMENT_TYPE_NOT_ALLOWED_FOR_PLAN",
+    CardProcessorDisabledForInstallmentPlan = "CARD_PROCESSOR_DISABLED_FOR_INSTALLMENT_PLAN",
+    CardProcessorInstallmentFutureDated = "CARD_PROCESSOR_INSTALLMENT_FUTURE_DATED",
     InstallmentInvalidInitialAmount = "INSTALLMENT_INVALID_INITIAL_AMOUNT",
     InstallmentMaxPayoutPeriodExceeded = "INSTALLMENT_MAX_PAYOUT_PERIOD_EXCEEDED",
     InstallmentInsufficientAmountPerCharge = "INSTALLMENT_INSUFFICIENT_AMOUNT_PER_CHARGE",
@@ -306,6 +355,7 @@ export enum ResponseErrorCode {
     InstallmentProcessorInitialAmountsNotSupported = "INSTALLMENT_PROCESSOR_INITIAL_AMOUNTS_NOT_SUPPORTED",
     InstallmentProcessorPeriodNotSupported = "INSTALLMENT_PROCESSOR_PERIOD_NOT_SUPPORTED",
     CannotChangeToken = "CANNOT_CHANGE_TOKEN",
+    SubscriptionNotEnabled = "SUBSCRIPTION_NOT_ENABLED",
     InstallmentsNotEnabled = "INSTALLMENTS_NOT_ENABLED",
     CannotChangeInstallmentAmount = "CANNOT_CHANGE_INSTALLMENT_AMOUNT",
     CannotChangeToInstallment = "CANNOT_CHANGE_TO_INSTALLMENT",
@@ -328,6 +378,7 @@ export enum ResponseErrorCode {
 
     /* path bindables */
     InvalidElasticIndex = "INVALID_ELASTIC_INDEX",
+    InvalidDynamoTable = "INVALID_DYNAMO_TABLE",
     InvalidDateHistogramInterval = "INVALID_DATE_HISTORY_INTERVAL",
     InvalidSqsEndpointKey = "INVALID_SQS_ENDPOINT_KEY",
 
@@ -340,6 +391,10 @@ export enum ResponseErrorCode {
     PrepaidDisabled = "PREPAID_DISABLED",
     CountryNotSupported = "COUNTRY_NOT_SUPPORTED",
     Unspecified = "UNSPECIFIED",
+
+    PaidyShippingAddressNeedsOneOptionalField = "PAIDY_SHIPPING_ADDRESS_NEEDS_ONE_OPTIONAL_FIELD",
+
+    RevertNotAllowed = "REVERT_NOT_ALLOWED",
 
     /* gateway configuration errors */
     InvalidMerchantCategoryCode = "INVALID_MERCHANT_CATEGORY_CODE",
