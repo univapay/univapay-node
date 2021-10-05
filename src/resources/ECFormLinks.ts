@@ -11,6 +11,12 @@ export type ECFormLinkItem = {
     storeId: string;
     formId: string;
 
+    description: string | null;
+
+    expiry: string | null;
+    jwt: string;
+    secret: string;
+
     amount: number;
     amountFormatted: string;
     currency: string;
