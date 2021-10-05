@@ -6,15 +6,10 @@ import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 import { CRUDResource } from "./CRUDResource";
 import { ECFormLinkItem } from "./ECFormLinks";
 import { ECFormItem } from "./ECForms";
-import { EmailItem } from "./Emails";
 
 export type ECInfoItem = {
-    id: string;
-    jwt: string;
-
     form: ECFormItem;
     link: ECFormLinkItem;
-    email?: EmailItem;
 };
 
 export type ECInfoGetParams = { secret: string };
