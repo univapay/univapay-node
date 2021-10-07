@@ -16,6 +16,7 @@ export enum SubscriptionPeriod {
     WEEKLY = "weekly",
     BIWEEKLY = "biweekly",
     MONTHLY = "monthly",
+    BIMONTHLY = "bimonthly",
     QUARTERLY = "quarterly",
     SEMIANNUALLY = "semiannually",
     ANNUALLY = "annually",
