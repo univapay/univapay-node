@@ -27,7 +27,7 @@ export type ECFormLinkItem = {
     updatedOn: string;
 
     tokenType: TransactionTokenType;
-    metadata: Metadata;
+    metadata?: Metadata;
 
     // One time
     chargeAuth?: boolean;
