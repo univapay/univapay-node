@@ -4,6 +4,8 @@
 import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
 import { CRUDResource } from "./CRUDResource";
+import { SubscriptionPeriod } from "./Subscriptions";
+import { TransactionTokenType } from "./TransactionTokens";
 
 export type ECFormLinkItem = {
     id: string;
@@ -22,6 +24,21 @@ export type ECFormLinkItem = {
     currency: string;
     createdOn: string;
     updatedOn: string;
+
+    tokenType: TransactionTokenType;
+
+    // One time
+    chargeAuth?: boolean;
+    chargeCaptureOn?: boolean;
+
+    // Subscription
+    subscriptionStartOn?: string;
+    subscriptionInitialAmount?: number;
+    subscriptionPeriod?: SubscriptionPeriod; // installment period is always one month
+
+    // Installment
+    withInstallment?: boolean; // The only installment plan is fixed cycles
+    installmentCycles?: number;
 };
 
 export type ResponseECFormLink = ECFormLinkItem;
