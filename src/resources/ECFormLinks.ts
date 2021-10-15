@@ -3,6 +3,7 @@
  */
 import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
+import { Metadata } from "./common/types";
 import { CRUDResource } from "./CRUDResource";
 import { SubscriptionPeriod } from "./Subscriptions";
 import { TransactionTokenType } from "./TransactionTokens";
@@ -26,6 +27,7 @@ export type ECFormLinkItem = {
     updatedOn: string;
 
     tokenType: TransactionTokenType;
+    metadata: Metadata;
 
     // One time
     chargeAuth?: boolean;
