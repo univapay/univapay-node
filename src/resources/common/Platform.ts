@@ -1,5 +1,6 @@
 import {
     CardBrandPercentFeesItem,
+    CheckoutConfiguration,
     InstallmentsConfiguration,
     SubscriptionsConfiguration,
     UserTransactionsConfiguration,
@@ -16,6 +17,7 @@ export interface PlatformUserDefaults {
     minTransferPayout: AmountWithCurrency;
     installmentsConfiguration: Partial<InstallmentsConfiguration>;
     userTransactionsConfiguration?: UserTransactionsConfiguration;
+    checkoutConfiguration?: CheckoutConfiguration;
     subscriptionConfiguration: Partial<SubscriptionsConfiguration>;
     onlyDirectCurrency: boolean;
     platformCredentialsEnabled: boolean;
