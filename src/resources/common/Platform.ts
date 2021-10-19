@@ -17,7 +17,7 @@ export interface PlatformUserDefaults {
     minTransferPayout: AmountWithCurrency;
     installmentsConfiguration: Partial<InstallmentsConfiguration>;
     userTransactionsConfiguration?: UserTransactionsConfiguration;
-    checkoutConfiguration?: CheckoutConfiguration;
+    checkoutConfiguration: CheckoutConfiguration;
     subscriptionConfiguration: Partial<SubscriptionsConfiguration>;
     onlyDirectCurrency: boolean;
     platformCredentialsEnabled: boolean;
