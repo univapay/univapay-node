@@ -95,6 +95,10 @@ export interface DescriptorProvidedConfiguration {
     name: string;
     phoneNumber: string;
 }
+export interface WidgetConfiguration {
+    ecEmail?: { enabled?: boolean | null } | null;
+    ecProduct?: { enabled?: boolean | null } | null;
+}
 
 export interface ConfigurationItem {
     cardBrandPercentFees: CardBrandPercentFeesItem;
@@ -117,6 +121,7 @@ export interface ConfigurationItem {
     securityConfiguration: SecurityConfiguration;
     subscriptionConfiguration: SubscriptionsConfiguration;
     userTransactionsConfiguration?: UserTransactionsConfiguration;
+    widgetConfiguration?: WidgetConfiguration | null;
     descriptorProvidedConfiguration?: DescriptorProvidedConfiguration;
     platformCredentialsEnabled?: boolean;
     taggedPlatformCredentialsEnabled?: boolean;
@@ -134,6 +139,7 @@ export interface ConfigurationParams {
     recurringTokenConfiguration?: Partial<RecurringTokenConfiguration>;
     descriptorProvidedConfiguration?: Partial<DescriptorProvidedConfiguration>;
     subscriptionConfiguration?: Partial<SubscriptionsConfiguration>;
+    widgetConfiguration: Partial<WidgetConfiguration> | null;
     securityConfiguration?: Partial<SecurityConfiguration>;
 }
 
