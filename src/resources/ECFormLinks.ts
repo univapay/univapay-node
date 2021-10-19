@@ -3,7 +3,10 @@
  */
 import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
 
+import { Metadata } from "./common/types";
 import { CRUDResource } from "./CRUDResource";
+import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions";
+import { TransactionTokenType } from "./TransactionTokens";
 
 export type ECFormLinkItem = {
     id: string;
@@ -22,6 +25,23 @@ export type ECFormLinkItem = {
     currency: string;
     createdOn: string;
     updatedOn: string;
+
+    tokenType: TransactionTokenType;
+    metadata?: Metadata;
+
+    // One time
+    chargeAuth?: boolean;
+    chargeCaptureOn?: boolean;
+
+    // Subscription
+    subscriptionStartOn?: string;
+    subscriptionInitialAmount?: number;
+    subscriptionPeriod?: SubscriptionPeriod;
+
+    // Installment
+    installmentPlan?: InstallmentPlan;
+    installmentCycles?: number;
+    installmentCycleAmount?: number;
 };
 
 export type ResponseECFormLink = ECFormLinkItem;
