@@ -96,8 +96,8 @@ export interface DescriptorProvidedConfiguration {
     phoneNumber: string;
 }
 export type CheckoutConfiguration = {
-    ecEmail: { enabled: boolean };
-    ecProduct: { enabled: boolean };
+    ecEmail: { enabled?: boolean };
+    ecProducts: { enabled?: boolean };
 };
 
 export interface ConfigurationItem {
@@ -121,7 +121,7 @@ export interface ConfigurationItem {
     securityConfiguration: SecurityConfiguration;
     subscriptionConfiguration: SubscriptionsConfiguration;
     userTransactionsConfiguration?: UserTransactionsConfiguration;
-    checkoutConfiguration?: CheckoutConfiguration | null;
+    checkoutConfiguration: CheckoutConfiguration;
     descriptorProvidedConfiguration?: DescriptorProvidedConfiguration;
     platformCredentialsEnabled?: boolean;
     taggedPlatformCredentialsEnabled?: boolean;
@@ -139,7 +139,7 @@ export interface ConfigurationParams {
     recurringTokenConfiguration?: Partial<RecurringTokenConfiguration>;
     descriptorProvidedConfiguration?: Partial<DescriptorProvidedConfiguration>;
     subscriptionConfiguration?: Partial<SubscriptionsConfiguration>;
-    checkoutConfiguration: Partial<CheckoutConfiguration> | null;
+    checkoutConfiguration?: Partial<CheckoutConfiguration>;
     securityConfiguration?: Partial<SecurityConfiguration>;
 }
 

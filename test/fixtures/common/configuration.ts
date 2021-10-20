@@ -80,6 +80,10 @@ export const generateFixture = (): ConfigurationItem => ({
         suspendOnCancel: true,
         failedChargesToCancel: 10,
     },
+    checkoutConfiguration: {
+        ecEmail: { enabled: true },
+        ecProducts: { enabled: true },
+    },
     descriptorProvidedConfiguration: {
         name: "test descriptor",
         phoneNumber: "+81123456789",
