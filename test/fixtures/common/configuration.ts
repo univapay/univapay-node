@@ -82,7 +82,7 @@ export const generateFixture = (): ConfigurationItem => ({
     },
     checkoutConfiguration: {
         ecEmail: { enabled: true },
-        ecProduct: { enabled: true },
+        ecProducts: { enabled: true },
     },
     descriptorProvidedConfiguration: {
         name: "test descriptor",

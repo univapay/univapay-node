@@ -37,7 +37,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             },
             checkoutConfiguration: {
                 ecEmail: { enabled: true },
-                ecProduct: { enabled: true },
+                ecProducts: { enabled: true },
             },
             installmentsConfiguration: generateFixtureInstallmentConfiguration(),
             subscriptionConfiguration: generateFixtureSubscriptionConfiguration(),

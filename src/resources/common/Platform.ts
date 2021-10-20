@@ -9,7 +9,7 @@ import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types";
 
 type CheckoutConfiguration = {
     ecEmail: { enabled: boolean };
-    ecProduct: { enabled: boolean };
+    ecProducts: { enabled: boolean };
 };
 
 export interface PlatformUserDefaults {
