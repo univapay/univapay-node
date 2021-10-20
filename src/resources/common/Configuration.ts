@@ -96,8 +96,8 @@ export interface DescriptorProvidedConfiguration {
     phoneNumber: string;
 }
 export type CheckoutConfiguration = {
-    ecEmail: { enabled?: boolean };
-    ecProduct: { enabled?: boolean };
+    ecEmail?: { enabled?: boolean };
+    ecProduct?: { enabled?: boolean };
 };
 
 export interface ConfigurationItem {

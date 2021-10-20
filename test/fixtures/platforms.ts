@@ -35,6 +35,10 @@ export const generateFixture = (): PlatformConfigurationItem => ({
                 amount: 1000,
                 currency: "JPY",
             },
+            checkoutConfiguration: {
+                ecEmail: { enabled: true },
+                ecProduct: { enabled: true },
+            },
             installmentsConfiguration: generateFixtureInstallmentConfiguration(),
             subscriptionConfiguration: generateFixtureSubscriptionConfiguration(),
             onlyDirectCurrency: false,
