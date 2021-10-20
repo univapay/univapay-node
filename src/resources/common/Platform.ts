@@ -1,12 +1,16 @@
 import {
     CardBrandPercentFeesItem,
-    CheckoutConfiguration,
     InstallmentsConfiguration,
     SubscriptionsConfiguration,
     UserTransactionsConfiguration,
 } from "./Configuration";
 import { TransferScheduleItem } from "./TransferSchedule";
 import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types";
+
+type CheckoutConfiguration = {
+    ecEmail: { enabled: boolean };
+    ecProduct: { enabled: boolean };
+};
 
 export interface PlatformUserDefaults {
     percentFee: number;
