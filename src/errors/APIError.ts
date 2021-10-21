@@ -136,6 +136,7 @@ export enum ResponseErrorCode {
     DisabledPaymentType = "DISABLED_PAYMENT_TYPE",
     CardBrandNotSupported = "CARD_BRAND_NOT_SUPPORTED",
     CardCountryNotSupported = "CARD_COUNTRY_NOT_SUPPORTED",
+    CurrencyNotSupported = "CURRENCY_NOT_SUPPORTED",
     CVVRequired = "CVV_REQUIRED",
     LastNameRequired = "LAST_NAME_REQUIRED",
     AuthNotSupported = "AUTH_NOT_SUPPORTED",
