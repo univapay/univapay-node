@@ -24,6 +24,7 @@ export interface MerchantItem {
     verified: boolean;
     createdOn: string;
     configuration: MerchantConfigurationItem;
+    notificationEmail?: string;
 }
 
 export type ResponseMerchant = MerchantItem;
