@@ -8,7 +8,7 @@
     },
     "bugs": "https://github.com/univapay/univapay-node/issues",
     "engines": {
-        "node": "^12 || ^14"
+        "node": ">=12"
     },
     "sideEffects": false,
     "type": "module",
@@ -25,7 +25,10 @@
         }
     },
     "files": [
-        "dist"
+        "dist",
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md"
     ],
     "jsnext:main": "dist/esm",
     "keywords": [
@@ -89,13 +92,11 @@
         "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
         "format": "prettier \"src/**/*.{ts,tsx}\" \"test/**/*.{ts,tsx}\" --write",
         "test": "nyc mocha",
-        "coverage": "nyc report --reporter=text-lcov | coveralls",
         "build:cjs": "tsc",
         "build:esm": "ttsc --project tsconfig.esm.json",
         "build": "npm run build:cjs && npm run build:esm",
         "preversion": "npm test",
         "docs": "typedoc --options typedoc.json",
-        "copy": "cp -rf package.json CHANGELOG.md LICENSE README.md dist",
         "release": "np --no-yarn --no-publish --no-release-draft",
         "prepare": "husky install"
     }
