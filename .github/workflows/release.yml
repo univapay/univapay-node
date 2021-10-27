@@ -23,11 +23,11 @@ jobs:
     - name: Lint
       run: npm run lint
 
-    - name: Build
-      run: npm run build
-
     - name: Test
       run: npm test
+
+    - name: Build
+      run: npm run build
 
     - run: npm publish
       env:
