@@ -62,7 +62,7 @@
         "husky": "7.0.2",
         "isomorphic-form-data": "2.0.0",
         "jsonwebtoken": "8.5.1",
-        "lint-staged": "11.1.2",
+        "lint-staged": "11.2.6",
         "mocha": "9.1.1",
         "np": "7.5.0",
         "nyc": "15.1.0",
