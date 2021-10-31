@@ -7,14 +7,15 @@
   ],
   "exclude": [
     "coverage/**",
+    "test/**",
     "**/*.d.ts"
   ],
   "reporter": [
     "text",
     "text-summary",
-    "html"
+    "html",
+    "lcovonly"
   ],
-  "cwd": "src",
   "all": true,
   "check-coverage": false,
   "per-file": false,
