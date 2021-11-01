@@ -11,6 +11,6 @@ dist/cjs/*
 *.iml
 .idea
 *.orig
-.nyc_output
+.eslintcache
 coverage/
 reports/
