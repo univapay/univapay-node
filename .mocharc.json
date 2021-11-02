@@ -8,6 +8,7 @@
         "test/specs/**/*.specs.ts"
     ],
     "require": [
+        "ts-node/register/type-check",
         "cross-fetch/dist/node-polyfill.js",
         "isomorphic-form-data"
     ]

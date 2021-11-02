@@ -2,9 +2,6 @@
   "extension": [
     ".ts"
   ],
-  "require": [
-    "ts-node/register/type-check"
-  ],
   "exclude": [
     "coverage/**",
     "test/**",
