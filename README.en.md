@@ -3,7 +3,6 @@
 [yarn]: https://yarnpkg.com/
 [webpack]: https://webpack.js.org/
 [rollup]: https://rollupjs.org/
-[circle-ci-url]: https://circleci.com/gh/univapay/univapay-node/tree/master
 [univapay-url]: https://univapay.com/
 [npm-url]: https://www.npmjs.com/package/univapay-node
 [github-url]: https://github.com/univapay/univapay-node/
@@ -12,7 +11,6 @@
 [coveralls-url]: https://coveralls.io/github/univapay/univapay-node?branch=master
 [license-url]: https://github.com/univapay/univapay-node/blob/master/LICENSE
 [cla-url]: https://cla-assistant.io/univapay/univapay-node
-[shield-circle-ci]: https://circleci.com/gh/univapay/univapay-node/tree/master.svg?style=svg
 [shield-node]: https://img.shields.io/node/v/univapay-node.svg
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
 [shield-downloads]: https://img.shields.io/npm/dm/univapay-node.svg
@@ -31,7 +29,6 @@ SDK library for [Node.js][node] to consume [UnivaPay][univapay-url] API.
 
 [日本語](README.md)
 
-[![CircleCI][shield-circle-ci]][circle-ci-url]
 [![NPM version][shield-npm]][npm-url]
 [![Node.js version support][shield-node]][node]
 [![Code coverage][shield-coverage]][coveralls-url]
@@ -128,7 +125,7 @@ After creating a charge the status will be initialized to `pending`. It will bec
 import SDK, {
     PaymentType,
     TransactionTokenType,
-    ResponseError
+    ResponseError,
 } from "univapay-node";
 
 const sdk = new SDK({ endpoint, jwt, secret });
