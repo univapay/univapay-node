@@ -5,6 +5,7 @@
 [rollup]: https://rollupjs.org/
 [univapay-url]: https://univapay.com/
 [npm-url]: https://www.npmjs.com/package/univapay-node
+[build-url]: https://github.com/univapay/univapay-node/actions
 [github-url]: https://github.com/univapay/univapay-node/
 [github-issues-url]: https://github.com/univapay/univapay-node/issues
 [github-pr-url]: https://github.com/univapay/univapay-node/pulls
@@ -13,6 +14,7 @@
 [cla-url]: https://cla-assistant.io/univapay/univapay-node
 [shield-node]: https://img.shields.io/node/v/univapay-node.svg
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
+[shield-build]: https://img.shields.io/github/workflow/status/univapay/univapay-node/test/master
 [shield-downloads]: https://img.shields.io/npm/dm/univapay-node.svg
 [shield-license]: https://img.shields.io/npm/l/univapay-node.svg
 [shield-dependencies]: https://img.shields.io/david/univapay/univapay-node.svg
@@ -29,6 +31,7 @@
 
 [English readme](README.en.md)
 
+[![Github Actions][shield-build]][build-url]
 [![NPM version][shield-npm]][npm-url]
 [![Node.js version support][shield-node]][node]
 [![Code coverage][shield-coverage]][coveralls-url]
