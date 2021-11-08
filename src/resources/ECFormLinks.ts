@@ -27,7 +27,11 @@ export type ECFormLinkItem = {
     updatedOn: string;
 
     tokenType: TransactionTokenType;
+    tokenOnly: boolean;
     metadata?: Metadata;
+
+    // Recurring
+    cvvAuthorize?: boolean;
 
     // One time
     chargeAuth?: boolean;
