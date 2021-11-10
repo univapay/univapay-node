@@ -7,7 +7,7 @@ import { checkStatus, parseJSON } from "../../src/utils/fetch";
 const { stringify } = JSONBig({ useNativeBigInt: true });
 
 const createResponse = (data: Record<string, unknown>, status = 200) =>
-    new Response(stringify(data, null, 2), { "status": status, "statusText": "Dummy status" });
+    new Response(stringify(data, null, 2), { status, statusText: "Dummy status" });
 
 describe("Fetch Helpers", () => {
     describe("parseJSON", () => {
@@ -40,9 +40,9 @@ describe("Fetch Helpers", () => {
         });
 
         it("return the parsed response body with bigint", async () => {
-            const result = await parseJSON(createResponse({ key1: 123456789101112131415n }), ["key3"]);
+            const result = await parseJSON(createResponse({ key1: BigInt("0123456789101112131415") }), ["key3"]);
 
-            expect(result).eql({ key1: 123456789101112131415n });
+            expect(result).eql({ key1: BigInt("0123456789101112131415") });
         });
     });
 
