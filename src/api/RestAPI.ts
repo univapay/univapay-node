@@ -97,19 +97,18 @@ export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
 
-function getRequestBody<Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData {
-    return containsBinaryData(data)
+const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData =>
+    containsBinaryData(data)
         ? objectToFormData(data, keyFormatter, ["metadata"])
         : JSON.stringify(transformKeys(data, keyFormatter, ["metadata"]));
-}
 
-function stringifyParams<Data extends Record<string, any>>(data: Data): string {
+const stringifyParams = <Data extends Record<string, any>>(data: Data): string => {
     const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });
 
     return query ? `?${query}` : "";
-}
+};
 
-async function execRequest<A>(executor: () => Promise<A>, callback?: ResponseCallback<A>): Promise<A> {
+const execRequest = async <A>(executor: () => Promise<A>, callback?: ResponseCallback<A>): Promise<A> => {
     try {
         const response = await executor();
         if (typeof callback === "function") {
@@ -125,7 +124,7 @@ async function execRequest<A>(executor: () => Promise<A>, callback?: ResponseCal
 
         throw err;
     }
-}
+};
 
 export class RestAPI extends EventEmitter {
     endpoint: string;
@@ -175,16 +174,16 @@ export class RestAPI extends EventEmitter {
     /**
      * @internal
      */
-    async send<A, Data = any>(
+    async send<ResponseBody, Data = unknown>(
         method: HTTPMethod,
         uri: string,
         data?: SendData<Data>,
         auth?: AuthParams,
-        callback?: ResponseCallback<A>,
+        callback?: ResponseCallback<ResponseBody>,
         requireAuth = true,
         acceptType?: string,
         keyFormatter = toSnakeCase
-    ): Promise<A> {
+    ): Promise<ResponseBody | string | Blob | FormData> {
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
 
@@ -209,7 +208,7 @@ export class RestAPI extends EventEmitter {
 
         this.emit("request", request);
 
-        return execRequest(async () => {
+        return execRequest<ResponseBody | string | Blob | FormData>(async () => {
             const response = await fetch(request);
 
             this.emit("response", response);
@@ -230,7 +229,7 @@ export class RestAPI extends EventEmitter {
 
             const contentType = response.headers.get("content-type");
             if (contentType === "application/json") {
-                return parseJSON(response, ["metadata"]);
+                return parseJSON<ResponseBody>(response, ["metadata"]);
             } else if (contentType) {
                 if (contentType.indexOf("text/") === 0) {
                     return response.text();

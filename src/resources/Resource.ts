@@ -99,7 +99,8 @@ export abstract class Resource extends EventEmitter {
                 return Promise.reject(err);
             }
 
-            return api.send(method, url, data, auth, callback, requireAuth, acceptType, keyFormatter);
+            // TODO: Have a look as this cast, the response can be other objects such as string, Blob or FormData
+            return api.send(method, url, data, auth, callback, requireAuth, acceptType, keyFormatter) as Promise<B>;
         };
     }
 }
