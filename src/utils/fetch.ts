@@ -3,6 +3,8 @@
  *  @module Utils
  */
 
+import JSONBig from "json-bigint";
+
 import { APIError } from "../errors/APIError";
 
 import { toCamelCase, transformKeys } from "./object";
@@ -12,7 +14,7 @@ export const parseJSON = async <FormattedBody>(
     ignoreKeys: string[] = ["metadata"]
 ): Promise<FormattedBody> => {
     const text = await response.text();
-    return text ? transformKeys(JSON.parse(text), toCamelCase, ignoreKeys) : {};
+    return text ? transformKeys(JSONBig.parse(text), toCamelCase, ignoreKeys) : {};
 };
 
 export const checkStatus = async (response: Response): Promise<Response> => {

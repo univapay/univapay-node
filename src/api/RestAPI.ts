@@ -3,6 +3,7 @@
  */
 
 import { EventEmitter } from "events";
+import JSONBig from "json-bigint";
 import { stringify as stringifyQuery } from "query-string";
 
 import {
@@ -100,7 +101,7 @@ export type SendData<Data> = Data;
 const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData =>
     containsBinaryData(data)
         ? objectToFormData(data, keyFormatter, ["metadata"])
-        : JSON.stringify(transformKeys(data, keyFormatter, ["metadata"]));
+        : JSONBig.stringify(transformKeys(data, keyFormatter, ["metadata"]));
 
 const stringifyParams = <Data extends Record<string, any>>(data: Data): string => {
     const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });
