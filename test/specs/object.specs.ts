@@ -89,7 +89,12 @@ describe("Object Helpers", () => {
     });
 
     describe("isBlob", () => {
-        it("should return true when the parameter is a blob", () => {
+        it("should return true when the parameter is a blob", function () {
+            if (process.version.includes("v12")) {
+                // node 12 does not support blob
+                this.skip();
+            }
+
             expect(isBlob(new Blob(["test"]))).eql(true);
         });
 
