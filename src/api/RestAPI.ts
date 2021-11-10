@@ -98,10 +98,12 @@ export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
 
+const { stringify } = JSONBig({ useNativeBigInt: true });
+
 const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData =>
     containsBinaryData(data)
         ? objectToFormData(data, keyFormatter, ["metadata"])
-        : JSONBig({ useNativeBigInt: true }).stringify(transformKeys(data, keyFormatter, ["metadata"]));
+        : stringify(transformKeys(data, keyFormatter, ["metadata"]));
 
 const stringifyParams = <Data extends Record<string, any>>(data: Data): string => {
     const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });

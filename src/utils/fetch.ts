@@ -9,12 +9,14 @@ import { APIError } from "../errors/APIError";
 
 import { toCamelCase, transformKeys } from "./object";
 
+const { parse } = JSONBig({ useNativeBigInt: true });
+
 export const parseJSON = async <FormattedBody>(
     response: Response,
     ignoreKeys: string[] = ["metadata"]
 ): Promise<FormattedBody> => {
     const text = await response.text();
-    return text ? transformKeys(JSONBig({ useNativeBigInt: true }).parse(text), toCamelCase, ignoreKeys) : {};
+    return text ? transformKeys(parse(text), toCamelCase, ignoreKeys) : {};
 };
 
 export const checkStatus = async (response: Response): Promise<Response> => {
