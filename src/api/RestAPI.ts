@@ -101,7 +101,7 @@ export type SendData<Data> = Data;
 const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData =>
     containsBinaryData(data)
         ? objectToFormData(data, keyFormatter, ["metadata"])
-        : JSONBig.stringify(transformKeys(data, keyFormatter, ["metadata"]));
+        : JSONBig({ useNativeBigInt: true }).stringify(transformKeys(data, keyFormatter, ["metadata"]));
 
 const stringifyParams = <Data extends Record<string, any>>(data: Data): string => {
     const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });

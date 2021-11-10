@@ -14,7 +14,7 @@ export const parseJSON = async <FormattedBody>(
     ignoreKeys: string[] = ["metadata"]
 ): Promise<FormattedBody> => {
     const text = await response.text();
-    return text ? transformKeys(JSONBig.parse(text), toCamelCase, ignoreKeys) : {};
+    return text ? transformKeys(JSONBig({ useNativeBigInt: true }).parse(text), toCamelCase, ignoreKeys) : {};
 };
 
 export const checkStatus = async (response: Response): Promise<Response> => {
