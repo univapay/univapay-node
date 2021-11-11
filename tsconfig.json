@@ -38,10 +38,4 @@
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],
-
-  "ts-node": {
-    "compilerOptions": {
-      "target": "es2020",
-    }
-  }
 }
