@@ -50,4 +50,25 @@ describe("SDK", () => {
                 .equal(sdk.api);
         }
     });
+
+    it("should add listener on the sdk", () => {
+        const sdk = new SDK({ endpoint: "/" });
+
+        const expectedPromise = new Promise((resolve) => sdk.addListener("test", () => resolve(true)));
+
+        sdk.emit("test");
+
+        expect(expectedPromise).to.eventually.be.fulfilled;
+    });
+
+    it("should add listener on the resource", () => {
+        const sdk = new SDK({ endpoint: "/" });
+        const resource = new WebHooks(sdk.api);
+
+        const expectedPromise = new Promise((resolve) => resource.addListener("test", () => resolve(true)));
+
+        resource.emit("test");
+
+        expect(expectedPromise).to.eventually.be.fulfilled;
+    });
 });

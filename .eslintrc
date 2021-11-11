@@ -14,7 +14,7 @@
         "commonjs": true
     },
     "parserOptions": {
-        "ecmaVersion": 8
+        "ecmaVersion": 2020
     },
     "rules": {
         "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -27,7 +27,9 @@
             {
                 "groups": [
                     ["^react", "^@?\\w"],
-                    ["^(@|@company|@ui|components|utils|config|vendored-lib)(/.*|$)"],
+                    [
+                        "^(@|@company|@ui|components|utils|config|vendored-lib)(/.*|$)"
+                    ],
                     ["^\\u0000"],
                     ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
                     ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],

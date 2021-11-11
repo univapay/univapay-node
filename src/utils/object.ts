@@ -32,7 +32,7 @@ export const transformKeys = (
         return transformArray(obj);
     }
 
-    const ignoredKeySet = new Set(ignoreKeys || []);
+    const ignoredKeySet = new Set(ignoreKeys);
     return Object.keys(obj || {}).reduce((acc: Record<string, any>, key: string) => {
         const value = obj[key];
 
@@ -51,7 +51,7 @@ export const transformKeys = (
 /**
  * Returns a list from `keys` that are not found in `obj`
  */
-export function missingKeys(obj: Record<string, any>, keys: string[] = []): string[] {
+export const missingKeys = (obj: Record<string, any>, keys: string[] = []): string[] => {
     if (!obj) {
         return keys;
     }
@@ -66,4 +66,4 @@ export function missingKeys(obj: Record<string, any>, keys: string[] = []): stri
     }
 
     return missing;
-}
+};
