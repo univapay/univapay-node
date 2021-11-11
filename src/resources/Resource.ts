@@ -62,7 +62,7 @@ type ObjectType =
 
 const getObjectType = (o: unknown): ObjectType => {
     if (o === null) return "null";
-    if (o === undefined) return "undefined";
+    if (Array.isArray(o)) return "array";
     return typeof o;
 };
 
