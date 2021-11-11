@@ -48,6 +48,24 @@ function compilePath(path: string, pathParams: Record<string, string>): string {
         .replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);
 }
 
+type ObjectType =
+    | "array"
+    | "bigint"
+    | "boolean"
+    | "function"
+    | "null"
+    | "number"
+    | "object"
+    | "string"
+    | "symbol"
+    | "undefined";
+
+const getObjectType = (o: unknown): ObjectType => {
+    if (o === null) return "null";
+    if (o === undefined) return "undefined";
+    return typeof o;
+};
+
 export abstract class Resource extends EventEmitter {
     protected api: RestAPI;
 
@@ -88,7 +106,7 @@ export abstract class Resource extends EventEmitter {
              *
              * Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create#custom_and_null_objects
              */
-            const data = { ...originalData };
+            const data = getObjectType(originalData) === "object" ? { ...originalData } : originalData;
 
             const url: string = compilePath(path, pathParams);
 
