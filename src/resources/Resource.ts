@@ -76,11 +76,20 @@ export abstract class Resource extends EventEmitter {
         const api: RestAPI = this.api;
 
         return function route<A, B>(
-            data?: SendData<A>,
+            originalData?: SendData<A>,
             callback?: ResponseCallback<B>,
             auth?: AuthParams,
             pathParams: Record<string, string> = {}
         ): Promise<B> {
+            /**
+             * Sanitises and ensures that the data is recreated as an object with default prototypes.
+             * In rare cases if the data was created with `Object.create(null)` (no prototypes),
+             * this will cause the data to be sent as `WebKitFormBoundary` instead of regular JSON object.
+             *
+             * Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create#custom_and_null_objects
+             */
+            const data = { ...originalData };
+
             const url: string = compilePath(path, pathParams);
 
             const missingPathParams: string[] = (url.match(/:([a-z]+)/gi) || []).map((m: string) => m.replace(":", ""));
