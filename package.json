@@ -42,7 +42,7 @@
         "@types/chai-arrays": "2.0.0",
         "@types/chai-as-promised": "7.1.4",
         "@types/fetch-mock": "7.3.5",
-        "@types/jsonwebtoken": "8.5.5",
+        "@types/jsonwebtoken": "8.5.6",
         "@types/mocha": "9.0.0",
         "@types/node": "16.11.7",
         "@types/sinon": "10.0.6",
