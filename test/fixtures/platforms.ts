@@ -1,6 +1,7 @@
 import { v4 as uuid } from "uuid";
 
 import { CardBrand } from "../../src/resources/common/enums";
+import { TransferMatchAmount } from "../../src/resources/common/Platform";
 import { PlatformConfigurationItem } from "../../src/resources/Platforms";
 import { PaymentType } from "../../src/resources/TransactionTokens";
 
@@ -34,6 +35,11 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             minTransferPayout: {
                 amount: 1000,
                 currency: "JPY",
+            },
+            bankTransferConfiguration: {
+                enabled: true,
+                matchAmount: TransferMatchAmount.EXACT,
+                expiration: "2031-01-12",
             },
             checkoutConfiguration: {
                 ecEmail: { enabled: true },
