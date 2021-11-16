@@ -39,7 +39,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             bankTransferConfiguration: {
                 enabled: true,
                 matchAmount: TransferMatchAmount.EXACT,
-                expiration: "2031-01-12",
+                expiration: "P7D",
             },
             checkoutConfiguration: {
                 ecEmail: { enabled: true },
