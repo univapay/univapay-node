@@ -21,4 +21,5 @@ export const generateFixture = (): ECFormLinkItem => ({
     updatedOn: new Date().toISOString(),
 
     tokenType: TransactionTokenType.ONE_TIME,
+    tokenOnly: false,
 });
