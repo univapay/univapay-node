@@ -19,6 +19,7 @@ export enum WebHookTrigger {
     REFUND_FINISHED = "refund_finished",
     CANCEL_FINISHED = "cancel_finished",
     RECURRING_TOKEN_DELETED = "recurring_token_deleted",
+    CUSTOMS_DECLARATION_FINISHED = "customs_declaration_finished",
 
     // Merchant
     TRANSFER_CREATED = "transfer_created",
