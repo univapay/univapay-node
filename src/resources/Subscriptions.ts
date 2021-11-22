@@ -258,7 +258,7 @@ export class ScheduledPayments extends CRUDResource {
     }
 }
 
-export const hasImmediateCharge = (subscription: SubscriptionItem) => {
+const hasImmediateCharge = (subscription: SubscriptionItem) => {
     const { initialAmount, scheduleSettings } = subscription;
     return !!initialAmount || !scheduleSettings || new Date(scheduleSettings.startOn) <= new Date();
 };
