@@ -55,7 +55,7 @@
         "chai-arrays": "2.2.0",
         "chai-as-promised": "7.1.1",
         "cross-fetch": "3.1.4",
-        "eslint": "8.2.0",
+        "eslint": "8.3.0",
         "eslint-config-prettier": "8.3.0",
         "eslint-plugin-prettier": "4.0.0",
         "eslint-plugin-simple-import-sort": "7.0.0",
