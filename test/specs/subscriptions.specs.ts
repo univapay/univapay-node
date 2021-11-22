@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import fetchMock from "fetch-mock";
+import fetchMock, { MockMatcher } from "fetch-mock";
 import * as sinon from "sinon";
 import { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
@@ -8,6 +8,7 @@ import { HTTPMethod, RestAPI } from "../../src/api/RestAPI";
 import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants";
 import { RequestError } from "../../src/errors/RequestResponseError";
 import { TimeoutError } from "../../src/errors/TimeoutError";
+import { ChargeStatus, SubscriptionItem } from "../../src/resources";
 import {
     SubscriptionCreateParams,
     SubscriptionPeriod,
@@ -375,5 +376,124 @@ describe("Subscriptions", () => {
                 .that.has.property("errorResponse")
                 .which.eql(error.errorResponse);
         }
+    });
+
+    context("Poll subscription and first charge", () => {
+        const mockGetSuccessOnce = (recordPathMatcher: MockMatcher, body: unknown, name: string) =>
+            fetchMock.getOnce(
+                recordPathMatcher,
+                { status: 200, body, headers: { "Content-Type": "application/json" } },
+                { method: HTTPMethod.GET, name }
+            );
+
+        const mockSubscriptionPoll = (overrides?: Partial<SubscriptionItem>) => {
+            const subscriptionMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/subscriptions/:id`);
+            const pendingBody = generateSubscription({ status: SubscriptionStatus.UNVERIFIED, ...overrides });
+            const successBody = generateSubscription({ status: SubscriptionStatus.CURRENT, ...overrides });
+
+            mockGetSuccessOnce(subscriptionMatcher, pendingBody, "subscription_pending");
+            mockGetSuccessOnce(subscriptionMatcher, successBody, "subscription_success");
+
+            return successBody;
+        };
+
+        const mockChargesPoll = () => {
+            const chargesMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/subscriptions/:id/charges`);
+            const pendingBody = { items: [], hasMore: false };
+            const successBody = { items: [generateCharge({ status: ChargeStatus.PENDING })], hasMore: false };
+
+            mockGetSuccessOnce(chargesMatcher, pendingBody, "charges_pending");
+            mockGetSuccessOnce(chargesMatcher, successBody, "charges_success");
+
+            return successBody;
+        };
+
+        const mockChargePoll = () => {
+            const chargeMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/charges/:id`);
+            const pendingBody = generateCharge({ status: ChargeStatus.PENDING });
+            const successBody = generateCharge({ status: ChargeStatus.SUCCESSFUL });
+
+            mockGetSuccessOnce(chargeMatcher, pendingBody, "charge_pending");
+            mockGetSuccessOnce(chargeMatcher, successBody, "charge_success");
+
+            return successBody;
+        };
+
+        it("should poll the subscription and first charge", async () => {
+            const expectedSubscription = mockSubscriptionPoll();
+            mockChargesPoll();
+            const expectedCharge = mockChargePoll();
+
+            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
+            await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
+
+            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: expectedCharge });
+        });
+
+        it("should poll the charge when the charge date is today", async () => {
+            const expectedSubscription = mockSubscriptionPoll({
+                initialAmount: null,
+                scheduleSettings: { startOn: new Date().toISOString(), zoneId: "Asia/Tokyo", preserveEndOfMonth: true },
+            });
+            mockChargesPoll();
+            const expectedCharge = mockChargePoll();
+
+            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
+            await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
+
+            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: expectedCharge });
+        });
+
+        it("should poll the charge when scheduleSettings is not provided", async () => {
+            const expectedSubscription = mockSubscriptionPoll({ initialAmount: null, scheduleSettings: null });
+            mockChargesPoll();
+            const expectedCharge = mockChargePoll();
+
+            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
+            await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
+
+            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: expectedCharge });
+        });
+
+        it("should not poll the charge when the subscription is not immediate", async () => {
+            const futureDate = new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).toISOString();
+            const expectedSubscription = mockSubscriptionPoll({
+                initialAmount: null,
+                scheduleSettings: { startOn: futureDate, zoneId: "Asia/Tokyo", preserveEndOfMonth: true },
+            });
+
+            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
+            await sandbox.clock.tickAsync(POLLING_INTERVAL * 2);
+
+            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: null });
+        });
+
+        describe("Callback", () => {
+            it("should trigger the callback when polling the charge", async () => {
+                const expectedSubscription = mockSubscriptionPoll();
+                mockChargesPoll();
+                const expectedCharge = mockChargePoll();
+
+                const callback = sinon.spy();
+                subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, callback);
+                await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
+
+                expect(callback).calledOnce.calledWith({ subscription: expectedSubscription, charge: expectedCharge });
+            });
+
+            it("should trigger the callback when not polling the charge", async () => {
+                const futureDate = new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).toISOString();
+                const expectedSubscription = mockSubscriptionPoll({
+                    initialAmount: null,
+                    scheduleSettings: { startOn: futureDate, zoneId: "Asia/Tokyo", preserveEndOfMonth: true },
+                });
+
+                const callback = sinon.spy();
+                subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, callback);
+                await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
+
+                expect(callback).calledOnce.calledWith({ subscription: expectedSubscription, charge: null });
+            });
+        });
     });
 });

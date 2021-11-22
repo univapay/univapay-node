@@ -318,7 +318,7 @@ export class RestAPI extends EventEmitter {
                 (async function repeater(): Promise<A> {
                     const result = await promise();
 
-                    if (cancelCondition && cancelCondition(result)) {
+                    if (cancelCondition?.(result)) {
                         return null;
                     }
 

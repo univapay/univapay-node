@@ -10,7 +10,7 @@ import {
 
 import { generateFixture as generatePayment } from "./scheduled-payment";
 
-export const generateFixture = (): SubscriptionItem => ({
+export const generateFixture = (overrides?: Partial<SubscriptionItem>): SubscriptionItem => ({
     id: uuid(),
     storeId: uuid(),
     transactionTokenId: uuid(),
@@ -37,4 +37,5 @@ export const generateFixture = (): SubscriptionItem => ({
     nextPayment: generatePayment(),
     descriptor: "test",
     onlyDirectCurrency: false,
+    ...overrides,
 });
