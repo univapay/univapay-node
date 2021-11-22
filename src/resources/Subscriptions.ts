@@ -11,7 +11,7 @@ import { Charges } from "./Charges";
 import { ChargesListParams, ResponseCharges } from "./Charges";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 import { PaymentType } from "./TransactionTokens";
-import { ChargeStatus, ResponseCharge } from ".";
+import { ResponseCharge } from ".";
 
 export enum SubscriptionPeriod {
     DAILY = "daily",
@@ -374,25 +374,18 @@ export class Subscriptions extends CRUDResource {
         auth?: AuthParams,
         callback?: ResponseCallback<{ subscription: ResponseSubscription; charge?: ResponseCharge }>
     ): Promise<{ subscription: ResponseSubscription; charge?: ResponseCharge }> {
-        const subscription = await this.poll(storeId, id, data);
+        const subscription = await this.poll(storeId, id, data, auth);
 
-        const charge = await (async () => {
-            if (!hasImmediateCharge(subscription)) {
-                return null;
-            }
-
-            const { items: charges } = await this.api.longPolling(
-                () => this.charges(storeId, id),
-                (charges) => !!charges.items.length
-            );
-
-            const charge = await this.api.longPolling(
-                () => this.chargesResource.get(charges[0].storeId, charges[0].id, data, auth),
-                ({ status }) => status !== ChargeStatus.PENDING
-            );
-
-            return charge;
-        })();
+        const charge = hasImmediateCharge(subscription)
+            ? await this.api
+                  .longPolling(
+                      () => this.charges(storeId, id),
+                      (charges) => !!charges.items.length
+                  )
+                  .then(({ items: charges }) =>
+                      this.chargesResource.poll(charges[0].storeId, charges[0].id, data, auth)
+                  )
+            : null;
 
         callback?.({ subscription, charge });
         return { subscription, charge };
