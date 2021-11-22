@@ -4,7 +4,7 @@ import { ChargeItem, ChargeStatus } from "../../src/resources/Charges";
 import { ProcessingMode } from "../../src/resources/common/enums";
 import { TransactionTokenType } from "../../src/resources/TransactionTokens";
 
-export const generateFixture = (): ChargeItem => ({
+export const generateFixture = (overrides?: Partial<ChargeItem>): ChargeItem => ({
     id: uuid(),
     merchantId: uuid(),
     storeId: uuid(),
@@ -24,4 +24,5 @@ export const generateFixture = (): ChargeItem => ({
     createdOn: new Date().toISOString(),
     descriptor: "test",
     onlyDirectCurrency: false,
+    ...overrides,
 });

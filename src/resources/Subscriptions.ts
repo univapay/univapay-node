@@ -7,9 +7,11 @@ import { AuthParams, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData
 import { ProcessingMode } from "./common/enums";
 import { ignoreDescriptor } from "./common/ignoreDescriptor";
 import { Metadata, WithStoreMerchantName } from "./common/types";
+import { Charges } from "./Charges";
 import { ChargesListParams, ResponseCharges } from "./Charges";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
 import { PaymentType } from "./TransactionTokens";
+import { ChargeStatus, ResponseCharge } from ".";
 
 export enum SubscriptionPeriod {
     DAILY = "daily",
@@ -256,6 +258,11 @@ export class ScheduledPayments extends CRUDResource {
     }
 }
 
+export const hasImmediateCharge = (subscription: SubscriptionItem) => {
+    const { initialAmount, scheduleSettings } = subscription;
+    return !!initialAmount || !scheduleSettings || new Date(scheduleSettings.startOn) <= new Date();
+};
+
 export class Subscriptions extends CRUDResource {
     static requiredParams: string[] = ["transactionTokenId", "amount", "currency", "period"];
     static requiredSimulationParams: string[] = ["installmentPlan", "paymentType", "currency", "period"];
@@ -263,11 +270,13 @@ export class Subscriptions extends CRUDResource {
     static routeBase = "/stores/:storeId/subscriptions";
 
     payments: ScheduledPayments;
+    private chargesResource: Charges;
 
     constructor(api: RestAPI) {
         super(api);
 
         this.payments = new ScheduledPayments(api);
+        this.chargesResource = new Charges(api);
     }
 
     list(
@@ -356,6 +365,37 @@ export class Subscriptions extends CRUDResource {
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
 
         return this.api.longPolling(promise, successCondition, cancelCondition, callback);
+    }
+
+    async pollSubscriptionWithFirstCharge(
+        storeId: string,
+        id: string,
+        data?: SendData<PollParams>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<{ subscription: ResponseSubscription; charge?: ResponseCharge }>
+    ): Promise<{ subscription: ResponseSubscription; charge?: ResponseCharge }> {
+        const subscription = await this.poll(storeId, id, data);
+
+        const charge = await (async () => {
+            if (!hasImmediateCharge(subscription)) {
+                return null;
+            }
+
+            const { items: charges } = await this.api.longPolling(
+                () => this.charges(storeId, id),
+                (charges) => !!charges.items.length
+            );
+
+            const charge = await this.api.longPolling(
+                () => this.chargesResource.get(charges[0].storeId, charges[0].id, data, auth),
+                ({ status }) => status !== ChargeStatus.PENDING
+            );
+
+            return charge;
+        })();
+
+        callback?.({ subscription, charge });
+        return { subscription, charge };
     }
 
     simulation<InstallmentPlanData extends InstallmentBaseParams>(
