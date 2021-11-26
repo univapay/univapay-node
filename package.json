@@ -38,6 +38,7 @@
         "module"
     ],
     "devDependencies": {
+        "@build-script/typescript-transformer-append-js-extension": "1.0.6",
         "@types/chai": "4.2.22",
         "@types/chai-arrays": "2.0.0",
         "@types/chai-as-promised": "7.1.4",
@@ -72,11 +73,10 @@
         "sinon": "12.0.1",
         "sinon-chai": "3.7.0",
         "ts-node": "9.1.1",
-        "ttypescript": "1.5.12",
+        "ttypescript": "1.5.13",
         "typedoc": "0.22.10",
         "typedoc-plugin-internal-external": "2.2.0",
-        "typescript": "4.4.4",
-        "typescript-transform-extensions": "1.0.1",
+        "typescript": "4.5.2",
         "uuid": "8.3.2"
     },
     "dependencies": {
