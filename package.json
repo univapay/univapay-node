@@ -50,7 +50,7 @@
         "@types/sinon-chai": "3.2.6",
         "@types/uuid": "8.3.3",
         "@typescript-eslint/eslint-plugin": "5.7.0",
-        "@typescript-eslint/parser": "5.7.0",
+        "@typescript-eslint/parser": "5.9.0",
         "c8": "^7.10.0",
         "chai": "4.3.4",
         "chai-arrays": "2.2.0",
