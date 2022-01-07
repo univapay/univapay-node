@@ -220,6 +220,7 @@ export interface TransactionTokenItem<T extends Metadata = Metadata> {
     type: TransactionTokenType;
     paymentType: PaymentType;
     usageLimit?: UsageLimit;
+    confirmed?: boolean;
     data?:
         | TransactionTokenCardDataItem
         | TransactionTokenQRScanDataItem
