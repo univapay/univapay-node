@@ -90,8 +90,12 @@ describe("Object Helpers", () => {
 
     describe("isBlob", () => {
         it("should return true when the parameter is a blob", function () {
-            if (process.version.includes("v12")) {
-                // node 12 does not support blob
+            const version = process.version?.split(".");
+            const major = +version[0].substr(1); // e.g. 'v14' -> '14'
+            const minor = +version[1];
+
+            if (major <= 14 && minor <= 17) {
+                // Blob was introduced in v14.18, so skip older versions
                 this.skip();
             }
 
