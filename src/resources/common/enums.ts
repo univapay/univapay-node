@@ -82,6 +82,7 @@ export enum QRBrand {
     QQ = "qq",
     RAKUTEN_PAY = "rakuten_pay",
     RAKUTEN_PAY_MERCHANT = "rakuten_pay_merchant",
+    SMBC = "smbc",
     TOUCH_N_GO = "tng",
     TRUEMONEY = "truemoney",
     YOKA_PAY_FUKUOKA = "yoka_pay_fukuoka",
