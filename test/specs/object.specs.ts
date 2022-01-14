@@ -90,8 +90,8 @@ describe("Object Helpers", () => {
 
     describe("isBlob", () => {
         it("should return true when the parameter is a blob", function () {
-            if (process.version.includes("v12")) {
-                // node 12 does not support blob
+            if (process.version < "v14.18") {
+                // Blob was introduced in v14.18, so skip older versions
                 this.skip();
             }
 
