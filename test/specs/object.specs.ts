@@ -91,10 +91,11 @@ describe("Object Helpers", () => {
     describe("isBlob", () => {
         it("should return true when the parameter is a blob", function () {
             const version = process.version?.split(".");
-            const major = +version[0].substr(1); // e.g. 'v14' -> '14'
-            const minor = +version[1];
+            const major = +version[0]?.substr(1) || 0; // e.g. 'v14' -> '14'
+            const minor = +version[1] || 0;
+            const currVersion = [major, minor].join(".");
 
-            if (major <= 14 && minor <= 17) {
+            if (currVersion < "14.18") {
                 // Blob was introduced in v14.18, so skip older versions
                 this.skip();
             }
