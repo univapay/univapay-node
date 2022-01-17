@@ -5,6 +5,7 @@
 import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import {
+    BankTransferConfiguration,
     CardConfigurationItem,
     ConvenienceConfigurationItem,
     OnlineConfigurationItem,
@@ -48,6 +49,7 @@ export interface CheckoutInfoItem {
     mode: ProcessingMode;
     recurringTokenPrivilege: RecurringTokenPrivilege;
     name: string;
+    bankTransferConfiguration: BankTransferConfiguration;
     cardConfiguration: CardConfigurationItem;
     qrScanConfiguration: QRScanConfigurationItem;
     convenienceConfiguration: ConvenienceConfigurationItem;

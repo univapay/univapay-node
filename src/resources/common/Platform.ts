@@ -1,4 +1,5 @@
 import {
+    BankTransferConfiguration,
     CardBrandPercentFeesItem,
     InstallmentsConfiguration,
     SubscriptionsConfiguration,
@@ -11,19 +12,6 @@ type CheckoutConfiguration = {
     ecEmail: { enabled: boolean };
     ecProducts: { enabled: boolean };
 };
-
-export enum TransferMatchAmount {
-    MAXIMUM = "maximum",
-    MINIMUM = "minimum",
-    EXACT = "exact",
-}
-
-export type BankTransferConfiguration = {
-    enabled: boolean;
-    matchAmount: TransferMatchAmount;
-    expiration: string;
-};
-
 export interface PlatformUserDefaults {
     bankTransferConfiguration: BankTransferConfiguration;
     percentFee: number;

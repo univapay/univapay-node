@@ -1,11 +1,11 @@
 import { v4 as uuid } from "uuid";
 
 import { CardBrand } from "../../src/resources/common/enums";
-import { TransferMatchAmount } from "../../src/resources/common/Platform";
 import { PlatformConfigurationItem } from "../../src/resources/Platforms";
 import { PaymentType } from "../../src/resources/TransactionTokens";
 
 import {
+    generateFixtureBankTransferConfiguration,
     generateFixtureInstallmentConfiguration,
     generateFixtureSubscriptionConfiguration,
 } from "./common/configuration";
@@ -36,11 +36,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
                 amount: 1000,
                 currency: "JPY",
             },
-            bankTransferConfiguration: {
-                enabled: true,
-                matchAmount: TransferMatchAmount.EXACT,
-                expiration: "P7D",
-            },
+            bankTransferConfiguration: generateFixtureBankTransferConfiguration(),
             checkoutConfiguration: {
                 ecEmail: { enabled: true },
                 ecProducts: { enabled: true },
