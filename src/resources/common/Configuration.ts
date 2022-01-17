@@ -8,6 +8,12 @@ import { RecurringTokenPrivilege } from "../TransactionTokens";
 import { CardBrand } from "./enums";
 import { AmountWithCurrency } from "./types";
 
+export enum TransferMatchAmount {
+    MAXIMUM = "maximum",
+    MINIMUM = "minimum",
+    EXACT = "exact",
+}
+
 export interface PaymentTypeConfiguration {
     enabled?: boolean;
 }
@@ -50,6 +56,11 @@ export type ConvenienceConfigurationItem = PaymentTypeConfiguration;
 export type OnlineConfigurationItem = PaymentTypeConfiguration;
 
 export type PaidyConfigurationItem = PaymentTypeConfiguration;
+
+export type BankTransferConfiguration = PaymentTypeConfiguration & {
+    matchAmount: TransferMatchAmount;
+    expiration: string;
+};
 
 export interface InstallmentsConfiguration {
     enabled?: boolean;
@@ -106,6 +117,7 @@ export interface ConfigurationItem {
     convenienceConfiguration: ConvenienceConfigurationItem;
     onlineConfiguration: OnlineConfigurationItem;
     paidyConfiguration: PaidyConfigurationItem;
+    bankTransferConfiguration: BankTransferConfiguration;
     country: string;
     displayTimeZone: string;
     flatFees: AmountWithCurrency[];
