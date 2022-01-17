@@ -5,6 +5,7 @@ import { CardBrand, ProcessingMode } from "../../src/resources/common/enums";
 import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens";
 
 import {
+    generateFixtureBankTransferConfiguration,
     generateFixtureCardConfiguration,
     generateFixturePaymentType,
     generateFixtureQRScanConfiguration,
@@ -19,6 +20,7 @@ export const generateFixture = (): CheckoutInfoItem => ({
     convenienceConfiguration: generateFixturePaymentType(),
     paidyConfiguration: generateFixturePaymentType(),
     onlineConfiguration: generateFixturePaymentType(),
+    bankTransferConfiguration: generateFixtureBankTransferConfiguration(),
     paidyPublicKey: uuid(),
     recurringCardChargeCvvConfirmation: {
         enabled: false,
