@@ -33,6 +33,7 @@ export enum PaymentType {
     PAIDY = "paidy",
     QR_MERCHANT = "qr_merchant",
     ONLINE = "online",
+    BANK_TRANSFER = "bank_transfer",
 }
 
 export enum ConvenienceStore {
