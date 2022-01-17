@@ -1,10 +1,12 @@
 import {
+    BankTransferConfiguration,
     CardConfigurationItem,
     ConfigurationItem,
     InstallmentsConfigurationItem,
     PaymentTypeConfiguration,
     QRScanConfigurationItem,
     SubscriptionsConfiguration,
+    TransferMatchAmount,
 } from "../../../src/resources/common/Configuration";
 import { CardBrand } from "../../../src/resources/common/enums";
 
@@ -50,6 +52,12 @@ export const generateFixtureSubscriptionConfiguration = (): SubscriptionsConfigu
     suspendOnCancel: true,
 });
 
+export const generateFixtureBankTransferConfiguration = (): BankTransferConfiguration => ({
+    enabled: true,
+    matchAmount: TransferMatchAmount.EXACT,
+    expiration: "P7D",
+});
+
 export const generateFixture = (): ConfigurationItem => ({
     cardBrandPercentFees: {},
     cardConfiguration: generateFixtureCardConfiguration(),
@@ -58,6 +66,7 @@ export const generateFixture = (): ConfigurationItem => ({
     convenienceConfiguration: generateFixturePaymentType(),
     paidyConfiguration: generateFixturePaymentType(),
     onlineConfiguration: generateFixturePaymentType(),
+    bankTransferConfiguration: generateFixtureBankTransferConfiguration(),
     flatFees: [{ amount: 30, currency: "JPY" }],
     percentFee: 3.5,
     logoUrl: "http://fake.com/logo.jpg",
