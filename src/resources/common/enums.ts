@@ -133,3 +133,8 @@ export enum OnlineGateway {
     PAY_PAY_ONLINE = "pay_pay_online",
     WE_CHAT_ONLINE = "we_chat_online",
 }
+
+export enum BankTransferBrand {
+    AOZORA_BANK = "aozora_bank",
+    TEST = "bank_test_brand",
+}
