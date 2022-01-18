@@ -5,6 +5,7 @@
 import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
 
 import {
+    BankTransferBrand,
     CardBrand,
     CardCategory,
     CardSubBrand,
@@ -115,6 +116,20 @@ export interface TransactionTokenPaidyData {
     phoneNumber?: PhoneNumber;
     shippingAddress: TransactionTokenPaidyBilling;
 }
+export type TransactionTokenBankTransferData = {
+    accountHolderName: string | null;
+    accountId: string | null;
+    accountNumber: string | null;
+    bankCode: string;
+    bankName: string;
+    branchCode: string | null;
+    branchName: string | null;
+    brand: BankTransferBrand;
+};
+
+export type TransactionTokenBankTransferCreateData = {
+    brand: BankTransferBrand;
+};
 
 export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
     paymentType: PaymentType;
@@ -126,7 +141,8 @@ export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
         | TransactionTokenQRScanData
         | TransactionTokenConvenienceData
         | TransactionTokenOnlineData
-        | TransactionTokenPaidyData;
+        | TransactionTokenPaidyData
+        | TransactionTokenBankTransferCreateData;
     metadata?: T;
     useConfirmation?: boolean;
 }
@@ -227,7 +243,8 @@ export interface TransactionTokenItem<T extends Metadata = Metadata> {
         | TransactionTokenQRScanDataItem
         | TransactionTokenConvenienceDataItem
         | TransactionTokenOnlineDataItem
-        | TransactionTokenPaidyData;
+        | TransactionTokenPaidyData
+        | TransactionTokenBankTransferData;
     metadata?: T;
 }
 
