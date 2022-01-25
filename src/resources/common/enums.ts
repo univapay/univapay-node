@@ -120,9 +120,14 @@ export enum QRGateway {
 
 export enum OnlineBrand {
     ALIPAY_ONLINE = "alipay_online",
-    ALIPAY_CONNECT_ONLINE = "alipay_connect_online",
+    ALIPAY_PLUS_ONLINE = "alipay_plus_online",
     PAY_PAY_ONLINE = "pay_pay_online",
     WE_CHAT_ONLINE = "we_chat_online",
+
+    /**
+     * @deprecated Use `ALIPAY_PLUS_ONLINE` instead
+     */
+    ALIPAY_CONNECT_ONLINE = "alipay_connect_online",
 }
 
 /**
