@@ -105,6 +105,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     ignoreDescriptorOnError: boolean | null;
     metadata: Metadata | null;
     customFieldsTitles?: Partial<Record<"jaJp" | "enUs", string>> | null;
+    orderSummaryTitles?: Partial<Record<"jaJp" | "enUs", string>> | null;
     customFields?: Partial<Record<"jaJp" | "enUs", ECFormCustomField[]>> | null;
 };
 
