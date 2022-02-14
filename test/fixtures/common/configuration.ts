@@ -56,6 +56,8 @@ export const generateFixtureBankTransferConfiguration = (): BankTransferConfigur
     enabled: true,
     matchAmount: TransferMatchAmount.EXACT,
     expiration: "P7D",
+    virtualBankAccountsThreshold: 20,
+    virtualBankAccountsFetchCount: 10,
 });
 
 export const generateFixture = (): ConfigurationItem => ({

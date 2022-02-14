@@ -60,6 +60,8 @@ export type PaidyConfigurationItem = PaymentTypeConfiguration;
 export type BankTransferConfiguration = PaymentTypeConfiguration & {
     matchAmount: TransferMatchAmount;
     expiration: string;
+    virtualBankAccountsThreshold: number;
+    virtualBankAccountsFetchCount: number;
 };
 
 export interface InstallmentsConfiguration {
