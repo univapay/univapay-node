@@ -50,6 +50,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     univapayCustomerId: string | null;
     capture: boolean;
     captureAt?: string | null;
+    captureIn?: string;
     onlyDirectCurrency?: boolean;
     supportedPaymentMethods: (PaymentType | OnlineBrand)[];
 
@@ -73,6 +74,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     subscriptionPeriod?: SubscriptionPeriod | null;
     subscriptionInitialAmount?: AmountWithCurrency | null;
     subscriptionStart?: string | null;
+    subscriptionStartIn?: string;
     installmentPlan?: InstallmentPlan | null;
     installmentQty?: number | null;
     installmentAmount?: AmountWithCurrency | null;

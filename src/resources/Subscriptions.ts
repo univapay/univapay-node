@@ -119,7 +119,6 @@ export type PaymentUpdateParams = Partial<ScheduledPaymentItem>;
 
 export interface ScheduleSettings {
     startOn?: string;
-    startIn?: string;
     zoneId: string;
     preserveEndOfMonth?: boolean;
 }

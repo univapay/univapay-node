@@ -29,7 +29,6 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     amount: number;
     currency: string;
     captureAt?: string | number;
-    captureIn?: string | number;
     capture?: boolean;
     descriptor?: string;
     ignoreDescriptorOnError?: boolean;
