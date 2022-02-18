@@ -36,9 +36,11 @@ export type ECFormLinkItem = {
     // One time
     chargeAuth?: boolean;
     chargeCaptureOn?: string;
+    chargeCaptureIn?: string;
 
     // Subscription
     subscriptionStartOn?: string;
+    subscriptionStartIn?: string;
     subscriptionInitialAmount?: number;
     subscriptionPeriod?: SubscriptionPeriod;
 
