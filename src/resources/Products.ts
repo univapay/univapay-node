@@ -27,7 +27,7 @@ export type ProductItem = {
 export type ResponseProduct = ProductItem;
 
 export class Products extends CRUDResource {
-    static routeBase = "/products";
+    static routeBase = "/checkout/products";
 
     get(
       id: string,
