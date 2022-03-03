@@ -19,10 +19,10 @@ export type ProductItem = {
     description?: string | null;
     shippingFees?: number | null;
 
-    createdOn: string; 
+    createdOn: string;
     updatedOn: string;
     active: boolean;
-}
+};
 
 export type ResponseProduct = ProductItem;
 
@@ -30,12 +30,11 @@ export class Products extends CRUDResource {
     static routeBase = "/checkout/products";
 
     get(
-      id: string,
-      data?: SendData<void>,
-      auth?: AuthParams,
-      callback?: ResponseCallback<ResponseProduct>
-    ): Promise<ResponseProduct> 
-    {
-      return this._getRoute()(data, callback, auth, { id });
+        id: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ResponseProduct>
+    ): Promise<ResponseProduct> {
+        return this._getRoute()(data, callback, auth, { id });
     }
 }
