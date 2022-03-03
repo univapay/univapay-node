@@ -19,8 +19,8 @@ export type ProductItem = {
     description?: string | null;
     shippingFees?: number | null;
 
-    createdOn: Date; 
-    updatedOn: Date;
+    createdOn: string; 
+    updatedOn: string;
     active: boolean;
 }
 
