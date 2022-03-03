@@ -19,6 +19,7 @@ export * from "./ExchangeRates";
 export * from "./Ledgers";
 export * from "./Merchants";
 export * from "./Platforms";
+export * from "./Products";
 export * from "./Refunds";
 export * from "./Resource";
 export * from "./Stores";

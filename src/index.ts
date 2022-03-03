@@ -18,6 +18,7 @@ import {
     Ledgers,
     Merchants,
     Platforms,
+    Products,
     Refunds,
     Stores,
     Subscriptions,
@@ -49,6 +50,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
     public ledgers: Ledgers;
     public merchants: Merchants;
     public platforms: Platforms;
+    public products: Products;
     public refunds: Refunds;
     public stores: Stores;
     public subscriptions: Subscriptions;
@@ -73,6 +75,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
         this.ledgers = new Ledgers(this.api);
         this.merchants = new Merchants(this.api);
         this.platforms = new Platforms(this.api);
+        this.products = new Products(this.api);
         this.refunds = new Refunds(this.api);
         this.stores = new Stores(this.api);
         this.subscriptions = new Subscriptions(this.api);
