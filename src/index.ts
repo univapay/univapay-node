@@ -3,8 +3,6 @@
  */
 
 import { RestAPIOptions } from "./api/RestAPI";
-import { ECInfo } from "./resources/ECInfo";
-import { WebHookTrigger as PublicWebHookTrigger } from "./resources/WebHooks";
 import {
     BankAccounts,
     Cancels,
@@ -13,6 +11,7 @@ import {
     CheckoutInfo,
     ECFormLinks,
     ECForms,
+    ECInfo,
     Emails,
     ExchangeRates,
     Ledgers,
@@ -26,6 +25,7 @@ import {
     Transfers,
     Verification,
     WebHooks,
+    WebHookTrigger as PublicWebHookTrigger,
 } from "./resources";
 import PaymentsSDK from "./sdk";
 
