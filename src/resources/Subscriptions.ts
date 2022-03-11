@@ -160,6 +160,15 @@ interface SubscriptionSimulationBaseParams<InstallmentPlanData extends Installme
     period: SubscriptionPeriod;
 }
 
+export type SimulationInstallmentPayment = {
+    amount: number;
+    currency: string;
+    dueDate: string;
+    isLastPayment: boolean;
+    isPaid: boolean;
+    zoneId: string;
+};
+
 export interface SubscriptionSimulationLegacyParams<InstallmentPlanData extends InstallmentBaseParams>
     extends SubscriptionSimulationBaseParams<InstallmentPlanData> {
     subsequentCyclesStart?: string | number;
@@ -394,9 +403,9 @@ export class Subscriptions extends CRUDResource {
     simulation<InstallmentPlanData extends InstallmentBaseParams>(
         data: SendData<SubscriptionSimulationParams<InstallmentPlanData>>,
         auth?: AuthParams,
-        callback?: ResponseCallback<SubscriptionSimulationItem<InstallmentPlanData>>,
+        callback?: ResponseCallback<SimulationInstallmentPayment[]>,
         storeId?: string
-    ): Promise<SubscriptionSimulationItem<InstallmentPlanData>> {
+    ): Promise<SimulationInstallmentPayment[]> {
         return this.defineRoute(
             HTTPMethod.POST,
             "(/stores/:storeId)/subscriptions/simulate_plan",
