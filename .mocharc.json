@@ -1,15 +1,11 @@
 {
-    "ui": "bdd",
-    "reporter": "tap",
-    "recursive": true,
-    "fullTrace": true,
-    "spec": [
-        "test/specs/*.specs.ts",
-        "test/specs/**/*.specs.ts"
-    ],
-    "require": [
-        "ts-node/register/type-check",
-        "cross-fetch/dist/node-polyfill.js",
-        "isomorphic-form-data"
-    ]
+  "ui": "bdd",
+  "reporter": "tap",
+  "recursive": true,
+  "fullTrace": true,
+  "spec": ["test/specs/*.specs.ts", "test/specs/**/*.specs.ts"],
+  "extension": ["js", "ts"],
+  "loader": ["ts-node/esm"],
+  "experimental-specifier-resolution": "node",
+  "require": ["cross-fetch/dist/node-polyfill.js", "isomorphic-form-data"]
 }
