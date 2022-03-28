@@ -1,19 +1,7 @@
 {
-  "extension": [
-    ".ts"
-  ],
-  "exclude": [
-    "coverage/**",
-    "test/**",
-    "**/*.d.ts",
-    "docs"
-  ],
-  "reporter": [
-    "text",
-    "text-summary",
-    "html",
-    "lcovonly"
-  ],
+  "extension": [".ts"],
+  "exclude": ["coverage/**", "test/**", "**/*.d.ts", "docs"],
+  "reporter": ["text", "text-summary", "html", "lcovonly"],
   "all": true,
   "check-coverage": false,
   "per-file": false,
