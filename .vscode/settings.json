@@ -1,38 +1,38 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "files.exclude": {
-        "**/.git": true,
-        "**/.idea": true,
-        "**/.DS_Store": true,
-        "**/dist": false,
-        ".vscode/chrome/**": true,
-        "**/logs": true,
-        "**/node_modules": true,
-        "**/screenshots": true,
-        "report.**.json": true
-    },
-    "files.insertFinalNewline": true,
-    "files.watcherExclude": {
-        ".vscode/**": true
-    },
-    "search.exclude": {
-        "dist/**": true,
-        "src/types/**": true,
-        "temp/**": true,
-        ".vscode/chrome/**": true
-    },
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        { "language": "typescript", "autoFix": true },
-        { "language": "typescriptreact", "autoFix": true }
-    ],
-    "scss.validate": false,
-    "prettier.ignorePath": "../.prettierignore",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true,
-        "source.fixAll.tslint": false,
-        "source.fixAll.stylelint": true
-    }
+  "files.exclude": {
+    "**/.git": true,
+    "**/.idea": true,
+    "**/.DS_Store": true,
+    "**/dist": false,
+    ".vscode/chrome/**": true,
+    "**/logs": true,
+    "**/node_modules": true,
+    "**/screenshots": true,
+    "report.**.json": true
+  },
+  "files.insertFinalNewline": true,
+  "files.watcherExclude": {
+    ".vscode/**": true
+  },
+  "search.exclude": {
+    "dist/**": true,
+    "src/types/**": true,
+    "temp/**": true,
+    ".vscode/chrome/**": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ],
+  "scss.validate": false,
+  "prettier.ignorePath": "../.prettierignore",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.tslint": false,
+    "source.fixAll.stylelint": true
+  }
 }
