@@ -87,7 +87,7 @@ describe("Object Helpers", () => {
         });
     });
 
-    describe.only("isBlob", () => {
+    describe("isBlob", () => {
         it("should return true when the parameter is a blob", async function () {
             if (process.version < "v14.18") {
                 // Blob was introduced in v14.18, so skip older versions
