@@ -1,4 +1,3 @@
-import { Blob } from "buffer";
 import { expect } from "chai";
 
 import { isBlob, missingKeys, toSnakeCase, transformKeys } from "../../src/utils/object";
@@ -88,13 +87,14 @@ describe("Object Helpers", () => {
         });
     });
 
-    describe("isBlob", () => {
-        it("should return true when the parameter is a blob", function () {
+    describe.only("isBlob", () => {
+        it("should return true when the parameter is a blob", async function () {
             if (process.version < "v14.18") {
                 // Blob was introduced in v14.18, so skip older versions
                 this.skip();
             }
 
+            const { Blob } = await import("buffer");
             expect(isBlob(new Blob(["test"]))).eql(true);
         });
 
