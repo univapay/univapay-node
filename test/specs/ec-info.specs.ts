@@ -4,7 +4,7 @@ import { pathToRegexp } from "path-to-regexp";
 import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI";
-import { ECInfo } from "../../src/resources/ECInfo";
+import { ECInfo } from "../../src/resources";
 import { generateFixture as generateCheckoutInfo } from "../fixtures/ec-info";
 import { testEndpoint } from "../utils";
 

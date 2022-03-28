@@ -238,13 +238,14 @@ export interface TransactionTokenItem<T extends Metadata = Metadata> {
     paymentType: PaymentType;
     usageLimit?: UsageLimit;
     confirmed?: boolean;
-    data?:
+    data?: (
         | TransactionTokenCardDataItem
         | TransactionTokenQRScanDataItem
         | TransactionTokenConvenienceDataItem
         | TransactionTokenOnlineDataItem
         | TransactionTokenPaidyData
-        | TransactionTokenBankTransferData;
+        | TransactionTokenBankTransferData
+    ) & { cvvAuthorize?: { status: CvvAuthorizedStatus } };
     metadata?: T;
 }
 

@@ -114,12 +114,12 @@ export type CheckoutConfiguration = {
 };
 
 export interface ConfigurationItem {
+    bankTransferConfiguration: BankTransferConfiguration;
     cardBrandPercentFees: CardBrandPercentFeesItem;
     cardConfiguration: CardConfigurationItem;
     convenienceConfiguration: ConvenienceConfigurationItem;
     onlineConfiguration: OnlineConfigurationItem;
     paidyConfiguration: PaidyConfigurationItem;
-    bankTransferConfiguration: BankTransferConfiguration;
     country: string;
     displayTimeZone: string;
     flatFees: AmountWithCurrency[];
@@ -143,6 +143,7 @@ export interface ConfigurationItem {
 
 export interface ConfigurationParams {
     logoUrl?: string;
+    bankTransferConfiguration?: Partial<BankTransferConfiguration>;
     cardConfiguration?: Partial<CardConfigurationItem>;
     qrScanConfiguration?: Partial<QRScanConfigurationItem>;
     qrMerchantConfiguration?: Partial<QRMerchantConfigurationItem>;
