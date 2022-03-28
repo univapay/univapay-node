@@ -1,7 +1,7 @@
 {
-    "entryPoints": ["./src/"], 
-    "out": "docs",
-    "theme": "default",
-    "excludePrivate": true,
-    "excludeProtected": true
+  "entryPoints": ["./src/"],
+  "out": "docs",
+  "theme": "default",
+  "excludePrivate": true,
+  "excludeProtected": true
 }
