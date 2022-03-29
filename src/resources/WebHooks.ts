@@ -9,8 +9,10 @@ import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDRes
 
 export enum WebHookTrigger {
     // Store
+    TOKEN_CREATED = "token_created",
     CHARGE_FINISHED = "charge_finished",
     CHARGE_UPDATED = "charge_updated",
+    SUBSCRIPTION_CREATED = "subscription_created",
     SUBSCRIPTION_PAYMENT = "subscription_payment",
     SUBSCRIPTION_FAILURE = "subscription_failure",
     SUBSCRIPTION_CANCELED = "subscription_canceled",
