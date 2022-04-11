@@ -13,6 +13,7 @@ export type ProductItem = {
     platformId: string;
 
     name: string;
+    code: string;
     amount: number;
     currency: string;
     tokenType: TransactionTokenType;
