@@ -10,6 +10,7 @@ export const generateFixture = (): ProductItem => ({
     platformId: uuid(),
 
     name: "dummy product",
+    code: "FOO1",
     amount: 100,
     currency: "JPY",
     tokenType: TransactionTokenType.ONE_TIME,
