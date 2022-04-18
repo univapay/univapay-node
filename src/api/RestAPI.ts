@@ -22,7 +22,7 @@ import { RequestError } from "../errors/RequestResponseError";
 import { TimeoutError } from "../errors/TimeoutError";
 import { ProcessingMode } from "../resources/common/enums";
 import { checkStatus, parseJSON } from "../utils/fetch";
-import { toSnakeCase, transformKeys } from "../utils/object";
+import { isBlob, toSnakeCase, transformKeys } from "../utils/object";
 
 import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT";
 import { containsBinaryData, objectToFormData } from "./utils/payload";
@@ -100,8 +100,10 @@ export type SendData<Data> = Data;
 
 const { stringify } = JSONBig({ useNativeBigInt: true });
 
-const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData =>
-    containsBinaryData(data)
+const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData | Blob =>
+    isBlob(data)
+        ? data
+        : containsBinaryData(data)
         ? objectToFormData(data, keyFormatter, ["metadata"])
         : stringify(transformKeys(data, keyFormatter, ["metadata"]));
 

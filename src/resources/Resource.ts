@@ -8,7 +8,7 @@ import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../
 import { fromError } from "../errors/parser";
 import { PathParameterError } from "../errors/PathParameterError";
 import { RequestParameterError } from "../errors/RequestParameterError";
-import { missingKeys, toSnakeCase } from "../utils/object";
+import { isBlob, missingKeys, toSnakeCase } from "../utils/object";
 
 export type DefinedRoute = (
     data?: any,
@@ -58,12 +58,23 @@ type ObjectType =
     | "object"
     | "string"
     | "symbol"
-    | "undefined";
+    | "undefined"
+    | "blob";
 
-const getObjectType = (o: unknown): ObjectType => {
-    if (o === null) return "null";
-    if (Array.isArray(o)) return "array";
-    return typeof o;
+const getObjectType = (data: unknown): ObjectType => {
+    switch (true) {
+        case data === null:
+            return "null";
+
+        case Array.isArray(data):
+            return "array";
+
+        case isBlob(data):
+            return "blob";
+
+        default:
+            return typeof data;
+    }
 };
 
 export abstract class Resource extends EventEmitter {
