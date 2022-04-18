@@ -50,7 +50,7 @@ export const objectToFormData = (obj: unknown, keyFormatter = toSnakeCase, ignor
         }
     };
 
-    appendFormData(transformKeys(obj, keyFormatter, ignoredKeys));
+    appendFormData(isBlob(obj) ? obj : transformKeys(obj, keyFormatter, ignoredKeys));
 
     return formData;
 };
