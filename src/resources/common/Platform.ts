@@ -40,6 +40,7 @@ export interface PlatformPaymentDefaults {
     convenienceEnabled: boolean;
     onlineEnabled: boolean;
     paidyEnabled: boolean;
+    bankTransferEnabled: boolean;
 }
 
 export interface PlatformItem extends WithCreatedOn {
