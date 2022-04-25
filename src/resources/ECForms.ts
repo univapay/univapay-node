@@ -1,13 +1,13 @@
 /**
  *  @module Resources/ECForms
  */
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { OnlineBrand } from "./common/enums";
-import { AmountWithCurrency } from "./common/types";
-import { CRUDResource } from "./CRUDResource";
-import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions";
-import { PaymentType, TransactionTokenType, UsageLimit } from "./TransactionTokens";
+import { OnlineBrand } from "./common/enums.js";
+import { AmountWithCurrency } from "./common/types.js";
+import { CRUDResource } from "./CRUDResource.js";
+import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions.js";
+import { PaymentType, TransactionTokenType, UsageLimit } from "./TransactionTokens.js";
 
 type BaseMetadata = Record<string, string>;
 

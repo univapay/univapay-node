@@ -2,16 +2,16 @@
  *  @module Resources/Subscriptions
  */
 
-import { AuthParams, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI.js";
 
-import { ProcessingMode } from "./common/enums";
-import { ignoreDescriptor } from "./common/ignoreDescriptor";
-import { Metadata, WithStoreMerchantName } from "./common/types";
-import { Charges } from "./Charges";
-import { ChargesListParams, ResponseCharges } from "./Charges";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
-import { PaymentType } from "./TransactionTokens";
-import { ResponseCharge } from ".";
+import { ProcessingMode } from "./common/enums.js";
+import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
+import { Metadata, WithStoreMerchantName } from "./common/types.js";
+import { Charges } from "./Charges.js";
+import { ChargesListParams, ResponseCharges } from "./Charges.js";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { ResponseCharge } from "./index.js";
+import { PaymentType } from "./TransactionTokens.js";
 
 export enum SubscriptionPeriod {
     DAILY = "daily",

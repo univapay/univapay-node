@@ -3,10 +3,10 @@ import fetchMock from "fetch-mock";
 import { pathToRegexp } from "path-to-regexp";
 import { v4 as uuid } from "uuid";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { ECInfo } from "../../src/resources";
-import { generateFixture as generateCheckoutInfo } from "../fixtures/ec-info";
-import { testEndpoint } from "../utils";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { ECInfo } from "../../src/resources/index.js";
+import { generateFixture as generateCheckoutInfo } from "../fixtures/ec-info.js";
+import { testEndpoint } from "../utils/index.js";
 
 describe("EC Info", () => {
     let api: RestAPI;

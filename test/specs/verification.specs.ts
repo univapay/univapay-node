@@ -1,14 +1,14 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { RequestError } from "../../src/errors/RequestResponseError";
-import { BusinessTypes } from "../../src/resources/Corporation";
-import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens";
-import { Verification, VerificationCreateParams, VerificationUpdateParams } from "../../src/resources/Verification";
-import { createRequestError } from "../fixtures/errors";
-import { generateFixture as generateVerification } from "../fixtures/verification";
-import { testEndpoint } from "../utils";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
+import { BusinessTypes } from "../../src/resources/Corporation.js";
+import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens.js";
+import { Verification, VerificationCreateParams, VerificationUpdateParams } from "../../src/resources/Verification.js";
+import { createRequestError } from "../fixtures/errors.js";
+import { generateFixture as generateVerification } from "../fixtures/verification.js";
+import { testEndpoint } from "../utils/index.js";
 
 describe("Verification", () => {
     let api: RestAPI;

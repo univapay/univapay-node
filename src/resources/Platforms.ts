@@ -2,13 +2,13 @@
  *  @module Resources/Platforms
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { CardBrand } from "./common/enums";
-import { PlatformConfiguration as PlatformConfig, PlatformItem } from "./common/Platform";
-import { WithConfig } from "./common/types";
-import { CRUDResource } from "./CRUDResource";
-import { PaymentType } from "./TransactionTokens";
+import { CardBrand } from "./common/enums.js";
+import { PlatformConfiguration as PlatformConfig, PlatformItem } from "./common/Platform.js";
+import { WithConfig } from "./common/types.js";
+import { CRUDResource } from "./CRUDResource.js";
+import { PaymentType } from "./TransactionTokens.js";
 
 /* Request */
 

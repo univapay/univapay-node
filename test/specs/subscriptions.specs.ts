@@ -4,11 +4,11 @@ import * as sinon from "sinon";
 import { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
 
-import { HTTPMethod, RestAPI } from "../../src/api/RestAPI";
-import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants";
-import { RequestError } from "../../src/errors/RequestResponseError";
-import { TimeoutError } from "../../src/errors/TimeoutError";
-import { ChargeStatus, SubscriptionItem } from "../../src/resources";
+import { HTTPMethod, RestAPI } from "../../src/api/RestAPI.js";
+import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
+import { TimeoutError } from "../../src/errors/TimeoutError.js";
+import { ChargeStatus, SubscriptionItem } from "../../src/resources/index.js";
 import {
     SubscriptionCreateParams,
     SubscriptionPeriod,
@@ -17,15 +17,15 @@ import {
     SubscriptionSimulationParams,
     SubscriptionStatus,
     SubscriptionUpdateParams,
-} from "../../src/resources/Subscriptions";
-import { PaymentType } from "../../src/resources/TransactionTokens";
-import { generateFixture as generateCharge } from "../fixtures/charge";
-import { createRequestError } from "../fixtures/errors";
-import { generateList } from "../fixtures/list";
-import { generateFixture as generateScheduledPayment } from "../fixtures/scheduled-payment";
-import { generateFixture as generateSubscription } from "../fixtures/subscription";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+} from "../../src/resources/Subscriptions.js";
+import { PaymentType } from "../../src/resources/TransactionTokens.js";
+import { generateFixture as generateCharge } from "../fixtures/charge.js";
+import { createRequestError } from "../fixtures/errors.js";
+import { generateList } from "../fixtures/list.js";
+import { generateFixture as generateScheduledPayment } from "../fixtures/scheduled-payment.js";
+import { generateFixture as generateSubscription } from "../fixtures/subscription.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Subscriptions", () => {
     let api: RestAPI;

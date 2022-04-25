@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { EmailItem } from "../../src/resources/Emails";
+import { EmailItem } from "../../src/resources/Emails.js";
 
 export const generateFixture = (): EmailItem => ({
     id: uuid(),

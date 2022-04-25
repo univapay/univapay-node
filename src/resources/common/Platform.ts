@@ -4,9 +4,9 @@ import {
     InstallmentsConfiguration,
     SubscriptionsConfiguration,
     UserTransactionsConfiguration,
-} from "./Configuration";
-import { TransferScheduleItem } from "./TransferSchedule";
-import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types";
+} from "./Configuration.js";
+import { TransferScheduleItem } from "./TransferSchedule.js";
+import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types.js";
 
 type CheckoutConfiguration = {
     ecEmail: { enabled: boolean };

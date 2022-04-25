@@ -2,11 +2,11 @@
  *  @module Resources/Merchants
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { ConfigurationItem } from "./common/Configuration";
-import { TransferScheduleItem } from "./common/TransferSchedule";
-import { CRUDResource } from "./CRUDResource";
+import { ConfigurationItem } from "./common/Configuration.js";
+import { TransferScheduleItem } from "./common/TransferSchedule.js";
+import { CRUDResource } from "./CRUDResource.js";
 
 /* Request */
 

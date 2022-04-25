@@ -3,10 +3,10 @@
  *  @module Errors
  */
 
-import { APIError, ResponseErrorCode } from "./APIError";
-import { PathParameterError } from "./PathParameterError";
-import { RequestParameterError } from "./RequestParameterError";
-import { RequestError, RequestResponseBaseError, ResponseError } from "./RequestResponseError";
+import { APIError, ResponseErrorCode } from "./APIError.js";
+import { PathParameterError } from "./PathParameterError.js";
+import { RequestParameterError } from "./RequestParameterError.js";
+import { RequestError, RequestResponseBaseError, ResponseError } from "./RequestResponseError.js";
 
 function getCodeByStatus(status: number): string {
     const codeMap: Record<number, string> = {

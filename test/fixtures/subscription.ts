@@ -1,14 +1,14 @@
 import { v4 as uuid } from "uuid";
 
-import { ProcessingMode } from "../../src/resources/common/enums";
+import { ProcessingMode } from "../../src/resources/common/enums.js";
 import {
     InstallmentPlan,
     SubscriptionItem,
     SubscriptionPeriod,
     SubscriptionStatus,
-} from "../../src/resources/Subscriptions";
+} from "../../src/resources/Subscriptions.js";
 
-import { generateFixture as generatePayment } from "./scheduled-payment";
+import { generateFixture as generatePayment } from "./scheduled-payment.js";
 
 export const generateFixture = (overrides?: Partial<SubscriptionItem>): SubscriptionItem => ({
     id: uuid(),

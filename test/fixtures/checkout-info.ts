@@ -1,15 +1,15 @@
 import { v4 as uuid } from "uuid";
 
-import { CheckoutInfoItem } from "../../src/resources/CheckoutInfo";
-import { CardBrand, ProcessingMode } from "../../src/resources/common/enums";
-import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens";
+import { CheckoutInfoItem } from "../../src/resources/CheckoutInfo.js";
+import { CardBrand, ProcessingMode } from "../../src/resources/common/enums.js";
+import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens.js";
 
 import {
     generateFixtureBankTransferConfiguration,
     generateFixtureCardConfiguration,
     generateFixturePaymentType,
     generateFixtureQRScanConfiguration,
-} from "./common/configuration";
+} from "./common/configuration.js";
 
 export const generateFixture = (): CheckoutInfoItem => ({
     mode: ProcessingMode.TEST,

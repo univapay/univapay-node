@@ -2,14 +2,14 @@
  *  @module Resources/Charges
  */
 
-import { AuthParams, HTTPMethod, PollParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, PollParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { ProcessingMode } from "./common/enums";
-import { ignoreDescriptor } from "./common/ignoreDescriptor";
-import { Metadata, PaymentError, WithStoreMerchantName } from "./common/types";
-import { CaptureStatus } from "./Captures";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
-import { TransactionTokenType } from "./TransactionTokens";
+import { ProcessingMode } from "./common/enums.js";
+import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
+import { Metadata, PaymentError, WithStoreMerchantName } from "./common/types.js";
+import { CaptureStatus } from "./Captures.js";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { TransactionTokenType } from "./TransactionTokens.js";
 
 export enum ChargeStatus {
     PENDING = "pending",

@@ -4,8 +4,8 @@
  */
 import decode from "jwt-decode";
 
-import { JWTError } from "../../errors/JWTError";
-import { toCamelCase, transformKeys } from "../../utils/object";
+import { JWTError } from "../../errors/JWTError.js";
+import { toCamelCase, transformKeys } from "../../utils/object.js";
 
 export interface JWTBasePayload {
     iss?: string;

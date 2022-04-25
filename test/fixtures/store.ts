@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 
-import { StoreItem } from "../../src/resources/Stores";
+import { StoreItem } from "../../src/resources/Stores.js";
 
-import { generateFixture as generateConfiguration } from "./common/configuration";
+import { generateFixture as generateConfiguration } from "./common/configuration.js";
 
 export const generateFixture = (): StoreItem => ({
     id: uuid(),

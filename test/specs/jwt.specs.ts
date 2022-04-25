@@ -2,8 +2,8 @@ import { expect } from "chai";
 import jwt from "jsonwebtoken";
 import sinon, { SinonSandbox } from "sinon";
 
-import { extractJWT, parseJWT } from "../../src/api/utils/JWT";
-import { JWTError } from "../../src/errors/JWTError";
+import { extractJWT, parseJWT } from "../../src/api/utils/JWT.js";
+import { JWTError } from "../../src/errors/JWTError.js";
 
 describe("JWT", () => {
     let sandbox: SinonSandbox;

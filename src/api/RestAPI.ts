@@ -15,17 +15,17 @@ import {
     IDEMPOTENCY_KEY_HEADER,
     POLLING_INTERVAL,
     POLLING_TIMEOUT,
-} from "../common/constants";
-import { RequestErrorCode, ResponseErrorCode } from "../errors/APIError";
-import { fromError } from "../errors/parser";
-import { RequestError } from "../errors/RequestResponseError";
-import { TimeoutError } from "../errors/TimeoutError";
-import { ProcessingMode } from "../resources/common/enums";
-import { checkStatus, parseJSON } from "../utils/fetch";
-import { isBlob, toSnakeCase, transformKeys } from "../utils/object";
+} from "../common/constants.js";
+import { RequestErrorCode, ResponseErrorCode } from "../errors/APIError.js";
+import { fromError } from "../errors/parser.js";
+import { RequestError } from "../errors/RequestResponseError.js";
+import { TimeoutError } from "../errors/TimeoutError.js";
+import { ProcessingMode } from "../resources/common/enums.js";
+import { checkStatus, parseJSON } from "../utils/fetch.js";
+import { isBlob, toSnakeCase, transformKeys } from "../utils/object.js";
 
-import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT";
-import { containsBinaryData, objectToFormData } from "./utils/payload";
+import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT.js";
+import { containsBinaryData, objectToFormData } from "./utils/payload.js";
 
 export enum HTTPMethod {
     GET = "GET",

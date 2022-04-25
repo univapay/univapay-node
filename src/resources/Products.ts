@@ -1,10 +1,10 @@
 /**
  * @module Resources/Products
  */
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { CRUDResource } from "./CRUDResource";
-import { TransactionTokenType } from "./TransactionTokens";
+import { CRUDResource } from "./CRUDResource.js";
+import { TransactionTokenType } from "./TransactionTokens.js";
 
 export type ProductItem = {
     id: string;

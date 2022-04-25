@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { TransferItem, TransferStatus, TransferStatusChangeItem } from "../../src/resources/Transfers";
+import { TransferItem, TransferStatus, TransferStatusChangeItem } from "../../src/resources/Transfers.js";
 
 export const generateFixture = (): TransferItem => ({
     id: uuid(),

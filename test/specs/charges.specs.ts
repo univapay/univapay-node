@@ -3,16 +3,16 @@ import fetchMock from "fetch-mock";
 import sinon, { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
 
-import { HTTPMethod, RestAPI } from "../../src/api/RestAPI";
-import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants";
-import { RequestError } from "../../src/errors/RequestResponseError";
-import { TimeoutError } from "../../src/errors/TimeoutError";
-import { ChargeCreateParams, Charges, ChargeStatus } from "../../src/resources/Charges";
-import { generateFixture as generateCharge } from "../fixtures/charge";
-import { createRequestError } from "../fixtures/errors";
-import { generateList } from "../fixtures/list";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+import { HTTPMethod, RestAPI } from "../../src/api/RestAPI.js";
+import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
+import { TimeoutError } from "../../src/errors/TimeoutError.js";
+import { ChargeCreateParams, Charges, ChargeStatus } from "../../src/resources/Charges.js";
+import { generateFixture as generateCharge } from "../fixtures/charge.js";
+import { createRequestError } from "../fixtures/errors.js";
+import { generateList } from "../fixtures/list.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Charges", () => {
     let api: RestAPI;

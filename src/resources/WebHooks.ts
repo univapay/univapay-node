@@ -2,10 +2,10 @@
  *  @module Resources/WebHooks
  */
 
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { WithStoreMerchantName } from "./common/types";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+import { WithStoreMerchantName } from "./common/types.js";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 
 export enum WebHookTrigger {
     // Store

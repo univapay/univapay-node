@@ -4,22 +4,22 @@ import * as sinon from "sinon";
 import { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
 
-import { HTTPMethod, RestAPI } from "../../src/api/RestAPI";
-import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants";
-import { RequestError } from "../../src/errors/RequestResponseError";
-import { TimeoutError } from "../../src/errors/TimeoutError";
+import { HTTPMethod, RestAPI } from "../../src/api/RestAPI.js";
+import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
+import { TimeoutError } from "../../src/errors/TimeoutError.js";
 import {
     RefundCreateParams,
     RefundReason,
     Refunds,
     RefundStatus,
     RefundUpdateParams,
-} from "../../src/resources/Refunds";
-import { createRequestError } from "../fixtures/errors";
-import { generateList } from "../fixtures/list";
-import { generateFixture as generateRefund } from "../fixtures/refund";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+} from "../../src/resources/Refunds.js";
+import { createRequestError } from "../fixtures/errors.js";
+import { generateList } from "../fixtures/list.js";
+import { generateFixture as generateRefund } from "../fixtures/refund.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Refunds", () => {
     let api: RestAPI;

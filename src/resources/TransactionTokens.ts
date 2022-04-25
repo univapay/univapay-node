@@ -2,7 +2,7 @@
  *  @module Resources/TransactionTokens
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
 import {
     BankTransferBrand,
@@ -15,9 +15,9 @@ import {
     ProcessingMode,
     QRBrand,
     QRGateway,
-} from "./common/enums";
-import { Metadata, PhoneNumber, WithStoreMerchantName } from "./common/types";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+} from "./common/enums.js";
+import { Metadata, PhoneNumber, WithStoreMerchantName } from "./common/types.js";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 
 export enum UsageLimit {
     DAILY = "daily",

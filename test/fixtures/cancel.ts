@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
-import { CancelItem, CancelStatus } from "../../src/resources/Cancels";
-import { ProcessingMode } from "../../src/resources/common/enums";
+import { CancelItem, CancelStatus } from "../../src/resources/Cancels.js";
+import { ProcessingMode } from "../../src/resources/common/enums.js";
 
 export const generateFixture = (): CancelItem => ({
     id: uuid(),

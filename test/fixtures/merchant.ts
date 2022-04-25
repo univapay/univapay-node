@@ -1,10 +1,10 @@
 import { v4 as uuid } from "uuid";
 
-import { MerchantItem } from "../../src/resources/Merchants";
-import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens";
+import { MerchantItem } from "../../src/resources/Merchants.js";
+import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens.js";
 
-import { generateFixture as generateConfiguration } from "./common/configuration";
-import { generateFixture as generateTransferSchedule } from "./common/transfer-schedule";
+import { generateFixture as generateConfiguration } from "./common/configuration.js";
+import { generateFixture as generateTransferSchedule } from "./common/transfer-schedule.js";
 
 export const generateFixture = (): MerchantItem => ({
     id: uuid(),

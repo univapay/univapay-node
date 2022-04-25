@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 
-import { ProcessingMode } from "../../src/resources/common/enums";
-import { TemporaryTokenAliasItem } from "../../src/resources/TemporaryTokenAlias";
-import { PaymentType, TransactionTokenType } from "../../src/resources/TransactionTokens";
+import { ProcessingMode } from "../../src/resources/common/enums.js";
+import { TemporaryTokenAliasItem } from "../../src/resources/TemporaryTokenAlias.js";
+import { PaymentType, TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
 export const generateFixture = (): TemporaryTokenAliasItem => ({
     id: uuid(),

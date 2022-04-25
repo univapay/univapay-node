@@ -1,15 +1,15 @@
 import { v4 as uuid } from "uuid";
 
-import { CardBrand } from "../../src/resources/common/enums";
-import { PlatformConfigurationItem } from "../../src/resources/Platforms";
-import { PaymentType } from "../../src/resources/TransactionTokens";
+import { CardBrand } from "../../src/resources/common/enums.js";
+import { PlatformConfigurationItem } from "../../src/resources/Platforms.js";
+import { PaymentType } from "../../src/resources/TransactionTokens.js";
 
 import {
     generateFixtureBankTransferConfiguration,
     generateFixtureInstallmentConfiguration,
     generateFixtureSubscriptionConfiguration,
-} from "./common/configuration";
-import { generateFixture as generateTransferSchedule } from "./common/transfer-schedule";
+} from "./common/configuration.js";
+import { generateFixture as generateTransferSchedule } from "./common/transfer-schedule.js";
 
 export const generateFixture = (): PlatformConfigurationItem => ({
     id: uuid(),

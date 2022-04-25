@@ -1,5 +1,5 @@
-import { ResponseErrorCode } from "../../src/errors/APIError";
-import { RequestError } from "../../src/errors/RequestResponseError";
+import { ResponseErrorCode } from "../../src/errors/APIError.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
 
 export const createRequestError = (fields: string[]): RequestError => {
     return new RequestError({

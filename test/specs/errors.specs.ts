@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { RequestErrorCode, ResponseErrorCode } from "../../src/errors/APIError";
-import { RequestError, ResponseError } from "../../src/errors/RequestResponseError";
+import { RequestErrorCode, ResponseErrorCode } from "../../src/errors/APIError.js";
+import { RequestError, ResponseError } from "../../src/errors/RequestResponseError.js";
 
 describe("Errors", () => {
     it("should serialize the ResponseError correctly", async () => {

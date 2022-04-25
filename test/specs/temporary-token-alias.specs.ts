@@ -3,7 +3,7 @@ import fetchMock from "fetch-mock";
 import { parse } from "query-string";
 import url from "url";
 
-import { RestAPI } from "../../src/api/RestAPI";
+import { RestAPI } from "../../src/api/RestAPI.js";
 import {
     TemporaryTokenAlias,
     TemporaryTokenAliasCreateParams,
@@ -11,10 +11,10 @@ import {
     TemporaryTokenAliasMedia,
     TemporaryTokenAliasParams,
     TemporaryTokenAliasQrOptions,
-} from "../../src/resources/TemporaryTokenAlias";
-import { generateFixture as generateTemporaryTokenAlias } from "../fixtures/temporary-token-alias";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+} from "../../src/resources/TemporaryTokenAlias.js";
+import { generateFixture as generateTemporaryTokenAlias } from "../fixtures/temporary-token-alias.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Temporary Token Alias", () => {
     let api: RestAPI;

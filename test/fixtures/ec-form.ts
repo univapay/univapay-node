@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 
-import { OnlineBrand } from "../../src/resources/common/enums";
-import { CheckoutType, ECFormItem } from "../../src/resources/ECForms";
-import { PaymentType, TransactionTokenType } from "../../src/resources/TransactionTokens";
+import { OnlineBrand } from "../../src/resources/common/enums.js";
+import { CheckoutType, ECFormItem } from "../../src/resources/ECForms.js";
+import { PaymentType, TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
 export const generateFixture = (): ECFormItem => ({
     id: uuid(),

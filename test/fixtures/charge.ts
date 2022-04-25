@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 
-import { ChargeItem, ChargeStatus } from "../../src/resources/Charges";
-import { ProcessingMode } from "../../src/resources/common/enums";
-import { TransactionTokenType } from "../../src/resources/TransactionTokens";
+import { ChargeItem, ChargeStatus } from "../../src/resources/Charges.js";
+import { ProcessingMode } from "../../src/resources/common/enums.js";
+import { TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
 export const generateFixture = (overrides?: Partial<ChargeItem>): ChargeItem => ({
     id: uuid(),

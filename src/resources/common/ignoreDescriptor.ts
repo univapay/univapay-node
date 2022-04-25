@@ -1,4 +1,4 @@
-import { ResponseErrorCode } from "../../errors/APIError";
+import { ResponseErrorCode } from "../../errors/APIError.js";
 
 type WithOptionalDescriptor<Data> = Data | Omit<Data, "descriptor">;
 export async function ignoreDescriptor<Data extends { descriptor?: string }>(
