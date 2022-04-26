@@ -3,7 +3,7 @@
  *  @module Types
  */
 
-import { PhoneNumber } from "./types";
+import { PhoneNumber } from "./types.js";
 
 export interface ContactInfo {
     name: string;

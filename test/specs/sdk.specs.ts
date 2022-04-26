@@ -1,23 +1,23 @@
 import { expect } from "chai";
 
-import "../utils";
+import "../utils/index.js";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import SDK from "../../src/index";
-import { BankAccounts } from "../../src/resources/BankAccounts";
-import { Cancels } from "../../src/resources/Cancels";
-import { Captures } from "../../src/resources/Captures";
-import { Charges } from "../../src/resources/Charges";
-import { CheckoutInfo } from "../../src/resources/CheckoutInfo";
-import { Ledgers } from "../../src/resources/Ledgers";
-import { Merchants } from "../../src/resources/Merchants";
-import { Refunds } from "../../src/resources/Refunds";
-import { Stores } from "../../src/resources/Stores";
-import { Subscriptions } from "../../src/resources/Subscriptions";
-import { TransactionTokens } from "../../src/resources/TransactionTokens";
-import { Transfers } from "../../src/resources/Transfers";
-import { Verification } from "../../src/resources/Verification";
-import { WebHooks } from "../../src/resources/WebHooks";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import SDK from "../../src/index.js";
+import { BankAccounts } from "../../src/resources/BankAccounts.js";
+import { Cancels } from "../../src/resources/Cancels.js";
+import { Captures } from "../../src/resources/Captures.js";
+import { Charges } from "../../src/resources/Charges.js";
+import { CheckoutInfo } from "../../src/resources/CheckoutInfo.js";
+import { Ledgers } from "../../src/resources/Ledgers.js";
+import { Merchants } from "../../src/resources/Merchants.js";
+import { Refunds } from "../../src/resources/Refunds.js";
+import { Stores } from "../../src/resources/Stores.js";
+import { Subscriptions } from "../../src/resources/Subscriptions.js";
+import { TransactionTokens } from "../../src/resources/TransactionTokens.js";
+import { Transfers } from "../../src/resources/Transfers.js";
+import { Verification } from "../../src/resources/Verification.js";
+import { WebHooks } from "../../src/resources/WebHooks.js";
 
 describe("SDK", () => {
     it("should have instances of all resources available", () => {

@@ -2,11 +2,11 @@ import { expect } from "chai";
 import fetchMock from "fetch-mock";
 import { v4 as uuid } from "uuid";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { Products } from "../../src/resources/Products";
-import { generateFixture as generateCheckoutInfo } from "../fixtures/products";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { Products } from "../../src/resources/Products.js";
+import { generateFixture as generateCheckoutInfo } from "../fixtures/products.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Products", () => {
     let api: RestAPI;

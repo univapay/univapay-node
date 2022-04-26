@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { BankAccountItem, BankAccountStatus, BankAccountType } from "../../src/resources/BankAccounts";
+import { BankAccountItem, BankAccountStatus, BankAccountType } from "../../src/resources/BankAccounts.js";
 
 export const generateFixture = (): BankAccountItem => ({
     id: uuid(),

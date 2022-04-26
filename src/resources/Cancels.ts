@@ -2,11 +2,11 @@
  *  @module Resources/Cancels
  */
 
-import { AuthParams, PollParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, PollParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { ProcessingMode } from "./common/enums";
-import { Metadata, PaymentError } from "./common/types";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+import { ProcessingMode } from "./common/enums.js";
+import { Metadata, PaymentError } from "./common/types.js";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 
 export enum CancelStatus {
     PENDING = "pending",

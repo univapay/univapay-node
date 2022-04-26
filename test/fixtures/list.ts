@@ -1,4 +1,4 @@
-import { CRUDItemsResponse } from "../../src/resources/CRUDResource";
+import { CRUDItemsResponse } from "../../src/resources/CRUDResource.js";
 
 export interface FixtureListOptions<Record> {
     count?: number;

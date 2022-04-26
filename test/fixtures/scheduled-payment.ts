@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { ScheduledPaymentItem } from "../../src/resources/Subscriptions";
+import { ScheduledPaymentItem } from "../../src/resources/Subscriptions.js";
 
 export const generateFixture = (): ScheduledPaymentItem => ({
     id: uuid(),

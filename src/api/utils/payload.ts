@@ -1,7 +1,7 @@
 import BigDecimal from "bignumber.js";
 import isBuffer from "is-buffer";
 
-import { isBlob, toSnakeCase, transformKeys } from "../../utils";
+import { isBlob, toSnakeCase, transformKeys } from "../../utils/index.js";
 
 const isPrimitive = (value: unknown): value is symbol | null =>
     typeof value === "object" ? value === null : typeof value !== "function";

@@ -3,7 +3,7 @@ import {
     TransferPeriod,
     TransferScheduleItem,
     WeekOfMonth,
-} from "../../../src/resources/common/TransferSchedule";
+} from "../../../src/resources/common/TransferSchedule.js";
 
 export const generateFixture = (): TransferScheduleItem => ({
     waitPeriod: "P3D",

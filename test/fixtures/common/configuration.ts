@@ -7,8 +7,8 @@ import {
     QRScanConfigurationItem,
     SubscriptionsConfiguration,
     TransferMatchAmount,
-} from "../../../src/resources/common/Configuration";
-import { CardBrand } from "../../../src/resources/common/enums";
+} from "../../../src/resources/common/Configuration.js";
+import { CardBrand } from "../../../src/resources/common/enums.js";
 
 export const generateFixturePaymentType = (): PaymentTypeConfiguration => ({
     enabled: true,

@@ -4,20 +4,20 @@ import * as sinon from "sinon";
 import { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { RequestError } from "../../src/errors/RequestResponseError";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
 import {
     PaymentType,
     TransactionTokenCreateParams,
     TransactionTokens,
     TransactionTokenType,
     TransactionTokenUpdateParams,
-} from "../../src/resources/TransactionTokens";
-import { createRequestError } from "../fixtures/errors";
-import { generateList } from "../fixtures/list";
-import { generateFixture as generateTransactionToken } from "../fixtures/transaction-tokens";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+} from "../../src/resources/TransactionTokens.js";
+import { createRequestError } from "../fixtures/errors.js";
+import { generateList } from "../fixtures/list.js";
+import { generateFixture as generateTransactionToken } from "../fixtures/transaction-tokens.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Transaction Tokens", () => {
     let api: RestAPI;

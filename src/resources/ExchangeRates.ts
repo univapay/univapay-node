@@ -1,7 +1,7 @@
 /* Request */
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { Resource } from "./Resource";
+import { Resource } from "./Resource.js";
 
 export interface ExchangeRateParams {
     amount: number;

@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
-import { ProcessingMode } from "../../src/resources/common/enums";
-import { RefundItem, RefundReason, RefundStatus } from "../../src/resources/Refunds";
+import { ProcessingMode } from "../../src/resources/common/enums.js";
+import { RefundItem, RefundReason, RefundStatus } from "../../src/resources/Refunds.js";
 
 export const generateFixture = (): RefundItem => ({
     id: uuid(),

@@ -4,18 +4,18 @@ import jwt from "jsonwebtoken";
 import { parseUrl } from "query-string";
 import sinon, { SinonSandbox } from "sinon";
 
-import { HTTPMethod, RestAPI, RestAPIOptions } from "../../src/api/RestAPI";
+import { HTTPMethod, RestAPI, RestAPIOptions } from "../../src/api/RestAPI.js";
 import {
     ENV_KEY_APP_ID,
     ENV_KEY_APPLICATION_JWT,
     ENV_KEY_SECRET,
     IDEMPOTENCY_KEY_HEADER,
-} from "../../src/common/constants";
-import { APIError, ResponseErrorCode } from "../../src/errors/APIError";
-import { fromError } from "../../src/errors/parser";
-import { RequestError, ResponseError } from "../../src/errors/RequestResponseError";
-import { Merchants } from "../../src/resources/Merchants";
-import { testEndpoint } from "../utils";
+} from "../../src/common/constants.js";
+import { APIError, ResponseErrorCode } from "../../src/errors/APIError.js";
+import { fromError } from "../../src/errors/parser.js";
+import { RequestError, ResponseError } from "../../src/errors/RequestResponseError.js";
+import { Merchants } from "../../src/resources/Merchants.js";
+import { testEndpoint } from "../utils/index.js";
 
 const getHeader = (headers: HeadersInit, key: string): string => {
     const values = headers[key];

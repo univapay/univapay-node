@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { WebHookItem, WebHookTrigger } from "../../src/resources/WebHooks";
+import { WebHookItem, WebHookTrigger } from "../../src/resources/WebHooks.js";
 
 export const generateFixture = (): WebHookItem => ({
     id: uuid(),

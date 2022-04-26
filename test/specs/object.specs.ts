@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { isBlob, missingKeys, toSnakeCase, transformKeys } from "../../src/utils/object";
+import { isBlob, missingKeys, toSnakeCase, transformKeys } from "../../src/utils/object.js";
 
 describe("Object Helpers", () => {
     describe("transformKeys", () => {

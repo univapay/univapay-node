@@ -4,11 +4,11 @@
  */
 import { EventEmitter } from "events";
 
-import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI";
-import { fromError } from "../errors/parser";
-import { PathParameterError } from "../errors/PathParameterError";
-import { RequestParameterError } from "../errors/RequestParameterError";
-import { isBlob, missingKeys, toSnakeCase } from "../utils/object";
+import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI.js";
+import { fromError } from "../errors/parser.js";
+import { PathParameterError } from "../errors/PathParameterError.js";
+import { RequestParameterError } from "../errors/RequestParameterError.js";
+import { isBlob, missingKeys, toSnakeCase } from "../utils/object.js";
 
 export type DefinedRoute = (
     data?: any,

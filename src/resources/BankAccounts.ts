@@ -2,9 +2,9 @@
  *  @module Resources/BankAccounts
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 
 export enum BankAccountStatus {
     NEW = "new",

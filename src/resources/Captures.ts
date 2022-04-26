@@ -2,9 +2,9 @@
  *  @module Resources/Captures
  */
 
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { CRUDResource } from "./CRUDResource";
+import { CRUDResource } from "./CRUDResource.js";
 
 /* Request */
 export enum CaptureStatus {

@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
-import { ECFormLinkItem } from "../../src/resources/ECFormLinks";
-import { TransactionTokenType } from "../../src/resources/TransactionTokens";
+import { ECFormLinkItem } from "../../src/resources/ECFormLinks.js";
+import { TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
 export const generateFixture = (): ECFormLinkItem => ({
     id: uuid(),

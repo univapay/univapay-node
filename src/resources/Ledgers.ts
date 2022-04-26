@@ -2,9 +2,9 @@
  *  @module Resources/Ledgers
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 
 export enum LedgerOrigin {
     CHARGE = "charge",

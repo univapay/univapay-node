@@ -1,3 +1,3 @@
-export * from "./RestAPI";
-export * from "./utils/JWT";
-export * from "./utils/payload";
+export * from "./RestAPI.js";
+export * from "./utils/JWT.js";
+export * from "./utils/payload.js";

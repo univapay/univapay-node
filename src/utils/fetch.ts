@@ -5,9 +5,9 @@
 
 import JSONBig from "json-bigint";
 
-import { APIError } from "../errors/APIError";
+import { APIError } from "../errors/APIError.js";
 
-import { toCamelCase, transformKeys } from "./object";
+import { toCamelCase, transformKeys } from "./object.js";
 
 const { parse } = JSONBig({ useNativeBigInt: true });
 

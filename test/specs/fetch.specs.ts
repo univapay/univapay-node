@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import JSONBig from "json-bigint";
 
-import { APIError } from "../../src/errors/APIError";
-import { checkStatus, parseJSON } from "../../src/utils/fetch";
+import { APIError } from "../../src/errors/APIError.js";
+import { checkStatus, parseJSON } from "../../src/utils/fetch.js";
 
 const { stringify } = JSONBig({ useNativeBigInt: true });
 

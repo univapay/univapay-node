@@ -2,12 +2,12 @@
  *  @module Resources/Verification
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { ContactInfo, ContactInfoPartial } from "./common/ContactInfo";
-import { PhoneNumber } from "./common/types";
-import { CRUDResource } from "./CRUDResource";
-import { RecurringTokenPrivilege } from "./TransactionTokens";
+import { ContactInfo, ContactInfoPartial } from "./common/ContactInfo.js";
+import { PhoneNumber } from "./common/types.js";
+import { CRUDResource } from "./CRUDResource.js";
+import { RecurringTokenPrivilege } from "./TransactionTokens.js";
 
 export interface BaseVerification<T> {
     homepageUrl: string;

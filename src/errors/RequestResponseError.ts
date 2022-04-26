@@ -2,9 +2,9 @@
  *  @module Errors
  */
 
-import { ErrorResponse, SubError, ValidationError } from "../api/RestAPI";
+import { ErrorResponse, SubError, ValidationError } from "../api/RestAPI.js";
 
-import { RequestErrorCode, ResponseErrorCode } from "./APIError";
+import { RequestErrorCode, ResponseErrorCode } from "./APIError.js";
 
 type ErrorItem = boolean | number | string | SubError | ValidationError;
 type RawErrorRequest = {

@@ -2,14 +2,14 @@ import { expect } from "chai";
 import fetchMock from "fetch-mock";
 import { v4 as uuid } from "uuid";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { RequestError } from "../../src/errors/RequestResponseError";
-import { StoreCreateParams, Stores, StoreUpdateParams } from "../../src/resources/Stores";
-import { createRequestError } from "../fixtures/errors";
-import { generateList } from "../fixtures/list";
-import { generateFixture as generateStore } from "../fixtures/store";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
+import { StoreCreateParams, Stores, StoreUpdateParams } from "../../src/resources/Stores.js";
+import { createRequestError } from "../fixtures/errors.js";
+import { generateList } from "../fixtures/list.js";
+import { generateFixture as generateStore } from "../fixtures/store.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Stores", () => {
     let api: RestAPI;

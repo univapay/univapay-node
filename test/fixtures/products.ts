@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
-import { ProductItem } from "../../src/resources/Products";
-import { TransactionTokenType } from "../../src/resources/TransactionTokens";
+import { ProductItem } from "../../src/resources/Products.js";
+import { TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
 export const generateFixture = (): ProductItem => ({
     id: uuid(),

@@ -2,10 +2,10 @@
  *  @module Resources/Transfers
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { Metadata, WithMerchantName } from "./common/types";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+import { Metadata, WithMerchantName } from "./common/types.js";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 
 export enum TransferStatus {
     CREATED = "created",

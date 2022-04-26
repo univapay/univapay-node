@@ -2,9 +2,9 @@
  *  @internal
  *  @module Resources
  */
-import { HTTPMethod, RestAPI } from "../api/RestAPI";
+import { HTTPMethod, RestAPI } from "../api/RestAPI.js";
 
-import { DefinedRoute, Resource } from "./Resource";
+import { DefinedRoute, Resource } from "./Resource.js";
 
 export enum CursorDirection {
     ASC = "asc",

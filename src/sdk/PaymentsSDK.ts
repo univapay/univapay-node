@@ -4,7 +4,7 @@
 
 import { EventEmitter } from "events";
 
-import { RestAPI, RestAPIOptions } from "../api/RestAPI";
+import { RestAPI, RestAPIOptions } from "../api/RestAPI.js";
 
 export abstract class PaymentsSDK extends EventEmitter {
     api: RestAPI;

@@ -2,11 +2,11 @@
  *  @module Resources/Stores
  */
 
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { ConfigurationCreateParams, ConfigurationItem, ConfigurationUpdateParams } from "./common/Configuration";
-import { WithMerchantName } from "./common/types";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource";
+import { ConfigurationCreateParams, ConfigurationItem, ConfigurationUpdateParams } from "./common/Configuration.js";
+import { WithMerchantName } from "./common/types.js";
+import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 
 /* Request */
 export interface StoresListParams extends CRUDPaginationParams {

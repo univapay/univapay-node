@@ -2,11 +2,11 @@ import { expect } from "chai";
 import fetchMock from "fetch-mock";
 import { v4 as uuid } from "uuid";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { ECFormLinks } from "../../src/resources/ECFormLinks";
-import { generateFixture as generateCheckoutInfo } from "../fixtures/ec-form-link";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { ECFormLinks } from "../../src/resources/ECFormLinks.js";
+import { generateFixture as generateCheckoutInfo } from "../fixtures/ec-form-link.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("EC Form links", () => {
     let api: RestAPI;

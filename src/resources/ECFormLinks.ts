@@ -1,12 +1,12 @@
 /**
  *  @module Resources/ECFormLinks
  */
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { Metadata } from "./common/types";
-import { CRUDResource } from "./CRUDResource";
-import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions";
-import { TransactionTokenType } from "./TransactionTokens";
+import { Metadata } from "./common/types.js";
+import { CRUDResource } from "./CRUDResource.js";
+import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions.js";
+import { TransactionTokenType } from "./TransactionTokens.js";
 
 export type ECFormLinkItem = {
     id: string;

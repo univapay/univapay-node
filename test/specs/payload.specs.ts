@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { containsBinaryData, objectToFormData } from "../../src/api/utils/payload";
+import { containsBinaryData, objectToFormData } from "../../src/api/utils/payload.js";
 
 const arrayChunk = <T>(arr: T[], len: number): T[][] =>
     Array.from(

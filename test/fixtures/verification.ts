@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 
-import { BusinessTypes } from "../../src/resources/Corporation";
-import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens";
-import { VerificationItem } from "../../src/resources/Verification";
+import { BusinessTypes } from "../../src/resources/Corporation.js";
+import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens.js";
+import { VerificationItem } from "../../src/resources/Verification.js";
 
 export const generateFixture = (): VerificationItem => ({
     id: uuid(),

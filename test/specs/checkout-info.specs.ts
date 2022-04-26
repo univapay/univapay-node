@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { CheckoutInfo } from "../../src/resources/CheckoutInfo";
-import { generateFixture as generateCheckoutInfo } from "../fixtures/checkout-info";
-import { testEndpoint } from "../utils";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { CheckoutInfo } from "../../src/resources/CheckoutInfo.js";
+import { generateFixture as generateCheckoutInfo } from "../fixtures/checkout-info.js";
+import { testEndpoint } from "../utils/index.js";
 
 describe("Checkout Info", () => {
     let api: RestAPI;

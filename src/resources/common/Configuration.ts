@@ -3,10 +3,10 @@
  *  @module Types
  */
 
-import { RecurringTokenPrivilege } from "../TransactionTokens";
+import { RecurringTokenPrivilege } from "../TransactionTokens.js";
 
-import { CardBrand } from "./enums";
-import { AmountWithCurrency } from "./types";
+import { CardBrand } from "./enums.js";
+import { AmountWithCurrency } from "./types.js";
 
 export enum TransferMatchAmount {
     MAXIMUM = "maximum",

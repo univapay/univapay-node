@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { Platforms } from "../../src/resources/Platforms";
-import { generateFixture as generatePlatform } from "../fixtures/platforms";
-import { testEndpoint } from "../utils";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { Platforms } from "../../src/resources/Platforms.js";
+import { generateFixture as generatePlatform } from "../fixtures/platforms.js";
+import { testEndpoint } from "../utils/index.js";
 
 describe("Platforms", () => {
     let api: RestAPI;

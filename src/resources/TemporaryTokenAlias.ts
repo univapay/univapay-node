@@ -2,12 +2,12 @@
  *  @module Resources/TemporaryTokenAlias
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { ProcessingMode } from "./common/enums";
-import { Metadata } from "./common/types";
-import { CRUDResource } from "./CRUDResource";
-import { PaymentType, TransactionTokenType } from "./TransactionTokens";
+import { ProcessingMode } from "./common/enums.js";
+import { Metadata } from "./common/types.js";
+import { CRUDResource } from "./CRUDResource.js";
+import { PaymentType, TransactionTokenType } from "./TransactionTokens.js";
 
 export interface TemporaryTokenAliasItem {
     id?: string;

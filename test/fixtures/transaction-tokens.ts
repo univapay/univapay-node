@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
-import { CardBrand, CardType, ProcessingMode } from "../../src/resources/common/enums";
-import { PaymentType, TransactionTokenItem, TransactionTokenType } from "../../src/resources/TransactionTokens";
+import { CardBrand, CardType, ProcessingMode } from "../../src/resources/common/enums.js";
+import { PaymentType, TransactionTokenItem, TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
 export const generateFixture = (): TransactionTokenItem => ({
     id: uuid(),

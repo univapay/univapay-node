@@ -2,14 +2,14 @@ import { expect } from "chai";
 import fetchMock from "fetch-mock";
 import { v4 as uuid } from "uuid";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { RequestError } from "../../src/errors/RequestResponseError";
-import { Ledgers } from "../../src/resources/Ledgers";
-import { createRequestError } from "../fixtures/errors";
-import { generateFixture as generateLedger } from "../fixtures/ledger";
-import { generateList } from "../fixtures/list";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
+import { Ledgers } from "../../src/resources/Ledgers.js";
+import { createRequestError } from "../fixtures/errors.js";
+import { generateFixture as generateLedger } from "../fixtures/ledger.js";
+import { generateList } from "../fixtures/list.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Ledgers", () => {
     let api: RestAPI;

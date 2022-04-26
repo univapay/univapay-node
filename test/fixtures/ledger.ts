@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { LedgerItem, LedgerOrigin } from "../../src/resources/Ledgers";
+import { LedgerItem, LedgerOrigin } from "../../src/resources/Ledgers.js";
 
 export const generateFixture = (): LedgerItem => ({
     id: uuid(),

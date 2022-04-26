@@ -2,7 +2,7 @@
  *  @module SDK
  */
 
-import { RestAPIOptions } from "./api/RestAPI";
+import { RestAPIOptions } from "./api/RestAPI.js";
 import {
     BankAccounts,
     Cancels,
@@ -26,14 +26,14 @@ import {
     Verification,
     WebHooks,
     WebHookTrigger as PublicWebHookTrigger,
-} from "./resources";
-import PaymentsSDK from "./sdk";
+} from "./resources/index.js";
+import PaymentsSDK from "./sdk/index.js";
 
-export * from "./api";
-export * from "./common";
-export * from "./errors";
-export * from "./resources";
-export * from "./utils";
+export * from "./api/index.js";
+export * from "./common/index.js";
+export * from "./errors/index.js";
+export * from "./resources/index.js";
+export * from "./utils/index.js";
 export const BaseSDK = PaymentsSDK;
 
 export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends PaymentsSDK {

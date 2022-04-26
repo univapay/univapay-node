@@ -2,7 +2,7 @@
  *  @module Resources/CheckoutInfo
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
 
 import {
     BankTransferConfiguration,
@@ -11,11 +11,11 @@ import {
     OnlineConfigurationItem,
     PaidyConfigurationItem,
     QRScanConfigurationItem,
-} from "./common/Configuration";
-import { CardBrand, OnlineBrand, ProcessingMode } from "./common/enums";
-import { AmountWithCurrency } from "./common/types";
-import { Resource } from "./Resource";
-import { RecurringTokenPrivilege } from "./TransactionTokens";
+} from "./common/Configuration.js";
+import { CardBrand, OnlineBrand, ProcessingMode } from "./common/enums.js";
+import { AmountWithCurrency } from "./common/types.js";
+import { Resource } from "./Resource.js";
+import { RecurringTokenPrivilege } from "./TransactionTokens.js";
 
 /* Request */
 export interface CheckoutInfoParams {

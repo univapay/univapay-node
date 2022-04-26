@@ -2,15 +2,15 @@ import { expect } from "chai";
 import fetchMock from "fetch-mock";
 import { v4 as uuid } from "uuid";
 
-import { RestAPI } from "../../src/api/RestAPI";
-import { RequestError } from "../../src/errors/RequestResponseError";
-import { BankAccounts } from "../../src/resources";
-import { BankAccountCreateParams, BankAccountType, BankAccountUpdateParams } from "../../src/resources/BankAccounts";
-import { generateFixture as generateBankAccount } from "../fixtures/bank-account";
-import { createRequestError } from "../fixtures/errors";
-import { generateList } from "../fixtures/list";
-import { testEndpoint } from "../utils";
-import { pathToRegexMatcher } from "../utils/routes";
+import { RestAPI } from "../../src/api/RestAPI.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
+import { BankAccountCreateParams, BankAccountType, BankAccountUpdateParams } from "../../src/resources/BankAccounts.js";
+import { BankAccounts } from "../../src/resources/index.js";
+import { generateFixture as generateBankAccount } from "../fixtures/bank-account.js";
+import { createRequestError } from "../fixtures/errors.js";
+import { generateList } from "../fixtures/list.js";
+import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Bank Accounts", () => {
     let api: RestAPI;

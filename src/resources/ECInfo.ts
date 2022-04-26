@@ -1,11 +1,11 @@
 /**
  *  @module Resources/ECInfo
  */
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI";
+import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
-import { CRUDResource } from "./CRUDResource";
-import { ECFormLinkItem } from "./ECFormLinks";
-import { ECFormItem } from "./ECForms";
+import { CRUDResource } from "./CRUDResource.js";
+import { ECFormLinkItem } from "./ECFormLinks.js";
+import { ECFormItem } from "./ECForms.js";
 
 export type ECInfoItem = {
     form: ECFormItem;

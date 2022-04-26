@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import { ResponseErrorCode } from "../../../src/errors/APIError";
-import { ResponseError } from "../../../src/errors/RequestResponseError";
-import { ignoreDescriptor } from "../../../src/resources/common/ignoreDescriptor";
+import { ResponseErrorCode } from "../../../src/errors/APIError.js";
+import { ResponseError } from "../../../src/errors/RequestResponseError.js";
+import { ignoreDescriptor } from "../../../src/resources/common/ignoreDescriptor.js";
 
 describe("Common > Ignore descriptor", () => {
     it("should use descriptor on request", async () => {
