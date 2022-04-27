@@ -9,6 +9,7 @@ export const generateFixture = (): ECFormLinkItem => ({
     storeId: uuid(),
     formId: uuid(),
 
+    enabled: true,
     expiry: null,
     description: null,
     jwt: "myjwt",

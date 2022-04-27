@@ -16,6 +16,7 @@ export type ECFormLinkItem = {
 
     description: string | null;
 
+    enabled: boolean;
     expiry: string | null;
     jwt: string;
     secret: string;
