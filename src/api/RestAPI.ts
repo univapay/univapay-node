@@ -2,8 +2,8 @@
  *  @module SDK/API
  */
 
+import { stringify } from "@apimatic/json-bigint";
 import { EventEmitter } from "events";
-import JSONBig from "json-bigint";
 import { stringify as stringifyQuery } from "query-string";
 
 import {
@@ -98,8 +98,6 @@ export interface PollParams {
 export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
-
-const { stringify } = JSONBig({ useNativeBigInt: true });
 
 const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData | Blob =>
     isBlob(data)

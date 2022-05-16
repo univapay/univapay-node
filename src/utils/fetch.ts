@@ -3,13 +3,11 @@
  *  @module Utils
  */
 
-import JSONBig from "json-bigint";
+import { parse } from "@apimatic/json-bigint";
 
 import { APIError } from "../errors/APIError.js";
 
 import { toCamelCase, transformKeys } from "./object.js";
-
-const { parse } = JSONBig({ useNativeBigInt: true });
 
 export const parseJSON = async <FormattedBody>(
     response: Response,
