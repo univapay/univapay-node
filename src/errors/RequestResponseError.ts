@@ -38,11 +38,12 @@ const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest): Formatte
             return {
                 reason: isValidError ? (upperCaseError as ResponseErrorCode) : ResponseErrorCode.UnknownError,
                 field: null,
+                rawError: error,
             };
         }
 
         if (isSymbol(error)) {
-            return { reason: ResponseErrorCode.UnknownError, field: null };
+            return { reason: ResponseErrorCode.UnknownError, field: null, rawError: error };
         }
 
         return error;

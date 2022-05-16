@@ -1,4 +1,3 @@
-import BigDecimal from "bignumber.js";
 import isBuffer from "is-buffer";
 
 import { isBlob, toSnakeCase, transformKeys } from "../../utils/index.js";
@@ -12,7 +11,7 @@ const isClassInstance = (value: unknown): boolean =>
     typeof value === "object" && !(value instanceof Array) && value.constructor !== Object;
 
 export const containsBinaryData = (data: unknown): boolean => {
-    if (isPrimitive(data) || data instanceof BigDecimal) {
+    if (isPrimitive(data)) {
         return false;
     } else if (isClassInstance(data)) {
         return true;
@@ -32,8 +31,6 @@ export const objectToFormData = (obj: unknown, keyFormatter = toSnakeCase, ignor
         if (isBlob(data)) {
             // Blob
             formData.append(path, data);
-        } else if (data instanceof BigDecimal) {
-            formData.append(path, data.toString());
         } else if (Array.isArray(data)) {
             // Array
             for (let i = 0; i < data.length; i++) {
