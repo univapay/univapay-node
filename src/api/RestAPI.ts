@@ -61,6 +61,7 @@ export interface StoreToken extends ApplicationToken {
 
 export interface SubError {
     reason: RequestErrorCode | ResponseErrorCode;
+    rawError?: boolean | number | string | SubError | ValidationError;
 }
 
 export interface ValidationError extends SubError {
