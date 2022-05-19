@@ -20,6 +20,7 @@ export enum RefundReason {
     FRAUD = "fraud",
     CUSTOMER_REQUEST = "customer_request",
     CHARGEBACK = "chargeback",
+    SYSTEM_FAILURE = "system_failure",
 }
 
 /* Request */
