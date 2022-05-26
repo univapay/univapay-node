@@ -6,8 +6,7 @@
     "importHelpers": true,
     "sourceMap": true,
     "target": "es5",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "nodenext",
     "declaration": true,
     "allowJs": false,
     "checkJs": false,
@@ -31,10 +30,7 @@
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "baseUrl": ".",
-    "outDir": "./dist/esm",
-    "paths": {
-      "*": ["types/*"]
-    }
+    "outDir": "./dist/esm"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
