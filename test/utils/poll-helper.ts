@@ -1,3 +1,4 @@
+import arrify from "arrify";
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
 import pMap from "p-map";
@@ -7,10 +8,10 @@ import { HTTPMethod } from "../../src/api/RestAPI.js";
 import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants.js";
 import { TimeoutError } from "../../src/errors/TimeoutError.js";
 
-const tickPoll = async (sandbox: sinon.SinonSandbox, ticks = 3) =>
+const tickPoll = (sandbox: sinon.SinonSandbox, ticks = 3) =>
     pMap(Array(ticks).fill(0), async () => sandbox.clock.tickAsync(POLLING_INTERVAL), { concurrency: 1 });
 
-const timeoutPoll = async (sandbox: sinon.SinonSandbox) => sandbox.clock.tickAsync(POLLING_TIMEOUT);
+const timeoutPoll = (sandbox: sinon.SinonSandbox) => sandbox.clock.tickAsync(POLLING_TIMEOUT);
 
 export const assertPoll = async <Item>(
     pathMatcher: fetchMock.MockMatcher,
@@ -19,7 +20,7 @@ export const assertPoll = async <Item>(
     successItem: Item,
     pendingItem: Item | Item[]
 ) => {
-    const pendingItems = Array.isArray(pendingItem) ? pendingItem : [pendingItem];
+    const pendingItems = arrify(pendingItem);
 
     pendingItems.forEach((item, index) => {
         fetchMock.getOnce(
@@ -67,7 +68,7 @@ export const assertPollCancel = async <Item>(
     failingItem: Item,
     pendingItem: Item | Item[]
 ) => {
-    const pendingItems = Array.isArray(pendingItem) ? pendingItem : [pendingItem];
+    const pendingItems = arrify(pendingItem);
 
     pendingItems.forEach((item, index) => {
         fetchMock.getOnce(

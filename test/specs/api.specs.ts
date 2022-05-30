@@ -1,3 +1,4 @@
+import arrify from "arrify";
 import { expect } from "chai";
 import fetchMock, { FetchMockStatic } from "fetch-mock";
 import jwt from "jsonwebtoken";
@@ -23,7 +24,7 @@ const getHeader = (headers: HeadersInit, key: string): string => {
         return null;
     }
 
-    return Array.isArray(values) ? values[0] || null : values;
+    return arrify(values)[0];
 };
 
 describe("API", function () {
