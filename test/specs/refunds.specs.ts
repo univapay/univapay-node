@@ -4,10 +4,8 @@ import * as sinon from "sinon";
 import { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
 
-import { HTTPMethod, RestAPI } from "../../src/api/RestAPI.js";
-import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants.js";
+import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { TimeoutError } from "../../src/errors/TimeoutError.js";
 import {
     RefundCreateParams,
     RefundReason,
@@ -19,6 +17,7 @@ import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateRefund } from "../fixtures/refund.js";
 import { testEndpoint } from "../utils/index.js";
+import { assertPoll, assertPollCancel, assertPollTimeout } from "../utils/poll-helper.js";
 import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Refunds", () => {
@@ -96,6 +95,10 @@ describe("Refunds", () => {
     });
 
     context("GET /stores/:storeId/charges/:chargeId/refunds/:id", () => {
+        const successItem = recordData;
+        const pendingItem = { ...recordData, status: RefundStatus.PENDING };
+        const failingItem = { ...recordData, status: RefundStatus.FAILED };
+
         it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
@@ -107,99 +110,19 @@ describe("Refunds", () => {
         });
 
         it("should perform long polling", async () => {
-            const recordPendingData = { ...recordData, status: RefundStatus.PENDING };
-
-            fetchMock.getOnce(
-                recordPathMatcher,
-                {
-                    status: 200,
-                    body: recordPendingData,
-                    headers: { "Content-Type": "application/json" },
-                },
-                {
-                    method: HTTPMethod.GET,
-                    name: "pending",
-                }
-            );
-
-            fetchMock.getOnce(
-                recordPathMatcher,
-                {
-                    status: 200,
-                    body: recordData,
-                    headers: { "Content-Type": "application/json" },
-                },
-                {
-                    method: HTTPMethod.GET,
-                    name: "success",
-                }
-            );
-
-            const request = refunds.poll(uuid(), uuid(), uuid());
-            await sandbox.clock.tickAsync(POLLING_INTERVAL);
-            await sandbox.clock.tickAsync(POLLING_INTERVAL);
-
-            await expect(request).to.eventually.eql(recordData);
+            const call = () => refunds.poll(uuid(), uuid(), uuid());
+            await assertPoll(recordPathMatcher, call, sandbox, successItem, pendingItem);
         });
 
         it("should timeout polling", async () => {
-            const recordPendingData = { ...recordData, status: RefundStatus.PENDING };
-
-            fetchMock.get(recordPathMatcher, {
-                status: 200,
-                body: recordPendingData,
-                headers: { "Content-Type": "application/json" },
-            });
-
-            const request = refunds.poll(uuid(), uuid(), uuid());
-
-            sandbox.clock.tick(POLLING_TIMEOUT);
-
-            await expect(request).to.eventually.be.rejectedWith(TimeoutError);
+            const call = () => refunds.poll(uuid(), uuid(), uuid());
+            await assertPollTimeout(recordPathMatcher, call, sandbox, pendingItem);
         });
 
         it("cancel polling", async () => {
-            const recordPendingData = { ...recordData, status: RefundStatus.PENDING };
-
-            fetchMock.getOnce(
-                recordPathMatcher,
-                {
-                    status: 200,
-                    body: recordPendingData,
-                    headers: { "Content-Type": "application/json" },
-                },
-                {
-                    method: HTTPMethod.GET,
-                    name: "pending",
-                }
-            );
-
-            fetchMock.getOnce(
-                recordPathMatcher,
-                {
-                    status: 200,
-                    body: { ...recordData, status: RefundStatus.FAILED },
-                    headers: { "Content-Type": "application/json" },
-                },
-                {
-                    method: HTTPMethod.GET,
-                    name: "failed",
-                }
-            );
-
-            const request = refunds.poll(
-                uuid(),
-                uuid(),
-                uuid(),
-                undefined,
-                undefined,
-                undefined,
-                ({ status }) => status === RefundStatus.FAILED
-            );
-            await sandbox.clock.tickAsync(POLLING_INTERVAL);
-            await sandbox.clock.tickAsync(POLLING_INTERVAL);
-
-            await expect(request).to.eventually.eql(null);
+            const cancelCondition = ({ status }) => status === RefundStatus.FAILED;
+            const call = () => refunds.poll(uuid(), uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
+            await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
     });
 
