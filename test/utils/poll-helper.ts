@@ -1,20 +1,16 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
+import pMap from "p-map";
 import * as sinon from "sinon";
 
 import { HTTPMethod } from "../../src/api/RestAPI.js";
 import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants.js";
 import { TimeoutError } from "../../src/errors/TimeoutError.js";
 
-const tickPoll = async (sandbox: sinon.SinonSandbox, ticks = 3) => {
-    for (let i = 0; i < ticks; i++) {
-        await sandbox.clock.tickAsync(POLLING_INTERVAL);
-    }
-};
+const tickPoll = async (sandbox: sinon.SinonSandbox, ticks = 3) =>
+    pMap(Array(ticks).fill(0), async () => sandbox.clock.tickAsync(POLLING_INTERVAL), { concurrency: 1 });
 
-const timeoutPoll = async (sandbox: sinon.SinonSandbox) => {
-    await sandbox.clock.tickAsync(POLLING_TIMEOUT);
-};
+const timeoutPoll = async (sandbox: sinon.SinonSandbox) => sandbox.clock.tickAsync(POLLING_TIMEOUT);
 
 export const assertPoll = async <Item>(
     pathMatcher: fetchMock.MockMatcher,
