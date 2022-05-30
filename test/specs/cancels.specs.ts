@@ -126,9 +126,53 @@ describe("Cancels", () => {
 
             const request = cancels.poll(uuid(), uuid(), uuid());
 
-            sandbox.clock.tick(POLLING_TIMEOUT);
+            await sandbox.clock.tick(POLLING_TIMEOUT);
 
             await expect(request).to.eventually.be.rejectedWith(TimeoutError);
+        });
+
+        it("cancel polling", async () => {
+            const recordPendingData = { ...recordData, status: CancelStatus.PENDING };
+
+            fetchMock.getOnce(
+                recordPathMatcher,
+                {
+                    status: 200,
+                    body: recordPendingData,
+                    headers: { "Content-Type": "application/json" },
+                },
+                {
+                    method: HTTPMethod.GET,
+                    name: "pending",
+                }
+            );
+
+            fetchMock.getOnce(
+                recordPathMatcher,
+                {
+                    status: 200,
+                    body: { ...recordData, status: CancelStatus.FAILED },
+                    headers: { "Content-Type": "application/json" },
+                },
+                {
+                    method: HTTPMethod.GET,
+                    name: "failed",
+                }
+            );
+
+            const request = cancels.poll(
+                uuid(),
+                uuid(),
+                uuid(),
+                undefined,
+                undefined,
+                undefined,
+                ({ status }) => status === CancelStatus.FAILED
+            );
+            await sandbox.clock.tickAsync(POLLING_INTERVAL);
+            await sandbox.clock.tickAsync(POLLING_INTERVAL);
+
+            await expect(request).to.eventually.eql(null);
         });
     });
 

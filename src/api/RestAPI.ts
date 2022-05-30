@@ -296,28 +296,30 @@ export class RestAPI extends EventEmitter {
     /**
      * @internal
      */
-    async longPolling<A>(
-        promise: PromiseCreator<A>,
-        condition: (response: A) => boolean,
-        cancelCondition?: (response: A) => boolean,
-        callback?: ResponseCallback<A>,
+    async longPolling<Response>(
+        promise: PromiseCreator<Response>,
+        condition: (response: Response) => boolean,
+        cancelCondition?: (response: Response) => boolean,
+        callback?: ResponseCallback<Response>,
         timeout: number = POLLING_TIMEOUT,
-        interval: number = POLLING_INTERVAL
-    ): Promise<A> {
+        interval: number = POLLING_INTERVAL,
+        iterationCallback?: (response: Response) => void
+    ): Promise<Response> {
         return execRequest(async () => {
             let timedOut = false;
 
             return Promise.race([
                 // Timeout
-                new Promise<A>((_, reject) => {
+                new Promise<Response>((_, reject) => {
                     setTimeout(() => {
                         timedOut = true;
                         reject(new TimeoutError(timeout));
                     }, timeout);
                 }),
                 // Repeater
-                (async function repeater(): Promise<A> {
+                (async function repeater(): Promise<Response> {
                     const result = await promise();
+                    iterationCallback?.(result);
 
                     if (cancelCondition?.(result)) {
                         return null;

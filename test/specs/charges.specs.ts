@@ -152,6 +152,49 @@ describe("Charges", () => {
 
             await expect(request).to.eventually.be.rejectedWith(TimeoutError);
         });
+
+        it("cancel polling", async () => {
+            const recordPendingData = { ...recordData, status: ChargeStatus.PENDING };
+
+            fetchMock.getOnce(
+                recordPathMatcher,
+                {
+                    status: 200,
+                    body: recordPendingData,
+                    headers: { "Content-Type": "application/json" },
+                },
+                {
+                    method: HTTPMethod.GET,
+                    name: "pending",
+                }
+            );
+
+            fetchMock.getOnce(
+                recordPathMatcher,
+                {
+                    status: 200,
+                    body: { ...recordData, status: ChargeStatus.FAILED },
+                    headers: { "Content-Type": "application/json" },
+                },
+                {
+                    method: HTTPMethod.GET,
+                    name: "failed",
+                }
+            );
+
+            const request = charges.poll(
+                uuid(),
+                uuid(),
+                undefined,
+                undefined,
+                undefined,
+                ({ status }) => status === ChargeStatus.FAILED
+            );
+            await sandbox.clock.tickAsync(POLLING_INTERVAL);
+            await sandbox.clock.tickAsync(POLLING_INTERVAL);
+
+            await expect(request).to.eventually.eql(null);
+        });
     });
 
     context("GET /stores/:storeId/charges/:chargeId/issuerToken", () => {
