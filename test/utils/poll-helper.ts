@@ -9,7 +9,7 @@ import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants.js
 import { TimeoutError } from "../../src/errors/TimeoutError.js";
 
 const tickPoll = (sandbox: sinon.SinonSandbox, ticks = 3) =>
-    pMap(Array(ticks).fill(0), async () => sandbox.clock.tickAsync(POLLING_INTERVAL), { concurrency: 1 });
+    pMap(Array(ticks).fill(0), () => sandbox.clock.tickAsync(POLLING_INTERVAL), { concurrency: 1 });
 
 const timeoutPoll = (sandbox: sinon.SinonSandbox) => sandbox.clock.tickAsync(POLLING_TIMEOUT);
 
