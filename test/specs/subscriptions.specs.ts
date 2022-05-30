@@ -167,6 +167,49 @@ describe("Subscriptions", () => {
 
             await expect(request).to.eventually.be.rejectedWith(TimeoutError);
         });
+
+        it("cancel polling", async () => {
+            const recordPendingData = { ...recordData, status: SubscriptionStatus.UNVERIFIED };
+
+            fetchMock.getOnce(
+                recordPathMatcher,
+                {
+                    status: 200,
+                    body: recordPendingData,
+                    headers: { "Content-Type": "application/json" },
+                },
+                {
+                    method: HTTPMethod.GET,
+                    name: "pending",
+                }
+            );
+
+            fetchMock.getOnce(
+                recordPathMatcher,
+                {
+                    status: 200,
+                    body: { ...recordData, status: SubscriptionStatus.SUSPENDED },
+                    headers: { "Content-Type": "application/json" },
+                },
+                {
+                    method: HTTPMethod.GET,
+                    name: "failed",
+                }
+            );
+
+            const request = subscriptions.poll(
+                uuid(),
+                uuid(),
+                undefined,
+                undefined,
+                undefined,
+                ({ status }) => status === SubscriptionStatus.SUSPENDED
+            );
+            await sandbox.clock.tickAsync(POLLING_INTERVAL);
+            await sandbox.clock.tickAsync(POLLING_INTERVAL);
+
+            await expect(request).to.eventually.eql(null);
+        });
     });
 
     context("PATCH /stores/:storeId/subscriptions/:id", () => {
