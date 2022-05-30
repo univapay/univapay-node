@@ -1,6 +1,7 @@
 /**
  *  @module Errors
  */
+import arrify from "arrify";
 
 import { ErrorResponse, SubError, ValidationError } from "../api/RestAPI.js";
 
@@ -25,7 +26,7 @@ const isSymbol = (value: unknown): value is string | number | boolean =>
  * - When an item of errors is a symbol rather than an object, returns the UNKNOWN_ERROR as the code
  */
 const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest): FormattedErrorRequest => {
-    const errorList = Array.isArray(rawErrors) ? rawErrors : [rawErrors];
+    const errorList = arrify(rawErrors);
 
     const formattedErrors: (SubError | ValidationError)[] = errorList.filter(Boolean).map((error: ErrorItem) => {
         if (typeof error === "string") {

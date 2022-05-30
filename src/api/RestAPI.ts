@@ -4,6 +4,7 @@
 
 import { stringify } from "@apimatic/json-bigint";
 import { EventEmitter } from "events";
+import pTimeout from "p-timeout";
 import { stringify as stringifyQuery } from "query-string";
 
 import {
@@ -297,42 +298,59 @@ export class RestAPI extends EventEmitter {
      * @internal
      */
     async longPolling<Response>(
+        /**
+         * API call to be repeated
+         */
         promise: PromiseCreator<Response>,
-        condition: (response: Response) => boolean,
+
+        /**
+         * Condition for which the response is considered to be successful and stop the polling
+         */
+        successCondition: (response: Response) => boolean,
+
+        /**
+         * Condition to cancel the polling without triggering error
+         */
         cancelCondition?: (response: Response) => boolean,
+
+        /**
+         * Callback to be triggered at the end of the long polling
+         */
         callback?: ResponseCallback<Response>,
+
+        /**
+         * Time after which a TimeoutError will be triggered and the poll will be canceled
+         */
         timeout: number = POLLING_TIMEOUT,
+
+        /**
+         * Interval between polls
+         */
         interval: number = POLLING_INTERVAL,
+
+        /**
+         * Callback to be triggered at each poll iteration
+         */
         iterationCallback?: (response: Response) => void
     ): Promise<Response> {
         return execRequest(async () => {
-            let timedOut = false;
+            const repeater = async (): Promise<Response> => {
+                const result = await promise();
+                iterationCallback?.(result);
 
-            return Promise.race([
-                // Timeout
-                new Promise<Response>((_, reject) => {
-                    setTimeout(() => {
-                        timedOut = true;
-                        reject(new TimeoutError(timeout));
-                    }, timeout);
-                }),
-                // Repeater
-                (async function repeater(): Promise<Response> {
-                    const result = await promise();
-                    iterationCallback?.(result);
+                if (cancelCondition?.(result)) {
+                    return null;
+                }
 
-                    if (cancelCondition?.(result)) {
-                        return null;
-                    }
+                if (!successCondition(result)) {
+                    await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
+                    return repeater();
+                }
 
-                    if (!timedOut && !condition(result)) {
-                        await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
-                        return repeater();
-                    }
+                return result;
+            };
 
-                    return result;
-                })(),
-            ]);
+            return pTimeout(repeater(), timeout, new TimeoutError(timeout));
         }, callback);
     }
 

@@ -5,9 +5,8 @@ import { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
 
 import { HTTPMethod, RestAPI } from "../../src/api/RestAPI.js";
-import { POLLING_INTERVAL, POLLING_TIMEOUT } from "../../src/common/constants.js";
+import { POLLING_INTERVAL } from "../../src/common/constants.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { TimeoutError } from "../../src/errors/TimeoutError.js";
 import { ChargeStatus, SubscriptionItem } from "../../src/resources/index.js";
 import {
     SubscriptionCreateParams,
@@ -25,6 +24,7 @@ import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateScheduledPayment } from "../fixtures/scheduled-payment.js";
 import { generateFixture as generateSubscription } from "../fixtures/subscription.js";
 import { testEndpoint } from "../utils/index.js";
+import { assertPoll, assertPollCancel, assertPollTimeout } from "../utils/poll-helper.js";
 import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Subscriptions", () => {
@@ -106,6 +106,10 @@ describe("Subscriptions", () => {
     });
 
     context("GET /stores/:storeId/subscriptions/:id", () => {
+        const successItem = { ...recordData, status: SubscriptionStatus.CURRENT };
+        const pendingItem = { ...recordData, status: SubscriptionStatus.UNVERIFIED };
+        const failingItem = { ...recordData, status: SubscriptionStatus.SUSPENDED };
+
         it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
@@ -117,98 +121,19 @@ describe("Subscriptions", () => {
         });
 
         it("should perform long polling", async () => {
-            const recordPendingData = { ...recordData, status: SubscriptionStatus.UNVERIFIED };
-
-            fetchMock.getOnce(
-                recordPathMatcher,
-                {
-                    status: 200,
-                    body: recordPendingData,
-                    headers: { "Content-Type": "application/json" },
-                },
-                {
-                    method: HTTPMethod.GET,
-                    name: "pending",
-                }
-            );
-
-            fetchMock.getOnce(
-                recordPathMatcher,
-                {
-                    status: 200,
-                    body: recordData,
-                    headers: { "Content-Type": "application/json" },
-                },
-                {
-                    method: HTTPMethod.GET,
-                    name: "success",
-                }
-            );
-
-            const request = subscriptions.poll(uuid(), uuid());
-            await sandbox.clock.tickAsync(POLLING_INTERVAL);
-            await sandbox.clock.tickAsync(POLLING_INTERVAL);
-
-            await expect(request).to.eventually.eql(recordData);
+            const call = () => subscriptions.poll(uuid(), uuid());
+            await assertPoll(recordPathMatcher, call, sandbox, successItem, pendingItem);
         });
 
         it("should timeout polling", async () => {
-            const recordPendingData = { ...recordData, status: SubscriptionStatus.UNVERIFIED };
-
-            fetchMock.get(recordPathMatcher, {
-                status: 200,
-                body: recordPendingData,
-                headers: { "Content-Type": "application/json" },
-            });
-
-            const request = subscriptions.poll(uuid(), uuid());
-
-            sandbox.clock.tick(POLLING_TIMEOUT);
-
-            await expect(request).to.eventually.be.rejectedWith(TimeoutError);
+            const call = () => subscriptions.poll(uuid(), uuid());
+            await assertPollTimeout(recordPathMatcher, call, sandbox, pendingItem);
         });
 
         it("cancel polling", async () => {
-            const recordPendingData = { ...recordData, status: SubscriptionStatus.UNVERIFIED };
-
-            fetchMock.getOnce(
-                recordPathMatcher,
-                {
-                    status: 200,
-                    body: recordPendingData,
-                    headers: { "Content-Type": "application/json" },
-                },
-                {
-                    method: HTTPMethod.GET,
-                    name: "pending",
-                }
-            );
-
-            fetchMock.getOnce(
-                recordPathMatcher,
-                {
-                    status: 200,
-                    body: { ...recordData, status: SubscriptionStatus.SUSPENDED },
-                    headers: { "Content-Type": "application/json" },
-                },
-                {
-                    method: HTTPMethod.GET,
-                    name: "failed",
-                }
-            );
-
-            const request = subscriptions.poll(
-                uuid(),
-                uuid(),
-                undefined,
-                undefined,
-                undefined,
-                ({ status }) => status === SubscriptionStatus.SUSPENDED
-            );
-            await sandbox.clock.tickAsync(POLLING_INTERVAL);
-            await sandbox.clock.tickAsync(POLLING_INTERVAL);
-
-            await expect(request).to.eventually.eql(null);
+            const cancelCondition = ({ status }) => status === SubscriptionStatus.SUSPENDED;
+            const call = () => subscriptions.poll(uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
+            await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
     });
 
