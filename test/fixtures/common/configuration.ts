@@ -81,6 +81,7 @@ export const generateFixture = (): ConfigurationItem => ({
         refundPercentLimit: 5,
     },
     installmentsConfiguration: generateFixtureInstallmentConfiguration(),
+    minimumChargeAmounts: [],
     maximumChargeAmounts: [],
     country: "JP",
     language: "ja_JP",
