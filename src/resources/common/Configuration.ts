@@ -126,6 +126,7 @@ export interface ConfigurationItem {
     installmentsConfiguration: InstallmentsConfigurationItem;
     language: string;
     logoUrl?: string;
+    minimumChargeAmounts: AmountWithCurrency[];
     maximumChargeAmounts: AmountWithCurrency[];
     minTransferPayout?: AmountWithCurrency;
     percentFee: number;
