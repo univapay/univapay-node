@@ -1,4 +1,4 @@
-import { parse } from "bowser";
+import bowser from "bowser";
 import { isBrowser, isNode } from "browser-or-node";
 
 const CLIENT_NAME = "univapay-node";
@@ -9,7 +9,7 @@ function getPlatform() {
     }
 
     if (isBrowser) {
-        const { browser: { name, version } } = parse(window.navigator.userAgent);
+        const { browser: { name, version } } = bowser.parse(window.navigator.userAgent);
 
         return `${name}@${version}`;
     }
