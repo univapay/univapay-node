@@ -1,4 +1,3 @@
-import arrify from "arrify";
 import { expect } from "chai";
 import fetchMock, { FetchMockStatic } from "fetch-mock";
 import jwt from "jsonwebtoken";
@@ -17,15 +16,6 @@ import { fromError } from "../../src/errors/parser.js";
 import { RequestError, ResponseError } from "../../src/errors/RequestResponseError.js";
 import { Merchants } from "../../src/resources/Merchants.js";
 import { testEndpoint } from "../utils/index.js";
-
-const getHeader = (headers: HeadersInit, key: string): string => {
-    const values = headers[key] ?? headers[key.toLowerCase()];
-    if (!values) {
-        return null;
-    }
-
-    return arrify(values)[0];
-};
 
 describe("API", function () {
     const okResponse = { ok: true };
@@ -191,8 +181,8 @@ describe("API", function () {
         for (const [initParams, sendParams, authHeader] of asserts) {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint, ...initParams });
             const response = await api.send(HTTPMethod.GET, "/header", null, sendParams);
-            const { headers } = mock.lastCall()[1];
-            const reqAuthHeader = getHeader(headers, "Authorization");
+            const { request } = mock.lastCall();
+            const reqAuthHeader = request.headers.get("Authorization");
 
             expect(reqAuthHeader).to.eql(authHeader || null);
             expect(response).to.eql(okResponse);
@@ -270,8 +260,8 @@ describe("API", function () {
         for (const [initParams, sendParams] of asserts) {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint, ...initParams });
             const response = await api.send(HTTPMethod.GET, "/origin", null, sendParams);
-            const { headers } = mock.lastCall()[1];
-            const reqOriginHeader = getHeader(headers, "Origin");
+            const { request } = mock.lastCall();
+            const reqOriginHeader = request.headers.get("Origin");
 
             expect(reqOriginHeader).to.be.equal(
                 !!sendParams && !!sendParams.origin
@@ -374,8 +364,8 @@ describe("API", function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
         await api.send(HTTPMethod.GET, "/header", null, { idempotentKey: "test" });
 
-        const { headers } = mock.lastCall()[1];
-        const keyHeader = getHeader(headers, IDEMPOTENCY_KEY_HEADER);
+        const { request } = mock.lastCall();
+        const keyHeader = request.headers.get(IDEMPOTENCY_KEY_HEADER);
 
         expect(keyHeader).to.equal("test");
     });
