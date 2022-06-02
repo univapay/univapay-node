@@ -5,22 +5,24 @@ const CLIENT_NAME = "univapay-node";
 
 function getPlatform() {
     if (isNode) {
-       return `node.js@${process.versions.node}`;
+        return `node.js@${process.versions.node}`;
     }
 
     if (isBrowser) {
-        const { browser: { name, version } } = bowser.parse(window.navigator.userAgent);
+        const {
+            browser: { name, version },
+        } = bowser.parse(window.navigator.userAgent);
 
         return `${name}@${version}`;
     }
 
-    return "uknown-platform"
+    return "unknown-platform";
 }
 
 function getModuleType() {
-    return typeof require === 'function' ? 'commonjs' : 'module';
+    return typeof require === "function" ? "commonjs" : "module";
 }
 
 export function userAgent() {
-    return  `${CLIENT_NAME} ${getPlatform()} ${getModuleType()}`;
+    return `${CLIENT_NAME} ${getPlatform()} ${getModuleType()}`;
 }
