@@ -19,7 +19,7 @@ import { Merchants } from "../../src/resources/Merchants.js";
 import { testEndpoint } from "../utils/index.js";
 
 const getHeader = (headers: HeadersInit, key: string): string => {
-    const values = headers[key];
+    const values = headers[key] ?? headers[key.toLowerCase()];
     if (!values) {
         return null;
     }
