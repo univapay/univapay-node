@@ -3,26 +3,19 @@ import { isBrowser, isNode } from "browser-or-node";
 
 const CLIENT_NAME = "univapay-node";
 
-function getPlatform() {
-    if (isNode) {
-        return `node.js@${process.versions.node}`;
-    }
+const getPlatform = () =>
+    isNode
+        ? `node.js@${process.versions.node}`
+        : isBrowser
+        ? (() => {
+              const {
+                  browser: { name, version },
+              } = bowser.parse(window.navigator.userAgent);
 
-    if (isBrowser) {
-        const {
-            browser: { name, version },
-        } = bowser.parse(window.navigator.userAgent);
+              return `${name}@${version}`;
+          })()
+        : "unknown-platform";
 
-        return `${name}@${version}`;
-    }
+const getModuleType = () => (typeof require === "function" ? "commonjs" : "module");
 
-    return "unknown-platform";
-}
-
-function getModuleType() {
-    return typeof require === "function" ? "commonjs" : "module";
-}
-
-export function userAgent() {
-    return `${CLIENT_NAME} ${getPlatform()} ${getModuleType()}`;
-}
+export const userAgent = () => `${CLIENT_NAME} ${getPlatform()} ${getModuleType()}`;
