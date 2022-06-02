@@ -448,11 +448,12 @@ export enum ResponseErrorCode {
 }
 
 export class APIError extends Error {
+    name = "APIError";
     status: number;
     response: Record<string, any>;
 
     constructor(status: number, response?: Record<string, any>) {
-        super();
+        super(`API request failed with status ${status}`);
         this.status = status;
         this.response = Object.keys(response || {}).length !== 0 ? response : null;
         Object.setPrototypeOf(this, APIError.prototype);
