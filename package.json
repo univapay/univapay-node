@@ -81,6 +81,8 @@
   "dependencies": {
     "@apimatic/json-bigint": "^1.2.0",
     "arrify": "2.0.1",
+    "bowser": "^2.11.0",
+    "browser-or-node": "^2.0.0",
     "change-case": "^4.1.2",
     "events": "^3.3.0",
     "is-buffer": "^2.0.5",
@@ -95,7 +97,7 @@
     "test": "c8 mocha",
     "build:esm": "tsc",
     "build:cjs": "tsc --project tsconfig.cjs.json",
-    "build": "npm run build:cjs && npm run build:esm",
+    "build": "npm run build:esm && npm run build:cjs",
     "preversion": "npm test",
     "docs": "typedoc --options typedoc.json",
     "release": "np --yolo --no-yarn --no-publish",

@@ -27,6 +27,7 @@ import { isBlob, toSnakeCase, transformKeys } from "../utils/object.js";
 
 import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT.js";
 import { containsBinaryData, objectToFormData } from "./utils/payload.js";
+import { userAgent } from "./utils/userAgent.js";
 
 export enum HTTPMethod {
     GET = "GET",
@@ -199,7 +200,7 @@ export class RestAPI extends EventEmitter {
             });
         }
 
-        const payload: boolean = [HTTPMethod.GET, HTTPMethod.DELETE].indexOf(method) === -1;
+        const payload: boolean = [HTTPMethod.GET, HTTPMethod.DELETE].includes(method) === false;
 
         const params: RequestInit = {
             headers: this.getHeaders(data, auth, payload, acceptType),
@@ -270,6 +271,8 @@ export class RestAPI extends EventEmitter {
             secret = this.secret,
             jwt = this.jwtRaw,
         } = auth || {};
+
+        headers.append("User-Agent", userAgent());
 
         if (origin) {
             headers.append("Origin", origin);
