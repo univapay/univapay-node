@@ -50,7 +50,6 @@ describe("JWT", () => {
         const jwtToken = jwt.sign({ foo: "bar" }, "foo");
 
         const asserts: [Headers, string][] = [
-            [null, null],
             [new Headers({ "Content-Type": "application/json" }), null],
             [new Headers({ Authorization: `Bearer ${jwtToken}`, "Content-Type": "application/json" }), jwtToken],
         ];

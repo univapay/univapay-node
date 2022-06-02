@@ -5,7 +5,7 @@ import { APIError } from "../../src/errors/APIError.js";
 import { checkStatus, parseJSON } from "../../src/utils/fetch.js";
 
 const createResponse = (data: Record<string, unknown>, status = 200) =>
-    new Response(stringify(data, null, 2), { status, statusText: "Dummy status" });
+    new Response(status === 204 ? null : stringify(data, null, 2), { status, statusText: "Dummy status" });
 
 describe("Fetch Helpers", () => {
     describe("parseJSON", () => {
@@ -48,16 +48,16 @@ describe("Fetch Helpers", () => {
     });
 
     describe("checkStatus", () => {
-        it("return the response when the status is a success", () => {
+        it("return the response when the status is a success", async () => {
             const response = createResponse({ key1: "1" }, 204);
 
-            expect(checkStatus(response)).to.eventually.eql(response);
+            await expect(checkStatus(response)).to.eventually.eql(response);
         });
 
-        it("throws an error when the status is an error", () => {
+        it("throws an error when the status is an error", async () => {
             const response = createResponse({ key1: "1" }, 400);
 
-            expect(checkStatus(response)).to.eventually.be.rejectedWith(new APIError(400, { key1: "1" }));
+            await expect(checkStatus(response)).to.be.rejectedWith(APIError, "API request failed with status 400");
         });
     });
 });
