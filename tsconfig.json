@@ -30,7 +30,10 @@
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "baseUrl": ".",
-    "outDir": "./dist/esm"
+    "outDir": "./dist/esm",
+    "paths": {
+      "*": ["types/*.d.ts"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
