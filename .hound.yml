@@ -1,6 +1,0 @@
-jshint:
-  enabled: false
-
-eslint:
-  version: 6.3.0
-  config_file: .eslintrc
