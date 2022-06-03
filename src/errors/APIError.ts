@@ -322,6 +322,7 @@ export enum ResponseErrorCode {
     NotActive = "NOT_ACTIVE",
     ModeNotSupported = "MODE_NOT_SUPPORTED",
     NoStratusConfiguration = "NO_STRATUS_CONFIGURATION",
+    PaymentTypeDisabled = "PAYMENT_TYPE_DISABLED",
 
     /* Refund */
     RefundExceedsChargeAmount = "REFUND_EXCEEDS_CHARGE_AMOUNT",
