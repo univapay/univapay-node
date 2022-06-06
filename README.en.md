@@ -17,9 +17,6 @@
 [shield-build]: https://img.shields.io/github/workflow/status/univapay/univapay-node/test/master
 [shield-downloads]: https://img.shields.io/npm/dm/univapay-node.svg
 [shield-license]: https://img.shields.io/npm/l/univapay-node.svg
-[shield-dependencies]: https://img.shields.io/david/univapay/univapay-node.svg
-[shield-devdependencies]: https://img.shields.io/david/dev/univapay/univapay-node.svg
-[shield-optionaldependencies]: https://img.shields.io/david/optional/univapay/univapay-node.svg
 [shield-coverage]: https://coveralls.io/repos/github/univapay/univapay-node/badge.svg?branch=master
 [shield-issues]: https://img.shields.io/github/issues/univapay/univapay-node.svg
 [shield-pullrequests]: https://img.shields.io/github/issues-pr/univapay/univapay-node.svg
@@ -35,9 +32,6 @@ SDK library for [Node.js][node] to consume [UnivaPay][univapay-url] API.
 [![NPM version][shield-npm]][npm-url]
 [![Node.js version support][shield-node]][node]
 [![Code coverage][shield-coverage]][coveralls-url]
-![Dependencies][shield-dependencies]
-![Dev Dependencies][shield-devdependencies]
-![Optional Dependencies][shield-optionaldependencies]
 [![GitHub Issues][shield-issues]][github-issues-url]
 [![GitHub Pull Requests][shield-pullrequests]][github-pr-url]
 [![CLA assistant][shield-cla]][cla-url]
