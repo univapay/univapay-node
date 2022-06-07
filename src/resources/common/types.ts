@@ -26,12 +26,6 @@ export interface PhoneNumber {
     localNumber?: string;
 }
 
-export interface PaymentError {
-    message: string;
-    code: number;
-    details?: string;
-}
-
 export interface Metadata {
     [key: string]: any;
 }
