@@ -14,7 +14,10 @@ type RawErrorRequest = {
     errors: ErrorItem | ErrorItem[];
 };
 
-type FormattedErrorRequest = Omit<ErrorResponse, "status">;
+type FormattedSubError = (SubError & Partial<ValidationError>) & { rawError?: string | number | boolean };
+type FormattedErrorRequest = Omit<ErrorResponse, "errors" | "status"> & {
+    errors: FormattedSubError[];
+};
 
 const isSymbol = (value: unknown): value is string | number | boolean =>
     ["string", "number", "boolean"].includes(typeof value);
@@ -26,29 +29,29 @@ const isSymbol = (value: unknown): value is string | number | boolean =>
  * - When an item of errors is a symbol rather than an object, returns the UNKNOWN_ERROR as the code
  */
 const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest): FormattedErrorRequest => {
-    const errorList = arrify(rawErrors);
+    const formattedErrors = arrify(rawErrors)
+        .filter(Boolean)
+        .map((error: ErrorItem) => {
+            if (typeof error === "string") {
+                const errorCodeKeys = [...Object.keys(ResponseErrorCode), ...Object.keys(RequestErrorCode)];
+                const upperCaseError = error.toUpperCase();
+                const isValidError = errorCodeKeys.some(
+                    (key) => ResponseErrorCode[key] === upperCaseError || RequestErrorCode[key] === upperCaseError
+                );
 
-    const formattedErrors: (SubError | ValidationError)[] = errorList.filter(Boolean).map((error: ErrorItem) => {
-        if (typeof error === "string") {
-            const errorCodeKeys = [...Object.keys(ResponseErrorCode), ...Object.keys(RequestErrorCode)];
-            const upperCaseError = error.toUpperCase();
-            const isValidError = errorCodeKeys.some(
-                (key) => ResponseErrorCode[key] === upperCaseError || RequestErrorCode[key] === upperCaseError
-            );
+                return {
+                    reason: isValidError ? (upperCaseError as ResponseErrorCode) : ResponseErrorCode.UnknownError,
+                    field: null,
+                    rawError: error,
+                };
+            }
 
-            return {
-                reason: isValidError ? (upperCaseError as ResponseErrorCode) : ResponseErrorCode.UnknownError,
-                field: null,
-                rawError: error,
-            };
-        }
+            if (isSymbol(error)) {
+                return { reason: ResponseErrorCode.UnknownError, field: null, rawError: error };
+            }
 
-        if (isSymbol(error)) {
-            return { reason: ResponseErrorCode.UnknownError, field: null, rawError: error };
-        }
-
-        return error;
-    });
+            return error as FormattedSubError;
+        });
 
     return { ...rest, errors: formattedErrors };
 };

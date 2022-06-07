@@ -448,6 +448,65 @@ export enum ResponseErrorCode {
     InvalidJapanesePostalCode = "INVALID_JAPANESE_POSTAL_CODE",
 }
 
+export enum PaymentErrorType {
+    NotSelectedReasons = "not_selected_reasons",
+}
+
+export enum NotSelectedReason {
+    DescriptorNotSupported = "descriptor_not_supported",
+    GatewayAlreadyUsed = "gateway_already_used",
+    ChargeWithoutCVVNotSupported = "charge_without_cvv_not_supported",
+    CardBrandNotSupported = "card_brand_not_supported",
+    CountryNotSupported = "country_not_supported",
+    ModeNotSupported = "mode_not_supported",
+    AuthCaptureNotSupported = "auth_capture_not_supported",
+    CvvAuthNotSupported = "cvv_auth_not_supported",
+    CustomerIpAddressMissing = "customer_ip_address_missing",
+    PaymentTypeNotSupported = "payment_type_not_supported",
+    NotActive = "not_active",
+    GatewayNotAvailable = "gateway_not_available",
+    GatewayNotSupported = "gateway_not_supported",
+    PlatformNotSupported = "platform_not_supported",
+    MerchantNotSupported = "merchant_not_supported",
+    StoreNotSupported = "store_not_supported",
+    DoesNotMatchRequestedCurrency = "does_not_match_requested_currency",
+    RateLimited = "rate_limited",
+    GatewayConfigNotFound = "gateway_config_not_found",
+    LastNameRequired = "last_name_required",
+
+    NotChosenGatewayForQRCode = "not_chosen_gateway_for_qr_code",
+    NotChosenGateway = "not_chosen_gateway",
+    CallMethodNotSupported = "call_method_not_supported",
+    OSTypeNotSpecified = "os_type_not_specified",
+    SubscriptionPlanValidationFailed = "subscription_plan_validation_failed",
+    InstallmentCapableNotMatching = "installment_capable_not_matching",
+    CardBankIssuerNotSupported = "card_bank_issuer_not_supported",
+    CardBinNotSupported = "card_bin_not_supported",
+    CurrencyNotSupported = "currency_not_supported",
+    AuthCaptureSupportNotMatching = "auth_capture_support_not_matching",
+
+    NotOnWhitelist = "not_on_whitelist",
+    BlacklistedTagOnMerchant = "blacklisted_tag_on_merchant",
+    BlacklistedTagOnStore = "blacklisted_tag_on_store",
+    ForbiddenGateway = "forbidden_gateway",
+    ForbiddenCredential = "forbidden_credential",
+    CannotShareMerchantCredentials = "cannot_share_merchant_credentials",
+    CannotShareStoreCredentials = "cannot_share_store_credentials",
+    PlatformCredentialsDisabled = "platform_credentials_disabled",
+    TaggedPlatformCredentialsDisabled = "tagged_platform_credentials_disabled",
+}
+
+export type PaymentError = {
+    message: string;
+    code: number;
+    details?: string;
+    others?: {
+        type: PaymentErrorType;
+        message: NotSelectedReason[];
+        credentialId: string;
+    };
+};
+
 export class APIError extends Error {
     name = "APIError";
     status: number;

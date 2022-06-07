@@ -4,9 +4,10 @@
 
 import { AuthParams, HTTPMethod, PollParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
+import { PaymentError } from "../errors/APIError.js";
 import { ProcessingMode } from "./common/enums.js";
 import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
-import { Metadata, PaymentError, WithStoreMerchantName } from "./common/types.js";
+import { Metadata, WithStoreMerchantName } from "./common/types.js";
 import { CaptureStatus } from "./Captures.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
@@ -63,7 +64,6 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     descriptor: string;
     onlyDirectCurrency: boolean;
 }
-
 export interface IssuerTokenItem {
     issuerToken: string;
     callMethod: "http_get" | "http_post" | "sdk";
