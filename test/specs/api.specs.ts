@@ -95,6 +95,32 @@ describe("API", function () {
         expect(response).to.eql(okResponse);
     });
 
+    it("should send request to the specified http endpoint", async function () {
+        fetchMock.getOnce("http://test.univapay.com/ok", {
+            status: 200,
+            body: okResponse,
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+        const response = await api.send(HTTPMethod.GET, "http://test.univapay.com/ok");
+
+        expect(response).to.eql(okResponse);
+    });
+
+    it("should send request to the specified https endpoint", async function () {
+        fetchMock.getOnce("https://test.univapay.com/ok", {
+            status: 200,
+            body: okResponse,
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+        const response = await api.send(HTTPMethod.GET, "https://test.univapay.com/ok");
+
+        expect(response).to.eql(okResponse);
+    });
+
     it("should override jwt and secret from environment variable with auth parameter", async function () {
         const secret = "myActualSecret";
         const jwtToken = jwt.sign({ my: "payload" }, "foo");
