@@ -208,7 +208,7 @@ export class RestAPI extends EventEmitter {
         };
 
         const request: Request = new Request(
-            `${this.endpoint}${uri}${payload ? "" : stringifyParams(data)}`,
+            `${/^https?:\/\//.test(uri) ? uri : `${this.endpoint}${uri}`}${payload ? "" : stringifyParams(data)}`,
             payload ? { ...params, body: getRequestBody(data, keyFormatter) } : params
         );
 
