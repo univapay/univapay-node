@@ -37,6 +37,15 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     metadata?: T;
 }
 
+export interface ChargeUpdateParams<T extends Metadata = Metadata> {
+    transactionTokenId?: string;
+    captureAt?: string | number;
+    capture?: boolean;
+    status?: ChargeStatus;
+    captureStatus?: CaptureStatus;
+    metaData?: T;
+}
+
 export type ChargeIssuerTokenGetParams = void;
 
 /* Response */
@@ -110,6 +119,16 @@ export class Charges extends CRUDResource {
         callback?: ResponseCallback<ResponseCharge>
     ): Promise<ResponseCharge> {
         return this._getRoute()(data, callback, auth, { storeId, id });
+    }
+
+    update(
+        storeId: string,
+        id: string,
+        data?: SendData<ChargeUpdateParams>,
+        auth?: AuthParams,
+        callback?: ResponseCallback<ResponseCharge>
+    ): Promise<ResponseCharge> {
+        return this._updateRoute()(data, callback, auth, { storeId, id });
     }
 
     getIssuerToken(
