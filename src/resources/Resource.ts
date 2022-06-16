@@ -8,7 +8,7 @@ import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../
 import { fromError } from "../errors/parser.js";
 import { PathParameterError } from "../errors/PathParameterError.js";
 import { RequestParameterError } from "../errors/RequestParameterError.js";
-import { isBlob, missingKeys, toSnakeCase } from "../utils/object.js";
+import { isBlob, toSnakeCase } from "../utils/object.js";
 
 export type DefinedRoute = (
     data?: any,
@@ -116,20 +116,20 @@ export abstract class Resource extends EventEmitter {
              * Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create#custom_and_null_objects
              */
             const data = getObjectType(originalData) === "object" ? { ...originalData } : originalData;
-
             const url = compilePath(path, pathParams);
 
-            const missingPathParams = (url.match(/:([a-z]+)/gi) || []).map((m: string) => m.replace(":", ""));
-            const missingParams = missingKeys(data, required);
-
-            if (missingPathParams.length > 0) {
-                const error = fromError(new PathParameterError(missingPathParams[0]));
+            // Validate required path parameters
+            const firstMissingPathParam = (url.match(/:([a-z]+)/gi) || [])[0]?.replace(":", "");
+            if (firstMissingPathParam) {
+                const error = fromError(new PathParameterError(firstMissingPathParam));
                 callback?.(error);
                 return Promise.reject(error);
             }
 
-            if (missingParams.length > 0) {
-                const error = fromError(new RequestParameterError(missingParams[0]));
+            // Validate required body parameters
+            const firstMissingParam = data ? required.find((key) => data[key] === undefined) : required[0];
+            if (firstMissingParam) {
+                const error = fromError(new RequestParameterError(firstMissingParam));
                 callback?.(error);
                 return Promise.reject(error);
             }

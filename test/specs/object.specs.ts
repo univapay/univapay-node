@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { isBlob, missingKeys, toSnakeCase, transformKeys } from "../../src/utils/object.js";
+import { isBlob, toSnakeCase, transformKeys } from "../../src/utils/object.js";
 
 describe("Object Helpers", () => {
     describe("transformKeys", () => {
@@ -64,26 +64,6 @@ describe("Object Helpers", () => {
             const formattedData = transformKeys(data, toSnakeCase);
 
             expect(formattedData).eql({ key1: "Value 1", key2: { key21: "Value 2" } });
-        });
-    });
-
-    describe("missingKeys", () => {
-        it("return the missing keys when the object exists", () => {
-            const result = missingKeys({ id: "1", role: null, name: undefined }, ["id", "name", "role", "age"]);
-
-            expect(result).eql(["name", "age"]);
-        });
-
-        it("return an empty array when the keys are not provided", () => {
-            const result = missingKeys({ id: "1", role: null, name: undefined });
-
-            expect(result).eql([]);
-        });
-
-        it("should return all keys when the object does not exist", () => {
-            const result = missingKeys(null, ["id", "name", "role", "age"]);
-
-            expect(result).eql(["id", "name", "role", "age"]);
         });
     });
 
