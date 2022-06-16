@@ -8,7 +8,7 @@ import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../
 import { fromError } from "../errors/parser.js";
 import { PathParameterError } from "../errors/PathParameterError.js";
 import { RequestParameterError } from "../errors/RequestParameterError.js";
-import { isBlob, missingKeys, toSnakeCase } from "../utils/object.js";
+import { isBlob, toSnakeCase } from "../utils/object.js";
 
 export type DefinedRoute = (
     data?: any,
@@ -102,43 +102,48 @@ export abstract class Resource extends EventEmitter {
         acceptType?: string,
         keyFormatter = toSnakeCase
     ): DefinedRoute {
-        const api: RestAPI = this.api;
-
-        return function route<A, B>(
+        return <A, B>(
             originalData?: SendData<A>,
             callback?: ResponseCallback<B>,
             auth?: AuthParams,
             pathParams: Record<string, string> = {}
-        ): Promise<B> {
+        ): Promise<B> => {
             /**
-             * Sanitises and ensures that the data is recreated as an object with default prototypes.
+             * Sanitizes and ensures that the data is recreated as an object with default prototypes.
              * In rare cases if the data was created with `Object.create(null)` (no prototypes),
              * this will cause the data to be sent as `WebKitFormBoundary` instead of regular JSON object.
              *
              * Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create#custom_and_null_objects
              */
             const data = getObjectType(originalData) === "object" ? { ...originalData } : originalData;
+            const url = compilePath(path, pathParams);
 
-            const url: string = compilePath(path, pathParams);
-
-            const missingPathParams: string[] = (url.match(/:([a-z]+)/gi) || []).map((m: string) => m.replace(":", ""));
-            const missingParams: string[] = missingKeys(data, required);
-            let err: Error;
-
-            if (missingPathParams.length > 0) {
-                err = fromError(new PathParameterError(missingPathParams[0]));
-                callback?.(err);
-                return Promise.reject(err);
+            // Validate required path parameters
+            const firstMissingPathParam = url.match(/:([a-z]+)/gi)?.[0]?.replace(":", "");
+            if (firstMissingPathParam) {
+                const error = fromError(new PathParameterError(firstMissingPathParam));
+                callback?.(error);
+                return Promise.reject(error);
             }
 
-            if (missingParams.length > 0) {
-                err = fromError(new RequestParameterError(missingParams[0]));
-                callback?.(err);
-                return Promise.reject(err);
+            // Validate required body parameters
+            const firstMissingParam = data ? required.find((key) => data[key] === undefined) : required[0];
+            if (firstMissingParam) {
+                const error = fromError(new RequestParameterError(firstMissingParam));
+                callback?.(error);
+                return Promise.reject(error);
             }
 
-            // TODO: Have a look as this cast, the response can be other objects such as string, Blob or FormData
-            return api.send(method, url, data, auth, callback, requireAuth, acceptType, keyFormatter) as Promise<B>;
+            return this.api.send(
+                method,
+                url,
+                data,
+                auth,
+                callback,
+                requireAuth,
+                acceptType,
+                keyFormatter
+            ) as Promise<B>;
         };
     }
 }
