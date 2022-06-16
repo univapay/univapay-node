@@ -102,16 +102,14 @@ export abstract class Resource extends EventEmitter {
         acceptType?: string,
         keyFormatter = toSnakeCase
     ): DefinedRoute {
-        const api: RestAPI = this.api;
-
-        return function route<A, B>(
+        return <A, B>(
             originalData?: SendData<A>,
             callback?: ResponseCallback<B>,
             auth?: AuthParams,
             pathParams: Record<string, string> = {}
-        ): Promise<B> {
+        ): Promise<B> => {
             /**
-             * Sanitises and ensures that the data is recreated as an object with default prototypes.
+             * Sanitizes and ensures that the data is recreated as an object with default prototypes.
              * In rare cases if the data was created with `Object.create(null)` (no prototypes),
              * this will cause the data to be sent as `WebKitFormBoundary` instead of regular JSON object.
              *
@@ -119,26 +117,33 @@ export abstract class Resource extends EventEmitter {
              */
             const data = getObjectType(originalData) === "object" ? { ...originalData } : originalData;
 
-            const url: string = compilePath(path, pathParams);
+            const url = compilePath(path, pathParams);
 
-            const missingPathParams: string[] = (url.match(/:([a-z]+)/gi) || []).map((m: string) => m.replace(":", ""));
-            const missingParams: string[] = missingKeys(data, required);
-            let err: Error;
+            const missingPathParams = (url.match(/:([a-z]+)/gi) || []).map((m: string) => m.replace(":", ""));
+            const missingParams = missingKeys(data, required);
 
             if (missingPathParams.length > 0) {
-                err = fromError(new PathParameterError(missingPathParams[0]));
-                callback?.(err);
-                return Promise.reject(err);
+                const error = fromError(new PathParameterError(missingPathParams[0]));
+                callback?.(error);
+                return Promise.reject(error);
             }
 
             if (missingParams.length > 0) {
-                err = fromError(new RequestParameterError(missingParams[0]));
-                callback?.(err);
-                return Promise.reject(err);
+                const error = fromError(new RequestParameterError(missingParams[0]));
+                callback?.(error);
+                return Promise.reject(error);
             }
 
-            // TODO: Have a look as this cast, the response can be other objects such as string, Blob or FormData
-            return api.send(method, url, data, auth, callback, requireAuth, acceptType, keyFormatter) as Promise<B>;
+            return this.api.send(
+                method,
+                url,
+                data,
+                auth,
+                callback,
+                requireAuth,
+                acceptType,
+                keyFormatter
+            ) as Promise<B>;
         };
     }
 }

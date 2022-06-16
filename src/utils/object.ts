@@ -51,19 +51,5 @@ export const transformKeys = (
 /**
  * Returns a list from `keys` that are not found in `obj`
  */
-export const missingKeys = (obj: Record<string, any>, keys: string[] = []): string[] => {
-    if (!obj) {
-        return keys;
-    }
-
-    const objKeys: string[] = Object.keys(obj);
-    const missing: string[] = [];
-
-    for (const key of keys) {
-        if (objKeys.indexOf(key) === -1 || obj[key] === undefined) {
-            missing.push(key);
-        }
-    }
-
-    return missing;
-};
+export const missingKeys = (obj: Record<string, any>, keys: string[] = []) =>
+    obj ? Object.keys(obj).filter((key) => obj[key] === undefined) : keys;
