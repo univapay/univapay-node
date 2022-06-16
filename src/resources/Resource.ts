@@ -119,7 +119,7 @@ export abstract class Resource extends EventEmitter {
             const url = compilePath(path, pathParams);
 
             // Validate required path parameters
-            const firstMissingPathParam = (url.match(/:([a-z]+)/gi) || [])[0]?.replace(":", "");
+            const firstMissingPathParam = url.match(/:([a-z]+)/gi)?.[0]?.replace(":", "");
             if (firstMissingPathParam) {
                 const error = fromError(new PathParameterError(firstMissingPathParam));
                 callback?.(error);
