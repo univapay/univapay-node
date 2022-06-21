@@ -86,6 +86,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     /* Address */
     address?: boolean | null;
     requireName?: boolean | null;
+    requireNameKana?: boolean | null;
     requireEmail?: boolean | null;
     requireBillingAddress?: boolean | null;
     requirePhoneNumber?: boolean | null;
