@@ -11,3 +11,4 @@ export const ENV_KEY_SECRET = "UNIVAPAY_SECRET";
 export const POLLING_TIMEOUT = 600000; // 10 minutes
 export const POLLING_INTERVAL = 1000; // 1 second
 export const IDEMPOTENCY_KEY_HEADER = "Idempotency-Key";
+export const MAX_INTERNAL_ERROR_RETRY = 3;
