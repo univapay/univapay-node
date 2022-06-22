@@ -363,10 +363,11 @@ export class RestAPI extends EventEmitter {
                 if (error.httpCode !== 500 || internalErrrorCount === MAX_INTERNAL_ERROR_RETRY) {
                     throw error;
                 }
-
-                internalErrrorCount++;
             }
+
+            internalErrrorCount++;
         }
+        return null;
     }
 
     async ping(callback?: ResponseCallback<void>): Promise<void> {
