@@ -10,7 +10,14 @@ import { generateFixture as generateCharge } from "../fixtures/charge.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { testEndpoint } from "../utils/index.js";
-import { assertPoll, assertPollCancel, assertPollTimeout } from "../utils/poll-helper.js";
+import {
+    assertPoll,
+    assertPollCancel,
+    assertPollInternalServerError,
+    assertPollNotFoundError,
+    assertPollTimeout,
+    assertPollInternalServerErrorMaxRetry,
+} from "../utils/poll-helper.js";
 import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Charges", () => {
@@ -81,7 +88,7 @@ describe("Charges", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [charges.list(null, null), charges.list(null, undefined, null, uuid())];
+            const asserts = [charges.list(undefined, undefined), charges.list(undefined, undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -114,10 +121,25 @@ describe("Charges", () => {
             await assertPollTimeout(recordPathMatcher, call, sandbox, pendingItem);
         });
 
-        it("cancel polling", async () => {
+        it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === ChargeStatus.FAILED;
             const call = () => charges.poll(uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
+        });
+
+        it("should abort poll on error", async () => {
+            const call = () => charges.poll(uuid(), uuid());
+            await assertPollNotFoundError(recordPathMatcher, call, sandbox);
+        });
+
+        it("should retry poll on internal server error", async () => {
+            const call = () => charges.poll(uuid(), uuid());
+            await assertPollInternalServerError(recordPathMatcher, call, sandbox, successItem);
+        });
+
+        it("should retry poll on internal server error", async () => {
+            const call = () => charges.poll(uuid(), uuid());
+            await assertPollInternalServerErrorMaxRetry(recordPathMatcher, call, sandbox);
         });
     });
 

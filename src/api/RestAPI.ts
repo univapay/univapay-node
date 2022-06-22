@@ -16,10 +16,11 @@ import {
     IDEMPOTENCY_KEY_HEADER,
     POLLING_INTERVAL,
     POLLING_TIMEOUT,
+    MAX_INTERNAL_ERROR_RETRY,
 } from "../common/constants.js";
 import { RequestErrorCode, ResponseErrorCode } from "../errors/APIError.js";
 import { fromError } from "../errors/parser.js";
-import { RequestError } from "../errors/RequestResponseError.js";
+import { RequestError, ResponseError } from "../errors/RequestResponseError.js";
 import { TimeoutError } from "../errors/TimeoutError.js";
 import { ProcessingMode } from "../resources/common/enums.js";
 import { checkStatus, parseJSON } from "../utils/fetch.js";
@@ -123,7 +124,7 @@ const execRequest = async <A>(executor: () => Promise<A>, callback?: ResponseCal
 
         return response;
     } catch (error) {
-        const err: Error = error instanceof TimeoutError ? error : fromError(error);
+        const err: Error = error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error);
         if (typeof callback === "function") {
             callback(err);
         }
@@ -337,20 +338,32 @@ export class RestAPI extends EventEmitter {
         iterationCallback?: (response: Response) => void
     ): Promise<Response> {
         return execRequest(async () => {
+            let internalErrorCount = 0;
+
             const repeater = async (): Promise<Response> => {
-                const result = await promise();
-                iterationCallback?.(result);
+                try {
+                    const result = await promise();
 
-                if (cancelCondition?.(result)) {
-                    return null;
-                }
+                    iterationCallback?.(result);
 
-                if (!successCondition(result)) {
-                    await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
+                    if (cancelCondition?.(result)) {
+                        return null;
+                    }
+
+                    if (!successCondition(result)) {
+                        await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
+                        return repeater();
+                    }
+
+                    return result;
+                } catch (error) {
+                    if (error.errorResponse?.httpCode !== 500 || internalErrorCount >= MAX_INTERNAL_ERROR_RETRY) {
+                        throw error;
+                    }
+
+                    internalErrorCount++;
                     return repeater();
                 }
-
-                return result;
             };
 
             return pTimeout(repeater(), timeout, new TimeoutError(timeout));

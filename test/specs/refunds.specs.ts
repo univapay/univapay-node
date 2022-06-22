@@ -17,7 +17,14 @@ import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateRefund } from "../fixtures/refund.js";
 import { testEndpoint } from "../utils/index.js";
-import { assertPoll, assertPollCancel, assertPollTimeout } from "../utils/poll-helper.js";
+import {
+    assertPoll,
+    assertPollCancel,
+    assertPollInternalServerError,
+    assertPollInternalServerErrorMaxRetry,
+    assertPollNotFoundError,
+    assertPollTimeout,
+} from "../utils/poll-helper.js";
 import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Refunds", () => {
@@ -119,10 +126,25 @@ describe("Refunds", () => {
             await assertPollTimeout(recordPathMatcher, call, sandbox, pendingItem);
         });
 
-        it("cancel polling", async () => {
+        it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === RefundStatus.FAILED;
             const call = () => refunds.poll(uuid(), uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
+        });
+
+        it("should abort poll on error", async () => {
+            const call = () => refunds.poll(uuid(), uuid(), uuid());
+            await assertPollNotFoundError(recordPathMatcher, call, sandbox);
+        });
+
+        it("should retry poll on internal server error", async () => {
+            const call = () => refunds.poll(uuid(), uuid(), uuid());
+            await assertPollInternalServerError(recordPathMatcher, call, sandbox, successItem);
+        });
+
+        it("should retry poll on internal server error", async () => {
+            const call = () => refunds.poll(uuid(), uuid(), uuid());
+            await assertPollInternalServerErrorMaxRetry(recordPathMatcher, call, sandbox);
         });
     });
 
