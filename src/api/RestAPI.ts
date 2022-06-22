@@ -20,7 +20,7 @@ import {
 } from "../common/constants.js";
 import { RequestErrorCode, ResponseErrorCode } from "../errors/APIError.js";
 import { fromError } from "../errors/parser.js";
-import { RequestError } from "../errors/RequestResponseError.js";
+import { RequestError, ResponseError } from "../errors/RequestResponseError.js";
 import { TimeoutError } from "../errors/TimeoutError.js";
 import { ProcessingMode } from "../resources/common/enums.js";
 import { checkStatus, parseJSON } from "../utils/fetch.js";
@@ -124,7 +124,7 @@ const execRequest = async <A>(executor: () => Promise<A>, callback?: ResponseCal
 
         return response;
     } catch (error) {
-        const err: Error = error instanceof TimeoutError ? error : fromError(error);
+        const err: Error = error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error);
         if (typeof callback === "function") {
             callback(err);
         }
@@ -338,7 +338,7 @@ export class RestAPI extends EventEmitter {
         iterationCallback?: (response: Response) => void
     ): Promise<Response> {
         return execRequest(async () => {
-            let internalErrrorCount = 0;
+            let internalErrorCount = 0;
 
             const repeater = async (): Promise<Response> => {
                 try {
@@ -357,11 +357,11 @@ export class RestAPI extends EventEmitter {
 
                     return result;
                 } catch (error) {
-                    if (error.httpCode !== 500 || internalErrrorCount === MAX_INTERNAL_ERROR_RETRY) {
+                    if (error.errorResponse?.httpCode !== 500 || internalErrorCount >= MAX_INTERNAL_ERROR_RETRY) {
                         throw error;
                     }
 
-                    internalErrrorCount++;
+                    internalErrorCount++;
                     return repeater();
                 }
             };
