@@ -125,7 +125,8 @@ export class Refunds extends CRUDResource {
          */
         cancelCondition?: (response: ResponseRefund) => boolean,
         successCondition: ({ status }: ResponseRefund) => boolean = ({ status }) => status !== RefundStatus.PENDING,
-        iterationCallback?: (response: ResponseRefund) => void
+        iterationCallback?: (response: ResponseRefund) => void,
+        pollOptions?: { interval?: number; timeout?: number }
     ): Promise<ResponseRefund> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData, auth);
@@ -135,8 +136,8 @@ export class Refunds extends CRUDResource {
             successCondition,
             cancelCondition,
             callback,
-            undefined,
-            undefined,
+            pollOptions?.interval,
+            pollOptions?.timeout,
             iterationCallback
         );
     }

@@ -369,7 +369,8 @@ export class Subscriptions extends CRUDResource {
         cancelCondition?: (response: ResponseSubscription) => boolean,
         successCondition: ({ status }: ResponseSubscription) => boolean = ({ status }) =>
             status !== SubscriptionStatus.UNVERIFIED,
-        iterationCallback?: (response: ResponseSubscription) => void
+        iterationCallback?: (response: ResponseSubscription) => void,
+        pollOptions?: { interval?: number; timeout?: number }
     ): Promise<ResponseSubscription> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
@@ -379,8 +380,8 @@ export class Subscriptions extends CRUDResource {
             successCondition,
             cancelCondition,
             callback,
-            undefined,
-            undefined,
+            pollOptions?.interval,
+            pollOptions?.timeout,
             iterationCallback
         );
     }
