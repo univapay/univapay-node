@@ -337,37 +337,37 @@ export class RestAPI extends EventEmitter {
          */
         iterationCallback?: (response: Response) => void
     ): Promise<Response> {
-        let internalErrrorCount = 0;
-        while (internalErrrorCount <= MAX_INTERNAL_ERROR_RETRY) {
-            try {
-                return execRequest(async () => {
-                    const repeater = async (): Promise<Response> => {
-                        const result = await promise();
-                        iterationCallback?.(result);
+        return execRequest(async () => {
+            let internalErrrorCount = 0;
 
-                        if (cancelCondition?.(result)) {
-                            return null;
-                        }
+            const repeater = async (): Promise<Response> => {
+                try {
+                    const result = await promise();
 
-                        if (!successCondition(result)) {
-                            await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
-                            return repeater();
-                        }
+                    iterationCallback?.(result);
 
-                        return result;
-                    };
+                    if (cancelCondition?.(result)) {
+                        return null;
+                    }
 
-                    return pTimeout(repeater(), timeout, new TimeoutError(timeout));
-                }, callback);
-            } catch (error) {
-                if (error.httpCode !== 500 || internalErrrorCount === MAX_INTERNAL_ERROR_RETRY) {
-                    throw error;
+                    if (!successCondition(result)) {
+                        await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
+                        return repeater();
+                    }
+
+                    return result;
+                } catch (error) {
+                    if (error.httpCode !== 500 || internalErrrorCount === MAX_INTERNAL_ERROR_RETRY) {
+                        throw error;
+                    }
+
+                    internalErrrorCount++;
+                    return repeater();
                 }
-            }
+            };
 
-            internalErrrorCount++;
-        }
-        return null;
+            return pTimeout(repeater(), timeout, new TimeoutError(timeout));
+        }, callback);
     }
 
     async ping(callback?: ResponseCallback<void>): Promise<void> {
