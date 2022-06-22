@@ -139,7 +139,8 @@ export class Charges extends CRUDResource {
          */
         cancelCondition?: (response: ResponseCharge) => boolean,
         successCondition: ({ status }: ResponseCharge) => boolean = ({ status }) => status !== ChargeStatus.PENDING,
-        iterationCallback?: (response: ResponseCharge) => void
+        iterationCallback?: (response: ResponseCharge) => void,
+        pollOptions?: { interval?: number; timeout?: number }
     ): Promise<ResponseCharge> {
         const pollingData = { ...data, polling: true };
         const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollingData, auth);
@@ -149,8 +150,8 @@ export class Charges extends CRUDResource {
             successCondition,
             cancelCondition,
             callback,
-            undefined,
-            undefined,
+            pollOptions?.interval,
+            pollOptions?.timeout,
             iterationCallback
         );
     }
