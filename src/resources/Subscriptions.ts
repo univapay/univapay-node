@@ -367,7 +367,7 @@ export class Subscriptions extends CRUDResource {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
         const successCondition =
-            pollParams.successCondition || (({ status }) => status !== SubscriptionStatus.UNVERIFIED);
+            pollParams?.successCondition || (({ status }) => status !== SubscriptionStatus.UNVERIFIED);
 
         return this.api.longPolling(promise, { ...pollParams, successCondition }, callback);
     }

@@ -137,7 +137,7 @@ export class Charges extends CRUDResource {
     ): Promise<ResponseCharge> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollData, auth);
-        const successCondition = pollParams.successCondition || (({ status }) => status !== ChargeStatus.PENDING);
+        const successCondition = pollParams?.successCondition || (({ status }) => status !== ChargeStatus.PENDING);
 
         return this.api.longPolling(promise, { ...pollParams, successCondition }, callback);
     }

@@ -123,7 +123,7 @@ export class Refunds extends CRUDResource {
     ): Promise<ResponseRefund> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData, auth);
-        const successCondition = pollParams.successCondition || (({ status }) => status !== RefundStatus.PENDING);
+        const successCondition = pollParams?.successCondition || (({ status }) => status !== RefundStatus.PENDING);
 
         return this.api.longPolling(promise, { ...pollParams, successCondition }, callback);
     }
