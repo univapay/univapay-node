@@ -357,7 +357,7 @@ export class RestAPI extends EventEmitter {
                     }
 
                     if (!successCondition(result)) {
-                        sleepInterval();
+                        await sleepInterval();
                         return repeater();
                     }
 
@@ -369,7 +369,7 @@ export class RestAPI extends EventEmitter {
                     }
 
                     internalErrorCount++;
-                    sleepInterval();
+                    await sleepInterval();
                     return repeater();
                 }
             };
