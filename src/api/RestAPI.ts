@@ -30,6 +30,33 @@ import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT.js";
 import { containsBinaryData, objectToFormData } from "./utils/payload.js";
 import { userAgent } from "./utils/userAgent.js";
 
+export type PollParams<Response> = {
+    /**
+     * Condition for which the response is considered to be successful and stop the polling
+     */
+    successCondition: (response: Response) => boolean;
+
+    /**
+     * Condition to cancel the polling without triggering error
+     */
+    cancelCondition?: (response: Response) => boolean;
+
+    /**
+     * Time after which a TimeoutError will be triggered and the poll will be canceled
+     */
+    timeout?: number;
+
+    /**
+     * Interval between polls
+     */
+    interval?: number;
+
+    /**
+     * Callback to be triggered at each poll iteration
+     */
+    iterationCallback?: (response: Response) => void;
+};
+
 export enum HTTPMethod {
     GET = "GET",
     POST = "POST",
@@ -94,9 +121,9 @@ export interface AuthParams {
     appId?: string;
 }
 
-export interface PollParams {
+export type PollData = {
     polling?: boolean;
-}
+};
 
 export type PromiseCreator<A> = () => Promise<A>;
 
@@ -302,43 +329,22 @@ export class RestAPI extends EventEmitter {
      * @internal
      */
     async longPolling<Response>(
-        /**
-         * API call to be repeated
-         */
         promise: PromiseCreator<Response>,
-
-        /**
-         * Condition for which the response is considered to be successful and stop the polling
-         */
-        successCondition: (response: Response) => boolean,
-
-        /**
-         * Condition to cancel the polling without triggering error
-         */
-        cancelCondition?: (response: Response) => boolean,
-
-        /**
-         * Callback to be triggered at the end of the long polling
-         */
-        callback?: ResponseCallback<Response>,
-
-        /**
-         * Time after which a TimeoutError will be triggered and the poll will be canceled
-         */
-        timeout: number = POLLING_TIMEOUT,
-
-        /**
-         * Interval between polls
-         */
-        interval: number = POLLING_INTERVAL,
-
-        /**
-         * Callback to be triggered at each poll iteration
-         */
-        iterationCallback?: (response: Response) => void
+        pollParams: PollParams<Response>,
+        callback?: ResponseCallback<Response>
     ): Promise<Response> {
+        const {
+            successCondition,
+            cancelCondition,
+            iterationCallback,
+            timeout = POLLING_TIMEOUT,
+            interval = POLLING_INTERVAL,
+        } = pollParams;
+
         return execRequest(async () => {
             let internalErrorCount = 0;
+
+            const sleepInterval = () => new Promise((resolve) => setTimeout(resolve, interval));
 
             const repeater = async (): Promise<Response> => {
                 try {
@@ -351,17 +357,19 @@ export class RestAPI extends EventEmitter {
                     }
 
                     if (!successCondition(result)) {
-                        await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
+                        sleepInterval();
                         return repeater();
                     }
 
                     return result;
                 } catch (error) {
+                    // Use retry mechanism for 500 as internal server error on API side do not always mean failure
                     if (error.errorResponse?.httpCode !== 500 || internalErrorCount >= MAX_INTERNAL_ERROR_RETRY) {
                         throw error;
                     }
 
                     internalErrorCount++;
+                    sleepInterval();
                     return repeater();
                 }
             };

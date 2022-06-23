@@ -123,7 +123,7 @@ describe("Charges", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === ChargeStatus.FAILED;
-            const call = () => charges.poll(uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
+            const call = () => charges.poll(uuid(), uuid(), undefined, undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 

@@ -2,7 +2,7 @@
  *  @module Resources/Subscriptions
  */
 
-import { AuthParams, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, PollData, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI.js";
 
 import { ProcessingMode } from "./common/enums.js";
 import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
@@ -316,7 +316,7 @@ export class Subscriptions extends CRUDResource {
     get(
         storeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
         callback?: ResponseCallback<ResponseSubscription>
     ): Promise<ResponseSubscription> {
@@ -359,37 +359,23 @@ export class Subscriptions extends CRUDResource {
     poll(
         storeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
         callback?: ResponseCallback<ResponseSubscription>,
-
-        /**
-         * Condition for the resource to be successfully loaded. Default to pending status check.
-         */
-        cancelCondition?: (response: ResponseSubscription) => boolean,
-        successCondition: ({ status }: ResponseSubscription) => boolean = ({ status }) =>
-            status !== SubscriptionStatus.UNVERIFIED,
-        iterationCallback?: (response: ResponseSubscription) => void,
-        pollOptions?: { interval?: number; timeout?: number }
+        pollParams?: Partial<PollParams<ResponseSubscription>>
     ): Promise<ResponseSubscription> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
+        const successCondition =
+            pollParams.successCondition || (({ status }) => status !== SubscriptionStatus.UNVERIFIED);
 
-        return this.api.longPolling(
-            promise,
-            successCondition,
-            cancelCondition,
-            callback,
-            pollOptions?.interval,
-            pollOptions?.timeout,
-            iterationCallback
-        );
+        return this.api.longPolling(promise, { ...pollParams, successCondition }, callback);
     }
 
     async pollSubscriptionWithFirstCharge(
         storeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
         callback?: ResponseCallback<{ subscription: ResponseSubscription; charge?: ResponseCharge }>
     ): Promise<{ subscription: ResponseSubscription; charge?: ResponseCharge }> {
@@ -397,10 +383,9 @@ export class Subscriptions extends CRUDResource {
 
         const charge = hasImmediateCharge(subscription)
             ? await this.api
-                  .longPolling(
-                      () => this.charges(storeId, id),
-                      (charges) => !!charges.items.length
-                  )
+                  .longPolling(() => this.charges(storeId, id), {
+                      successCondition: (charges) => !!charges.items.length,
+                  })
                   .then(({ items: charges }) =>
                       this.chargesResource.poll(charges[0].storeId, charges[0].id, data, auth)
                   )

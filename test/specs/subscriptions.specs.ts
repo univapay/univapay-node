@@ -139,7 +139,7 @@ describe("Subscriptions", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === SubscriptionStatus.SUSPENDED;
-            const call = () => subscriptions.poll(uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
+            const call = () => subscriptions.poll(uuid(), uuid(), undefined, undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 

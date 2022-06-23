@@ -3,7 +3,7 @@
  */
 
 import { PaymentError } from "../errors/APIError.js";
-import { AuthParams, PollParams, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, PollData, PollParams, ResponseCallback, SendData } from "../api/RestAPI.js";
 
 import { ProcessingMode } from "./common/enums.js";
 import { Metadata } from "./common/types.js";
@@ -69,7 +69,7 @@ export class Cancels extends CRUDResource {
         storeId: string,
         chargeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
         callback?: ResponseCallback<ResponseCancel>
     ): Promise<ResponseCancel> {
@@ -80,29 +80,15 @@ export class Cancels extends CRUDResource {
         storeId: string,
         chargeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
         callback?: ResponseCallback<ResponseCancel>,
-
-        /**
-         * Condition to cancel the polling and return `null`,
-         */
-        cancelCondition?: (response: ResponseCancel) => boolean,
-        successCondition: ({ status }: ResponseCancel) => boolean = ({ status }) => status !== CancelStatus.PENDING,
-        iterationCallback?: (response: ResponseCancel) => void,
-        pollOptions?: { interval?: number; timeout?: number }
+        pollParams?: Partial<PollParams<ResponseCancel>>
     ): Promise<ResponseCancel> {
-        const pollingData = { ...data, polling: true };
-        const promise: () => Promise<ResponseCancel> = () => this.get(storeId, chargeId, id, pollingData, auth);
+        const pollData = { ...data, polling: true };
+        const promise: () => Promise<ResponseCancel> = () => this.get(storeId, chargeId, id, pollData, auth);
+        const successCondition = pollParams.successCondition || (({ status }) => status !== CancelStatus.PENDING);
 
-        return this.api.longPolling(
-            promise,
-            successCondition,
-            cancelCondition,
-            callback,
-            pollOptions?.interval,
-            pollOptions?.timeout,
-            iterationCallback
-        );
+        return this.api.longPolling(promise, { ...pollParams, successCondition }, callback);
     }
 }

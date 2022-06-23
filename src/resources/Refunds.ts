@@ -2,7 +2,7 @@
  *  @module Resources/Refunds
  */
 
-import { AuthParams, PollParams, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, PollParams, PollData, ResponseCallback, SendData } from "../api/RestAPI.js";
 
 import { PaymentError } from "../errors/APIError.js";
 import { ProcessingMode } from "./common/enums.js";
@@ -94,7 +94,7 @@ export class Refunds extends CRUDResource {
         storeId: string,
         chargeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
         callback?: ResponseCallback<ResponseRefund>
     ): Promise<ResponseRefund> {
@@ -116,29 +116,15 @@ export class Refunds extends CRUDResource {
         storeId: string,
         chargeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
         callback?: ResponseCallback<ResponseRefund>,
-
-        /**
-         * Condition for the resource to be successfully loaded. Default to pending status check.
-         */
-        cancelCondition?: (response: ResponseRefund) => boolean,
-        successCondition: ({ status }: ResponseRefund) => boolean = ({ status }) => status !== RefundStatus.PENDING,
-        iterationCallback?: (response: ResponseRefund) => void,
-        pollOptions?: { interval?: number; timeout?: number }
+        pollParams?: Partial<PollParams<ResponseRefund>>
     ): Promise<ResponseRefund> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData, auth);
+        const successCondition = pollParams.successCondition || (({ status }) => status !== RefundStatus.PENDING);
 
-        return this.api.longPolling(
-            promise,
-            successCondition,
-            cancelCondition,
-            callback,
-            pollOptions?.interval,
-            pollOptions?.timeout,
-            iterationCallback
-        );
+        return this.api.longPolling(promise, { ...pollParams, successCondition }, callback);
     }
 }
