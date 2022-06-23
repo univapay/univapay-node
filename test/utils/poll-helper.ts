@@ -114,7 +114,7 @@ export const assertPollInternalServerErrorMaxRetry = async <Item>(
     const request = call()
         .then(() => expect.fail())
         .catch((error) => expect(error.errorResponse.code).eql("INTERNAL_SERVER_ERROR"));
-    await tickPoll(sandbox, 1);
+    await tickPoll(sandbox, 4);
 
     await request;
 };

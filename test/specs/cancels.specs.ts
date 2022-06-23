@@ -116,7 +116,7 @@ describe("Cancels", () => {
             await assertPollInternalServerError(recordPathMatcher, call, sandbox, successItem);
         });
 
-        it("should retry poll on internal server error", async () => {
+        it("should fail poll on internal server error when retry count is exceeded", async () => {
             const call = () => cancels.poll(uuid(), uuid(), uuid());
             await assertPollInternalServerErrorMaxRetry(recordPathMatcher, call, sandbox);
         });
