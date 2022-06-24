@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { StoreCreateParams, Stores, StoreUpdateParams } from "../../src/resources/Stores.js";
+import { StoreCreateParams, StoreItem, Stores, StoreUpdateParams } from "../../src/resources/Stores.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateStore } from "../fixtures/store.js";
@@ -114,7 +114,7 @@ describe("Stores", () => {
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<StoreItem> | Promise<void>, RequestError][] = [
             [stores.get(null), errorId],
             [stores.update(null), errorId],
             [stores.delete(null), errorId],

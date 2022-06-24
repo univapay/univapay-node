@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { Ledgers } from "../../src/resources/Ledgers.js";
+import { LedgerItem, Ledgers, ResponseLedgers } from "../../src/resources/Ledgers.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateFixture as generateLedger } from "../fixtures/ledger.js";
 import { generateList } from "../fixtures/list.js";
@@ -59,7 +59,7 @@ describe("Ledgers", () => {
         const errorId = createRequestError(["id"]);
         const errorTransferId = createRequestError(["transferId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<LedgerItem> | Promise<ResponseLedgers>, RequestError][] = [
             [ledgers.list(null), errorTransferId],
             [ledgers.get(null), errorId],
         ];

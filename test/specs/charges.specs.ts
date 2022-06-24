@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { ChargeCreateParams, Charges, ChargeStatus } from "../../src/resources/Charges.js";
+import { ChargeCreateParams, Charges, ChargeStatus, ResponseCharge } from "../../src/resources/Charges.js";
 import { generateFixture as generateCharge } from "../fixtures/charge.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
@@ -164,7 +164,7 @@ describe("Charges", () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<ResponseCharge>, RequestError][] = [
             [charges.get(null, null), errorStoreId],
             [charges.get(null, uuid()), errorStoreId],
             [charges.get(uuid(), null), errorId],

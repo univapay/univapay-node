@@ -4,7 +4,13 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { WebHookCreateParams, WebHooks, WebHookTrigger, WebHookUpdateParams } from "../../src/resources/WebHooks.js";
+import {
+    ResponseWebHook,
+    WebHookCreateParams,
+    WebHooks,
+    WebHookTrigger,
+    WebHookUpdateParams,
+} from "../../src/resources/WebHooks.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateWebHook } from "../fixtures/webhook.js";
@@ -159,7 +165,7 @@ describe("Web Hooks", () => {
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<ResponseWebHook<WebHookTrigger>> | Promise<void>, RequestError][] = [
             [webHooks.get(null), errorId],
             [webHooks.update(null), errorId],
             [webHooks.delete(null), errorId],

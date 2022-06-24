@@ -4,7 +4,12 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { BankAccountCreateParams, BankAccountType, BankAccountUpdateParams } from "../../src/resources/BankAccounts.js";
+import {
+    BankAccountCreateParams,
+    BankAccountItem,
+    BankAccountType,
+    BankAccountUpdateParams,
+} from "../../src/resources/BankAccounts.js";
 import { BankAccounts } from "../../src/resources/index.js";
 import { generateFixture as generateBankAccount } from "../fixtures/bank-account.js";
 import { createRequestError } from "../fixtures/errors.js";
@@ -152,7 +157,7 @@ describe("Bank Accounts", () => {
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<BankAccountItem> | Promise<void>, RequestError][] = [
             [bankAccounts.get(null), errorId],
             [bankAccounts.update(null), errorId],
             [bankAccounts.delete(null), errorId],

@@ -12,6 +12,8 @@ import {
     Refunds,
     RefundStatus,
     RefundUpdateParams,
+    ResponseRefund,
+    ResponseRefunds,
 } from "../../src/resources/Refunds.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
@@ -171,7 +173,7 @@ describe("Refunds", () => {
         const errorStoreId = createRequestError(["storeId"]);
         const errorChargeId = createRequestError(["chargeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<ResponseRefund> | Promise<ResponseRefunds>, RequestError][] = [
             [refunds.create(null, null, null), errorStoreId],
             [refunds.create(null, uuid(), null), errorStoreId],
             [refunds.create(uuid(), null, null), errorChargeId],

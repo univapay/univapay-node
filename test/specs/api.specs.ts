@@ -413,8 +413,8 @@ describe("API", function () {
         // For request with payload
         for (const assert of asserts) {
             await api.send(HTTPMethod.POST, "/camel", assert);
-            const req = (mock.lastCall() as any).request;
-            await expect(req.json()).to.eventually.eql(expectationPost);
+            const req = (mock.lastCall() as fetchMock.MockCall).request;
+            await expect(req?.json()).to.eventually.eql(expectationPost);
         }
 
         // For request without payload
@@ -539,7 +539,7 @@ describe("API", function () {
                 if (isBlob(response)) {
                     expect(response)
                         .to.have.property("size")
-                        .that.eql((body as any).size);
+                        .that.eql((body as Blob).size);
                 } else {
                     expect(response).to.be.an("object");
                 }

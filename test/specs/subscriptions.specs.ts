@@ -9,6 +9,9 @@ import { POLLING_INTERVAL } from "../../src/common/constants.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
 import { ChargeStatus, SubscriptionItem } from "../../src/resources/index.js";
 import {
+    InstallmentBaseParams,
+    InstallmentCyclesParams,
+    InstallmentPlan,
     SubscriptionCreateParams,
     SubscriptionPeriod,
     Subscriptions,
@@ -206,8 +209,8 @@ describe("Subscriptions", () => {
 
     context("POST [/stores/:storeId]/subscriptions/simulate_plan", () => {
         it("should get response", async () => {
-            const simulationData: SubscriptionSimulationItem<any> = {
-                installmentPlan: null,
+            const simulationData: SubscriptionSimulationItem<InstallmentCyclesParams> = {
+                installmentPlan: { planType: InstallmentPlan.FIXED_CYCLES, fixedCycles: 3 },
                 amount: 10000,
                 currency: "JPY",
                 initialAmount: 1000,
@@ -226,8 +229,8 @@ describe("Subscriptions", () => {
                 }
             );
 
-            const data: SubscriptionSimulationParams<any> = {
-                installmentPlan: null,
+            const data: SubscriptionSimulationParams<InstallmentCyclesParams> = {
+                installmentPlan: { planType: InstallmentPlan.FIXED_CYCLES, fixedCycles: 3 },
                 amount: 10000,
                 currency: "JPY",
                 initialAmount: 1000,
@@ -255,7 +258,7 @@ describe("Subscriptions", () => {
             ];
 
             for (const [data, error] of asserts) {
-                await expect(subscriptions.simulation(data as SubscriptionSimulationParams<any>))
+                await expect(subscriptions.simulation(data as SubscriptionSimulationParams<InstallmentBaseParams>))
                     .to.eventually.be.rejectedWith(RequestError)
                     .that.has.property("errorResponse")
                     .which.eql(error.errorResponse);
