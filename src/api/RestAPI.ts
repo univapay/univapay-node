@@ -120,13 +120,24 @@ export type PollData = {
     polling?: boolean;
 };
 
-export type PromiseCreator<A> = () => Promise<A>;
+export type PollExecutor<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
 
 export type ApiSendOptions = {
+    /**
+     * Validate the JWT before calling the route and adds the authorization header to the request.
+     */
     requireAuth?: boolean;
+
+    /**
+     * Add the custom type to the header. Defaults to `application/json`
+     */
     acceptType?: string;
+
+    /**
+     * Custom formatter to format the request object to the API (skipped for blobs)
+     */
     keyFormatter?: (key: string) => string;
 };
 
@@ -208,9 +219,9 @@ export class RestAPI extends EventEmitter {
         uri: string,
         data?: SendData<Data>,
         auth?: AuthParams,
-        options?: ApiSendOptions
+        options: ApiSendOptions = {}
     ): Promise<ResponseBody | string | Blob | FormData> {
-        const { requireAuth = true, acceptType, keyFormatter = toSnakeCase } = options || {};
+        const { requireAuth = true, acceptType, keyFormatter = toSnakeCase } = options;
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
 
@@ -321,10 +332,7 @@ export class RestAPI extends EventEmitter {
     /**
      * @internal
      */
-    async longPolling<Response>(
-        promise: PromiseCreator<Response>,
-        pollParams: PollParams<Response>
-    ): Promise<Response> {
+    async longPolling<Response>(executor: PollExecutor<Response>, pollParams: PollParams<Response>): Promise<Response> {
         const {
             successCondition,
             cancelCondition,
@@ -340,7 +348,7 @@ export class RestAPI extends EventEmitter {
 
             const repeater = async (): Promise<Response> => {
                 try {
-                    const result = await promise();
+                    const result = await executor();
 
                     iterationCallback?.(result);
 

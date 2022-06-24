@@ -16,12 +16,9 @@ export const containsBinaryData = (data: unknown): boolean => {
     } else if (isClassInstance(data)) {
         return true;
     } else if (Array.isArray(data)) {
-        return data.reduce((result: boolean, value: unknown) => result || containsBinaryData(value), false);
+        return data.some((value: unknown) => containsBinaryData(value));
     } else if (isObject(data)) {
-        return Object.keys(data).reduce(
-            (result: boolean, key: string | number) => result || containsBinaryData(data[key]),
-            false
-        );
+        return Object.values(data).some((value: unknown) => containsBinaryData(value));
     }
 
     return false;

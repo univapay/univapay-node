@@ -72,7 +72,12 @@ const getObjectType = (data: unknown): ObjectType => {
     }
 };
 
-export type DefineRouteOptions = ApiSendOptions & { requiredParams?: string[] };
+export type DefineRouteOptions = ApiSendOptions & {
+    /**
+     * Parameters required for the route to be called.
+     */
+    requiredParams?: string[];
+};
 
 export abstract class Resource extends EventEmitter {
     protected api: RestAPI;
@@ -91,13 +96,13 @@ export abstract class Resource extends EventEmitter {
         this.on("removeListener", (event, listener) => api.removeListener(event, listener));
     }
 
-    protected defineRoute(method: HTTPMethod, path: string, options?: DefineRouteOptions): DefinedRoute {
+    protected defineRoute(method: HTTPMethod, path: string, options: DefineRouteOptions = {}): DefinedRoute {
         return <A, B>(
             originalData?: SendData<A>,
             auth?: AuthParams,
             pathParams: Record<string, string> = {}
         ): Promise<B> => {
-            const { requiredParams = [], ...sendOptions } = options || {};
+            const { requiredParams = [], ...sendOptions } = options;
 
             /**
              * Sanitizes and ensures that the data is recreated as an object with default prototypes.
