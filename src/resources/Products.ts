@@ -1,7 +1,7 @@
 /**
  * @module Resources/Products
  */
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, SendData } from "../api/RestAPI.js";
 
 import { CRUDResource } from "./CRUDResource.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
@@ -30,12 +30,7 @@ export type ResponseProduct = ProductItem;
 export class Products extends CRUDResource {
     static routeBase = "/checkout/products";
 
-    get(
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseProduct>
-    ): Promise<ResponseProduct> {
-        return this._getRoute()(data, callback, auth, { id });
+    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseProduct> {
+        return this._getRoute()(data, auth, { id });
     }
 }

@@ -97,7 +97,7 @@ describe("Transaction Tokens", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [transactionTokens.list(), transactionTokens.list(null, null, null, uuid())];
+            const asserts = [transactionTokens.list(), transactionTokens.list(null, null, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -164,7 +164,7 @@ describe("Transaction Tokens", () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<unknown>, RequestError][] = [
             [transactionTokens.get(null, null), errorStoreId],
             [transactionTokens.get(null, uuid()), errorStoreId],
             [transactionTokens.get(uuid(), null), errorId],

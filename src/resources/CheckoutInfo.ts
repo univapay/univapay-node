@@ -2,7 +2,7 @@
  *  @module Resources/CheckoutInfo
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import {
     BankTransferConfiguration,
@@ -74,11 +74,7 @@ export interface CheckoutInfoItem {
 export type ResponseCheckoutInfo = CheckoutInfoItem;
 
 export class CheckoutInfo extends Resource {
-    get(
-        data?: SendData<CheckoutInfoParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseCheckoutInfo>
-    ): Promise<ResponseCheckoutInfo> {
-        return this.defineRoute(HTTPMethod.GET, "/checkout_info")(data, callback, auth);
+    get(data?: SendData<CheckoutInfoParams>, auth?: AuthParams): Promise<ResponseCheckoutInfo> {
+        return this.defineRoute(HTTPMethod.GET, "/checkout_info")(data, auth);
     }
 }

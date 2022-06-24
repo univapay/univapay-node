@@ -4,7 +4,7 @@
  */
 import { HTTPMethod, RestAPI } from "../api/RestAPI.js";
 
-import { DefinedRoute, Resource } from "./Resource.js";
+import { DefinedRoute, DefineRouteOptions, Resource } from "./Resource.js";
 
 export enum CursorDirection {
     ASC = "asc",
@@ -36,68 +36,23 @@ export abstract class CRUDResource extends Resource {
         this._routeBase = (this.constructor as CRUDResourceStatic).routeBase;
     }
 
-    protected _listRoute(
-        required?: string[],
-        requireAuth?: boolean,
-        acceptType?: string,
-        keyFormatter?: (key: string) => string
-    ): DefinedRoute {
-        return this.defineRoute(HTTPMethod.GET, this._routeBase, required, requireAuth, acceptType, keyFormatter);
-    }
-    protected _createRoute(
-        required?: string[],
-        requireAuth?: boolean,
-        acceptType?: string,
-        keyFormatter?: (key: string) => string
-    ): DefinedRoute {
-        return this.defineRoute(HTTPMethod.POST, this._routeBase, required, requireAuth, acceptType, keyFormatter);
+    protected _listRoute(options?: DefineRouteOptions): DefinedRoute {
+        return this.defineRoute(HTTPMethod.GET, this._routeBase, options);
     }
 
-    protected _getRoute(
-        required?: string[],
-        requireAuth?: boolean,
-        acceptType?: string,
-        keyFormatter?: (key: string) => string
-    ): DefinedRoute {
-        return this.defineRoute(
-            HTTPMethod.GET,
-            `${this._routeBase}/:id`,
-            required,
-            requireAuth,
-            acceptType,
-            keyFormatter
-        );
+    protected _createRoute(options?: DefineRouteOptions): DefinedRoute {
+        return this.defineRoute(HTTPMethod.POST, this._routeBase, options);
     }
 
-    protected _updateRoute(
-        required?: string[],
-        requireAuth?: boolean,
-        acceptType?: string,
-        keyFormatter?: (key: string) => string
-    ): DefinedRoute {
-        return this.defineRoute(
-            HTTPMethod.PATCH,
-            `${this._routeBase}/:id`,
-            required,
-            requireAuth,
-            acceptType,
-            keyFormatter
-        );
+    protected _getRoute(options?: DefineRouteOptions): DefinedRoute {
+        return this.defineRoute(HTTPMethod.GET, `${this._routeBase}/:id`, options);
     }
 
-    protected _deleteRoute(
-        required?: string[],
-        requireAuth?: boolean,
-        acceptType?: string,
-        keyFormatter?: (key: string) => string
-    ): DefinedRoute {
-        return this.defineRoute(
-            HTTPMethod.DELETE,
-            `${this._routeBase}/:id`,
-            required,
-            requireAuth,
-            acceptType,
-            keyFormatter
-        );
+    protected _updateRoute(options?: DefineRouteOptions): DefinedRoute {
+        return this.defineRoute(HTTPMethod.PATCH, `${this._routeBase}/:id`, options);
+    }
+
+    protected _deleteRoute(options?: DefineRouteOptions): DefinedRoute {
+        return this.defineRoute(HTTPMethod.DELETE, `${this._routeBase}/:id`, options);
     }
 }

@@ -8,14 +8,14 @@ import { ignoreDescriptor } from "../../../src/resources/common/ignoreDescriptor
 describe("Common > Ignore descriptor", () => {
     it("should use descriptor on request", async () => {
         const data = { descriptor: "dummy-descriptor" };
-        const callback = sinon.stub().callsFake((data) => data);
+        const executor = sinon.stub().callsFake((data) => data);
 
-        await expect(ignoreDescriptor(callback, data)).to.eventually.eql(data);
+        await expect(ignoreDescriptor(executor, data)).to.eventually.eql(data);
     });
 
     it("should query again without descriptor with descriptor error", async () => {
         const data = { descriptor: "dummy-descriptor" };
-        const callback = sinon.stub().callsFake((data) => {
+        const executor = sinon.stub().callsFake((data) => {
             if (!data.descriptor) {
                 return data;
             }
@@ -27,12 +27,12 @@ describe("Common > Ignore descriptor", () => {
             });
         });
 
-        await expect(ignoreDescriptor(callback, data)).to.eventually.eql({});
+        await expect(ignoreDescriptor(executor, data)).to.eventually.eql({});
     });
 
     it("should throw error with other errors", async () => {
         const data = { descriptor: "dummy-descriptor" };
-        const callback = sinon.stub().callsFake(() => {
+        const executor = sinon.stub().callsFake(() => {
             throw new ResponseError({
                 code: ResponseErrorCode.ValidationError,
                 httpCode: 400,
@@ -40,6 +40,6 @@ describe("Common > Ignore descriptor", () => {
             });
         });
 
-        await expect(ignoreDescriptor(callback, data)).to.eventually.be.rejected;
+        await expect(ignoreDescriptor(executor, data)).to.eventually.be.rejected;
     });
 });

@@ -41,7 +41,7 @@ describe("Web Hooks", () => {
                 url: "http://fake.com",
             };
 
-            const asserts = [webHooks.create(data), webHooks.create(data, null, null, uuid())];
+            const asserts = [webHooks.create(data), webHooks.create(data, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(recordData);
@@ -61,7 +61,7 @@ describe("Web Hooks", () => {
                 authToken: "Bearer mytoken",
             };
 
-            const asserts = [webHooks.create(data), webHooks.create(data, null, null, uuid())];
+            const asserts = [webHooks.create(data), webHooks.create(data, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(recordData);
@@ -96,7 +96,7 @@ describe("Web Hooks", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [webHooks.list(), webHooks.list(null, null, null, uuid())];
+            const asserts = [webHooks.list(), webHooks.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -112,7 +112,7 @@ describe("Web Hooks", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [webHooks.get(uuid()), webHooks.get(uuid(), null, null, null, uuid())];
+            const asserts = [webHooks.get(uuid()), webHooks.get(uuid(), undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(recordData);
@@ -133,7 +133,7 @@ describe("Web Hooks", () => {
                 url: "http://fake.com",
             };
 
-            const asserts = [webHooks.update(uuid(), data), webHooks.update(uuid(), data, null, null, uuid())];
+            const asserts = [webHooks.update(uuid(), data), webHooks.update(uuid(), data, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(recordData);
@@ -148,7 +148,7 @@ describe("Web Hooks", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [webHooks.delete(uuid()), webHooks.delete(uuid(), null, null, null, uuid())];
+            const asserts = [webHooks.delete(uuid()), webHooks.delete(uuid(), undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.be.empty;

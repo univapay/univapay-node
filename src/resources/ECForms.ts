@@ -1,7 +1,7 @@
 /**
  *  @module Resources/ECForms
  */
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, SendData } from "../api/RestAPI.js";
 
 import { OnlineBrand } from "./common/enums.js";
 import { AmountWithCurrency } from "./common/types.js";
@@ -116,12 +116,7 @@ export class ECForms extends CRUDResource {
     static requiredParams: string[] = [];
     static routeBase = "/checkout/forms";
 
-    get(
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ECFormItem>
-    ): Promise<ResponseECForm> {
-        return this._getRoute()(data, callback, auth, { id });
+    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECForm> {
+        return this._getRoute()(data, auth, { id });
     }
 }

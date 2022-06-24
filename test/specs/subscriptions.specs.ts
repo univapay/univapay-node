@@ -104,7 +104,7 @@ describe("Subscriptions", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [subscriptions.list(null, null, null), subscriptions.list(null, null, null, uuid())];
+            const asserts = [subscriptions.list(), subscriptions.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -139,7 +139,7 @@ describe("Subscriptions", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === SubscriptionStatus.SUSPENDED;
-            const call = () => subscriptions.poll(uuid(), uuid(), undefined, undefined, undefined, { cancelCondition });
+            const call = () => subscriptions.poll(uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 
@@ -236,7 +236,7 @@ describe("Subscriptions", () => {
                 period: SubscriptionPeriod.MONTHLY,
             };
 
-            const asserts = [subscriptions.simulation(data), subscriptions.simulation(data, null, null, uuid())];
+            const asserts = [subscriptions.simulation(data), subscriptions.simulation(data, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(simulationData);
@@ -345,7 +345,7 @@ describe("Subscriptions", () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<unknown>, RequestError][] = [
             [subscriptions.get(null, null), errorStoreId],
             [subscriptions.get(null, uuid()), errorStoreId],
             [subscriptions.get(uuid(), null), errorId],
@@ -431,11 +431,17 @@ describe("Subscriptions", () => {
             const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
 
-            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: expectedCharge });
+            await expect(request).to.eventually.eql({
+                subscription: expectedSubscription,
+                charge: expectedCharge,
+            });
         });
 
         it("should poll the charge when scheduleSettings is not provided", async () => {
-            const expectedSubscription = mockSubscriptionPoll({ initialAmount: null, scheduleSettings: null });
+            const expectedSubscription = mockSubscriptionPoll({
+                initialAmount: null,
+                scheduleSettings: null,
+            });
             mockChargesPoll();
             const expectedCharge = mockChargePoll();
 
@@ -456,34 +462,6 @@ describe("Subscriptions", () => {
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 2);
 
             await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: null });
-        });
-
-        describe("Callback", () => {
-            it("should trigger the callback when polling the charge", async () => {
-                const expectedSubscription = mockSubscriptionPoll();
-                mockChargesPoll();
-                const expectedCharge = mockChargePoll();
-
-                const callback = sinon.spy();
-                subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, callback);
-                await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
-
-                expect(callback).calledOnce.calledWith({ subscription: expectedSubscription, charge: expectedCharge });
-            });
-
-            it("should trigger the callback when not polling the charge", async () => {
-                const futureDate = new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).toISOString();
-                const expectedSubscription = mockSubscriptionPoll({
-                    initialAmount: null,
-                    scheduleSettings: { startOn: futureDate, zoneId: "Asia/Tokyo", preserveEndOfMonth: true },
-                });
-
-                const callback = sinon.spy();
-                subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, callback);
-                await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
-
-                expect(callback).calledOnce.calledWith({ subscription: expectedSubscription, charge: null });
-            });
         });
     });
 });

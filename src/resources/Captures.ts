@@ -2,7 +2,7 @@
  *  @module Resources/Captures
  */
 
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, SendData } from "../api/RestAPI.js";
 
 import { CRUDResource } from "./CRUDResource.js";
 
@@ -13,10 +13,15 @@ export enum CaptureStatus {
     NotAuthorized = "not_authorized",
 }
 
-export interface CaptureCreateParams {
+export type CaptureItem = {
     amount: number;
     currency: string;
-}
+};
+
+export type CaptureCreateParams = {
+    amount: number;
+    currency: string;
+};
 
 /* Response */
 
@@ -29,9 +34,8 @@ export class Captures extends CRUDResource {
         storeId: string,
         chargeId: string,
         data: SendData<CaptureCreateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<any>
-    ): Promise<any> {
-        return this._createRoute(Captures.requiredParams)(data, callback, auth, { storeId, chargeId });
+        auth?: AuthParams
+    ): Promise<CaptureItem> {
+        return this._createRoute({ requiredParams: Captures.requiredParams })(data, auth, { storeId, chargeId });
     }
 }

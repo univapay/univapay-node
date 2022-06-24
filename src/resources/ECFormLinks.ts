@@ -1,7 +1,7 @@
 /**
  *  @module Resources/ECFormLinks
  */
-import { AuthParams, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, SendData } from "../api/RestAPI.js";
 
 import { Metadata } from "./common/types.js";
 import { CRUDResource } from "./CRUDResource.js";
@@ -58,12 +58,7 @@ export type ResponseECFormLink = ECFormLinkItem;
 export class ECFormLinks extends CRUDResource {
     static routeBase = "/checkout/links";
 
-    get(
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseECFormLink>
-    ): Promise<ResponseECFormLink> {
-        return this._getRoute()(data, callback, auth, { id });
+    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink> {
+        return this._getRoute()(data, auth, { id });
     }
 }

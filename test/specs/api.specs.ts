@@ -15,6 +15,7 @@ import { APIError, ResponseErrorCode } from "../../src/errors/APIError.js";
 import { fromError } from "../../src/errors/parser.js";
 import { RequestError, ResponseError } from "../../src/errors/RequestResponseError.js";
 import { Merchants } from "../../src/resources/Merchants.js";
+import { isBlob } from "../../src/utils/object.js";
 import { testEndpoint } from "../utils/index.js";
 
 describe("API", function () {
@@ -36,7 +37,7 @@ describe("API", function () {
     it("should create instance with proper parameters", function () {
         const jwtToken = jwt.sign({ foo: "bar" }, "foo");
 
-        const asserts: [RestAPIOptions, string, string, string, string, string][] = [
+        const asserts: [RestAPIOptions, string, string?, string?, string?, string?][] = [
             [{ endpoint: "/" }, "/", undefined, undefined, undefined, undefined],
             [{ endpoint: "/", appId: "id" }, "/", "id", undefined, undefined, undefined],
             [{ endpoint: "/", appId: "id", secret: "secret" }, "/", "id", "secret", undefined, undefined],
@@ -154,19 +155,16 @@ describe("API", function () {
         fetchMock.get(`${testEndpoint}/error`, { status: 503 });
 
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
-        const spy = sinon.spy();
         const error = new ResponseError({
             code: ResponseErrorCode.ServiceUnavailable,
             errors: [],
             httpCode: 503,
         });
 
-        const resError = await expect(api.send(HTTPMethod.GET, "/error", null, undefined, spy)).to.eventually.be
-            .rejected;
+        const resError = await expect(api.send(HTTPMethod.GET, "/error")).to.eventually.be.rejected;
 
         expect(resError).to.be.instanceOf(ResponseError);
         expect(resError.errorResponse).to.eql(error.errorResponse);
-        expect(spy).calledOnce.calledWith(resError);
     });
 
     it("should send request with authorization header", async function () {
@@ -174,7 +172,7 @@ describe("API", function () {
         const jwtToken = jwt.sign(jwtTokenPayload, "foo");
         const jwtToken1 = jwt.sign(jwtTokenPayload, "foo1");
 
-        const asserts: [Record<string, string>, Record<string, string>, string][] = [
+        const asserts: [Record<string, string> | null, Record<string, string> | null, string | null][] = [
             [{}, null, null],
             [{ appId: "id" }, null, "ApplicationToken id|"],
             [{ appId: "id", secret: "secret" }, null, "ApplicationToken id|secret"],
@@ -263,7 +261,7 @@ describe("API", function () {
         interface Origin {
             origin?: string;
         }
-        const asserts: [Origin, Origin][] = [
+        const asserts: [Origin | null, Origin | null][] = [
             [null, null],
             [{ origin: "origin1" }, null],
             [null, { origin: "origin2" }],
@@ -538,12 +536,12 @@ describe("API", function () {
             const response = await api.send(HTTPMethod.GET, `/${uri}`);
 
             if (typeof response === "object") {
-                if (response.constructor === Object) {
-                    expect(response).to.be.an("object");
-                } else {
+                if (isBlob(response)) {
                     expect(response)
                         .to.have.property("size")
                         .that.eql((body as any).size);
+                } else {
+                    expect(response).to.be.an("object");
                 }
             } else {
                 expect(response)

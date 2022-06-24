@@ -88,7 +88,7 @@ describe("Charges", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [charges.list(undefined, undefined), charges.list(undefined, undefined, undefined, uuid())];
+            const asserts = [charges.list(undefined, undefined), charges.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -123,7 +123,7 @@ describe("Charges", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === ChargeStatus.FAILED;
-            const call = () => charges.poll(uuid(), uuid(), undefined, undefined, undefined, { cancelCondition });
+            const call = () => charges.poll(uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 

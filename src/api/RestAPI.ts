@@ -105,11 +105,6 @@ export interface ErrorResponse {
     errors: (SubError | ValidationError)[];
 }
 
-export type ResponseCallback<A> = (response: A | Error) => void;
-
-export type PromiseResolve<A> = (value?: A | PromiseLike<A>) => void;
-export type PromiseReject = (reason?: any) => void;
-
 export interface AuthParams {
     jwt?: string;
     secret?: string;
@@ -129,6 +124,12 @@ export type PromiseCreator<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
 
+export type ApiSendOptions = {
+    requireAuth?: boolean;
+    acceptType?: string;
+    keyFormatter?: (key: string) => string;
+};
+
 const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData | Blob =>
     isBlob(data)
         ? data
@@ -136,25 +137,19 @@ const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase):
         ? objectToFormData(data, keyFormatter, ["metadata"])
         : stringify(transformKeys(data, keyFormatter, ["metadata"]));
 
-const stringifyParams = <Data extends Record<string, any>>(data: Data): string => {
+const stringifyParams = (data: unknown): string => {
     const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });
 
     return query ? `?${query}` : "";
 };
 
-const execRequest = async <A>(executor: () => Promise<A>, callback?: ResponseCallback<A>): Promise<A> => {
+const execRequest = async <Response>(executor: () => Promise<Response>): Promise<Response> => {
     try {
         const response = await executor();
-        if (typeof callback === "function") {
-            callback(response);
-        }
 
         return response;
     } catch (error) {
         const err: Error = error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error);
-        if (typeof callback === "function") {
-            callback(err);
-        }
 
         throw err;
     }
@@ -162,7 +157,7 @@ const execRequest = async <A>(executor: () => Promise<A>, callback?: ResponseCal
 
 export class RestAPI extends EventEmitter {
     endpoint: string;
-    jwt: JWTPayload<any>;
+    jwt: JWTPayload<unknown>;
     origin: string;
     secret: string;
 
@@ -213,11 +208,9 @@ export class RestAPI extends EventEmitter {
         uri: string,
         data?: SendData<Data>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ResponseBody>,
-        requireAuth = true,
-        acceptType?: string,
-        keyFormatter = toSnakeCase
+        options?: ApiSendOptions
     ): Promise<ResponseBody | string | Blob | FormData> {
+        const { requireAuth = true, acceptType, keyFormatter = toSnakeCase } = options || {};
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
 
@@ -273,10 +266,10 @@ export class RestAPI extends EventEmitter {
             }
 
             return response.blob();
-        }, callback);
+        });
     }
 
-    protected getHeaders<Data extends Record<string, any>>(
+    protected getHeaders<Data = unknown>(
         data: SendData<Data>,
         auth: AuthParams,
         payload: boolean,
@@ -330,8 +323,7 @@ export class RestAPI extends EventEmitter {
      */
     async longPolling<Response>(
         promise: PromiseCreator<Response>,
-        pollParams: PollParams<Response>,
-        callback?: ResponseCallback<Response>
+        pollParams: PollParams<Response>
     ): Promise<Response> {
         const {
             successCondition,
@@ -375,10 +367,10 @@ export class RestAPI extends EventEmitter {
             };
 
             return pTimeout(repeater(), timeout, new TimeoutError(timeout));
-        }, callback);
+        });
     }
 
-    async ping(callback?: ResponseCallback<void>): Promise<void> {
-        await this.send(HTTPMethod.GET, "/heartbeat", null, null, callback, false);
+    async ping(): Promise<void> {
+        await this.send(HTTPMethod.GET, "/heartbeat", null, null, { requireAuth: false });
     }
 }

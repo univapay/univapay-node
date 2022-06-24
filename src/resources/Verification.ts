@@ -2,7 +2,7 @@
  *  @module Resources/Verification
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import { ContactInfo, ContactInfoPartial } from "./common/ContactInfo.js";
 import { PhoneNumber } from "./common/types.js";
@@ -47,27 +47,15 @@ export class Verification extends CRUDResource {
 
     static routeBase = "/verification";
 
-    create(
-        data: SendData<VerificationCreateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseVerification>
-    ): Promise<ResponseVerification> {
-        return this._createRoute(Verification.requiredParams)(data, callback, auth);
+    create(data: SendData<VerificationCreateParams>, auth?: AuthParams): Promise<ResponseVerification> {
+        return this._createRoute({ requiredParams: Verification.requiredParams })(data, auth);
     }
 
-    get(
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseVerification>
-    ): Promise<ResponseVerification> {
-        return this.defineRoute(HTTPMethod.GET, this._routeBase)(data, callback, auth);
+    get(data?: SendData<void>, auth?: AuthParams): Promise<ResponseVerification> {
+        return this.defineRoute(HTTPMethod.GET, this._routeBase)(data, auth);
     }
 
-    update(
-        data?: SendData<VerificationUpdateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseVerification>
-    ): Promise<ResponseVerification> {
-        return this.defineRoute(HTTPMethod.PATCH, this._routeBase)(data, callback, auth);
+    update(data?: SendData<VerificationUpdateParams>, auth?: AuthParams): Promise<ResponseVerification> {
+        return this.defineRoute(HTTPMethod.PATCH, this._routeBase)(data, auth);
     }
 }

@@ -2,7 +2,7 @@
  *  @module Resources/Merchants
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import { ConfigurationItem } from "./common/Configuration.js";
 import { TransferScheduleItem } from "./common/TransferSchedule.js";
@@ -34,11 +34,7 @@ export interface MerchantBanParams {
 }
 
 export class Merchants extends CRUDResource {
-    me(
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseMerchant>
-    ): Promise<ResponseMerchant> {
-        return this.defineRoute(HTTPMethod.GET, "/me")(data, callback, auth);
+    me(data?: SendData<void>, auth?: AuthParams): Promise<ResponseMerchant> {
+        return this.defineRoute(HTTPMethod.GET, "/me")(data, auth);
     }
 }

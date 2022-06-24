@@ -128,8 +128,7 @@ describe("Refunds", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === RefundStatus.FAILED;
-            const call = () =>
-                refunds.poll(uuid(), uuid(), uuid(), undefined, undefined, undefined, { cancelCondition });
+            const call = () => refunds.poll(uuid(), uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 
