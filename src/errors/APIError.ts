@@ -496,15 +496,17 @@ export enum NotSelectedReason {
     TaggedPlatformCredentialsDisabled = "tagged_platform_credentials_disabled",
 }
 
+type PaymentSubError = {
+    type: PaymentErrorType;
+    message: NotSelectedReason[];
+    credentialId: string;
+};
+
 export type PaymentError = {
     message: string;
     code: number;
     details?: string;
-    others?: {
-        type: PaymentErrorType;
-        message: NotSelectedReason[];
-        credentialId: string;
-    };
+    others?: PaymentSubError[];
 };
 
 export class APIError extends Error {
