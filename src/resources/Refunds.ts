@@ -8,6 +8,7 @@ import { PaymentError } from "../errors/APIError.js";
 import { ProcessingMode } from "./common/enums.js";
 import { Metadata } from "./common/types.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum RefundStatus {
     PENDING = "pending",
@@ -70,24 +71,29 @@ export class Refunds extends CRUDResource {
 
     static routeBase = "/stores/:storeId/charges/:chargeId/refunds";
 
+    private _list: DefinedRoute;
     list(
         storeId: string,
         chargeId: string,
         data?: SendData<RefundsListParams>,
         auth?: AuthParams
     ): Promise<ResponseRefunds> {
-        return this._listRoute()(data, auth, { storeId, chargeId });
+        this._list = this._list ?? this._listRoute();
+        return this._list(data, auth, { storeId, chargeId });
     }
 
+    private _create: DefinedRoute;
     create(
         storeId: string,
         chargeId: string,
         data: SendData<RefundCreateParams>,
         auth?: AuthParams
     ): Promise<ResponseRefund> {
-        return this._createRoute({ requiredParams: Refunds.requiredParams })(data, auth, { storeId, chargeId });
+        this._create = this._create ?? this._createRoute({ requiredParams: Refunds.requiredParams });
+        return this._create(data, auth, { storeId, chargeId });
     }
 
+    private _get: DefinedRoute;
     get(
         storeId: string,
         chargeId: string,
@@ -95,9 +101,11 @@ export class Refunds extends CRUDResource {
         data?: SendData<PollData>,
         auth?: AuthParams
     ): Promise<ResponseRefund> {
-        return this._getRoute()(data, auth, { storeId, chargeId, id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, chargeId, id });
     }
 
+    private _update: DefinedRoute;
     update(
         storeId: string,
         chargeId: string,
@@ -105,7 +113,8 @@ export class Refunds extends CRUDResource {
         data?: SendData<RefundUpdateParams>,
         auth?: AuthParams
     ): Promise<ResponseRefund> {
-        return this._updateRoute()(data, auth, { storeId, chargeId, id });
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { storeId, chargeId, id });
     }
 
     poll(

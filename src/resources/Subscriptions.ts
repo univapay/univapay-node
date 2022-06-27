@@ -12,6 +12,7 @@ import { ChargesListParams, ResponseCharges } from "./Charges.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { ResponseCharge } from "./index.js";
 import { PaymentType } from "./TransactionTokens.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum SubscriptionPeriod {
     DAILY = "daily",
@@ -211,18 +212,18 @@ export type ResponsePayments = CRUDItemsResponse<SchedulePaymentListItem>;
 export class ScheduledPayments extends CRUDResource {
     static routeBase = "/stores/:storeId/subscriptions/:subscriptionsId/payments";
 
+    private _list: DefinedRoute;
     list(
         storeId: string,
         subscriptionsId: string,
         data?: SendData<ScheduledPaymentsListParams>,
         auth?: AuthParams
     ): Promise<ResponsePayments> {
-        return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}`)(data, auth, {
-            storeId,
-            subscriptionsId,
-        });
+        this._list = this._list ?? this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}`);
+        return this._list(data, auth, { storeId, subscriptionsId });
     }
 
+    private _get: DefinedRoute;
     get(
         storeId: string,
         subscriptionsId: string,
@@ -230,9 +231,11 @@ export class ScheduledPayments extends CRUDResource {
         data?: SendData<void>,
         auth?: AuthParams
     ): Promise<ResponsePayment> {
-        return this._getRoute()(data, auth, { storeId, subscriptionsId, id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, subscriptionsId, id });
     }
 
+    private _update: DefinedRoute;
     update(
         storeId: string,
         subscriptionsId: string,
@@ -240,9 +243,11 @@ export class ScheduledPayments extends CRUDResource {
         data?: SendData<PaymentUpdateParams>,
         auth?: AuthParams
     ): Promise<ResponsePayment> {
-        return this._updateRoute()(data, auth, { storeId, subscriptionsId, id });
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { storeId, subscriptionsId, id });
     }
 
+    private _listCharges: DefinedRoute;
     listCharges(
         storeId: string,
         subscriptionsId: string,
@@ -250,11 +255,9 @@ export class ScheduledPayments extends CRUDResource {
         data?: SendData<ChargesListParams>,
         auth?: AuthParams
     ): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}/:paymentId/charges`)(data, auth, {
-            storeId,
-            subscriptionsId,
-            paymentId,
-        });
+        this._listCharges =
+            this._listCharges ?? this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}/:paymentId/charges`);
+        return this._listCharges(data, auth, { storeId, subscriptionsId, paymentId });
     }
 }
 
@@ -279,12 +282,14 @@ export class Subscriptions extends CRUDResource {
         this.chargesResource = new Charges(api);
     }
 
+    private _list: DefinedRoute;
     list(
         data?: SendData<SubscriptionsListParams>,
         auth?: AuthParams,
         storeId?: string
     ): Promise<ResponseSubscriptions> {
-        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions")(data, auth, { storeId });
+        this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions");
+        return this._list(data, auth, { storeId });
     }
 
     create(data: SubscriptionCreateParams, auth?: AuthParams): Promise<ResponseSubscription> {
@@ -298,33 +303,38 @@ export class Subscriptions extends CRUDResource {
         );
     }
 
+    private _get: DefinedRoute;
     get(storeId: string, id: string, data?: SendData<PollData>, auth?: AuthParams): Promise<ResponseSubscription> {
-        return this._getRoute()(data, auth, { storeId, id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, id });
     }
 
+    private _update: DefinedRoute;
     update(
         storeId: string,
         id: string,
         data?: SendData<SubscriptionUpdateParams>,
         auth?: AuthParams
     ): Promise<ResponseSubscription> {
-        return this._updateRoute()(data, auth, { storeId, id });
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { storeId, id });
     }
 
+    private _delete: DefinedRoute;
     delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
-        return this._deleteRoute()(data, auth, { storeId, id });
+        this._delete = this._delete ?? this._deleteRoute();
+        return this._delete(data, auth, { storeId, id });
     }
 
+    private _charges: DefinedRoute;
     charges(
         storeId: string,
         id: string,
         data?: SendData<ChargesListParams>,
         auth?: AuthParams
     ): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`)(data, auth, {
-            storeId,
-            id,
-        });
+        this._charges = this._charges ?? this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`);
+        return this._charges(data, auth, { storeId, id });
     }
 
     poll(
@@ -363,13 +373,17 @@ export class Subscriptions extends CRUDResource {
         return { subscription, charge };
     }
 
+    private _simulation: DefinedRoute;
     simulation<InstallmentPlanData extends InstallmentBaseParams>(
         data: SendData<SubscriptionSimulationParams<InstallmentPlanData>>,
         auth?: AuthParams,
         storeId?: string
     ): Promise<SimulationInstallmentPayment[]> {
-        return this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/subscriptions/simulate_plan", {
-            requiredParams: Subscriptions.requiredSimulationParams,
-        })(data, auth, { storeId });
+        this._simulation =
+            this._simulation ??
+            this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/subscriptions/simulate_plan", {
+                requiredParams: Subscriptions.requiredSimulationParams,
+            });
+        return this._simulation(data, auth, { storeId });
     }
 }

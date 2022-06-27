@@ -6,6 +6,7 @@ import { AuthParams, SendData } from "../api/RestAPI.js";
 
 import { WithStoreMerchantName } from "./common/types.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum WebHookTrigger {
     // Store
@@ -64,36 +65,46 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
 
     static routeBase = "(/stores/:storeId)/webhooks";
 
+    private _list: DefinedRoute;
     list(
         data?: SendData<WebHooksListParams>,
         auth?: AuthParams,
         storeId?: string
     ): Promise<ResponseWebHooks<TriggerType>> {
-        return this._listRoute()(data, auth, { storeId });
+        this._list = this._list ?? this._listRoute();
+        return this._list(data, auth, { storeId });
     }
 
+    private _create: DefinedRoute;
     create(
         data: SendData<WebHookCreateParams<TriggerType>>,
         auth?: AuthParams,
         storeId?: string
     ): Promise<ResponseWebHook<TriggerType>> {
-        return this._createRoute({ requiredParams: WebHooks.requiredParams })(data, auth, { storeId });
+        this._create = this._create ?? this._createRoute({ requiredParams: WebHooks.requiredParams });
+        return this._create(data, auth, { storeId });
     }
 
+    private _get: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams, storeId?: string): Promise<ResponseWebHook<TriggerType>> {
-        return this._getRoute()(data, auth, { storeId, id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, id });
     }
 
+    private _update: DefinedRoute;
     update(
         id: string,
         data?: SendData<WebHookUpdateParams>,
         auth?: AuthParams,
         storeId?: string
     ): Promise<ResponseWebHook<TriggerType>> {
-        return this._updateRoute()(data, auth, { storeId, id });
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { storeId, id });
     }
 
+    private _delete: DefinedRoute;
     delete(id: string, data?: SendData<void>, auth?: AuthParams, storeId?: string): Promise<void> {
-        return this._deleteRoute()(data, auth, { storeId, id });
+        this._delete = this._delete ?? this._deleteRoute();
+        return this._delete(data, auth, { storeId, id });
     }
 }

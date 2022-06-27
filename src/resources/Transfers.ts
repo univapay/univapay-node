@@ -6,6 +6,7 @@ import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import { Metadata, WithMerchantName } from "./common/types.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum TransferStatus {
     CREATED = "created",
@@ -61,17 +62,22 @@ export type ResponseTransferStatusChanges = CRUDItemsResponse<TransferStatusChan
 export class Transfers extends CRUDResource {
     static routeBase = "/transfers";
 
+    private _list: DefinedRoute;
     list(data?: SendData<TransfersListParams>, auth?: AuthParams): Promise<ResponseTransfers> {
-        return this._listRoute()(data, auth);
+        this._list = this._list ?? this._listRoute();
+        return this._list(data, auth);
     }
 
+    private _get: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransfer> {
-        return this._getRoute()(data, auth, { id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { id });
     }
 
+    private _statusChanges: DefinedRoute;
     statusChanges(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransferStatusChanges> {
-        return this.defineRoute(HTTPMethod.GET, `${Transfers.routeBase}/:id/status_changes`)(data, auth, {
-            id,
-        });
+        this._statusChanges =
+            this._statusChanges ?? this.defineRoute(HTTPMethod.GET, `${Transfers.routeBase}/:id/status_changes`);
+        return this._statusChanges(data, auth, { id });
     }
 }

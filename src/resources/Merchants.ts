@@ -7,6 +7,7 @@ import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 import { ConfigurationItem } from "./common/Configuration.js";
 import { TransferScheduleItem } from "./common/TransferSchedule.js";
 import { CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 /* Request */
 
@@ -34,7 +35,9 @@ export interface MerchantBanParams {
 }
 
 export class Merchants extends CRUDResource {
+    private _me: DefinedRoute;
     me(data?: SendData<void>, auth?: AuthParams): Promise<ResponseMerchant> {
-        return this.defineRoute(HTTPMethod.GET, "/me")(data, auth);
+        this._me = this._me ?? this.defineRoute(HTTPMethod.GET, "/me");
+        return this._me(data, auth);
     }
 }

@@ -11,6 +11,7 @@ import { Metadata, WithStoreMerchantName } from "./common/types.js";
 import { CaptureStatus } from "./Captures.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum ChargeStatus {
     PENDING = "pending",
@@ -78,11 +79,12 @@ export type ResponseIssuerToken = IssuerTokenItem;
 
 export class Charges extends CRUDResource {
     static requiredParams: string[] = ["transactionTokenId", "amount", "currency"];
-
     static routeBase = "/stores/:storeId/charges";
 
+    private _list: DefinedRoute;
     list(data?: SendData<ChargesListParams>, auth?: AuthParams, storeId?: string): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges")(data, auth, { storeId });
+        this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges");
+        return this._list(data, auth, { storeId });
     }
 
     async create(data: SendData<ChargeCreateParams>, auth?: AuthParams): Promise<ResponseCharge> {
@@ -96,20 +98,22 @@ export class Charges extends CRUDResource {
         );
     }
 
+    private _get: DefinedRoute;
     get(storeId: string, id: string, data?: SendData<PollData>, auth?: AuthParams): Promise<ResponseCharge> {
-        return this._getRoute()(data, auth, { storeId, id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, id });
     }
 
+    private _getIssuerToken: DefinedRoute;
     getIssuerToken(
         storeId: string,
         chargeId: string,
         data?: SendData<ChargeIssuerTokenGetParams>,
         auth?: AuthParams
     ): Promise<ResponseIssuerToken> {
-        return this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken")(data, auth, {
-            storeId,
-            chargeId,
-        });
+        this._getIssuerToken =
+            this._getIssuerToken ?? this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken");
+        return this._getIssuerToken(data, auth, { storeId, chargeId });
     }
 
     poll(

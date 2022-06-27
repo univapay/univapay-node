@@ -8,6 +8,7 @@ import { AuthParams, PollData, PollParams, SendData } from "../api/RestAPI.js";
 import { ProcessingMode } from "./common/enums.js";
 import { Metadata } from "./common/types.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum CancelStatus {
     PENDING = "pending",
@@ -42,27 +43,31 @@ export type ResponseCancels = CRUDItemsResponse<CancelListItem>;
 
 export class Cancels extends CRUDResource {
     static requiredParams: string[] = [];
-
     static routeBase = "/stores/:storeId/charges/:chargeId/cancels";
 
+    private _list: DefinedRoute;
     list(
         storeId: string,
         chargeId: string,
         data?: SendData<CancelsListParams>,
         auth?: AuthParams
     ): Promise<ResponseCancels> {
-        return this._listRoute()(data, auth, { storeId, chargeId });
+        this._list = this._list ?? this._listRoute();
+        return this._list(data, auth, { storeId, chargeId });
     }
 
+    private _create: DefinedRoute;
     create(
         storeId: string,
         chargeId: string,
         data: SendData<CancelCreateParams>,
         auth?: AuthParams
     ): Promise<ResponseCancel> {
-        return this._createRoute({ requiredParams: Cancels.requiredParams })(data, auth, { storeId, chargeId });
+        this._create = this._create ?? this._createRoute({ requiredParams: Cancels.requiredParams });
+        return this._create(data, auth, { storeId, chargeId });
     }
 
+    private _get: DefinedRoute;
     get(
         storeId: string,
         chargeId: string,
@@ -70,7 +75,8 @@ export class Cancels extends CRUDResource {
         data?: SendData<PollData>,
         auth?: AuthParams
     ): Promise<ResponseCancel> {
-        return this._getRoute()(data, auth, { storeId, chargeId, id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, chargeId, id });
     }
 
     poll(

@@ -6,6 +6,7 @@ import { AuthParams, SendData } from "../api/RestAPI.js";
 import { OnlineBrand } from "./common/enums.js";
 import { AmountWithCurrency } from "./common/types.js";
 import { CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions.js";
 import { PaymentType, TransactionTokenType, UsageLimit } from "./TransactionTokens.js";
 
@@ -116,7 +117,9 @@ export class ECForms extends CRUDResource {
     static requiredParams: string[] = [];
     static routeBase = "/checkout/forms";
 
+    private _get: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECForm> {
-        return this._getRoute()(data, auth, { id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { id });
     }
 }

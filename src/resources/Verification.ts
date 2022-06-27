@@ -7,6 +7,7 @@ import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 import { ContactInfo, ContactInfoPartial } from "./common/ContactInfo.js";
 import { PhoneNumber } from "./common/types.js";
 import { CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 import { RecurringTokenPrivilege } from "./TransactionTokens.js";
 
 export interface BaseVerification<T> {
@@ -44,18 +45,23 @@ export class Verification extends CRUDResource {
         "businessType",
         "systemManagerName",
     ];
-
     static routeBase = "/verification";
 
+    private _create: DefinedRoute;
     create(data: SendData<VerificationCreateParams>, auth?: AuthParams): Promise<ResponseVerification> {
-        return this._createRoute({ requiredParams: Verification.requiredParams })(data, auth);
+        this._create = this._create ?? this._createRoute({ requiredParams: Verification.requiredParams });
+        return this._create(data, auth);
     }
 
+    private _get: DefinedRoute;
     get(data?: SendData<void>, auth?: AuthParams): Promise<ResponseVerification> {
-        return this.defineRoute(HTTPMethod.GET, this._routeBase)(data, auth);
+        this._get = this._get ?? this.defineRoute(HTTPMethod.GET, this._routeBase);
+        return this._get(data, auth);
     }
 
+    private _update: DefinedRoute;
     update(data?: SendData<VerificationUpdateParams>, auth?: AuthParams): Promise<ResponseVerification> {
-        return this.defineRoute(HTTPMethod.PATCH, this._routeBase)(data, auth);
+        this._update = this._update ?? this.defineRoute(HTTPMethod.PATCH, this._routeBase);
+        return this._update(data, auth);
     }
 }
