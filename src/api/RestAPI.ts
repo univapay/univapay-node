@@ -30,6 +30,33 @@ import { extractJWT, JWTPayload, parseJWT } from "./utils/JWT.js";
 import { containsBinaryData, objectToFormData } from "./utils/payload.js";
 import { userAgent } from "./utils/userAgent.js";
 
+export type PollParams<Response> = {
+    /**
+     * Condition for which the response is considered to be successful and stop the polling
+     */
+    successCondition: (response: Response) => boolean;
+
+    /**
+     * Condition to cancel the polling without triggering error
+     */
+    cancelCondition?: (response: Response) => boolean;
+
+    /**
+     * Time after which a TimeoutError will be triggered and the poll will be canceled
+     */
+    timeout?: number;
+
+    /**
+     * Interval between polls
+     */
+    interval?: number;
+
+    /**
+     * Callback to be triggered at each poll iteration
+     */
+    iterationCallback?: (response: Response) => void;
+};
+
 export enum HTTPMethod {
     GET = "GET",
     POST = "POST",
@@ -78,11 +105,6 @@ export interface ErrorResponse {
     errors: (SubError | ValidationError)[];
 }
 
-export type ResponseCallback<A> = (response: A | Error) => void;
-
-export type PromiseResolve<A> = (value?: A | PromiseLike<A>) => void;
-export type PromiseReject = (reason?: any) => void;
-
 export interface AuthParams {
     jwt?: string;
     secret?: string;
@@ -94,13 +116,30 @@ export interface AuthParams {
     appId?: string;
 }
 
-export interface PollParams {
+export type PollData = {
     polling?: boolean;
-}
+};
 
-export type PromiseCreator<A> = () => Promise<A>;
+export type PollExecute<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
+
+export type ApiSendOptions = {
+    /**
+     * Validate the JWT before calling the route and adds the authorization header to the request.
+     */
+    requireAuth?: boolean;
+
+    /**
+     * Add the custom type to the header. Defaults to `application/json`
+     */
+    acceptType?: string;
+
+    /**
+     * Custom formatter to format the request object to the API (skipped for blobs)
+     */
+    keyFormatter?: (key: string) => string;
+};
 
 const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData | Blob =>
     isBlob(data)
@@ -109,25 +148,19 @@ const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase):
         ? objectToFormData(data, keyFormatter, ["metadata"])
         : stringify(transformKeys(data, keyFormatter, ["metadata"]));
 
-const stringifyParams = <Data extends Record<string, any>>(data: Data): string => {
+const stringifyParams = (data: unknown): string => {
     const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });
 
     return query ? `?${query}` : "";
 };
 
-const execRequest = async <A>(executor: () => Promise<A>, callback?: ResponseCallback<A>): Promise<A> => {
+const execRequest = async <Response>(execute: () => Promise<Response>): Promise<Response> => {
     try {
-        const response = await executor();
-        if (typeof callback === "function") {
-            callback(response);
-        }
+        const response = await execute();
 
         return response;
     } catch (error) {
         const err: Error = error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error);
-        if (typeof callback === "function") {
-            callback(err);
-        }
 
         throw err;
     }
@@ -135,7 +168,7 @@ const execRequest = async <A>(executor: () => Promise<A>, callback?: ResponseCal
 
 export class RestAPI extends EventEmitter {
     endpoint: string;
-    jwt: JWTPayload<any>;
+    jwt: JWTPayload<unknown>;
     origin: string;
     secret: string;
 
@@ -186,11 +219,9 @@ export class RestAPI extends EventEmitter {
         uri: string,
         data?: SendData<Data>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ResponseBody>,
-        requireAuth = true,
-        acceptType?: string,
-        keyFormatter = toSnakeCase
+        options: ApiSendOptions = {}
     ): Promise<ResponseBody | string | Blob | FormData> {
+        const { requireAuth = true, acceptType, keyFormatter = toSnakeCase } = options;
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
 
@@ -246,10 +277,10 @@ export class RestAPI extends EventEmitter {
             }
 
             return response.blob();
-        }, callback);
+        });
     }
 
-    protected getHeaders<Data extends Record<string, any>>(
+    protected getHeaders<Data = unknown>(
         data: SendData<Data>,
         auth: AuthParams,
         payload: boolean,
@@ -301,48 +332,23 @@ export class RestAPI extends EventEmitter {
     /**
      * @internal
      */
-    async longPolling<Response>(
-        /**
-         * API call to be repeated
-         */
-        promise: PromiseCreator<Response>,
+    async longPolling<Response>(execute: PollExecute<Response>, pollParams: PollParams<Response>): Promise<Response> {
+        const {
+            successCondition,
+            cancelCondition,
+            iterationCallback,
+            timeout = POLLING_TIMEOUT,
+            interval = POLLING_INTERVAL,
+        } = pollParams;
 
-        /**
-         * Condition for which the response is considered to be successful and stop the polling
-         */
-        successCondition: (response: Response) => boolean,
-
-        /**
-         * Condition to cancel the polling without triggering error
-         */
-        cancelCondition?: (response: Response) => boolean,
-
-        /**
-         * Callback to be triggered at the end of the long polling
-         */
-        callback?: ResponseCallback<Response>,
-
-        /**
-         * Time after which a TimeoutError will be triggered and the poll will be canceled
-         */
-        timeout: number = POLLING_TIMEOUT,
-
-        /**
-         * Interval between polls
-         */
-        interval: number = POLLING_INTERVAL,
-
-        /**
-         * Callback to be triggered at each poll iteration
-         */
-        iterationCallback?: (response: Response) => void
-    ): Promise<Response> {
         return execRequest(async () => {
             let internalErrorCount = 0;
 
+            const sleepInterval = () => new Promise((resolve) => setTimeout(resolve, interval));
+
             const repeater = async (): Promise<Response> => {
                 try {
-                    const result = await promise();
+                    const result = await execute();
 
                     iterationCallback?.(result);
 
@@ -351,26 +357,28 @@ export class RestAPI extends EventEmitter {
                     }
 
                     if (!successCondition(result)) {
-                        await new Promise((resolve) => setTimeout(resolve, interval)); // sleep to avoid firing requests too fast
+                        await sleepInterval();
                         return repeater();
                     }
 
                     return result;
                 } catch (error) {
+                    // Use retry mechanism for 500 as internal server error on API side do not always mean failure
                     if (error.errorResponse?.httpCode !== 500 || internalErrorCount >= MAX_INTERNAL_ERROR_RETRY) {
                         throw error;
                     }
 
                     internalErrorCount++;
+                    await sleepInterval();
                     return repeater();
                 }
             };
 
             return pTimeout(repeater(), timeout, new TimeoutError(timeout));
-        }, callback);
+        });
     }
 
-    async ping(callback?: ResponseCallback<void>): Promise<void> {
-        await this.send(HTTPMethod.GET, "/heartbeat", null, null, callback, false);
+    async ping(): Promise<void> {
+        await this.send(HTTPMethod.GET, "/heartbeat", null, null, { requireAuth: false });
     }
 }

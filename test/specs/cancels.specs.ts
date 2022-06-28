@@ -101,7 +101,7 @@ describe("Cancels", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === CancelStatus.FAILED;
-            const call = () => cancels.poll(uuid(), uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
+            const call = () => cancels.poll(uuid(), uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 
@@ -115,7 +115,7 @@ describe("Cancels", () => {
             await assertPollInternalServerError(recordPathMatcher, call, sandbox, successItem);
         });
 
-        it("should retry poll on internal server error", async () => {
+        it("should fail poll on internal server error when retry count is exceeded", async () => {
             const call = () => cancels.poll(uuid(), uuid(), uuid());
             await assertPollInternalServerErrorMaxRetry(recordPathMatcher, call, sandbox);
         });
@@ -126,7 +126,7 @@ describe("Cancels", () => {
         const errorStoreId = createRequestError(["storeId"]);
         const errorChargeId = createRequestError(["chargeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<unknown>, RequestError][] = [
             [cancels.create(null, null, null), errorStoreId],
             [cancels.create(null, uuid(), null), errorStoreId],
             [cancels.create(uuid(), null, null), errorChargeId],

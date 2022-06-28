@@ -1,12 +1,12 @@
 import { ResponseErrorCode } from "../../errors/APIError.js";
 
 type WithOptionalDescriptor<Data> = Data | Omit<Data, "descriptor">;
-export async function ignoreDescriptor<Data extends { descriptor?: string }>(
-    callback: (data: WithOptionalDescriptor<Data>) => Promise<WithOptionalDescriptor<Data>>,
+export const ignoreDescriptor = async <Data extends { descriptor?: string }>(
+    execute: (data: WithOptionalDescriptor<Data>) => Promise<WithOptionalDescriptor<Data>>,
     data: Data
-): Promise<WithOptionalDescriptor<Data>> {
+): Promise<WithOptionalDescriptor<Data>> => {
     try {
-        return callback(data);
+        return execute(data);
     } catch (error) {
         const isDescriptorNotSupportedError =
             error.errorResponse.code === ResponseErrorCode.ValidationError &&
@@ -18,9 +18,9 @@ export async function ignoreDescriptor<Data extends { descriptor?: string }>(
         if (isDescriptorNotSupportedError) {
             const { descriptor, ...clonedData } = data; // eslint-disable-line @typescript-eslint/no-unused-vars
 
-            return callback(clonedData);
+            return execute(clonedData);
         } else {
             throw error;
         }
     }
-}
+};

@@ -12,6 +12,8 @@ import {
     Refunds,
     RefundStatus,
     RefundUpdateParams,
+    ResponseRefund,
+    ResponseRefunds,
 } from "../../src/resources/Refunds.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
@@ -128,7 +130,7 @@ describe("Refunds", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === RefundStatus.FAILED;
-            const call = () => refunds.poll(uuid(), uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
+            const call = () => refunds.poll(uuid(), uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 
@@ -142,7 +144,7 @@ describe("Refunds", () => {
             await assertPollInternalServerError(recordPathMatcher, call, sandbox, successItem);
         });
 
-        it("should retry poll on internal server error", async () => {
+        it("should fail poll on internal server error when retry count is exceeded", async () => {
             const call = () => refunds.poll(uuid(), uuid(), uuid());
             await assertPollInternalServerErrorMaxRetry(recordPathMatcher, call, sandbox);
         });
@@ -171,7 +173,7 @@ describe("Refunds", () => {
         const errorStoreId = createRequestError(["storeId"]);
         const errorChargeId = createRequestError(["chargeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<ResponseRefund> | Promise<ResponseRefunds>, RequestError][] = [
             [refunds.create(null, null, null), errorStoreId],
             [refunds.create(null, uuid(), null), errorStoreId],
             [refunds.create(uuid(), null, null), errorChargeId],

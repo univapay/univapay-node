@@ -2,7 +2,7 @@
  *  @module Resources/Charges
  */
 
-import { AuthParams, HTTPMethod, PollParams, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, PollData, PollParams, SendData } from "../api/RestAPI.js";
 
 import { PaymentError } from "../errors/APIError.js";
 import { ProcessingMode } from "./common/enums.js";
@@ -11,6 +11,7 @@ import { Metadata, WithStoreMerchantName } from "./common/types.js";
 import { CaptureStatus } from "./Captures.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum ChargeStatus {
     PENDING = "pending",
@@ -78,81 +79,54 @@ export type ResponseIssuerToken = IssuerTokenItem;
 
 export class Charges extends CRUDResource {
     static requiredParams: string[] = ["transactionTokenId", "amount", "currency"];
-
     static routeBase = "/stores/:storeId/charges";
 
-    list(
-        data?: SendData<ChargesListParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseCharges>,
-        storeId?: string
-    ): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges")(data, callback, auth, { storeId });
+    private _list: DefinedRoute;
+    list(data?: SendData<ChargesListParams>, auth?: AuthParams, storeId?: string): Promise<ResponseCharges> {
+        this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges");
+        return this._list(data, auth, { storeId });
     }
 
-    async create(
-        data: SendData<ChargeCreateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseCharge>
-    ): Promise<ResponseCharge> {
+    async create(data: SendData<ChargeCreateParams>, auth?: AuthParams): Promise<ResponseCharge> {
         return ignoreDescriptor(
             (updatedData: ChargeCreateParams) =>
-                this.defineRoute(HTTPMethod.POST, "/charges", Charges.requiredParams)(updatedData, callback, auth),
+                this.defineRoute(HTTPMethod.POST, "/charges", { requiredParams: Charges.requiredParams })(
+                    updatedData,
+                    auth
+                ),
             data
         );
     }
 
-    get(
-        storeId: string,
-        id: string,
-        data?: SendData<PollParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseCharge>
-    ): Promise<ResponseCharge> {
-        return this._getRoute()(data, callback, auth, { storeId, id });
+    private _get: DefinedRoute;
+    get(storeId: string, id: string, data?: SendData<PollData>, auth?: AuthParams): Promise<ResponseCharge> {
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, id });
     }
 
+    private _getIssuerToken: DefinedRoute;
     getIssuerToken(
         storeId: string,
         chargeId: string,
         data?: SendData<ChargeIssuerTokenGetParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseIssuerToken>
+        auth?: AuthParams
     ): Promise<ResponseIssuerToken> {
-        return this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken")(
-            data,
-            callback,
-            auth,
-            { storeId, chargeId }
-        );
+        this._getIssuerToken =
+            this._getIssuerToken ?? this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken");
+        return this._getIssuerToken(data, auth, { storeId, chargeId });
     }
 
     poll(
         storeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ResponseCharge>,
-
-        /**
-         * Condition for the resource to be successfully loaded. Default to pending status check.
-         */
-        cancelCondition?: (response: ResponseCharge) => boolean,
-        successCondition: ({ status }: ResponseCharge) => boolean = ({ status }) => status !== ChargeStatus.PENDING,
-        iterationCallback?: (response: ResponseCharge) => void,
-        pollOptions?: { interval?: number; timeout?: number }
+        pollParams?: Partial<PollParams<ResponseCharge>>
     ): Promise<ResponseCharge> {
-        const pollingData = { ...data, polling: true };
-        const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollingData, auth);
+        const pollData = { ...data, polling: true };
+        const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollData, auth);
+        const successCondition = pollParams?.successCondition ?? (({ status }) => status !== ChargeStatus.PENDING);
 
-        return this.api.longPolling(
-            promise,
-            successCondition,
-            cancelCondition,
-            callback,
-            pollOptions?.interval,
-            pollOptions?.timeout,
-            iterationCallback
-        );
+        return this.api.longPolling(promise, { ...pollParams, successCondition });
     }
 }

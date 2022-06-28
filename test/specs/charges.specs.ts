@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { ChargeCreateParams, Charges, ChargeStatus } from "../../src/resources/Charges.js";
+import { ChargeCreateParams, Charges, ChargeStatus, ResponseCharge } from "../../src/resources/Charges.js";
 import { generateFixture as generateCharge } from "../fixtures/charge.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
@@ -88,7 +88,7 @@ describe("Charges", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [charges.list(undefined, undefined), charges.list(undefined, undefined, undefined, uuid())];
+            const asserts = [charges.list(undefined, undefined), charges.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -123,7 +123,7 @@ describe("Charges", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === ChargeStatus.FAILED;
-            const call = () => charges.poll(uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
+            const call = () => charges.poll(uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 
@@ -137,7 +137,7 @@ describe("Charges", () => {
             await assertPollInternalServerError(recordPathMatcher, call, sandbox, successItem);
         });
 
-        it("should retry poll on internal server error", async () => {
+        it("should fail poll on internal server error when retry count is exceeded", async () => {
             const call = () => charges.poll(uuid(), uuid());
             await assertPollInternalServerErrorMaxRetry(recordPathMatcher, call, sandbox);
         });
@@ -164,7 +164,7 @@ describe("Charges", () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<ResponseCharge>, RequestError][] = [
             [charges.get(null, null), errorStoreId],
             [charges.get(null, uuid()), errorStoreId],
             [charges.get(uuid(), null), errorId],

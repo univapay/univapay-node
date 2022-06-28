@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { CaptureCreateParams, Captures } from "../../src/resources/Captures.js";
+import { CaptureCreateParams, CaptureItem, Captures } from "../../src/resources/Captures.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { testEndpoint } from "../utils/index.js";
 import { pathToRegexMatcher } from "../utils/routes.js";
@@ -56,7 +56,7 @@ describe("Captures", () => {
         const errorStoreId = createRequestError(["storeId"]);
         const errorChargeId = createRequestError(["chargeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<CaptureItem>, RequestError][] = [
             [captures.create(null, null, null), errorStoreId],
             [captures.create(null, uuid(), null), errorStoreId],
             [captures.create(uuid(), null, null), errorChargeId],

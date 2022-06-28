@@ -75,7 +75,7 @@ describe("Transfers", () => {
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<unknown>, RequestError][] = [
             [transfers.get(null), errorId],
             [transfers.statusChanges(null), errorId],
         ];

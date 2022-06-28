@@ -2,7 +2,7 @@
  *  @module Resources/CheckoutInfo
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import {
     BankTransferConfiguration,
@@ -14,7 +14,7 @@ import {
 } from "./common/Configuration.js";
 import { CardBrand, OnlineBrand, ProcessingMode } from "./common/enums.js";
 import { AmountWithCurrency } from "./common/types.js";
-import { Resource } from "./Resource.js";
+import { DefinedRoute, Resource } from "./Resource.js";
 import { RecurringTokenPrivilege } from "./TransactionTokens.js";
 
 /* Request */
@@ -74,11 +74,9 @@ export interface CheckoutInfoItem {
 export type ResponseCheckoutInfo = CheckoutInfoItem;
 
 export class CheckoutInfo extends Resource {
-    get(
-        data?: SendData<CheckoutInfoParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseCheckoutInfo>
-    ): Promise<ResponseCheckoutInfo> {
-        return this.defineRoute(HTTPMethod.GET, "/checkout_info")(data, callback, auth);
+    private _get: DefinedRoute;
+    get(data?: SendData<CheckoutInfoParams>, auth?: AuthParams): Promise<ResponseCheckoutInfo> {
+        this._get = this._get ?? this.defineRoute(HTTPMethod.GET, "/checkout_info");
+        return this._get(data, auth);
     }
 }

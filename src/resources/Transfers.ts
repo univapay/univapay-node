@@ -2,10 +2,11 @@
  *  @module Resources/Transfers
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import { Metadata, WithMerchantName } from "./common/types.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum TransferStatus {
     CREATED = "created",
@@ -61,31 +62,22 @@ export type ResponseTransferStatusChanges = CRUDItemsResponse<TransferStatusChan
 export class Transfers extends CRUDResource {
     static routeBase = "/transfers";
 
-    list(
-        data?: SendData<TransfersListParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTransfers>
-    ): Promise<ResponseTransfers> {
-        return this._listRoute()(data, callback, auth);
+    private _list: DefinedRoute;
+    list(data?: SendData<TransfersListParams>, auth?: AuthParams): Promise<ResponseTransfers> {
+        this._list = this._list ?? this._listRoute();
+        return this._list(data, auth);
     }
 
-    get(
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTransfer>
-    ): Promise<ResponseTransfer> {
-        return this._getRoute()(data, callback, auth, { id });
+    private _get: DefinedRoute;
+    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransfer> {
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { id });
     }
 
-    statusChanges(
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTransferStatusChanges>
-    ): Promise<ResponseTransferStatusChanges> {
-        return this.defineRoute(HTTPMethod.GET, `${Transfers.routeBase}/:id/status_changes`)(data, callback, auth, {
-            id,
-        });
+    private _statusChanges: DefinedRoute;
+    statusChanges(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransferStatusChanges> {
+        this._statusChanges =
+            this._statusChanges ?? this.defineRoute(HTTPMethod.GET, `${Transfers.routeBase}/:id/status_changes`);
+        return this._statusChanges(data, auth, { id });
     }
 }

@@ -2,7 +2,7 @@
  *  @module Resources/Subscriptions
  */
 
-import { AuthParams, HTTPMethod, PollParams, ResponseCallback, RestAPI, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, PollData, PollParams, RestAPI, SendData } from "../api/RestAPI.js";
 
 import { ProcessingMode } from "./common/enums.js";
 import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
@@ -12,6 +12,7 @@ import { ChargesListParams, ResponseCharges } from "./Charges.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { ResponseCharge } from "./index.js";
 import { PaymentType } from "./TransactionTokens.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum SubscriptionPeriod {
     DAILY = "daily",
@@ -211,59 +212,52 @@ export type ResponsePayments = CRUDItemsResponse<SchedulePaymentListItem>;
 export class ScheduledPayments extends CRUDResource {
     static routeBase = "/stores/:storeId/subscriptions/:subscriptionsId/payments";
 
+    private _list: DefinedRoute;
     list(
         storeId: string,
         subscriptionsId: string,
         data?: SendData<ScheduledPaymentsListParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponsePayments>
+        auth?: AuthParams
     ): Promise<ResponsePayments> {
-        return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}`)(data, callback, auth, {
-            storeId,
-            subscriptionsId,
-        });
+        this._list = this._list ?? this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}`);
+        return this._list(data, auth, { storeId, subscriptionsId });
     }
 
+    private _get: DefinedRoute;
     get(
         storeId: string,
         subscriptionsId: string,
         id: string,
         data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponsePayment>
+        auth?: AuthParams
     ): Promise<ResponsePayment> {
-        return this._getRoute()(data, callback, auth, { storeId, subscriptionsId, id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, subscriptionsId, id });
     }
 
+    private _update: DefinedRoute;
     update(
         storeId: string,
         subscriptionsId: string,
         id: string,
         data?: SendData<PaymentUpdateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponsePayment>
+        auth?: AuthParams
     ): Promise<ResponsePayment> {
-        return this._updateRoute()(data, callback, auth, { storeId, subscriptionsId, id });
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { storeId, subscriptionsId, id });
     }
 
+    private _listCharges: DefinedRoute;
     listCharges(
         storeId: string,
         subscriptionsId: string,
         paymentId: string,
         data?: SendData<ChargesListParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseCharges>
+        auth?: AuthParams
     ): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}/:paymentId/charges`)(
-            data,
-            callback,
-            auth,
-            {
-                storeId,
-                subscriptionsId,
-                paymentId,
-            }
-        );
+        this._listCharges =
+            this._listCharges ?? this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}/:paymentId/charges`);
+        return this._listCharges(data, auth, { storeId, subscriptionsId, paymentId });
     }
 }
 
@@ -288,138 +282,108 @@ export class Subscriptions extends CRUDResource {
         this.chargesResource = new Charges(api);
     }
 
+    private _list: DefinedRoute;
     list(
         data?: SendData<SubscriptionsListParams>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ResponseSubscriptions>,
         storeId?: string
     ): Promise<ResponseSubscriptions> {
-        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions")(data, callback, auth, { storeId });
+        this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions");
+        return this._list(data, auth, { storeId });
     }
 
-    create(
-        data: SubscriptionCreateParams,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseSubscription>
-    ): Promise<ResponseSubscription> {
+    create(data: SubscriptionCreateParams, auth?: AuthParams): Promise<ResponseSubscription> {
         return ignoreDescriptor(
             (updatedData: SubscriptionCreateParams) =>
-                this.defineRoute(HTTPMethod.POST, "/subscriptions", Subscriptions.requiredParams)(
+                this.defineRoute(HTTPMethod.POST, "/subscriptions", { requiredParams: Subscriptions.requiredParams })(
                     updatedData,
-                    callback,
                     auth
                 ),
             data
         );
     }
 
-    get(
-        storeId: string,
-        id: string,
-        data?: SendData<PollParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseSubscription>
-    ): Promise<ResponseSubscription> {
-        return this._getRoute()(data, callback, auth, { storeId, id });
+    private _get: DefinedRoute;
+    get(storeId: string, id: string, data?: SendData<PollData>, auth?: AuthParams): Promise<ResponseSubscription> {
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, id });
     }
 
+    private _update: DefinedRoute;
     update(
         storeId: string,
         id: string,
         data?: SendData<SubscriptionUpdateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseSubscription>
+        auth?: AuthParams
     ): Promise<ResponseSubscription> {
-        return this._updateRoute()(data, callback, auth, { storeId, id });
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { storeId, id });
     }
 
-    delete(
-        storeId: string,
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<void>
-    ): Promise<void> {
-        return this._deleteRoute()(data, callback, auth, { storeId, id });
+    private _delete: DefinedRoute;
+    delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+        this._delete = this._delete ?? this._deleteRoute();
+        return this._delete(data, auth, { storeId, id });
     }
 
+    private _charges: DefinedRoute;
     charges(
         storeId: string,
         id: string,
         data?: SendData<ChargesListParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseCharges>
+        auth?: AuthParams
     ): Promise<ResponseCharges> {
-        return this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`)(data, callback, auth, {
-            storeId,
-            id,
-        });
+        this._charges = this._charges ?? this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`);
+        return this._charges(data, auth, { storeId, id });
     }
 
     poll(
         storeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ResponseSubscription>,
-
-        /**
-         * Condition for the resource to be successfully loaded. Default to pending status check.
-         */
-        cancelCondition?: (response: ResponseSubscription) => boolean,
-        successCondition: ({ status }: ResponseSubscription) => boolean = ({ status }) =>
-            status !== SubscriptionStatus.UNVERIFIED,
-        iterationCallback?: (response: ResponseSubscription) => void,
-        pollOptions?: { interval?: number; timeout?: number }
+        pollParams?: Partial<PollParams<ResponseSubscription>>
     ): Promise<ResponseSubscription> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
+        const successCondition =
+            pollParams?.successCondition ?? (({ status }) => status !== SubscriptionStatus.UNVERIFIED);
 
-        return this.api.longPolling(
-            promise,
-            successCondition,
-            cancelCondition,
-            callback,
-            pollOptions?.interval,
-            pollOptions?.timeout,
-            iterationCallback
-        );
+        return this.api.longPolling(promise, { ...pollParams, successCondition });
     }
 
     async pollSubscriptionWithFirstCharge(
         storeId: string,
         id: string,
-        data?: SendData<PollParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<{ subscription: ResponseSubscription; charge?: ResponseCharge }>
+        data?: SendData<PollData>,
+        auth?: AuthParams
     ): Promise<{ subscription: ResponseSubscription; charge?: ResponseCharge }> {
         const subscription = await this.poll(storeId, id, data, auth);
 
         const charge = hasImmediateCharge(subscription)
             ? await this.api
-                  .longPolling(
-                      () => this.charges(storeId, id),
-                      (charges) => !!charges.items.length
-                  )
+                  .longPolling(() => this.charges(storeId, id, undefined, auth), {
+                      successCondition: (charges) => !!charges.items.length,
+                  })
                   .then(({ items: charges }) =>
                       this.chargesResource.poll(charges[0].storeId, charges[0].id, data, auth)
                   )
             : null;
 
-        callback?.({ subscription, charge });
         return { subscription, charge };
     }
 
+    private _simulation: DefinedRoute;
     simulation<InstallmentPlanData extends InstallmentBaseParams>(
         data: SendData<SubscriptionSimulationParams<InstallmentPlanData>>,
         auth?: AuthParams,
-        callback?: ResponseCallback<SimulationInstallmentPayment[]>,
         storeId?: string
     ): Promise<SimulationInstallmentPayment[]> {
-        return this.defineRoute(
-            HTTPMethod.POST,
-            "(/stores/:storeId)/subscriptions/simulate_plan",
-            Subscriptions.requiredSimulationParams
-        )(data, callback, auth, { storeId });
+        this._simulation =
+            this._simulation ??
+            this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/subscriptions/simulate_plan", {
+                requiredParams: Subscriptions.requiredSimulationParams,
+            });
+        return this._simulation(data, auth, { storeId });
     }
 }

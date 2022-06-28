@@ -2,9 +2,10 @@
  *  @module Resources/BankAccounts
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum BankAccountStatus {
     NEW = "new",
@@ -68,52 +69,41 @@ export type ResponseBankAccounts = CRUDItemsResponse<BankAccountListItem>;
 
 export class BankAccounts extends CRUDResource {
     static requiredParams: string[] = ["accountNumber", "country", "currency", "holderName", "bankName"];
-
     static routeBase = "/bank_accounts";
 
-    list(
-        data?: SendData<BankAccountsListParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseBankAccounts>
-    ): Promise<ResponseBankAccounts> {
-        return this._listRoute()(data, callback, auth);
+    private _list: DefinedRoute;
+    list(data?: SendData<BankAccountsListParams>, auth?: AuthParams): Promise<ResponseBankAccounts> {
+        this._list = this._list ?? this._listRoute();
+        return this._list(data, auth);
     }
 
-    create(
-        data: SendData<BankAccountCreateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseBankAccount>
-    ): Promise<ResponseBankAccount> {
-        return this._createRoute(BankAccounts.requiredParams)(data, callback, auth);
+    private _create: DefinedRoute;
+    create(data: SendData<BankAccountCreateParams>, auth?: AuthParams): Promise<ResponseBankAccount> {
+        this._create = this._create ?? this._createRoute({ requiredParams: BankAccounts.requiredParams });
+        return this._create(data, auth);
     }
 
-    get(
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseBankAccount>
-    ): Promise<ResponseBankAccount> {
-        return this._getRoute()(data, callback, auth, { id });
+    private _get: DefinedRoute;
+    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseBankAccount> {
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { id });
     }
 
-    update(
-        id: string,
-        data?: SendData<BankAccountUpdateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseBankAccount>
-    ): Promise<ResponseBankAccount> {
-        return this._updateRoute()(data, callback, auth, { id });
+    private _update: DefinedRoute;
+    update(id: string, data?: SendData<BankAccountUpdateParams>, auth?: AuthParams): Promise<ResponseBankAccount> {
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { id });
     }
 
-    delete(id: string, data?: SendData<void>, auth?: AuthParams, callback?: ResponseCallback<void>): Promise<void> {
-        return this._deleteRoute()(data, callback, auth, { id });
+    private _delete: DefinedRoute;
+    delete(id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+        this._delete = this._delete ?? this._deleteRoute();
+        return this._delete(data, auth, { id });
     }
 
-    getPrimary(
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseBankAccount>
-    ): Promise<ResponseBankAccount> {
-        return this.defineRoute(HTTPMethod.GET, `${this._routeBase}/primary`)(data, callback, auth);
+    private _getPrimary: DefinedRoute;
+    getPrimary(data?: SendData<void>, auth?: AuthParams): Promise<ResponseBankAccount> {
+        this._getPrimary = this._getPrimary ?? this.defineRoute(HTTPMethod.GET, `${this._routeBase}/primary`);
+        return this._getPrimary(data, auth);
     }
 }

@@ -2,7 +2,7 @@
  *  @module Resources/TransactionTokens
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import {
     BankTransferBrand,
@@ -18,6 +18,7 @@ import {
 } from "./common/enums.js";
 import { Metadata, PhoneNumber, WithStoreMerchantName } from "./common/types.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum UsageLimit {
     DAILY = "daily",
@@ -259,63 +260,54 @@ export class TransactionTokens extends CRUDResource {
 
     static routeBase = "/stores/:storeId/tokens";
 
-    create(
-        data: SendData<TransactionTokenCreateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTransactionToken>
-    ): Promise<ResponseTransactionToken> {
-        return this.defineRoute(HTTPMethod.POST, "/tokens", TransactionTokens.requiredParams)(data, callback, auth);
+    create(data: SendData<TransactionTokenCreateParams>, auth?: AuthParams): Promise<ResponseTransactionToken> {
+        return this.defineRoute(HTTPMethod.POST, "/tokens", { requiredParams: TransactionTokens.requiredParams })(
+            data,
+            auth
+        );
     }
 
-    get(
-        storeId: string,
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTransactionToken>
-    ): Promise<ResponseTransactionToken> {
-        return this._getRoute()(data, callback, auth, { storeId, id });
+    private _get: DefinedRoute;
+    get(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransactionToken> {
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, id });
     }
 
+    private _list: DefinedRoute;
     list(
         data?: SendData<TransactionTokenListParams>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTransactionTokens>,
         storeId?: string
     ): Promise<ResponseTransactionTokens> {
-        return this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens")(data, callback, auth, { storeId });
+        this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens");
+        return this._list(data, auth, { storeId });
     }
 
+    private _update: DefinedRoute;
     update(
         storeId: string,
         id: string,
         data?: SendData<TransactionTokenUpdateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTransactionToken>
+        auth?: AuthParams
     ): Promise<ResponseTransactionToken> {
-        return this._updateRoute()(data, callback, auth, { storeId, id });
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { storeId, id });
     }
 
-    delete(
-        storeId: string,
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<void>
-    ): Promise<void> {
-        return this._deleteRoute()(data, callback, auth, { storeId, id });
+    private _delete: DefinedRoute;
+    delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+        this._delete = this._delete ?? this._deleteRoute();
+        return this._delete(data, auth, { storeId, id });
     }
 
+    private _confirm: DefinedRoute;
     confirm(
         storeId: string,
         id: string,
         data: SendData<TransactionTokenConfirmParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<void>
+        auth?: AuthParams
     ): Promise<void> {
-        return this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:id/confirm")(data, callback, auth, {
-            storeId,
-            id,
-        });
+        this._confirm = this._confirm ?? this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:id/confirm");
+        return this._confirm(data, auth, { storeId, id });
     }
 }

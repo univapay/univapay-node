@@ -4,7 +4,13 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { WebHookCreateParams, WebHooks, WebHookTrigger, WebHookUpdateParams } from "../../src/resources/WebHooks.js";
+import {
+    ResponseWebHook,
+    WebHookCreateParams,
+    WebHooks,
+    WebHookTrigger,
+    WebHookUpdateParams,
+} from "../../src/resources/WebHooks.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateWebHook } from "../fixtures/webhook.js";
@@ -41,7 +47,7 @@ describe("Web Hooks", () => {
                 url: "http://fake.com",
             };
 
-            const asserts = [webHooks.create(data), webHooks.create(data, null, null, uuid())];
+            const asserts = [webHooks.create(data), webHooks.create(data, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(recordData);
@@ -61,7 +67,7 @@ describe("Web Hooks", () => {
                 authToken: "Bearer mytoken",
             };
 
-            const asserts = [webHooks.create(data), webHooks.create(data, null, null, uuid())];
+            const asserts = [webHooks.create(data), webHooks.create(data, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(recordData);
@@ -96,7 +102,7 @@ describe("Web Hooks", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [webHooks.list(), webHooks.list(null, null, null, uuid())];
+            const asserts = [webHooks.list(), webHooks.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -112,7 +118,7 @@ describe("Web Hooks", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [webHooks.get(uuid()), webHooks.get(uuid(), null, null, null, uuid())];
+            const asserts = [webHooks.get(uuid()), webHooks.get(uuid(), undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(recordData);
@@ -133,7 +139,7 @@ describe("Web Hooks", () => {
                 url: "http://fake.com",
             };
 
-            const asserts = [webHooks.update(uuid(), data), webHooks.update(uuid(), data, null, null, uuid())];
+            const asserts = [webHooks.update(uuid(), data), webHooks.update(uuid(), data, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(recordData);
@@ -148,7 +154,7 @@ describe("Web Hooks", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [webHooks.delete(uuid()), webHooks.delete(uuid(), null, null, null, uuid())];
+            const asserts = [webHooks.delete(uuid()), webHooks.delete(uuid(), undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.be.empty;
@@ -159,7 +165,7 @@ describe("Web Hooks", () => {
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<ResponseWebHook<WebHookTrigger>> | Promise<void>, RequestError][] = [
             [webHooks.get(null), errorId],
             [webHooks.update(null), errorId],
             [webHooks.delete(null), errorId],

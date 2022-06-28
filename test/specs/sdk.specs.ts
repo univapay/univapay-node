@@ -23,7 +23,7 @@ describe("SDK", () => {
     it("should have instances of all resources available", () => {
         const sdk = new SDK({ endpoint: "/" });
 
-        const asserts: [string, any][] = [
+        const asserts: [string, unknown][] = [
             ["bankAccounts", BankAccounts],
             ["cancels", Cancels],
             ["captures", Captures],

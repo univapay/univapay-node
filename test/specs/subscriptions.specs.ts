@@ -9,6 +9,9 @@ import { POLLING_INTERVAL } from "../../src/common/constants.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
 import { ChargeStatus, SubscriptionItem } from "../../src/resources/index.js";
 import {
+    InstallmentBaseParams,
+    InstallmentCyclesParams,
+    InstallmentPlan,
     SubscriptionCreateParams,
     SubscriptionPeriod,
     Subscriptions,
@@ -104,7 +107,7 @@ describe("Subscriptions", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            const asserts = [subscriptions.list(null, null, null), subscriptions.list(null, null, null, uuid())];
+            const asserts = [subscriptions.list(), subscriptions.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(listData);
@@ -139,7 +142,7 @@ describe("Subscriptions", () => {
 
         it("should cancel polling", async () => {
             const cancelCondition = ({ status }) => status === SubscriptionStatus.SUSPENDED;
-            const call = () => subscriptions.poll(uuid(), uuid(), undefined, undefined, undefined, cancelCondition);
+            const call = () => subscriptions.poll(uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
 
@@ -153,7 +156,7 @@ describe("Subscriptions", () => {
             await assertPollInternalServerError(recordPathMatcher, call, sandbox, successItem);
         });
 
-        it("should retry poll on internal server error", async () => {
+        it("should fail poll on internal server error when retry count is exceeded", async () => {
             const call = () => subscriptions.poll(uuid(), uuid());
             await assertPollInternalServerErrorMaxRetry(recordPathMatcher, call, sandbox);
         });
@@ -206,8 +209,8 @@ describe("Subscriptions", () => {
 
     context("POST [/stores/:storeId]/subscriptions/simulate_plan", () => {
         it("should get response", async () => {
-            const simulationData: SubscriptionSimulationItem<any> = {
-                installmentPlan: null,
+            const simulationData: SubscriptionSimulationItem<InstallmentCyclesParams> = {
+                installmentPlan: { planType: InstallmentPlan.FIXED_CYCLES, fixedCycles: 3 },
                 amount: 10000,
                 currency: "JPY",
                 initialAmount: 1000,
@@ -226,8 +229,8 @@ describe("Subscriptions", () => {
                 }
             );
 
-            const data: SubscriptionSimulationParams<any> = {
-                installmentPlan: null,
+            const data: SubscriptionSimulationParams<InstallmentCyclesParams> = {
+                installmentPlan: { planType: InstallmentPlan.FIXED_CYCLES, fixedCycles: 3 },
                 amount: 10000,
                 currency: "JPY",
                 initialAmount: 1000,
@@ -236,7 +239,7 @@ describe("Subscriptions", () => {
                 period: SubscriptionPeriod.MONTHLY,
             };
 
-            const asserts = [subscriptions.simulation(data), subscriptions.simulation(data, null, null, uuid())];
+            const asserts = [subscriptions.simulation(data), subscriptions.simulation(data, undefined, uuid())];
 
             for (const assert of asserts) {
                 await expect(assert).to.eventually.eql(simulationData);
@@ -255,7 +258,7 @@ describe("Subscriptions", () => {
             ];
 
             for (const [data, error] of asserts) {
-                await expect(subscriptions.simulation(data as SubscriptionSimulationParams<any>))
+                await expect(subscriptions.simulation(data as SubscriptionSimulationParams<InstallmentBaseParams>))
                     .to.eventually.be.rejectedWith(RequestError)
                     .that.has.property("errorResponse")
                     .which.eql(error.errorResponse);
@@ -345,7 +348,7 @@ describe("Subscriptions", () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);
 
-        const asserts: [Promise<any>, RequestError][] = [
+        const asserts: [Promise<unknown>, RequestError][] = [
             [subscriptions.get(null, null), errorStoreId],
             [subscriptions.get(null, uuid()), errorStoreId],
             [subscriptions.get(uuid(), null), errorId],
@@ -431,11 +434,17 @@ describe("Subscriptions", () => {
             const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
 
-            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: expectedCharge });
+            await expect(request).to.eventually.eql({
+                subscription: expectedSubscription,
+                charge: expectedCharge,
+            });
         });
 
         it("should poll the charge when scheduleSettings is not provided", async () => {
-            const expectedSubscription = mockSubscriptionPoll({ initialAmount: null, scheduleSettings: null });
+            const expectedSubscription = mockSubscriptionPoll({
+                initialAmount: null,
+                scheduleSettings: null,
+            });
             mockChargesPoll();
             const expectedCharge = mockChargePoll();
 
@@ -456,34 +465,6 @@ describe("Subscriptions", () => {
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 2);
 
             await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: null });
-        });
-
-        describe("Callback", () => {
-            it("should trigger the callback when polling the charge", async () => {
-                const expectedSubscription = mockSubscriptionPoll();
-                mockChargesPoll();
-                const expectedCharge = mockChargePoll();
-
-                const callback = sinon.spy();
-                subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, callback);
-                await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
-
-                expect(callback).calledOnce.calledWith({ subscription: expectedSubscription, charge: expectedCharge });
-            });
-
-            it("should trigger the callback when not polling the charge", async () => {
-                const futureDate = new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).toISOString();
-                const expectedSubscription = mockSubscriptionPoll({
-                    initialAmount: null,
-                    scheduleSettings: { startOn: futureDate, zoneId: "Asia/Tokyo", preserveEndOfMonth: true },
-                });
-
-                const callback = sinon.spy();
-                subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, callback);
-                await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
-
-                expect(callback).calledOnce.calledWith({ subscription: expectedSubscription, charge: null });
-            });
         });
     });
 });

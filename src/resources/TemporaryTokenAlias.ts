@@ -2,11 +2,12 @@
  *  @module Resources/TemporaryTokenAlias
  */
 
-import { AuthParams, HTTPMethod, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import { ProcessingMode } from "./common/enums.js";
 import { Metadata } from "./common/types.js";
 import { CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 import { PaymentType, TransactionTokenType } from "./TransactionTokens.js";
 
 export interface TemporaryTokenAliasItem {
@@ -63,68 +64,36 @@ export interface TemporaryTokenAliasQrOptions {
 
 export type ResponseTemporaryTokenAlias = TemporaryTokenAliasItem;
 
-export type MethodGet<P, R> = (
-    storeId: string,
-    id: string,
-    data?: SendData<P>,
-    callback?: ResponseCallback<R>
-) => Promise<R>;
+export type MethodGet<P, R> = (storeId: string, id: string, data?: SendData<P>) => Promise<R>;
 
 export class TemporaryTokenAlias extends CRUDResource {
     static requiredParams: string[] = ["transactionTokenId"];
 
     static routeBase = "/stores/:storeId/tokens/alias";
 
-    create(
-        data: SendData<TemporaryTokenAliasCreateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTemporaryTokenAlias>
-    ): Promise<ResponseTemporaryTokenAlias> {
-        return this.defineRoute(HTTPMethod.POST, "/tokens/alias", TemporaryTokenAlias.requiredParams)(
-            data,
-            callback,
-            auth
-        );
+    private _create: DefinedRoute;
+    create(data: SendData<TemporaryTokenAliasCreateParams>, auth?: AuthParams): Promise<ResponseTemporaryTokenAlias> {
+        this._create =
+            this._create ??
+            this.defineRoute(HTTPMethod.POST, "/tokens/alias", {
+                requiredParams: TemporaryTokenAlias.requiredParams,
+            });
+        return this._create(data, auth);
     }
 
-    get(
-        storeId: string,
-        id: string,
-        data?: SendData<TemporaryTokenAliasQrOptions>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<Blob>
-    ): Promise<Blob>;
-    get(
-        storeId: string,
-        id: string,
-        data?: SendData<TemporaryTokenAliasParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseTemporaryTokenAlias>
-    ): Promise<ResponseTemporaryTokenAlias>;
-
-    get(
-        storeId: string,
-        id: string,
-        data?: SendData<TemporaryTokenAliasParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<any>
-    ): Promise<any> {
-        return this.defineRoute(
-            HTTPMethod.GET,
-            `${this._routeBase}/:id`,
-            undefined,
-            undefined,
-            data && data.media === TemporaryTokenAliasMedia.QR ? "image/png" : undefined
-        )(data, callback, auth, { storeId, id });
+    private _get: DefinedRoute;
+    get(storeId: string, id: string, data?: SendData<TemporaryTokenAliasParams>, auth?: AuthParams): Promise<any> {
+        this._get =
+            this._get ??
+            this.defineRoute(HTTPMethod.GET, `${this._routeBase}/:id`, {
+                acceptType: data?.media === TemporaryTokenAliasMedia.QR ? "image/png" : undefined,
+            });
+        return this._get(data, auth, { storeId, id });
     }
 
-    delete(
-        storeId: string,
-        id: string,
-        data?: SendData<void>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<void>
-    ): Promise<void> {
-        return this._deleteRoute()(data, callback, auth, { storeId, id });
+    private _delete: DefinedRoute;
+    delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+        this._delete = this._delete ?? this._deleteRoute();
+        return this._delete(data, auth, { storeId, id });
     }
 }

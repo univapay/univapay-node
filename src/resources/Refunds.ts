@@ -2,12 +2,13 @@
  *  @module Resources/Refunds
  */
 
-import { AuthParams, PollParams, ResponseCallback, SendData } from "../api/RestAPI.js";
+import { AuthParams, PollParams, PollData, SendData } from "../api/RestAPI.js";
 
 import { PaymentError } from "../errors/APIError.js";
 import { ProcessingMode } from "./common/enums.js";
 import { Metadata } from "./common/types.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { DefinedRoute } from "./Resource.js";
 
 export enum RefundStatus {
     PENDING = "pending",
@@ -70,75 +71,64 @@ export class Refunds extends CRUDResource {
 
     static routeBase = "/stores/:storeId/charges/:chargeId/refunds";
 
+    private _list: DefinedRoute;
     list(
         storeId: string,
         chargeId: string,
         data?: SendData<RefundsListParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseRefunds>
+        auth?: AuthParams
     ): Promise<ResponseRefunds> {
-        return this._listRoute()(data, callback, auth, { storeId, chargeId });
+        this._list = this._list ?? this._listRoute();
+        return this._list(data, auth, { storeId, chargeId });
     }
 
+    private _create: DefinedRoute;
     create(
         storeId: string,
         chargeId: string,
         data: SendData<RefundCreateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseRefund>
+        auth?: AuthParams
     ): Promise<ResponseRefund> {
-        return this._createRoute(Refunds.requiredParams)(data, callback, auth, { storeId, chargeId });
+        this._create = this._create ?? this._createRoute({ requiredParams: Refunds.requiredParams });
+        return this._create(data, auth, { storeId, chargeId });
     }
 
+    private _get: DefinedRoute;
     get(
         storeId: string,
         chargeId: string,
         id: string,
-        data?: SendData<PollParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseRefund>
+        data?: SendData<PollData>,
+        auth?: AuthParams
     ): Promise<ResponseRefund> {
-        return this._getRoute()(data, callback, auth, { storeId, chargeId, id });
+        this._get = this._get ?? this._getRoute();
+        return this._get(data, auth, { storeId, chargeId, id });
     }
 
+    private _update: DefinedRoute;
     update(
         storeId: string,
         chargeId: string,
         id: string,
         data?: SendData<RefundUpdateParams>,
-        auth?: AuthParams,
-        callback?: ResponseCallback<ResponseRefund>
+        auth?: AuthParams
     ): Promise<ResponseRefund> {
-        return this._updateRoute()(data, callback, auth, { storeId, chargeId, id });
+        this._update = this._update ?? this._updateRoute();
+        return this._update(data, auth, { storeId, chargeId, id });
     }
 
     poll(
         storeId: string,
         chargeId: string,
         id: string,
-        data?: SendData<PollParams>,
+        data?: SendData<PollData>,
         auth?: AuthParams,
-        callback?: ResponseCallback<ResponseRefund>,
-
-        /**
-         * Condition for the resource to be successfully loaded. Default to pending status check.
-         */
-        cancelCondition?: (response: ResponseRefund) => boolean,
-        successCondition: ({ status }: ResponseRefund) => boolean = ({ status }) => status !== RefundStatus.PENDING,
-        iterationCallback?: (response: ResponseRefund) => void,
-        pollOptions?: { interval?: number; timeout?: number }
+        pollParams?: Partial<PollParams<ResponseRefund>>
     ): Promise<ResponseRefund> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData, auth);
+        const successCondition = pollParams?.successCondition ?? (({ status }) => status !== RefundStatus.PENDING);
 
-        return this.api.longPolling(
-            promise,
-            successCondition,
-            cancelCondition,
-            callback,
-            pollOptions?.interval,
-            pollOptions?.timeout,
-            iterationCallback
-        );
+        return this.api.longPolling(promise, { ...pollParams, successCondition });
     }
 }

@@ -4,18 +4,13 @@
  */
 import { EventEmitter } from "events";
 
-import { AuthParams, HTTPMethod, ResponseCallback, RestAPI, SendData } from "../api/RestAPI.js";
+import { ApiSendOptions, AuthParams, HTTPMethod, RestAPI, SendData } from "../api/RestAPI.js";
 import { fromError } from "../errors/parser.js";
 import { PathParameterError } from "../errors/PathParameterError.js";
 import { RequestParameterError } from "../errors/RequestParameterError.js";
-import { isBlob, toSnakeCase } from "../utils/object.js";
+import { isBlob } from "../utils/object.js";
 
-export type DefinedRoute = (
-    data?: any,
-    callback?: any,
-    auth?: AuthParams,
-    pathParams?: Record<string, string>
-) => Promise<any>;
+export type DefinedRoute = (data?: unknown, auth?: AuthParams, pathParams?: Record<string, string>) => Promise<any>;
 
 /**
  * Returns a path with pathParams filled into `:paramName`.
@@ -77,6 +72,13 @@ const getObjectType = (data: unknown): ObjectType => {
     }
 };
 
+export type DefineRouteOptions = ApiSendOptions & {
+    /**
+     * Parameters required for the route to be called.
+     */
+    requiredParams?: string[];
+};
+
 export abstract class Resource extends EventEmitter {
     protected api: RestAPI;
 
@@ -94,20 +96,14 @@ export abstract class Resource extends EventEmitter {
         this.on("removeListener", (event, listener) => api.removeListener(event, listener));
     }
 
-    protected defineRoute(
-        method: HTTPMethod,
-        path: string,
-        required: string[] = [],
-        requireAuth = true,
-        acceptType?: string,
-        keyFormatter = toSnakeCase
-    ): DefinedRoute {
+    protected defineRoute(method: HTTPMethod, path: string, options: DefineRouteOptions = {}): DefinedRoute {
         return <A, B>(
             originalData?: SendData<A>,
-            callback?: ResponseCallback<B>,
             auth?: AuthParams,
             pathParams: Record<string, string> = {}
         ): Promise<B> => {
+            const { requiredParams = [], ...sendOptions } = options;
+
             /**
              * Sanitizes and ensures that the data is recreated as an object with default prototypes.
              * In rare cases if the data was created with `Object.create(null)` (no prototypes),
@@ -122,28 +118,17 @@ export abstract class Resource extends EventEmitter {
             const firstMissingPathParam = url.match(/:([a-z]+)/gi)?.[0]?.replace(":", "");
             if (firstMissingPathParam) {
                 const error = fromError(new PathParameterError(firstMissingPathParam));
-                callback?.(error);
                 return Promise.reject(error);
             }
 
             // Validate required body parameters
-            const firstMissingParam = data ? required.find((key) => data[key] === undefined) : required[0];
+            const firstMissingParam = data ? requiredParams.find((key) => data[key] === undefined) : requiredParams[0];
             if (firstMissingParam) {
                 const error = fromError(new RequestParameterError(firstMissingParam));
-                callback?.(error);
                 return Promise.reject(error);
             }
 
-            return this.api.send(
-                method,
-                url,
-                data,
-                auth,
-                callback,
-                requireAuth,
-                acceptType,
-                keyFormatter
-            ) as Promise<B>;
+            return this.api.send(method, url, data, auth, sendOptions) as Promise<B>;
         };
     }
 }
