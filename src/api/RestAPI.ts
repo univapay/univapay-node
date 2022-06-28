@@ -120,7 +120,7 @@ export type PollData = {
     polling?: boolean;
 };
 
-export type PollExecutor<A> = () => Promise<A>;
+export type PollExecute<A> = () => Promise<A>;
 
 export type SendData<Data> = Data;
 
@@ -154,9 +154,9 @@ const stringifyParams = (data: unknown): string => {
     return query ? `?${query}` : "";
 };
 
-const execRequest = async <Response>(executor: () => Promise<Response>): Promise<Response> => {
+const execRequest = async <Response>(execute: () => Promise<Response>): Promise<Response> => {
     try {
-        const response = await executor();
+        const response = await execute();
 
         return response;
     } catch (error) {
@@ -332,7 +332,7 @@ export class RestAPI extends EventEmitter {
     /**
      * @internal
      */
-    async longPolling<Response>(executor: PollExecutor<Response>, pollParams: PollParams<Response>): Promise<Response> {
+    async longPolling<Response>(execute: PollExecute<Response>, pollParams: PollParams<Response>): Promise<Response> {
         const {
             successCondition,
             cancelCondition,
@@ -348,7 +348,7 @@ export class RestAPI extends EventEmitter {
 
             const repeater = async (): Promise<Response> => {
                 try {
-                    const result = await executor();
+                    const result = await execute();
 
                     iterationCallback?.(result);
 
