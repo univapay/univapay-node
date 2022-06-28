@@ -71,7 +71,7 @@ export class Refunds extends CRUDResource {
 
     static routeBase = "/stores/:storeId/charges/:chargeId/refunds";
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list(
         storeId: string,
         chargeId: string,
@@ -82,7 +82,7 @@ export class Refunds extends CRUDResource {
         return this._list(data, auth, { storeId, chargeId });
     }
 
-    private _create: DefinedRoute;
+    private _create?: DefinedRoute;
     create(
         storeId: string,
         chargeId: string,
@@ -93,7 +93,7 @@ export class Refunds extends CRUDResource {
         return this._create(data, auth, { storeId, chargeId });
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(
         storeId: string,
         chargeId: string,
@@ -105,7 +105,7 @@ export class Refunds extends CRUDResource {
         return this._get(data, auth, { storeId, chargeId, id });
     }
 
-    private _update: DefinedRoute;
+    private _update?: DefinedRoute;
     update(
         storeId: string,
         chargeId: string,

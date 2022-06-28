@@ -267,13 +267,13 @@ export class TransactionTokens extends CRUDResource {
         );
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransactionToken> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, id });
     }
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list(
         data?: SendData<TransactionTokenListParams>,
         auth?: AuthParams,
@@ -283,7 +283,7 @@ export class TransactionTokens extends CRUDResource {
         return this._list(data, auth, { storeId });
     }
 
-    private _update: DefinedRoute;
+    private _update?: DefinedRoute;
     update(
         storeId: string,
         id: string,
@@ -294,13 +294,13 @@ export class TransactionTokens extends CRUDResource {
         return this._update(data, auth, { storeId, id });
     }
 
-    private _delete: DefinedRoute;
+    private _delete?: DefinedRoute;
     delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { storeId, id });
     }
 
-    private _confirm: DefinedRoute;
+    private _confirm?: DefinedRoute;
     confirm(
         storeId: string,
         id: string,

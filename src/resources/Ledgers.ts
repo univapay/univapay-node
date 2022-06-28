@@ -50,13 +50,13 @@ export type ResponseLedger = LedgerItem;
 export class Ledgers extends CRUDResource {
     static routeBase = "/transfers/:transferId/ledgers";
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list(transferId: string, data?: LedgersListParams, auth?: AuthParams): Promise<ResponseLedgers> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth, { transferId });
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseLedger> {
         this._get = this._get ?? this.defineRoute(HTTPMethod.GET, "/ledgers/:id");
         return this._get(data, auth, { id });

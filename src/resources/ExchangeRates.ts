@@ -18,7 +18,7 @@ export interface ExchangeRateItem {
 export type ResponseExchangeRate = ExchangeRateItem;
 
 export class ExchangeRates extends Resource {
-    private _calculate: DefinedRoute;
+    private _calculate?: DefinedRoute;
     calculate(data: SendData<ExchangeRateParams>, auth?: AuthParams): Promise<ResponseExchangeRate> {
         this._calculate = this._calculate ?? this.defineRoute(HTTPMethod.POST, "/exchange_rates/calculate");
         return this._calculate(data, auth);

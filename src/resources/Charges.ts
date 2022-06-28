@@ -81,7 +81,7 @@ export class Charges extends CRUDResource {
     static requiredParams: string[] = ["transactionTokenId", "amount", "currency"];
     static routeBase = "/stores/:storeId/charges";
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list(data?: SendData<ChargesListParams>, auth?: AuthParams, storeId?: string): Promise<ResponseCharges> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges");
         return this._list(data, auth, { storeId });
@@ -98,13 +98,13 @@ export class Charges extends CRUDResource {
         );
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(storeId: string, id: string, data?: SendData<PollData>, auth?: AuthParams): Promise<ResponseCharge> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, id });
     }
 
-    private _getIssuerToken: DefinedRoute;
+    private _getIssuerToken?: DefinedRoute;
     getIssuerToken(
         storeId: string,
         chargeId: string,

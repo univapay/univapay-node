@@ -30,7 +30,7 @@ export class Captures extends CRUDResource {
     static requiredParams: string[] = ["amount", "currency"];
     static routeBase = "/stores/:storeId/charges/:chargeId/capture";
 
-    private _create: DefinedRoute;
+    private _create?: DefinedRoute;
     create(
         storeId: string,
         chargeId: string,

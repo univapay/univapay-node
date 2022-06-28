@@ -35,7 +35,7 @@ export interface MerchantBanParams {
 }
 
 export class Merchants extends CRUDResource {
-    private _me: DefinedRoute;
+    private _me?: DefinedRoute;
     me(data?: SendData<void>, auth?: AuthParams): Promise<ResponseMerchant> {
         this._me = this._me ?? this.defineRoute(HTTPMethod.GET, "/me");
         return this._me(data, auth);

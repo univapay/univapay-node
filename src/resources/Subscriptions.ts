@@ -212,7 +212,7 @@ export type ResponsePayments = CRUDItemsResponse<SchedulePaymentListItem>;
 export class ScheduledPayments extends CRUDResource {
     static routeBase = "/stores/:storeId/subscriptions/:subscriptionsId/payments";
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list(
         storeId: string,
         subscriptionsId: string,
@@ -223,7 +223,7 @@ export class ScheduledPayments extends CRUDResource {
         return this._list(data, auth, { storeId, subscriptionsId });
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(
         storeId: string,
         subscriptionsId: string,
@@ -235,7 +235,7 @@ export class ScheduledPayments extends CRUDResource {
         return this._get(data, auth, { storeId, subscriptionsId, id });
     }
 
-    private _update: DefinedRoute;
+    private _update?: DefinedRoute;
     update(
         storeId: string,
         subscriptionsId: string,
@@ -247,7 +247,7 @@ export class ScheduledPayments extends CRUDResource {
         return this._update(data, auth, { storeId, subscriptionsId, id });
     }
 
-    private _listCharges: DefinedRoute;
+    private _listCharges?: DefinedRoute;
     listCharges(
         storeId: string,
         subscriptionsId: string,
