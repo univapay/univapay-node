@@ -17,6 +17,7 @@ export type EmailItem = {
     customerName?: string;
     lang: string;
     createdOn: string;
+    status: string;
 };
 
 export type ResponseEmail = EmailItem;
