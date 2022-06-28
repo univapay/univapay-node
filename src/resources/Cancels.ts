@@ -45,7 +45,7 @@ export class Cancels extends CRUDResource {
     static requiredParams: string[] = [];
     static routeBase = "/stores/:storeId/charges/:chargeId/cancels";
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list(
         storeId: string,
         chargeId: string,
@@ -56,7 +56,7 @@ export class Cancels extends CRUDResource {
         return this._list(data, auth, { storeId, chargeId });
     }
 
-    private _create: DefinedRoute;
+    private _create?: DefinedRoute;
     create(
         storeId: string,
         chargeId: string,
@@ -67,7 +67,7 @@ export class Cancels extends CRUDResource {
         return this._create(data, auth, { storeId, chargeId });
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(
         storeId: string,
         chargeId: string,

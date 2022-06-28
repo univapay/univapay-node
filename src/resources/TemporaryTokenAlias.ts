@@ -71,7 +71,7 @@ export class TemporaryTokenAlias extends CRUDResource {
 
     static routeBase = "/stores/:storeId/tokens/alias";
 
-    private _create: DefinedRoute;
+    private _create?: DefinedRoute;
     create(data: SendData<TemporaryTokenAliasCreateParams>, auth?: AuthParams): Promise<ResponseTemporaryTokenAlias> {
         this._create =
             this._create ??
@@ -81,7 +81,7 @@ export class TemporaryTokenAlias extends CRUDResource {
         return this._create(data, auth);
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(storeId: string, id: string, data?: SendData<TemporaryTokenAliasParams>, auth?: AuthParams): Promise<any> {
         this._get =
             this._get ??
@@ -91,7 +91,7 @@ export class TemporaryTokenAlias extends CRUDResource {
         return this._get(data, auth, { storeId, id });
     }
 
-    private _delete: DefinedRoute;
+    private _delete?: DefinedRoute;
     delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { storeId, id });

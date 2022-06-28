@@ -59,7 +59,7 @@ export type ResponseECFormLink = ECFormLinkItem;
 export class ECFormLinks extends CRUDResource {
     static routeBase = "/checkout/links";
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });

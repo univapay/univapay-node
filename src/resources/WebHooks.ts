@@ -65,7 +65,7 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
 
     static routeBase = "(/stores/:storeId)/webhooks";
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list(
         data?: SendData<WebHooksListParams>,
         auth?: AuthParams,
@@ -75,7 +75,7 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
         return this._list(data, auth, { storeId });
     }
 
-    private _create: DefinedRoute;
+    private _create?: DefinedRoute;
     create(
         data: SendData<WebHookCreateParams<TriggerType>>,
         auth?: AuthParams,
@@ -85,13 +85,13 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
         return this._create(data, auth, { storeId });
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams, storeId?: string): Promise<ResponseWebHook<TriggerType>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, id });
     }
 
-    private _update: DefinedRoute;
+    private _update?: DefinedRoute;
     update(
         id: string,
         data?: SendData<WebHookUpdateParams>,
@@ -102,7 +102,7 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
         return this._update(data, auth, { storeId, id });
     }
 
-    private _delete: DefinedRoute;
+    private _delete?: DefinedRoute;
     delete(id: string, data?: SendData<void>, auth?: AuthParams, storeId?: string): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { storeId, id });

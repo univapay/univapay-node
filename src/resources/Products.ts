@@ -31,7 +31,7 @@ export type ResponseProduct = ProductItem;
 export class Products extends CRUDResource {
     static routeBase = "/checkout/products";
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseProduct> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });

@@ -62,19 +62,19 @@ export type ResponseTransferStatusChanges = CRUDItemsResponse<TransferStatusChan
 export class Transfers extends CRUDResource {
     static routeBase = "/transfers";
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list(data?: SendData<TransfersListParams>, auth?: AuthParams): Promise<ResponseTransfers> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth);
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransfer> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });
     }
 
-    private _statusChanges: DefinedRoute;
+    private _statusChanges?: DefinedRoute;
     statusChanges(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransferStatusChanges> {
         this._statusChanges =
             this._statusChanges ?? this.defineRoute(HTTPMethod.GET, `${Transfers.routeBase}/:id/status_changes`);

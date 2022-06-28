@@ -22,7 +22,7 @@ export interface PlatformConfigurationItem extends PlatformItem, WithConfig<Plat
 export type ResponsePlatformConfiguration = Readonly<PlatformConfigurationItem>;
 
 export class Platforms extends CRUDResource {
-    private _getConfiguration: DefinedRoute;
+    private _getConfiguration?: DefinedRoute;
     getConfiguration(data?: SendData<void>, auth?: AuthParams): Promise<ResponsePlatformConfiguration> {
         this._getConfiguration =
             this._getConfiguration ?? this.defineRoute(HTTPMethod.GET, "/platform", { requireAuth: false });

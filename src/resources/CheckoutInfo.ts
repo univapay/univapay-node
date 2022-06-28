@@ -74,7 +74,7 @@ export interface CheckoutInfoItem {
 export type ResponseCheckoutInfo = CheckoutInfoItem;
 
 export class CheckoutInfo extends Resource {
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(data?: SendData<CheckoutInfoParams>, auth?: AuthParams): Promise<ResponseCheckoutInfo> {
         this._get = this._get ?? this.defineRoute(HTTPMethod.GET, "/checkout_info");
         return this._get(data, auth);

@@ -117,7 +117,7 @@ export class ECForms extends CRUDResource {
     static requiredParams: string[] = [];
     static routeBase = "/checkout/forms";
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECForm> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });

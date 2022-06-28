@@ -47,19 +47,19 @@ export class Verification extends CRUDResource {
     ];
     static routeBase = "/verification";
 
-    private _create: DefinedRoute;
+    private _create?: DefinedRoute;
     create(data: SendData<VerificationCreateParams>, auth?: AuthParams): Promise<ResponseVerification> {
         this._create = this._create ?? this._createRoute({ requiredParams: Verification.requiredParams });
         return this._create(data, auth);
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get(data?: SendData<void>, auth?: AuthParams): Promise<ResponseVerification> {
         this._get = this._get ?? this.defineRoute(HTTPMethod.GET, this._routeBase);
         return this._get(data, auth);
     }
 
-    private _update: DefinedRoute;
+    private _update?: DefinedRoute;
     update(data?: SendData<VerificationUpdateParams>, auth?: AuthParams): Promise<ResponseVerification> {
         this._update = this._update ?? this.defineRoute(HTTPMethod.PATCH, this._routeBase);
         return this._update(data, auth);
