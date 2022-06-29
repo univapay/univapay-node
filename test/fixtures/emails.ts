@@ -13,4 +13,5 @@ export const generateFixture = (): EmailItem => ({
     customerName: "Dummy Customer",
     lang: "em-US",
     createdOn: new Date().toISOString(),
+    status: "pending",
 });
