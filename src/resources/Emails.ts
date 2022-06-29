@@ -6,6 +6,14 @@ import { AuthParams, SendData } from "../api/RestAPI.js";
 import { CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 
+export enum EmailStatus {
+    PENDING = "pending",
+    AWAITING = "awaiting",
+    SUCCESSFUL = "successful",
+    FAILED = "failed",
+    ERROR = "error",
+}
+
 export type EmailItem = {
     id: string;
     merchantId: string;
@@ -17,7 +25,7 @@ export type EmailItem = {
     customerName?: string;
     lang: string;
     createdOn: string;
-    status: string;
+    status: EmailStatus;
 };
 
 export type ResponseEmail = EmailItem;
