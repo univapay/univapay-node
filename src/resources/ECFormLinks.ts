@@ -40,6 +40,12 @@ export type ECFormLinkItem = {
     chargeCaptureOn?: string;
     chargeCaptureIn?: string;
 
+    /**
+     * Boolean when the card installment select should be shown to the end user
+     * null for subscriptions
+     */
+    allowCardInstallments: boolean | null;
+
     // Subscription
     subscriptionStartOn?: string;
     subscriptionStartIn?: string;
