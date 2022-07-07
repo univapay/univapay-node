@@ -159,7 +159,7 @@ export interface TransactionTokenUpdateParams {
     email?: string;
     data?: {
         cvv?: string;
-        cvvAuthorize?: { status: CvvAuthorizedStatus };
+        cvvAuthorize?: { enabled: boolean };
     };
 }
 
