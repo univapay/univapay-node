@@ -7,6 +7,7 @@ import { OnlineBrand } from "../../src/resources/common/enums.js";
 import { OnlineCallMethod, OSType } from "../../src/resources/TransactionTokens.js";
 import { generateFixture as generateCheckoutInfo, generateGatewayFixture } from "../fixtures/checkout-info.js";
 import { testEndpoint } from "../utils/index.js";
+import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Checkout Info", () => {
     let api: RestAPI;
@@ -25,8 +26,10 @@ describe("Checkout Info", () => {
     });
 
     context("GET /checkout_info", () => {
+        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout_info`);
+
         it("should get response", async () => {
-            fetchMock.getOnce(`begin:${testEndpoint}/checkout_info`, {
+            fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
                 body: recordData,
                 headers: { "Content-Type": "application/json" },
@@ -37,8 +40,10 @@ describe("Checkout Info", () => {
     });
 
     context("GET /checkout_info/gateway/:brand", () => {
+        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout_info/gateway/:brand`);
+
         it("should get response", async () => {
-            fetchMock.getOnce(`begin:${testEndpoint}/checkout_info/gateway/:brand`, {
+            fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
                 body: gatewayRecordData,
                 headers: { "Content-Type": "application/json" },

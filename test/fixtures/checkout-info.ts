@@ -48,7 +48,7 @@ export const generateFixture = (): CheckoutInfoItem => ({
             requiresFullName: false,
             supportDynamicDescriptor: true,
             requiresCvv: true,
-            countriesAllowed: undefined,
+            countriesAllowed: null,
             supportedCurrencies: ["JPY"],
         },
     ],

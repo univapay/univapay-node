@@ -121,6 +121,6 @@ export class CheckoutInfo extends Resource {
         auth?: AuthParams
     ): Promise<CheckoutInfoBrandItem> {
         this._gateway = this._gateway ?? this.defineRoute(HTTPMethod.GET, "/checkout_info/gateway/:brand");
-        return this._get(data, auth, { brand });
+        return this._gateway(data, auth, { brand });
     }
 }
