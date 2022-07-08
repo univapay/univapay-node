@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { CheckoutInfoItem } from "../../src/resources/CheckoutInfo.js";
+import { CheckoutInfoBrandItem, CheckoutInfoItem } from "../../src/resources/CheckoutInfo.js";
 import { CardBrand, ProcessingMode } from "../../src/resources/common/enums.js";
 import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens.js";
 
@@ -48,8 +48,34 @@ export const generateFixture = (): CheckoutInfoItem => ({
             requiresFullName: false,
             supportDynamicDescriptor: true,
             requiresCvv: true,
-            countriesAllowed: null,
+            countriesAllowed: undefined,
             supportedCurrencies: ["JPY"],
         },
     ],
+});
+
+export const generateGatewayFixture = (): CheckoutInfoBrandItem => ({
+    result: {
+        service: "CONNECT_WALLET",
+        serviceName: "Alipay+",
+        brands: [
+            {
+                brandName: "CONNECT_WALLET",
+                brandDisplayName: "Alipay+",
+                extras: {
+                    logos: [
+                        {
+                            logoName: "Alipay+",
+                            logoUrl:
+                                "https://cdn.marmot-cloud.com/storage/aplus-checkout-prod/icon/prod/CONNECT_WALLET_TEST.png",
+                            logoPattern: "default",
+                            logoWidth: "810",
+                            logoHeight: "190",
+                        },
+                    ],
+                    promoNames: ['{"en_US":"A+ Cashier Promotion Test","fil_PH":"A+ Cashier Promotion Test"}'],
+                },
+            },
+        ],
+    },
 });

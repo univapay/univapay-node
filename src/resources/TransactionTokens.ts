@@ -72,9 +72,16 @@ export enum CvvAuthorizedStatus {
 
 export enum OnlineCallMethod {
     HTTP_GET = "http_get",
+    HTTP_GET_MOBILE = "http_get_mobile",
     HTTP_POST = "http_post",
     SDK = "sdk",
     WEB = "web",
+    APP = "app",
+}
+
+export enum OSType {
+    IOS = "ios",
+    ANDROID = "android",
 }
 
 /* Request */
