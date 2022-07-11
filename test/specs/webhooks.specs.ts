@@ -50,7 +50,7 @@ describe("Web Hooks", () => {
             const asserts = [webHooks.create(data), webHooks.create(data, undefined, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(recordData);
+                await expect(assert).to.become(recordData);
             }
         });
 
@@ -70,7 +70,7 @@ describe("Web Hooks", () => {
             const asserts = [webHooks.create(data), webHooks.create(data, undefined, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(recordData);
+                await expect(assert).to.become(recordData);
             }
         });
 
@@ -105,7 +105,7 @@ describe("Web Hooks", () => {
             const asserts = [webHooks.list(), webHooks.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(listData);
+                await expect(assert).to.become(listData);
             }
         });
     });
@@ -121,7 +121,7 @@ describe("Web Hooks", () => {
             const asserts = [webHooks.get(uuid()), webHooks.get(uuid(), undefined, undefined, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(recordData);
+                await expect(assert).to.become(recordData);
             }
         });
     });
@@ -142,7 +142,7 @@ describe("Web Hooks", () => {
             const asserts = [webHooks.update(uuid(), data), webHooks.update(uuid(), data, undefined, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(recordData);
+                await expect(assert).to.become(recordData);
             }
         });
     });

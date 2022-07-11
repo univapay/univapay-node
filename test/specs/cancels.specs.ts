@@ -53,7 +53,7 @@ describe("Cancels", () => {
 
             const data: CancelCreateParams = {};
 
-            await expect(cancels.create(uuid(), uuid(), data)).to.eventually.eql(recordData);
+            await expect(cancels.create(uuid(), uuid(), data)).to.become(recordData);
         });
     });
 
@@ -70,7 +70,7 @@ describe("Cancels", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(cancels.list(uuid(), uuid())).to.eventually.eql(listData);
+            await expect(cancels.list(uuid(), uuid())).to.become(listData);
         });
     });
 
@@ -86,7 +86,7 @@ describe("Cancels", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(cancels.get(uuid(), uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(cancels.get(uuid(), uuid(), uuid())).to.become(recordData);
         });
 
         it("should perform long polling", async () => {

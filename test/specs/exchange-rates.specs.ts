@@ -35,7 +35,7 @@ describe("Exchange rates", () => {
                 to: "PLATFORM",
             };
 
-            await expect(exchangeRates.calculate(data)).to.eventually.eql(recordData);
+            await expect(exchangeRates.calculate(data)).to.become(recordData);
         });
     });
 });

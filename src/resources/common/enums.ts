@@ -127,6 +127,9 @@ export enum OnlineBrand {
     PAY_PAY_ONLINE = "pay_pay_online",
     WE_CHAT_ONLINE = "we_chat_online",
 
+    RABBIT_LINE_PAY = "rabbit_line_pay",
+    BPI = "bpi",
+
     /**
      * @deprecated Use `ALIPAY_PLUS_ONLINE` instead
      */

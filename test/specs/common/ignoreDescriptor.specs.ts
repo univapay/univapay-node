@@ -10,7 +10,7 @@ describe("Common > Ignore descriptor", () => {
         const data = { descriptor: "dummy-descriptor" };
         const execute = sinon.stub().callsFake((data) => data);
 
-        await expect(ignoreDescriptor(execute, data)).to.eventually.eql(data);
+        await expect(ignoreDescriptor(execute, data)).to.become(data);
     });
 
     it("should query again without descriptor with descriptor error", async () => {
@@ -27,7 +27,7 @@ describe("Common > Ignore descriptor", () => {
             });
         });
 
-        await expect(ignoreDescriptor(execute, data)).to.eventually.eql({});
+        await expect(ignoreDescriptor(execute, data)).to.become({});
     });
 
     it("should throw error with other errors", async () => {

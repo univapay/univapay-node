@@ -40,7 +40,7 @@ describe("Stores", () => {
                 name: "Store",
             };
 
-            await expect(stores.create(data)).to.eventually.eql(recordData);
+            await expect(stores.create(data)).to.become(recordData);
         });
 
         it("should return validation error if data is invalid", async () => {
@@ -68,7 +68,7 @@ describe("Stores", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(stores.list()).to.eventually.eql(listData);
+            await expect(stores.list()).to.become(listData);
         });
     });
 
@@ -80,7 +80,7 @@ describe("Stores", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(stores.get(uuid())).to.eventually.eql(recordData);
+            await expect(stores.get(uuid())).to.become(recordData);
         });
     });
 
@@ -96,7 +96,7 @@ describe("Stores", () => {
                 name: "Store",
             };
 
-            await expect(stores.update(uuid(), data)).to.eventually.eql(recordData);
+            await expect(stores.update(uuid(), data)).to.become(recordData);
         });
     });
 

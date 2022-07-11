@@ -29,7 +29,7 @@ describe("Merchants", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(merchants.me()).to.eventually.eql(recordData);
+            await expect(merchants.me()).to.become(recordData);
         });
     });
 });

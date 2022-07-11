@@ -414,7 +414,7 @@ describe("API", function () {
         for (const assert of asserts) {
             await api.send(HTTPMethod.POST, "/camel", assert);
             const req = (mock.lastCall() as fetchMock.MockCall).request;
-            await expect(req?.json()).to.eventually.eql(expectationPost);
+            await expect(req?.json()).to.become(expectationPost);
         }
 
         // For request without payload

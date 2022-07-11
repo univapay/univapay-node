@@ -32,7 +32,7 @@ describe("EC Forms", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(ecForms.get(uuid())).to.eventually.eql(recordData);
+            await expect(ecForms.get(uuid())).to.become(recordData);
         });
     });
 });

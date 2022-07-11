@@ -68,7 +68,7 @@ describe("Refunds", () => {
                 metadata: {},
             };
 
-            await expect(refunds.create(uuid(), uuid(), data)).to.eventually.eql(recordData);
+            await expect(refunds.create(uuid(), uuid(), data)).to.become(recordData);
         });
 
         it("should return validation error if data is invalid", async () => {
@@ -99,7 +99,7 @@ describe("Refunds", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(refunds.list(uuid(), uuid())).to.eventually.eql(listData);
+            await expect(refunds.list(uuid(), uuid())).to.become(listData);
         });
     });
 
@@ -115,7 +115,7 @@ describe("Refunds", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(refunds.get(uuid(), uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(refunds.get(uuid(), uuid(), uuid())).to.become(recordData);
         });
 
         it("should perform long polling", async () => {
@@ -164,7 +164,7 @@ describe("Refunds", () => {
                 message: "Refund",
             };
 
-            await expect(refunds.update(uuid(), uuid(), uuid(), data)).to.eventually.eql(recordData);
+            await expect(refunds.update(uuid(), uuid(), uuid(), data)).to.become(recordData);
         });
     });
 

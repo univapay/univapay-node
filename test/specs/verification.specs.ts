@@ -67,7 +67,7 @@ describe("Verification", () => {
                 ...verificationData,
             };
 
-            await expect(verification.create(data)).to.eventually.eql(recordData);
+            await expect(verification.create(data)).to.become(recordData);
         });
 
         it("should return validation error if data is invalid", async () => {
@@ -101,7 +101,7 @@ describe("Verification", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(verification.get()).to.eventually.eql(recordData);
+            await expect(verification.get()).to.become(recordData);
         });
     });
 
@@ -117,7 +117,7 @@ describe("Verification", () => {
                 ...verificationData,
             };
 
-            await expect(verification.update(data)).to.eventually.eql(recordData);
+            await expect(verification.update(data)).to.become(recordData);
         });
     });
 });

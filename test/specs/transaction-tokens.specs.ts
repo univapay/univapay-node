@@ -62,7 +62,7 @@ describe("Transaction Tokens", () => {
                 },
             };
 
-            await expect(transactionTokens.create(data)).to.eventually.eql(recordData);
+            await expect(transactionTokens.create(data)).to.become(recordData);
         });
 
         it("should return validation error if data is invalid", async () => {
@@ -100,7 +100,7 @@ describe("Transaction Tokens", () => {
             const asserts = [transactionTokens.list(), transactionTokens.list(null, null, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(listData);
+                await expect(assert).to.become(listData);
             }
         });
     });
@@ -113,7 +113,7 @@ describe("Transaction Tokens", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(transactionTokens.get(uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(transactionTokens.get(uuid(), uuid())).to.become(recordData);
         });
     });
 
@@ -129,7 +129,7 @@ describe("Transaction Tokens", () => {
                 email: "test@fake.com",
             };
 
-            await expect(transactionTokens.update(uuid(), uuid(), data)).to.eventually.eql(recordData);
+            await expect(transactionTokens.update(uuid(), uuid(), data)).to.become(recordData);
         });
     });
 
@@ -156,7 +156,7 @@ describe("Transaction Tokens", () => {
                 confirmationCode: "1234",
             };
 
-            await expect(transactionTokens.confirm(uuid(), uuid(), data)).to.eventually.eql(recordData);
+            await expect(transactionTokens.confirm(uuid(), uuid(), data)).to.become(recordData);
         });
     });
 

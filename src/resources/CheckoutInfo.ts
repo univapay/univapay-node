@@ -15,7 +15,7 @@ import {
 import { CardBrand, OnlineBrand, ProcessingMode } from "./common/enums.js";
 import { AmountWithCurrency } from "./common/types.js";
 import { DefinedRoute, Resource } from "./Resource.js";
-import { RecurringTokenPrivilege } from "./TransactionTokens.js";
+import { OnlineCallMethod, OSType, RecurringTokenPrivilege } from "./TransactionTokens.js";
 
 /* Request */
 export interface CheckoutInfoParams {
@@ -71,6 +71,40 @@ export interface CheckoutInfoItem {
     supportedBrands: SupportedBrand[];
 }
 
+export type CheckoutInfoBrandPayload = {
+    amount: number;
+    currency: string;
+    callMethod: OnlineCallMethod;
+
+    /**
+     * Required when callMethod is "app", "sdk" or "http_get_mobile". Leave empty for the rest
+     */
+    osType?: OSType;
+};
+
+type CheckoutInfoBrandItemBrand = {
+    brandName: string;
+    brandDisplayName: string;
+    extras: {
+        logos?: {
+            logoName: string;
+            logoUrl: string;
+            logoPattern: string;
+            logoWidth: string;
+            logoHeight: string;
+        }[];
+        promoNames?: string[];
+    };
+};
+
+export type CheckoutInfoBrandItem = {
+    result: {
+        service: string;
+        serviceName: string;
+        brands: CheckoutInfoBrandItemBrand[];
+    };
+};
+
 export type ResponseCheckoutInfo = CheckoutInfoItem;
 
 export class CheckoutInfo extends Resource {
@@ -78,5 +112,15 @@ export class CheckoutInfo extends Resource {
     get(data?: SendData<CheckoutInfoParams>, auth?: AuthParams): Promise<ResponseCheckoutInfo> {
         this._get = this._get ?? this.defineRoute(HTTPMethod.GET, "/checkout_info");
         return this._get(data, auth);
+    }
+
+    private _gateway?: DefinedRoute;
+    gateway(
+        brand: OnlineBrand,
+        data?: SendData<CheckoutInfoBrandPayload>,
+        auth?: AuthParams
+    ): Promise<CheckoutInfoBrandItem> {
+        this._gateway = this._gateway ?? this.defineRoute(HTTPMethod.GET, "/checkout_info/gateway/:brand");
+        return this._gateway(data, auth, { brand });
     }
 }

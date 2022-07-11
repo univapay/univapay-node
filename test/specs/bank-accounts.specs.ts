@@ -54,7 +54,7 @@ describe("Bank Accounts", () => {
                 accountType: BankAccountType.CHECKING,
             };
 
-            await expect(bankAccounts.create(data)).to.eventually.eql(recordData);
+            await expect(bankAccounts.create(data)).to.become(recordData);
         });
 
         it("should return validation error if data is invalid", async () => {
@@ -91,7 +91,7 @@ describe("Bank Accounts", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(bankAccounts.list()).to.eventually.eql(listData);
+            await expect(bankAccounts.list()).to.become(listData);
         });
     });
 
@@ -103,7 +103,7 @@ describe("Bank Accounts", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(bankAccounts.get(uuid())).to.eventually.eql(recordData);
+            await expect(bankAccounts.get(uuid())).to.become(recordData);
         });
     });
 
@@ -115,7 +115,7 @@ describe("Bank Accounts", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(bankAccounts.getPrimary()).to.eventually.eql(recordData);
+            await expect(bankAccounts.getPrimary()).to.become(recordData);
         });
     });
 
@@ -139,7 +139,7 @@ describe("Bank Accounts", () => {
                 accountType: BankAccountType.CHECKING,
             };
 
-            await expect(bankAccounts.update(uuid(), data)).to.eventually.eql(recordData);
+            await expect(bankAccounts.update(uuid(), data)).to.become(recordData);
         });
     });
 
