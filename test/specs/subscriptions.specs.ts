@@ -74,7 +74,7 @@ describe("Subscriptions", () => {
                 period: SubscriptionPeriod.MONTHLY,
             };
 
-            await expect(subscriptions.create(data)).to.eventually.eql(recordData);
+            await expect(subscriptions.create(data)).to.become(recordData);
         });
 
         it("should return validation error if data is invalid", async () => {
@@ -110,7 +110,7 @@ describe("Subscriptions", () => {
             const asserts = [subscriptions.list(), subscriptions.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(listData);
+                await expect(assert).to.become(listData);
             }
         });
     });
@@ -127,7 +127,7 @@ describe("Subscriptions", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(subscriptions.get(uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(subscriptions.get(uuid(), uuid())).to.become(recordData);
         });
 
         it("should perform long polling", async () => {
@@ -175,7 +175,7 @@ describe("Subscriptions", () => {
                 amount: 1000,
             };
 
-            await expect(subscriptions.update(uuid(), uuid(), data)).to.eventually.eql(recordData);
+            await expect(subscriptions.update(uuid(), uuid(), data)).to.become(recordData);
         });
     });
 
@@ -203,7 +203,7 @@ describe("Subscriptions", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(subscriptions.charges(uuid(), uuid())).to.eventually.eql(listData);
+            await expect(subscriptions.charges(uuid(), uuid())).to.become(listData);
         });
     });
 
@@ -242,7 +242,7 @@ describe("Subscriptions", () => {
             const asserts = [subscriptions.simulation(data), subscriptions.simulation(data, undefined, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(simulationData);
+                await expect(assert).to.become(simulationData);
             }
         });
 
@@ -282,7 +282,7 @@ describe("Subscriptions", () => {
                 }
             );
 
-            await expect(subscriptions.payments.list(uuid(), uuid())).to.eventually.eql(listData);
+            await expect(subscriptions.payments.list(uuid(), uuid())).to.become(listData);
         });
     });
 
@@ -299,7 +299,7 @@ describe("Subscriptions", () => {
                 }
             );
 
-            await expect(subscriptions.payments.get(uuid(), uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(subscriptions.payments.get(uuid(), uuid(), uuid())).to.become(recordData);
         });
     });
 
@@ -316,9 +316,7 @@ describe("Subscriptions", () => {
                 }
             );
 
-            await expect(subscriptions.payments.update(uuid(), uuid(), uuid(), recordData)).to.eventually.eql(
-                recordData
-            );
+            await expect(subscriptions.payments.update(uuid(), uuid(), uuid(), recordData)).to.become(recordData);
         });
     });
 
@@ -340,7 +338,7 @@ describe("Subscriptions", () => {
                 }
             );
 
-            await expect(subscriptions.payments.listCharges(uuid(), uuid(), uuid())).to.eventually.eql(listData);
+            await expect(subscriptions.payments.listCharges(uuid(), uuid(), uuid())).to.become(listData);
         });
     });
 
@@ -420,7 +418,7 @@ describe("Subscriptions", () => {
             const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
 
-            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: expectedCharge });
+            await expect(request).to.become({ subscription: expectedSubscription, charge: expectedCharge });
         });
 
         it("should poll the charge when the charge date is today", async () => {
@@ -434,7 +432,7 @@ describe("Subscriptions", () => {
             const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
 
-            await expect(request).to.eventually.eql({
+            await expect(request).to.become({
                 subscription: expectedSubscription,
                 charge: expectedCharge,
             });
@@ -451,7 +449,7 @@ describe("Subscriptions", () => {
             const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
 
-            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: expectedCharge });
+            await expect(request).to.become({ subscription: expectedSubscription, charge: expectedCharge });
         });
 
         it("should not poll the charge when the subscription is not immediate", async () => {
@@ -464,7 +462,7 @@ describe("Subscriptions", () => {
             const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 2);
 
-            await expect(request).to.eventually.eql({ subscription: expectedSubscription, charge: null });
+            await expect(request).to.become({ subscription: expectedSubscription, charge: null });
         });
     });
 });

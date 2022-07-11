@@ -51,7 +51,7 @@ describe("Fetch Helpers", () => {
         it("return the response when the status is a success", async () => {
             const response = createResponse({ key1: "1" }, 204);
 
-            await expect(checkStatus(response)).to.eventually.eql(response);
+            await expect(checkStatus(response)).to.become(response);
         });
 
         it("throws an error when the status is an error", async () => {

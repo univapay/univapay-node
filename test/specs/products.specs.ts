@@ -32,7 +32,7 @@ describe("Products", () => {
                 headers: { "Content-type": "application/json" },
             });
 
-            await expect(products.get(uuid())).to.eventually.eql(recordData);
+            await expect(products.get(uuid())).to.become(recordData);
         });
     });
 });

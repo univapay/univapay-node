@@ -39,7 +39,7 @@ describe("Ledgers", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(ledgers.list(uuid())).to.eventually.eql(listData);
+            await expect(ledgers.list(uuid())).to.become(listData);
         });
     });
 
@@ -51,7 +51,7 @@ describe("Ledgers", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(ledgers.get(uuid())).to.eventually.eql(recordData);
+            await expect(ledgers.get(uuid())).to.become(recordData);
         });
     });
 

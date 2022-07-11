@@ -29,7 +29,7 @@ describe("Platforms", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(platforms.getConfiguration()).to.eventually.eql(recordData);
+            await expect(platforms.getConfiguration()).to.become(recordData);
         });
     });
 });

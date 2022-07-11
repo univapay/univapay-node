@@ -35,7 +35,7 @@ export const assertPoll = async <Item>(
     const request = call();
     await tickPoll(sandbox, pendingItems.length + 2);
 
-    await expect(request).to.eventually.eql(successItem);
+    await expect(request).to.become(successItem);
 };
 
 export const assertPollCancel = async <Item>(
@@ -54,7 +54,7 @@ export const assertPollCancel = async <Item>(
     const request = call();
     await tickPoll(sandbox, pendingItems.length + 2);
 
-    await expect(request).to.eventually.eql(null);
+    await expect(request).to.become(null);
 };
 
 export const assertPollTimeout = async <Item>(
@@ -100,7 +100,7 @@ export const assertPollInternalServerError = async <Item>(
     const request = call();
     await tickPoll(sandbox, 2);
 
-    await expect(request).to.eventually.eql(successItem);
+    await expect(request).to.become(successItem);
 };
 
 export const assertPollInternalServerErrorMaxRetry = async <Item>(

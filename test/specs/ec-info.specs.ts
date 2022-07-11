@@ -42,7 +42,7 @@ describe("EC Info", () => {
                 }
             );
 
-            await expect(ecInfo.get(uuid(), { secret: "mysecret" })).to.eventually.eql(recordData);
+            await expect(ecInfo.get(uuid(), { secret: "mysecret" })).to.become(recordData);
         });
     });
 });

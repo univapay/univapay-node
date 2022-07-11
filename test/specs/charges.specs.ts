@@ -56,7 +56,7 @@ describe("Charges", () => {
                 currency: "JPY",
             };
 
-            await expect(charges.create(data)).to.eventually.eql(recordData);
+            await expect(charges.create(data)).to.become(recordData);
         });
 
         it("should return validation error if data is invalid", async () => {
@@ -91,7 +91,7 @@ describe("Charges", () => {
             const asserts = [charges.list(undefined, undefined), charges.list(undefined, undefined, uuid())];
 
             for (const assert of asserts) {
-                await expect(assert).to.eventually.eql(listData);
+                await expect(assert).to.become(listData);
             }
         });
     });
@@ -108,7 +108,7 @@ describe("Charges", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(charges.get(uuid(), uuid())).to.eventually.eql(recordData);
+            await expect(charges.get(uuid(), uuid())).to.become(recordData);
         });
 
         it("should perform long polling", async () => {
@@ -156,7 +156,7 @@ describe("Charges", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(charges.getIssuerToken(uuid(), uuid())).to.eventually.eql(recordIssuerToken);
+            await expect(charges.getIssuerToken(uuid(), uuid())).to.become(recordIssuerToken);
         });
     });
 

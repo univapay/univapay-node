@@ -32,7 +32,7 @@ describe("Emails", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(emails.get(uuid())).to.eventually.eql(recordData);
+            await expect(emails.get(uuid())).to.become(recordData);
         });
     });
 });

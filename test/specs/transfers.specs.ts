@@ -37,7 +37,7 @@ describe("Transfers", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(transfers.list()).to.eventually.eql(listData);
+            await expect(transfers.list()).to.become(listData);
         });
     });
 
@@ -51,7 +51,7 @@ describe("Transfers", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(transfers.get(uuid())).to.eventually.eql(recordData);
+            await expect(transfers.get(uuid())).to.become(recordData);
         });
     });
 
@@ -68,7 +68,7 @@ describe("Transfers", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(transfers.statusChanges(uuid())).to.eventually.eql(listData);
+            await expect(transfers.statusChanges(uuid())).to.become(listData);
         });
     });
 

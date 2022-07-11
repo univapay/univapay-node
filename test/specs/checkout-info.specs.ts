@@ -35,7 +35,7 @@ describe("Checkout Info", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(checkoutInfo.get({ origin: "http://fake.com" })).to.eventually.eql(recordData);
+            await expect(checkoutInfo.get({ origin: "http://fake.com" })).to.become(recordData);
         });
     });
 
@@ -56,7 +56,7 @@ describe("Checkout Info", () => {
                     callMethod: OnlineCallMethod.APP,
                     osType: OSType.IOS,
                 })
-            ).to.eventually.eql(gatewayRecordData);
+            ).to.become(gatewayRecordData);
         });
     });
 });

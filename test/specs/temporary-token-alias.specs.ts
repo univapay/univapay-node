@@ -44,7 +44,7 @@ describe("Temporary Token Alias", () => {
                 transactionTokenId: recordData.id,
                 validUntil: new Date().toISOString(),
             };
-            await expect(temporaryTokenAlias.create(data)).to.eventually.eql(recordData);
+            await expect(temporaryTokenAlias.create(data)).to.become(recordData);
         });
     });
 
