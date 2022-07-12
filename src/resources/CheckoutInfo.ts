@@ -93,7 +93,7 @@ type CheckoutInfoBrandItemBrand = {
             logoWidth: string;
             logoHeight: string;
         }[];
-        promoNames?: string[];
+        promoNames?: string[]; // list of stringified transactions
     };
 };
 
@@ -120,7 +120,7 @@ export class CheckoutInfo extends Resource {
         data?: SendData<CheckoutInfoBrandPayload>,
         auth?: AuthParams
     ): Promise<CheckoutInfoBrandItem> {
-        this._gateway = this._gateway ?? this.defineRoute(HTTPMethod.GET, "/checkout_info/gateway/:brand");
+        this._gateway = this._gateway ?? this.defineRoute(HTTPMethod.POST, "/checkout_info/gateways/:brand");
         return this._gateway(data, auth, { brand });
     }
 }
