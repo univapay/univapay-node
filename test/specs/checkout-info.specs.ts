@@ -40,10 +40,10 @@ describe("Checkout Info", () => {
     });
 
     context("GET /checkout_info/gateway/:brand", () => {
-        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout_info/gateway/:brand`);
+        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout_info/gateways/:brand`);
 
         it("should get response", async () => {
-            fetchMock.getOnce(recordPathMatcher, {
+            fetchMock.postOnce(recordPathMatcher, {
                 status: 200,
                 body: gatewayRecordData,
                 headers: { "Content-Type": "application/json" },
