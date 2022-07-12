@@ -93,7 +93,7 @@ type CheckoutInfoBrandItemBrand = {
             logoWidth: string;
             logoHeight: string;
         }[];
-        promoNames?: string[];
+        promoNames?: string; // stringified transactions
     };
 };
 
