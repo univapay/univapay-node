@@ -22,6 +22,12 @@ export enum ECFormCustomFieldType {
     SELECT = "select",
 }
 
+export enum Languages {
+    EN_US = "en_us",
+    JA_JP = "ja_jp",
+    ZH_TW = "zh_tw",
+}
+
 export type ECFormCustomField = {
     key: string;
     label: string;
@@ -106,9 +112,9 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     descriptor: string | null;
     ignoreDescriptorOnError: boolean | null;
     metadata: Metadata | null;
-    customFieldsTitles?: Partial<Record<"jaJp" | "enUs", string>> | null;
-    orderSummaryTitles?: Partial<Record<"jaJp" | "enUs", string>> | null;
-    customFields?: Partial<Record<"jaJp" | "enUs", ECFormCustomField[]>> | null;
+    customFieldsTitles?: Partial<Record<Languages, string>> | null;
+    orderSummaryTitles?: Partial<Record<Languages, string>> | null;
+    customFields?: Partial<Record<Languages, ECFormCustomField[]>> | null;
 };
 
 export type ResponseECForm<Metadata = BaseMetadata> = ECFormItem<Metadata>;
