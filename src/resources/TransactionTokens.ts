@@ -99,6 +99,13 @@ export interface TransactionTokenCardData {
     country?: string;
     zip?: string;
     phoneNumber?: PhoneNumber;
+    cvvAuthorize?: {
+        enabled: boolean;
+        status: CvvAuthorizedStatus;
+        chargeId?: string;
+        credentialsId?: string;
+        currency?: string;
+    };
 }
 
 export interface TransactionTokenQRScanData {
@@ -144,22 +151,13 @@ export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
     type: TransactionTokenType;
     email?: string;
     usageLimit?: UsageLimit;
-    data: (
+    data:
         | TransactionTokenCardData
         | TransactionTokenQRScanData
         | TransactionTokenConvenienceData
         | TransactionTokenOnlineData
         | TransactionTokenPaidyData
-        | TransactionTokenBankTransferCreateData
-    ) & {
-        cvvAuthorize?: {
-            enabled: boolean;
-            status: CvvAuthorizedStatus;
-            chargeId?: string;
-            credentialsId?: string;
-            currency?: string;
-        };
-    };
+        | TransactionTokenBankTransferCreateData;
     metadata?: T;
     useConfirmation?: boolean;
 }
