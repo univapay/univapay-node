@@ -99,6 +99,13 @@ export interface TransactionTokenCardData {
     country?: string;
     zip?: string;
     phoneNumber?: PhoneNumber;
+    cvvAuthorize?: {
+        enabled: boolean;
+        status: CvvAuthorizedStatus;
+        chargeId?: string;
+        credentialsId?: string;
+        currency?: string;
+    };
 }
 
 export interface TransactionTokenQRScanData {
