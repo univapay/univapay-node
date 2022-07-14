@@ -12,6 +12,7 @@ export enum TransferMatchAmount {
     MAXIMUM = "maximum",
     MINIMUM = "minimum",
     EXACT = "exact",
+    DISABLED = "disabled",
 }
 
 export interface PaymentTypeConfiguration {
