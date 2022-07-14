@@ -144,13 +144,22 @@ export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
     type: TransactionTokenType;
     email?: string;
     usageLimit?: UsageLimit;
-    data:
+    data: (
         | TransactionTokenCardData
         | TransactionTokenQRScanData
         | TransactionTokenConvenienceData
         | TransactionTokenOnlineData
         | TransactionTokenPaidyData
-        | TransactionTokenBankTransferCreateData;
+        | TransactionTokenBankTransferCreateData
+    ) & {
+        cvvAuthorize?: {
+            enabled: boolean;
+            status: CvvAuthorizedStatus;
+            chargeId?: string;
+            credentialsId?: string;
+            currency?: string;
+        };
+    };
     metadata?: T;
     useConfirmation?: boolean;
 }
