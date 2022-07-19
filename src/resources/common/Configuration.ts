@@ -61,8 +61,72 @@ export type PaidyConfigurationItem = PaymentTypeConfiguration;
 export type BankTransferConfiguration = PaymentTypeConfiguration & {
     matchAmount: TransferMatchAmount;
     expiration: string;
+    /**
+     *Ensure that the charge expires when the merchant "expects" it to expire.
+     */
+    expirationTimeShift: {
+        enabled: boolean;
+
+        /**
+         *  Time with Time Zone.
+         */
+        value: string;
+    };
+
+    /**
+     * Number of accounts left before fetching more accounts
+     */
     virtualBankAccountsThreshold: number;
+
+    /**
+     * How many accounts to fetch
+     */
     virtualBankAccountsFetchCount: number;
+
+    /**
+     * Period (e.g P1DT9H)  How long to extend a charge expiration by default
+     */
+    defaultExtensionPeriod: string;
+
+    /**
+     * Period (e.g P1DT9H) Maximum period a charge can be extended for, when using a custom period
+     */
+    maximumExtensionPeriod: string;
+
+    /**
+     * Whether to enable automatic extension when a charge expires
+     */
+    automaticExtensionEnabled: boolean;
+
+    /**
+     * Notification when the bank account has been assigned to the transaction token
+     */
+    chargeRequestNotificationEnabled: boolean;
+
+    /**
+     *  Notification when the deposit was received for the transaction token
+     */
+    depositReceivedNotificationEnabled: boolean;
+
+    /**
+     * Notification when the deposit was received for the transaction token was insufficient for the oldest charge
+     */
+    depositInsufficientNotificationEnabled: boolean;
+
+    /**
+     * Notification when the deposit was received for the transaction token exceeded the requested amount for the oldest charge
+     */
+    depositExceededNotificationEnabled: boolean;
+
+    /**
+     *  Whether to enable notification when a charge expiry is extended
+     */
+    extensionNotificationEnabled: boolean;
+
+    /**
+     * Period (e.g P1DT9H) How long before the charge expiry to send to the customer the charge expiry reminder email template. If none, no reminder is sent
+     */
+    remindNotificationPeriod?: string;
 };
 
 export interface InstallmentsConfiguration {
