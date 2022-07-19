@@ -446,6 +446,14 @@ export enum ResponseErrorCode {
     InvalidMerchantCategoryCode = "INVALID_MERCHANT_CATEGORY_CODE",
 
     InvalidJapanesePostalCode = "INVALID_JAPANESE_POSTAL_CODE",
+
+    /** Bank transfer */
+    MaximumExpiryExtensionExceeded = "MAXIMUM_EXPIRY_EXTENSION_EXCEEDED", // when the requested expiry is over the maximum expiry configured
+    PositiveExpiryExtensionRequired = "POSITIVE_EXPIRY_EXTENSION_REQUIRED", // when the requested expiry ends up in the past
+    DefaultMaximumExpiryExtensionExceeded = "DEFAULT_MAXIMUM_EXPIRY_EXTENSION_EXCEEDED", // when you try set the default maximum expiry longer than the maximum expiry
+    UnderDefaultExpiryExtension = "UNDER_DEFAULT_EXPIRY_EXTENSION", // default expiry cannot be under 1 day
+    EitherPeriodOrDate = "EITHER_PERIOD_OR_DATE", // can only set either the expiry period + optional time shift or absolute date
+    MaximumExtensionsReached = "MAXIMUM_EXTENSIONS_REACHED", // Reached the max num of expiry extensions
 }
 
 export enum PaymentErrorType {

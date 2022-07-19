@@ -58,6 +58,16 @@ export const generateFixtureBankTransferConfiguration = (): BankTransferConfigur
     expiration: "P7D",
     virtualBankAccountsThreshold: 20,
     virtualBankAccountsFetchCount: 10,
+
+    expirationTimeShift: { enabled: true, value: new Date().toISOString() },
+    defaultExtensionPeriod: "P1D",
+    maximumExtensionPeriod: "P2D",
+    automaticExtensionEnabled: true,
+    chargeRequestNotificationEnabled: true,
+    depositReceivedNotificationEnabled: true,
+    depositInsufficientNotificationEnabled: true,
+    depositExceededNotificationEnabled: true,
+    extensionNotificationEnabled: true,
 });
 
 export const generateFixture = (): ConfigurationItem => ({
