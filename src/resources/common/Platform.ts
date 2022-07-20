@@ -12,8 +12,17 @@ type CheckoutConfiguration = {
     ecEmail: { enabled: boolean };
     ecProducts: { enabled: boolean };
 };
+
+type ConvenienceConfiguration = {
+    /**
+     * Period (e.g.: P1DT9H)
+     */
+    expiry: string;
+};
+
 export interface PlatformUserDefaults {
     bankTransferConfiguration: BankTransferConfiguration;
+    convenienceConfiguration: ConvenienceConfiguration;
     percentFee: number;
     transferSchedule: TransferScheduleItem;
     flatFees: AmountWithCurrency[];

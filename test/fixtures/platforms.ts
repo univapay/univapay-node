@@ -41,6 +41,9 @@ export const generateFixture = (): PlatformConfigurationItem => ({
                 ecEmail: { enabled: true },
                 ecProducts: { enabled: true },
             },
+            convenienceConfiguration: {
+                expiry: "P1D",
+            },
             installmentsConfiguration: generateFixtureInstallmentConfiguration(),
             subscriptionConfiguration: generateFixtureSubscriptionConfiguration(),
             onlyDirectCurrency: false,
