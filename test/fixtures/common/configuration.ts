@@ -59,7 +59,7 @@ export const generateFixtureBankTransferConfiguration = (): BankTransferConfigur
     virtualBankAccountsThreshold: 20,
     virtualBankAccountsFetchCount: 10,
 
-    expirationTimeShift: { enabled: true, value: new Date().toISOString() },
+    expirationTimeShift: { enabled: true, value: "09:00:00.000+09:00" },
     defaultExtensionPeriod: "P1D",
     maximumExtensionPeriod: "P2D",
     automaticExtensionEnabled: true,

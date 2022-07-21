@@ -210,18 +210,19 @@ export interface ConfigurationItem {
 
 export interface ConfigurationParams {
     logoUrl?: string;
+
     bankTransferConfiguration?: Partial<BankTransferConfiguration>;
     cardConfiguration?: Partial<CardConfigurationItem>;
-    qrScanConfiguration?: Partial<QRScanConfigurationItem>;
-    qrMerchantConfiguration?: Partial<QRMerchantConfigurationItem>;
+    checkoutConfiguration?: Partial<CheckoutConfiguration>;
     convenienceConfiguration?: Partial<ConvenienceConfigurationItem>;
+    descriptorProvidedConfiguration?: Partial<DescriptorProvidedConfiguration>;
+    installmentsConfiguration?: Partial<InstallmentsConfigurationItem>;
     onlineConfiguration?: Partial<OnlineConfigurationItem>;
     paidyConfiguration?: Partial<PaidyConfigurationItem>;
-    installmentsConfiguration?: Partial<InstallmentsConfigurationItem>;
+    qrScanConfiguration?: Partial<QRScanConfigurationItem>;
+    qrMerchantConfiguration?: Partial<QRMerchantConfigurationItem>;
     recurringTokenConfiguration?: Partial<RecurringTokenConfiguration>;
-    descriptorProvidedConfiguration?: Partial<DescriptorProvidedConfiguration>;
     subscriptionConfiguration?: Partial<SubscriptionsConfiguration>;
-    checkoutConfiguration?: Partial<CheckoutConfiguration>;
     securityConfiguration?: Partial<SecurityConfiguration>;
 }
 

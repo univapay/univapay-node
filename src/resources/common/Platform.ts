@@ -17,7 +17,7 @@ type ConvenienceConfiguration = {
     /**
      * Period (e.g.: P1DT9H)
      */
-    expiry: string;
+    expiration: string;
 };
 
 export interface PlatformUserDefaults {

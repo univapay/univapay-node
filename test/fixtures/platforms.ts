@@ -42,7 +42,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
                 ecProducts: { enabled: true },
             },
             convenienceConfiguration: {
-                expiry: "P1D",
+                expiration: "P1D",
             },
             installmentsConfiguration: generateFixtureInstallmentConfiguration(),
             subscriptionConfiguration: generateFixtureSubscriptionConfiguration(),
