@@ -4,7 +4,6 @@ import { LinkProductListItem } from "../../src/resources/LinksProducts.js";
 
 export const generateFixture = (): LinkProductListItem => ({
     id: uuid(),
-    platformId: uuid(),
     merchantId: uuid(),
     storeId: uuid(),
     name: "dummy product",
