@@ -23,9 +23,9 @@ export enum ECFormCustomFieldType {
 }
 
 export enum Languages {
-    EN_US = "en_us",
-    JA_JP = "ja_jp",
-    ZH_TW = "zh_tw",
+    EN_US = "enUs",
+    JA_JP = "jaJp",
+    ZH_TW = "zhTw",
 }
 
 export type ECFormCustomField = {
