@@ -98,11 +98,9 @@ type CheckoutInfoBrandItemBrand = {
 };
 
 export type CheckoutInfoBrandItem = {
-    result: {
-        service: string;
-        serviceName: string;
-        brands: CheckoutInfoBrandItemBrand[];
-    };
+    service: OnlineBrand;
+    serviceName: string;
+    brands: CheckoutInfoBrandItemBrand[];
 };
 
 export type ResponseCheckoutInfo = CheckoutInfoItem;
