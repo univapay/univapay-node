@@ -139,14 +139,23 @@ export type ApiSendOptions = {
      * Custom formatter to format the request object to the API (skipped for blobs)
      */
     keyFormatter?: (key: string) => string;
+
+    /**
+     * List of key to ignore formatting on when parsing the response
+     */
+    ignoreKeysFormatting?: string[];
 };
 
-const getRequestBody = <Data>(data: SendData<Data>, keyFormatter = toSnakeCase): string | FormData | Blob =>
+const getRequestBody = <Data>(
+    data: SendData<Data>,
+    keyFormatter = toSnakeCase,
+    ignoreKeysFormatting: string[]
+): string | FormData | Blob =>
     isBlob(data)
         ? data
         : containsBinaryData(data)
-        ? objectToFormData(data, keyFormatter, ["metadata"])
-        : stringify(transformKeys(data, keyFormatter, ["metadata"]));
+        ? objectToFormData(data, keyFormatter, ignoreKeysFormatting)
+        : stringify(transformKeys(data, keyFormatter, ignoreKeysFormatting));
 
 const stringifyParams = (data: unknown): string => {
     const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });
@@ -221,7 +230,13 @@ export class RestAPI extends EventEmitter {
         auth?: AuthParams,
         options: ApiSendOptions = {}
     ): Promise<ResponseBody | string | Blob | FormData> {
-        const { requireAuth = true, acceptType, keyFormatter = toSnakeCase } = options;
+        const {
+            requireAuth = true,
+            acceptType,
+            keyFormatter = toSnakeCase,
+            ignoreKeysFormatting = ["metadata"],
+        } = options;
+
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
 
@@ -241,7 +256,7 @@ export class RestAPI extends EventEmitter {
 
         const request: Request = new Request(
             `${/^https?:\/\//.test(uri) ? uri : `${this.endpoint}${uri}`}${payload ? "" : stringifyParams(data)}`,
-            payload ? { ...params, body: getRequestBody(data, keyFormatter) } : params
+            payload ? { ...params, body: getRequestBody(data, keyFormatter, ignoreKeysFormatting) } : params
         );
 
         this.emit("request", request);
@@ -267,7 +282,7 @@ export class RestAPI extends EventEmitter {
 
             const contentType = response.headers.get("content-type");
             if (contentType === "application/json") {
-                return parseJSON<ResponseBody>(response, ["metadata"]);
+                return parseJSON<ResponseBody>(response, ignoreKeysFormatting);
             } else if (contentType) {
                 if (contentType.indexOf("text/") === 0) {
                     return response.text();

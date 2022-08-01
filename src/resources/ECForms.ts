@@ -23,9 +23,9 @@ export enum ECFormCustomFieldType {
 }
 
 export enum Languages {
-    EN_US = "enUs",
-    JA_JP = "jaJp",
-    ZH_TW = "zhTw",
+    EN_US = "en_us",
+    JA_JP = "ja_jp",
+    ZH_TW = "zh_tw",
 }
 
 export type ECFormCustomField = {
@@ -125,7 +125,8 @@ export class ECForms extends CRUDResource {
 
     private _get?: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECForm> {
-        this._get = this._get ?? this._getRoute();
+        const ignoreKeysFormatting = ["metadata", ...Object.values(Languages)];
+        this._get = this._get ?? this._getRoute({ ignoreKeysFormatting });
         return this._get(data, auth, { id });
     }
 }

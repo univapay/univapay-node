@@ -1,8 +1,16 @@
 import { v4 as uuid } from "uuid";
 
 import { OnlineBrand } from "../../src/resources/common/enums.js";
-import { CheckoutType, ECFormItem } from "../../src/resources/ECForms.js";
+import { CheckoutType, ECFormCustomField, ECFormItem, ECFormCustomFieldType } from "../../src/resources/ECForms.js";
 import { PaymentType, TransactionTokenType } from "../../src/resources/TransactionTokens.js";
+
+const generateECFormCustomField = (): ECFormCustomField => ({
+    key: "test-key",
+    label: "Test label",
+    type: ECFormCustomFieldType.SELECT,
+    required: false,
+    options: ["Test option 1", "Test option 2"],
+});
 
 export const generateFixture = (): ECFormItem => ({
     id: uuid(),
@@ -54,7 +62,23 @@ export const generateFixture = (): ECFormItem => ({
     /* Metadata */
     descriptor: "dummy-descriptor",
     ignoreDescriptorOnError: false,
+
     metadata: {
-        test: "dummy-data",
+        "test-test": "dummy-data",
+    },
+    customFieldsTitles: {
+        en_us: "Test english field title",
+        ja_jp: "Test japanese field title",
+        zh_tw: "Test taiwanese field title",
+    },
+    orderSummaryTitles: {
+        en_us: "Test englishorder  title",
+        ja_jp: "Test japanese order title",
+        zh_tw: "Test taiwanese order title",
+    },
+    customFields: {
+        en_us: [generateECFormCustomField()],
+        ja_jp: [generateECFormCustomField()],
+        zh_tw: [generateECFormCustomField()],
     },
 });
