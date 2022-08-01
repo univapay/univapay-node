@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { ECForms } from "../../src/resources/ECForms.js";
-import { generateFixture as generateCheckoutInfo } from "../fixtures/checkout-info.js";
+import { generateFixture as generateECForm } from "../fixtures/ec-form.js";
 import { testEndpoint } from "../utils/index.js";
 import { pathToRegexMatcher } from "../utils/routes.js";
 
@@ -12,7 +12,7 @@ describe("EC Forms", () => {
     let api: RestAPI;
     let ecForms: ECForms;
 
-    const recordData = generateCheckoutInfo();
+    const recordData = generateECForm();
     const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/forms/:id`);
 
     beforeEach(() => {

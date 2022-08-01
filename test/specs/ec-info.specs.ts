@@ -5,14 +5,14 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { ECInfo } from "../../src/resources/index.js";
-import { generateFixture as generateCheckoutInfo } from "../fixtures/ec-info.js";
+import { generateFixture as generateECInfo } from "../fixtures/ec-info.js";
 import { testEndpoint } from "../utils/index.js";
 
 describe("EC Info", () => {
     let api: RestAPI;
     let ecInfo: ECInfo;
 
-    const recordData = generateCheckoutInfo();
+    const recordData = generateECInfo();
     const recordPathMatcher = new RegExp(
         `^${testEndpoint}${pathToRegexp("/checkout/info/:id", [], { start: false, end: false }).source}`
     );

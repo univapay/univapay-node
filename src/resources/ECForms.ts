@@ -125,7 +125,8 @@ export class ECForms extends CRUDResource {
 
     private _get?: DefinedRoute;
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECForm> {
-        this._get = this._get ?? this._getRoute();
+        const ignoreKeysFormatting = ["metadata", ...Object.values(Languages)];
+        this._get = this._get ?? this._getRoute({ ignoreKeysFormatting });
         return this._get(data, auth, { id });
     }
 }
