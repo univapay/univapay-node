@@ -27,6 +27,7 @@ import {
     WebHooks,
     WebHookTrigger as PublicWebHookTrigger,
 } from "./resources/index.js";
+import { LinksProducts } from "./resources/LinksProducts.js";
 import PaymentsSDK from "./sdk/index.js";
 
 export * from "./api/index.js";
@@ -45,6 +46,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
     public ecInfo: ECInfo;
     public ecFormLinks: ECFormLinks;
     public ecForms: ECForms;
+    public ecLinksProducts: LinksProducts;
     public emails: Emails;
     public exchangeRates: ExchangeRates;
     public ledgers: Ledgers;
@@ -70,6 +72,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
         this.ecInfo = new ECInfo(this.api);
         this.ecFormLinks = new ECFormLinks(this.api);
         this.ecForms = new ECForms(this.api);
+        this.ecLinksProducts = new LinksProducts(this.api);
         this.emails = new Emails(this.api);
         this.exchangeRates = new ExchangeRates(this.api);
         this.ledgers = new Ledgers(this.api);
