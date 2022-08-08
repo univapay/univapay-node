@@ -38,7 +38,7 @@
     "module"
   ],
   "devDependencies": {
-    "@types/chai": "4.3.1",
+    "@types/chai": "4.3.3",
     "@types/chai-arrays": "2.0.0",
     "@types/chai-as-promised": "7.1.5",
     "@types/fetch-mock": "7.3.5",
