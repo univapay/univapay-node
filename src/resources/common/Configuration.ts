@@ -94,39 +94,49 @@ export type BankTransferConfiguration = PaymentTypeConfiguration & {
     maximumExtensionPeriod: string;
 
     /**
-     * Whether to enable automatic extension when a charge expires
+     * Boolean when a charge should be auto-extended after expiration
      */
     automaticExtensionEnabled: boolean;
-
-    /**
-     * Notification when the bank account has been assigned to the transaction token
-     */
-    chargeRequestNotificationEnabled: boolean;
-
-    /**
-     *  Notification when the deposit was received for the transaction token
-     */
-    depositReceivedNotificationEnabled: boolean;
-
-    /**
-     * Notification when the deposit was received for the transaction token was insufficient for the oldest charge
-     */
-    depositInsufficientNotificationEnabled: boolean;
-
-    /**
-     * Notification when the deposit was received for the transaction token exceeded the requested amount for the oldest charge
-     */
-    depositExceededNotificationEnabled: boolean;
-
-    /**
-     *  Whether to enable notification when a charge expiry is extended
-     */
-    extensionNotificationEnabled: boolean;
 
     /**
      * Period (e.g P1DT9H) How long before the charge expiry to send to the customer the charge expiry reminder email template. If none, no reminder is sent
      */
     remindNotificationPeriod?: string;
+
+    /**
+     * Boolean when a charge request should be notified
+     */
+    chargeRequestNotificationEnabled: boolean;
+
+    /**
+     * Boolean when a deposit reception should be notified
+     */
+    depositReceivedNotificationEnabled: boolean;
+
+    /**
+     * Boolean when a deposit bellow the transaction value should be notified
+     */
+    depositInsufficientNotificationEnabled: boolean;
+
+    /**
+     * Boolean when a deposit exceeding the transaction value should be notified
+     */
+    depositExceededNotificationEnabled: boolean;
+
+    /**
+     * Boolean when a charge extension should be notified
+     */
+    extensionNotificationEnabled: boolean;
+
+    /**
+     * Boolean when a charge expiration should be notified
+     */
+    chargeExpiredNotificationEnabled?: boolean;
+
+    /**
+     * Boolean when a charge cancel should be notified
+     */
+    chargeRequestCanceledNotificationEnabled?: boolean;
 };
 
 export interface InstallmentsConfiguration {
