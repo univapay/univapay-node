@@ -101,7 +101,7 @@ export type BankTransferConfiguration = PaymentTypeConfiguration & {
     /**
      * Boolean when a reminder email should be sent
      */
-    remindNotificationEnabled?: boolean;
+    remindNotificationEnabled: boolean;
 
     /**
      * Period (e.g P1DT9H) How long before the charge expiry to send to the customer the charge expiry reminder email template. If none, no reminder is sent
