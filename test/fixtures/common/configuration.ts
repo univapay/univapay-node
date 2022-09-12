@@ -63,6 +63,8 @@ export const generateFixtureBankTransferConfiguration = (): BankTransferConfigur
     defaultExtensionPeriod: "P1D",
     maximumExtensionPeriod: "P2D",
     automaticExtensionEnabled: true,
+    remindNotificationEnabled: true,
+    remindNotificationPeriod: "P1D",
     chargeRequestNotificationEnabled: true,
     depositReceivedNotificationEnabled: true,
     depositInsufficientNotificationEnabled: true,
