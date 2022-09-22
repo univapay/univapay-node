@@ -5,6 +5,7 @@ import { AuthParams, SendData } from "../api/RestAPI.js";
 
 import { CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
+import { SubscriptionPeriod } from "./Subscriptions.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
 
 export type ProductItem = {
@@ -20,6 +21,13 @@ export type ProductItem = {
     tokenType: TransactionTokenType;
     description?: string | null;
     shippingFees?: number | null;
+
+    installmentCycles?: number;
+    subscriptionPeriod?: SubscriptionPeriod;
+    subscriptionInitialAmount?: number;
+    subscriptionStartDayOfMonth?: number;
+    subscriptionStartInMonths?: number;
+    subscriptionStartIn?: string;
 
     createdOn: string;
     updatedOn: string;
