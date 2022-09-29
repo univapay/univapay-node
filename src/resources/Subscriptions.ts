@@ -33,6 +33,7 @@ export enum SubscriptionStatus {
     CANCELED = "canceled",
     UNCONFIRMED = "unconfirmed",
     COMPLETED = "completed",
+    AUTHORIZED = "authorized",
 }
 
 export enum InstallmentPlan {
