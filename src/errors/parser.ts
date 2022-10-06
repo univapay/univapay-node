@@ -10,6 +10,15 @@ import { RequestError, RequestResponseBaseError, ResponseError } from "./Request
 
 function getCodeByStatus(status: number): string {
     const codeMap: Record<number, string> = {
+        301: ResponseErrorCode.CardNumberNotValid,
+        305: ResponseErrorCode.CardCVVInvalid,
+        306: ResponseErrorCode.CardRejected,
+        308: ResponseErrorCode.ChargeInvalidData,
+        310: ResponseErrorCode.InvalidUserData,
+        314: ResponseErrorCode.SeizeCard,
+        315: ResponseErrorCode.ContactBank,
+        319: ResponseErrorCode.FraudSuspected,
+        343: ResponseErrorCode.GatewayServerError,
         400: ResponseErrorCode.BadRequest,
         401: ResponseErrorCode.NotAuthorized,
         403: ResponseErrorCode.Forbidden,
