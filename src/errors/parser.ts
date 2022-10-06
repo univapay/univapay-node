@@ -27,6 +27,8 @@ function getCodeByStatus(status: number): string {
         409: ResponseErrorCode.Conflicted,
         429: ResponseErrorCode.TooManyRequests,
         500: ResponseErrorCode.InternalServerError,
+        501: ResponseErrorCode.InternalServerError,
+        502: ResponseErrorCode.Timeout,
         503: ResponseErrorCode.ServiceUnavailable,
     };
 
