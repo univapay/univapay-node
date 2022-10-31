@@ -85,6 +85,7 @@
     "browser-or-node": "^2.0.0",
     "change-case": "^4.1.2",
     "events": "^3.3.0",
+    "flat": "^5.0.2",
     "is-buffer": "^2.0.5",
     "jwt-decode": "^3.1.2",
     "p-timeout": "^4.1.0",
