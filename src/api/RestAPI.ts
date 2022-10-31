@@ -6,6 +6,7 @@ import { stringify } from "@apimatic/json-bigint";
 import { EventEmitter } from "events";
 import pTimeout from "p-timeout";
 import { stringify as stringifyQuery } from "query-string";
+import flatten from "flat";
 
 import {
     DEFAULT_ENDPOINT,
@@ -158,7 +159,7 @@ const getRequestBody = <Data>(
         : stringify(transformKeys(data, keyFormatter, ignoreKeysFormatting));
 
 const stringifyParams = (data: unknown): string => {
-    const query = stringifyQuery(transformKeys(data, toSnakeCase), { arrayFormat: "bracket" });
+    const query = stringifyQuery(flatten(transformKeys(data, toSnakeCase)), { arrayFormat: "bracket" });
 
     return query ? `?${query}` : "";
 };
