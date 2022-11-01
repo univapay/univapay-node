@@ -163,13 +163,6 @@ const stringifyParams = (data: unknown): string => {
         arrayFormat: "bracket",
     });
 
-    console.log(query);
-    console.log(
-        stringifyQuery(transformKeys(data, toSnakeCase), {
-            arrayFormat: "bracket",
-        })
-    );
-
     return query ? `?${query}` : "";
 };
 
