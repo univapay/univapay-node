@@ -170,6 +170,8 @@ export interface UserTransactionsConfiguration {
     notifyOnRecurringTokenCreation?: boolean;
     notifyOnWebhookFailure?: boolean;
     notifyOnWebhookDisabled?: boolean;
+    notifyUserOnFailedTransactions?: boolean;
+    notifyCustomerOnFailedTransactions?: boolean;
 }
 
 export interface RecurringTokenConfiguration {
