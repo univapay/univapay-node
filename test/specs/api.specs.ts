@@ -400,12 +400,23 @@ describe("API", function () {
             headers: { "Content-Type": "application/json" },
         });
 
-        const expectationPost = { foo: "bar", fizz_buzz: true, bar: { barz: "foo", foo_bar: "barBar" } };
-        const expectationGet = { foo: "bar", fizz_buzz: "true", "bar.barz": "foo", "bar.foo_bar": "barBar" };
+        const expectationPost = {
+            foo: "bar",
+            fizz_buzz: true,
+            bar: { barz: "foo", foo_bar: "barBar" },
+            foo_foo: ["foo", "bar"],
+        };
+        const expectationGet = {
+            foo: "bar",
+            fizz_buzz: "true",
+            "bar.barz": "foo",
+            "bar.foo_bar": "barBar",
+            "foo_foo[]": ["foo", "bar"],
+        };
 
         const asserts = [
-            { foo: "bar", fizz_buzz: true, bar: { barz: "foo", foo_bar: "barBar" } },
-            { foo: "bar", fizzBuzz: true, bar: { barz: "foo", fooBar: "barBar" } },
+            { foo: "bar", fizz_buzz: true, bar: { barz: "foo", foo_bar: "barBar" }, foo_foo: ["foo", "bar"] },
+            { foo: "bar", fizzBuzz: true, bar: { barz: "foo", fooBar: "barBar" }, fooFoo: ["foo", "bar"] },
         ];
 
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });

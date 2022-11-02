@@ -159,7 +159,9 @@ const getRequestBody = <Data>(
         : stringify(transformKeys(data, keyFormatter, ignoreKeysFormatting));
 
 const stringifyParams = (data: unknown): string => {
-    const query = stringifyQuery(flatten(transformKeys(data, toSnakeCase)), { arrayFormat: "bracket" });
+    const query = stringifyQuery(flatten(transformKeys(data, toSnakeCase), { safe: true }), {
+        arrayFormat: "bracket",
+    });
 
     return query ? `?${query}` : "";
 };
