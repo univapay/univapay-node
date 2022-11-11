@@ -19,7 +19,7 @@ export interface JWTBasePayload {
 
 export type JWTPayload<Payload> = JWTBasePayload & Payload;
 
-export function parseJWT<Payload>(jwt: string, keepKeys = false): JWTPayload<Payload> | null {
+export const parseJWT = <Payload>(jwt: string, keepKeys = false): JWTPayload<Payload> | null => {
     if (!jwt) {
         return null;
     }
@@ -34,14 +34,14 @@ export function parseJWT<Payload>(jwt: string, keepKeys = false): JWTPayload<Pay
     } catch {
         throw new JWTError();
     }
-}
+};
 
 const BearerRegexp = /^Bearer (.*)$/i;
 
 /**
  *  @internal
  */
-export function extractJWT(response: Response): string | null {
+export const extractJWT = (response: Response): string | null => {
     const headerNames = ["authorization", "x-amzn-remapped-authorization", "X-REFRESH-AUTHORIZATION"];
     const header = headerNames.reduce((acc: string, name: string) => response.headers.get(name) || acc, null);
 
@@ -51,4 +51,4 @@ export function extractJWT(response: Response): string | null {
 
     const matches = header.match(BearerRegexp);
     return matches === null ? null : matches[1];
-}
+};

@@ -167,6 +167,8 @@ export interface UserTransactionsConfiguration {
     enabled?: boolean;
     notifyCustomer?: boolean;
     notifyOnTest?: boolean;
+    notifyUserOnFailedTransaction?: boolean;
+    notifyCustomerOnFailedTransaction?: boolean;
     notifyOnRecurringTokenCreation?: boolean;
     notifyOnWebhookFailure?: boolean;
     notifyOnWebhookDisabled?: boolean;
@@ -187,6 +189,7 @@ export interface SubscriptionsConfiguration {
     enabled?: boolean;
     failedChargesToCancel: number;
     suspendOnCancel: boolean;
+    allowMerchantAmountPatch?: boolean;
 }
 
 export interface DescriptorProvidedConfiguration {
