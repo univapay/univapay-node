@@ -33,6 +33,7 @@ describe("JWT", () => {
 
     it("should return parsing error", () => {
         const asserts = [
+            "e.e./e",
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1MjAyMzQ0NDZ9",
         ];
@@ -40,18 +41,17 @@ describe("JWT", () => {
         const parseSpy = sandbox.spy(parseJWT);
 
         for (const assert of asserts) {
-            expect(() => {
-                parseSpy(assert);
-            }).to.throw(JWTError);
+            expect(() => parseSpy(assert)).to.throw(JWTError);
         }
     });
 
     it("should extract JWT from HTTP headers", () => {
         const jwtToken = jwt.sign({ foo: "bar" }, "foo");
 
-        const asserts: [Headers, string][] = [
+        const asserts: [Headers, string | null][] = [
             [new Headers({ "Content-Type": "application/json" }), null],
             [new Headers({ Authorization: `Bearer ${jwtToken}`, "Content-Type": "application/json" }), jwtToken],
+            [new Headers({ Authorization: jwtToken, "Content-Type": "application/json" }), null],
         ];
 
         for (const [headers, expectation] of asserts) {

@@ -19,7 +19,7 @@ export interface JWTBasePayload {
 
 export type JWTPayload<Payload> = JWTBasePayload & Payload;
 
-export const parseJWT = <Payload>(jwt: string, keepKeys = false): JWTPayload<Payload> | null => {
+export const parseJWT = <Payload>(jwt?: string | null, keepKeys = false): JWTPayload<Payload> | null => {
     if (!jwt) {
         return null;
     }
