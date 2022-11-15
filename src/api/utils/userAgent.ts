@@ -6,7 +6,8 @@ const CLIENT_NAME = "univapay-node";
 const getPlatform = () =>
     isNode
         ? `node.js@${process.versions.node}`
-        : isBrowser
+        : /* c8 ignore next 8 */
+        isBrowser
         ? (() => {
               const {
                   browser: { name, version },

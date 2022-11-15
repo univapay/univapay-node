@@ -71,7 +71,7 @@ export enum HTTPMethod {
 export interface RestAPIOptions {
     endpoint?: string;
     jwt?: string;
-    handleUpdateJWT?(jwt: string): void;
+    handleUpdateJWT?: (jwt: string) => void;
     secret?: string;
     origin?: string;
 
@@ -172,9 +172,10 @@ const execRequest = async <Response>(execute: () => Promise<Response>): Promise<
 
         return response;
     } catch (error) {
-        const err: Error = error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error);
+        const formattedError =
+            error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error);
 
-        throw err;
+        throw formattedError;
     }
 };
 
@@ -196,7 +197,7 @@ export class RestAPI extends EventEmitter {
 
     private _jwtRaw: string = null;
 
-    protected handleUpdateJWT: (jwt: string) => void = () => undefined;
+    protected handleUpdateJWT: (jwt: string) => void;
 
     constructor(options: RestAPIOptions = {}) {
         super();
@@ -204,10 +205,7 @@ export class RestAPI extends EventEmitter {
         this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
         this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT];
-
-        if (options.handleUpdateJWT && typeof options.handleUpdateJWT === "function") {
-            this.handleUpdateJWT = options.handleUpdateJWT;
-        }
+        this.handleUpdateJWT = options.handleUpdateJWT || undefined;
 
         this.appId = options.appId || process.env[ENV_KEY_APP_ID];
         this.secret = options.secret || process.env[ENV_KEY_SECRET];
@@ -215,8 +213,8 @@ export class RestAPI extends EventEmitter {
     }
 
     set jwtRaw(jwtRaw: string) {
-        this.jwt = parseJWT(jwtRaw);
         this._jwtRaw = jwtRaw;
+        this.jwt = parseJWT(jwtRaw);
     }
 
     get jwtRaw(): string | null {
@@ -273,7 +271,7 @@ export class RestAPI extends EventEmitter {
 
             if (jwt) {
                 this.jwtRaw = jwt;
-                this.handleUpdateJWT(jwt);
+                this.handleUpdateJWT?.(jwt);
             }
 
             await checkStatus(response);
