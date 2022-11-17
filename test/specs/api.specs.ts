@@ -13,8 +13,7 @@ import {
 } from "../../src/common/constants.js";
 import { APIError, ResponseErrorCode } from "../../src/errors/APIError.js";
 import { fromError } from "../../src/errors/parser.js";
-import { RequestError, ResponseError } from "../../src/errors/RequestResponseError.js";
-import { Merchants } from "../../src/resources/Merchants.js";
+import { ResponseError } from "../../src/errors/RequestResponseError.js";
 import { isBlob } from "../../src/utils/object.js";
 import { testEndpoint } from "../utils/index.js";
 
