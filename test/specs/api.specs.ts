@@ -459,29 +459,6 @@ describe("API", function () {
         await expect(api.ping()).to.eventually.be.undefined;
     });
 
-    it("should throw an error if token is expired", async function () {
-        const dateNow = new Date();
-        const jwtToken = jwt.sign(
-            {
-                exp: Math.round(dateNow.getTime() / 1000) - 1000,
-                foo: "bar",
-            },
-            "foo"
-        );
-
-        const api: RestAPI = new RestAPI({ endpoint: testEndpoint, jwt: jwtToken });
-        const merchants = new Merchants(api);
-
-        const error = new RequestError({
-            code: ResponseErrorCode.ExpiredLoginToken,
-            errors: [],
-        });
-
-        const resError = await expect(merchants.me()).to.eventually.be.rejected;
-        expect(resError).to.be.instanceOf(RequestError);
-        expect(resError.errorResponse).to.eql(error.errorResponse);
-    });
-
     it("should not throw an error for open routes even if token is expired", async function () {
         const dateNow = new Date();
         const jwtToken = jwt.sign(
