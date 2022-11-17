@@ -21,7 +21,7 @@ import {
 } from "../common/constants.js";
 import { RequestErrorCode, ResponseErrorCode } from "../errors/APIError.js";
 import { fromError } from "../errors/parser.js";
-import { RequestError, ResponseError } from "../errors/RequestResponseError.js";
+import { ResponseError } from "../errors/RequestResponseError.js";
 import { TimeoutError } from "../errors/TimeoutError.js";
 import { ProcessingMode } from "../resources/common/enums.js";
 import { checkStatus, parseJSON } from "../utils/fetch.js";
@@ -231,22 +231,7 @@ export class RestAPI extends EventEmitter {
         auth?: AuthParams,
         options: ApiSendOptions = {}
     ): Promise<ResponseBody | string | Blob | FormData> {
-        const {
-            requireAuth = true,
-            acceptType,
-            keyFormatter = toSnakeCase,
-            ignoreKeysFormatting = ["metadata"],
-        } = options;
-
-        const dateNow = new Date();
-        const timestampUTC = Math.round(dateNow.getTime() / 1000);
-
-        if (requireAuth && this._jwtRaw && this.jwt.exp < timestampUTC) {
-            throw new RequestError({
-                code: ResponseErrorCode.ExpiredLoginToken,
-                errors: [],
-            });
-        }
+        const { acceptType, keyFormatter = toSnakeCase, ignoreKeysFormatting = ["metadata"] } = options;
 
         const payload: boolean = [HTTPMethod.GET, HTTPMethod.DELETE].includes(method) === false;
 
