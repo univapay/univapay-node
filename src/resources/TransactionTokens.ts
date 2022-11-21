@@ -116,6 +116,7 @@ export interface TransactionTokenConvenienceData {
     customerName: string;
     convenienceStore: ConvenienceStore;
     phoneNumber: PhoneNumber;
+    expirationTimeShift?: string;
 }
 
 export interface TransactionTokenOnlineData {
@@ -144,6 +145,7 @@ export type TransactionTokenBankTransferData = {
 
 export type TransactionTokenBankTransferCreateData = {
     brand: BankTransferBrand;
+    expirationTimeShift?: string;
 };
 
 export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
