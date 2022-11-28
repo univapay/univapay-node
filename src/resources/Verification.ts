@@ -15,7 +15,7 @@ export interface BaseVerification<T> {
     companyDescription: string;
     companyContactInfo: T;
     businessType: string;
-    systemManagerName: string;
+    systemManagerName?: string;
     systemManagerNumber?: PhoneNumber;
     systemManagerEmail?: string;
     customerContactEmail?: string;
