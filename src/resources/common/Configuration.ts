@@ -62,13 +62,14 @@ export type BankTransferConfiguration = PaymentTypeConfiguration & {
     matchAmount: TransferMatchAmount;
     expiration: string;
     /**
-     *Ensure that the charge expires when the merchant "expects" it to expire.
+     * Ensure that the charge expires when the merchant "expects" it to expire.
      */
     expirationTimeShift: {
         enabled: boolean;
 
         /**
-         *  Time with Time Zone.
+         * Time with Time Zone.
+         * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
          */
         value: string;
     };
