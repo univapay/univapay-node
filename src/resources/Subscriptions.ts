@@ -96,9 +96,20 @@ export interface SubscriptionCreateBaseParams<T extends Metadata = Metadata> {
     initialAmount?: number;
     installmentPlan?: InstallmentPlanItem<any>;
     onlyDirectCurrency?: boolean;
+
+    /**
+     * Interval (e.g: P7D)
+     *
+     * Needs firstChargeAuthorizationOnly to be true to be used
+     */
+    firstChargeCaptureAfter?: string;
+    firstChargeAuthorizationOnly?: boolean;
 }
 
 export interface SubscriptionCreateLegacyParams extends SubscriptionCreateBaseParams {
+    /**
+     * @deprecated Used scheduleSettings instead
+     */
     subsequentCyclesStart?: string | number;
 }
 
@@ -115,6 +126,14 @@ export interface SubscriptionUpdateParams<T extends Metadata = Metadata> {
     metadata?: T;
     installmentPlan?: Partial<InstallmentPlanItem<any>>;
     onlyDirectCurrency?: boolean;
+
+    /**
+     * Interval (e.g: P7D)
+     *
+     * Needs firstChargeAuthorizationOnly to be true to be used
+     */
+    firstChargeCaptureAfter?: string;
+    firstChargeAuthorizationOnly?: boolean;
 }
 
 export type PaymentUpdateParams = Partial<ScheduledPaymentItem>;
