@@ -116,7 +116,17 @@ export interface TransactionTokenConvenienceData {
     customerName: string;
     convenienceStore: ConvenienceStore;
     phoneNumber: PhoneNumber;
+
+    /**
+     * Time with Time Zone.
+     * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
+     */
     expirationTimeShift?: string;
+
+    /**
+     * Interval (e.g P7D)
+     */
+    expirationPeriod?: string;
 }
 
 export interface TransactionTokenOnlineData {
@@ -145,7 +155,17 @@ export type TransactionTokenBankTransferData = {
 
 export type TransactionTokenBankTransferCreateData = {
     brand: BankTransferBrand;
+
+    /**
+     * Time with Time Zone.
+     * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
+     */
     expirationTimeShift?: string;
+
+    /**
+     * Interval (e.g P7D)
+     */
+    expirationPeriod?: string;
 };
 
 export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
