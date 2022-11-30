@@ -8,6 +8,7 @@ export enum TransferPeriod {
     BIWEEKLY = "biweekly",
     SEMIMONTHLY = "semimonthly",
     MONTHLY = "monthly",
+    BIMONTHLY = "bimonthly",
 }
 
 export enum DayOfWeek {
