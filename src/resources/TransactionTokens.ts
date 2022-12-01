@@ -195,7 +195,20 @@ export interface TransactionTokenUpdateParams {
     email?: string;
     data?: {
         cvv?: string;
-        cvvAuthorize?: { enabled: boolean };
+        cvvAuthorize?: {
+            enabled: boolean;
+        };
+        cardholder?: string;
+        line1?: string;
+        line2?: string;
+        state?: string;
+        city?: string;
+        country?: string;
+        zip?: string;
+        phoneNumber: {
+            countryCode?: string;
+            localNumber?: string;
+        };
     };
 }
 
