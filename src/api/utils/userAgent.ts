@@ -1,5 +1,5 @@
 import bowser from "bowser";
-import { isBrowser, isNode } from "browser-or-node";
+import { isNode, isBrowser } from "browser-or-node";
 
 const CLIENT_NAME = "univapay-node";
 
