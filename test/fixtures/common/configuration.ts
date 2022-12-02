@@ -7,6 +7,7 @@ import {
     QRScanConfigurationItem,
     SubscriptionsConfiguration,
     TransferMatchAmount,
+    ConvenienceConfigurationItem,
 } from "../../../src/resources/common/Configuration.js";
 import { CardBrand } from "../../../src/resources/common/enums.js";
 
@@ -72,12 +73,18 @@ export const generateFixtureBankTransferConfiguration = (): BankTransferConfigur
     extensionNotificationEnabled: true,
 });
 
+export const generateFixtureConvenienceConfiguration = (): ConvenienceConfigurationItem => ({
+    enabled: true,
+    expiration: "P7D",
+    expirationTimeShift: { enabled: true, value: "09:00:00.000+09:00" },
+});
+
 export const generateFixture = (): ConfigurationItem => ({
     cardBrandPercentFees: {},
     cardConfiguration: generateFixtureCardConfiguration(),
     qrScanConfiguration: generateFixtureQRScanConfiguration(),
     qrMerchantConfiguration: generateFixturePaymentType(),
-    convenienceConfiguration: generateFixturePaymentType(),
+    convenienceConfiguration: generateFixtureConvenienceConfiguration(),
     paidyConfiguration: generateFixturePaymentType(),
     onlineConfiguration: generateFixturePaymentType(),
     bankTransferConfiguration: generateFixtureBankTransferConfiguration(),
