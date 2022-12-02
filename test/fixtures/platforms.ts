@@ -8,6 +8,7 @@ import {
     generateFixtureBankTransferConfiguration,
     generateFixtureInstallmentConfiguration,
     generateFixtureSubscriptionConfiguration,
+    generateFixtureConvenienceConfiguration,
 } from "./common/configuration.js";
 import { generateFixture as generateTransferSchedule } from "./common/transfer-schedule.js";
 
@@ -41,9 +42,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
                 ecEmail: { enabled: true },
                 ecProducts: { enabled: true },
             },
-            convenienceConfiguration: {
-                expiration: "P1D",
-            },
+            convenienceConfiguration: generateFixtureConvenienceConfiguration(),
             installmentsConfiguration: generateFixtureInstallmentConfiguration(),
             subscriptionConfiguration: generateFixtureSubscriptionConfiguration(),
             onlyDirectCurrency: false,

@@ -4,6 +4,7 @@ import {
     InstallmentsConfiguration,
     SubscriptionsConfiguration,
     UserTransactionsConfiguration,
+    ConvenienceConfigurationItem,
 } from "./Configuration.js";
 import { TransferScheduleItem } from "./TransferSchedule.js";
 import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types.js";
@@ -13,16 +14,9 @@ type CheckoutConfiguration = {
     ecProducts: { enabled: boolean };
 };
 
-type ConvenienceConfiguration = {
-    /**
-     * Period (e.g.: P1DT9H)
-     */
-    expiration: string;
-};
-
 export interface PlatformUserDefaults {
     bankTransferConfiguration: BankTransferConfiguration;
-    convenienceConfiguration: ConvenienceConfiguration;
+    convenienceConfiguration: ConvenienceConfigurationItem;
     percentFee: number;
     transferSchedule: TransferScheduleItem;
     flatFees: AmountWithCurrency[];
