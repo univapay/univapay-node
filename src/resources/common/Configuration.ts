@@ -52,7 +52,21 @@ export interface QRScanConfigurationItem extends PaymentTypeConfiguration {
 
 export type QRMerchantConfigurationItem = PaymentTypeConfiguration;
 
-export type ConvenienceConfigurationItem = PaymentTypeConfiguration;
+export type ConvenienceConfigurationItem = PaymentTypeConfiguration & {
+    expiration: string;
+    /**
+     * Ensure that the charge expires when the merchant "expects" it to expire.
+     */
+    expirationTimeShift: {
+        enabled: boolean;
+
+        /**
+         * Time with Time Zone.
+         * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
+         */
+        value: string;
+    };
+};
 
 export type OnlineConfigurationItem = PaymentTypeConfiguration;
 

@@ -9,6 +9,7 @@ import {
     generateFixtureCardConfiguration,
     generateFixturePaymentType,
     generateFixtureQRScanConfiguration,
+    generateFixtureConvenienceConfiguration,
 } from "./common/configuration.js";
 
 export const generateFixture = (): CheckoutInfoItem => ({
@@ -17,7 +18,7 @@ export const generateFixture = (): CheckoutInfoItem => ({
     recurringTokenPrivilege: RecurringTokenPrivilege.NONE,
     cardConfiguration: generateFixtureCardConfiguration(),
     qrScanConfiguration: generateFixtureQRScanConfiguration(),
-    convenienceConfiguration: generateFixturePaymentType(),
+    convenienceConfiguration: generateFixtureConvenienceConfiguration(),
     paidyConfiguration: generateFixturePaymentType(),
     onlineConfiguration: generateFixturePaymentType(),
     bankTransferConfiguration: generateFixtureBankTransferConfiguration(),
