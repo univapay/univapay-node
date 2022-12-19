@@ -6,7 +6,7 @@ import { AuthParams, SendData } from "../api/RestAPI.js";
 import { Metadata } from "./common/types.js";
 import { CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
-import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions.js";
+import { SubscriptionPeriod } from "./Subscriptions.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
 
 export type ECFormLinkItem = {
@@ -53,11 +53,7 @@ export type ECFormLinkItem = {
     subscriptionStartDayOfMonth?: number;
     subscriptionInitialAmount?: number;
     subscriptionPeriod?: SubscriptionPeriod;
-
-    // Installment
-    installmentPlan?: InstallmentPlan;
-    installmentCycles?: number;
-    installmentCycleAmount?: number;
+    subscriptionCycles?: number;
 };
 
 export type ResponseECFormLink = ECFormLinkItem;
