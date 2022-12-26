@@ -23,5 +23,6 @@ export const generateFixture = (): ECFormLinkItem => ({
 
     tokenType: TransactionTokenType.ONE_TIME,
     tokenOnly: false,
+    hideCvv: false,
     allowCardInstallments: false,
 });
