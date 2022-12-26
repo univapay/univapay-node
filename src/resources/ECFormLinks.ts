@@ -30,6 +30,7 @@ export type ECFormLinkItem = {
 
     tokenType: TransactionTokenType;
     tokenOnly: boolean;
+    hideCvv?: boolean;
     metadata?: Metadata;
 
     // Recurring
