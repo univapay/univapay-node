@@ -22,7 +22,7 @@ export type ProductItem = {
     description?: string | null;
     shippingFees?: number | null;
 
-    installmentCycles?: number;
+    subscriptionCycles?: number;
     subscriptionPeriod?: SubscriptionPeriod;
     subscriptionInitialAmount?: number;
     subscriptionStartDayOfMonth?: number;
