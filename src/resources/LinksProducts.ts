@@ -10,14 +10,12 @@ import { TransactionTokenType } from "./TransactionTokens.js";
 
 export type LinkProductListItem = {
     id: string;
-    platformId: string;
     merchantId: string;
     storeId: string;
 
     code: string | null;
     name: string;
     description?: string | null;
-    active: boolean;
     createdOn: string;
     updatedOn: string;
 

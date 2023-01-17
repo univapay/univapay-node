@@ -12,7 +12,7 @@ import { DefinedRoute } from "./Resource.js";
 export type ECInfoItem = {
     form: ECFormItem;
     link: ECFormLinkItem;
-    product: LinkProductListItem;
+    products: LinkProductListItem[];
 };
 
 export type ECInfoGetParams = { secret: string };
