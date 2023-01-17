@@ -6,11 +6,13 @@ import { AuthParams, SendData } from "../api/RestAPI.js";
 import { CRUDResource } from "./CRUDResource.js";
 import { ECFormLinkItem } from "./ECFormLinks.js";
 import { ECFormItem, Languages } from "./ECForms.js";
+import { LinkProductListItem } from "./LinksProducts.js";
 import { DefinedRoute } from "./Resource.js";
 
 export type ECInfoItem = {
     form: ECFormItem;
     link: ECFormLinkItem;
+    products: LinkProductListItem[];
 };
 
 export type ECInfoGetParams = { secret: string };
