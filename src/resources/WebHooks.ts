@@ -23,6 +23,9 @@ export enum WebHookTrigger {
     CANCEL_FINISHED = "cancel_finished",
     RECURRING_TOKEN_DELETED = "recurring_token_deleted",
     CUSTOMS_DECLARATION_FINISHED = "customs_declaration_finished",
+    TOKEN_UPDATED = "token_updated",
+    TOKEN_CVV_AUTH_UPDATED = "token_cvv_auth_updated",
+    TOKEN_CVV_AUTH_CHECK_UPDATED = "token_cvv_auth_check_updated",
 
     // Merchant
     TRANSFER_CREATED = "transfer_created",
