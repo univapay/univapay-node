@@ -12,6 +12,7 @@ export enum CardBrand {
     DISCOVER = "discover",
     JCB = "jcb",
     UNIONPAY = "unionpay",
+    PRIVATE_LABEL = "private_label",
     UNKNOWN = "unknown",
 }
 
