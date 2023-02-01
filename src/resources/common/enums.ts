@@ -44,6 +44,14 @@ export enum CardCategory {
     MAESTRO = "maestro",
     WORLD = "world",
     BUSINESS = "business",
+    BLACK = "black",
+    CENTURION = "centurion",
+    CHARGE_CARD = "charge_card",
+    CREDIT = "credit",
+    DEBIT = "debit",
+    PERSONAL = "personal",
+    SIGNATURE = "signature",
+    STANDARD = "standard",
 }
 
 export enum ProcessingMode {
