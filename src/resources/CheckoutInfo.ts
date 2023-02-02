@@ -12,7 +12,7 @@ import {
     PaidyConfigurationItem,
     QRScanConfigurationItem,
 } from "./common/Configuration.js";
-import { CardBrand, OnlineBrand, ProcessingMode } from "./common/enums.js";
+import { BankTransferBrand, CardBrand, OnlineBrand, ProcessingMode } from "./common/enums.js";
 import { AmountWithCurrency } from "./common/types.js";
 import { DefinedRoute, Resource } from "./Resource.js";
 import { OnlineCallMethod, OSType, RecurringTokenPrivilege } from "./TransactionTokens.js";
@@ -35,14 +35,23 @@ export interface CheckoutColors {
 }
 
 export interface SupportedBrand {
-    cardBrand?: CardBrand;
-    onlineBrand?: OnlineBrand;
+    brand: CardBrand | OnlineBrand | "paidy" | BankTransferBrand;
     supportAuthCapture: boolean;
     requiresFullName: boolean;
     supportDynamicDescriptor: boolean;
     requiresCvv: boolean;
-    countriesAllowed?: string[];
+    countriesAllowed?: string[] | null;
     supportedCurrencies: string[];
+
+    /**
+     * @deprecated
+     */
+    cardBrand?: CardBrand;
+
+    /**
+     * @deprecated
+     */
+    onlineBrand?: OnlineBrand;
 }
 
 export interface CheckoutInfoItem {

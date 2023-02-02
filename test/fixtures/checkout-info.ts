@@ -44,6 +44,7 @@ export const generateFixture = (): CheckoutInfoItem => ({
     },
     supportedBrands: [
         {
+            brand: CardBrand.MASTERCARD,
             cardBrand: CardBrand.MASTERCARD,
             supportAuthCapture: true,
             requiresFullName: false,
