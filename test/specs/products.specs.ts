@@ -13,7 +13,7 @@ describe("Products", () => {
     let products: Products;
 
     const recordData = generateCheckoutInfo();
-    
+
     beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
         products = new Products(api);
