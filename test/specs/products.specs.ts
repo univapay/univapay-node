@@ -13,7 +13,6 @@ describe("Products", () => {
     let products: Products;
 
     const recordData = generateCheckoutInfo();
-    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/products/:id`);
 
     beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
@@ -25,6 +24,8 @@ describe("Products", () => {
     });
 
     context("GET /checkout/products/:id", () => {
+        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/products/:id`);
+
         it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
@@ -33,6 +34,20 @@ describe("Products", () => {
             });
 
             await expect(products.get(uuid())).to.become(recordData);
+        });
+    });
+
+    context("GET /checkout/products/code/:code", () => {
+        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/products/code/:code`);
+
+        it("should get response", async () => {
+            fetchMock.getOnce(recordPathMatcher, {
+                status: 200,
+                body: recordData,
+                headers: { "Content-type": "application/json" },
+            });
+
+            await expect(products.getByCode("Dummy code")).to.become(recordData);
         });
     });
 });
