@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 
 import { CheckoutInfoBrandItem, CheckoutInfoItem } from "../../src/resources/CheckoutInfo.js";
 import { CardBrand, OnlineBrand, ProcessingMode } from "../../src/resources/common/enums.js";
-import { RecurringTokenPrivilege } from "../../src/resources/TransactionTokens.js";
+import { PaymentType, RecurringTokenPrivilege } from "../../src/resources/TransactionTokens.js";
 
 import {
     generateFixtureBankTransferConfiguration,
@@ -52,6 +52,7 @@ export const generateFixture = (): CheckoutInfoItem => ({
             requiresCvv: true,
             countriesAllowed: null,
             supportedCurrencies: ["JPY"],
+            paymentType: PaymentType.CARD,
         },
     ],
 });
