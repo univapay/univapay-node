@@ -15,7 +15,7 @@ import {
 import { BankTransferBrand, CardBrand, OnlineBrand, ProcessingMode } from "./common/enums.js";
 import { AmountWithCurrency } from "./common/types.js";
 import { DefinedRoute, Resource } from "./Resource.js";
-import { OnlineCallMethod, OSType, RecurringTokenPrivilege } from "./TransactionTokens.js";
+import { OnlineCallMethod, OSType, PaymentType, RecurringTokenPrivilege } from "./TransactionTokens.js";
 
 /* Request */
 export interface CheckoutInfoParams {
@@ -42,6 +42,7 @@ export interface SupportedBrand {
     requiresCvv: boolean;
     countriesAllowed?: string[] | null;
     supportedCurrencies: string[];
+    paymentType: PaymentType;
 
     /**
      * @deprecated
