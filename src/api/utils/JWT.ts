@@ -29,7 +29,7 @@ export const parseJWT = <Payload>(jwt?: string | null, keepKeys = false): JWTPay
     }
 
     try {
-        const decoded = decode(jwt);
+        const decoded = decode<Payload>(jwt);
         return keepKeys || typeof decoded === "string" ? decoded : transformKeys(decoded, toCamelCase);
     } catch {
         throw new JWTError();
