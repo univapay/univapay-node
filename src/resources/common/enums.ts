@@ -110,7 +110,6 @@ export enum QRGateway {
     AU_PAY = "au_pay",
     BARTONG = "bartong",
     BPI = "bpi",
-    CYREX_PAY = "cyrex_pay",
     CO = "cyrex_pay",
     D_BARAI = "d_barai",
     D_BARAI_MPM = "d_barai_mpm",
