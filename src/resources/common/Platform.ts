@@ -32,7 +32,7 @@ export interface PlatformUserDefaults {
     taggedPlatformCredentialsEnabled: boolean;
 
     minRefundThreshold: number;
-    defaultMinRefundThreshold?: number;
+    defaultMinRefundThreshold: number;
 }
 
 export interface PlatformPaymentDefaults {
