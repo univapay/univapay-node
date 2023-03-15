@@ -98,6 +98,7 @@ export const generateFixture = (): ConfigurationItem => ({
             durationWindow: "P1M",
         },
         refundPercentLimit: 5,
+        minRefundThreshold: 5,
     },
     installmentsConfiguration: generateFixtureInstallmentConfiguration(),
     minimumChargeAmounts: [],

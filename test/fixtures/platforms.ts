@@ -50,6 +50,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             taggedPlatformCredentialsEnabled: true,
         },
         refundPercentLimit: 5,
+        minRefundThreshold: 5,
         paymentDefaults: {
             cardsEnabled: true,
             qrScanEnabled: true,
