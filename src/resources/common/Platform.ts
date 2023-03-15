@@ -75,6 +75,7 @@ export interface PlatformConfiguration {
     paymentDefaults: PlatformPaymentDefaults;
     recurringCardChargeCvvConfirmationThreshold?: AmountWithCurrency[];
     refundPercentLimit: number;
+    minRefundThreshold: number;
     supportedLanguages: string[];
     timeZone: string;
     userDefaults: PlatformUserDefaults;

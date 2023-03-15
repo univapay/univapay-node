@@ -176,6 +176,7 @@ export interface SecurityConfiguration {
         durationWindow: string;
     };
     refundPercentLimit?: number;
+    minRefundThreshold?: number;
 }
 
 export interface UserTransactionsConfiguration {
