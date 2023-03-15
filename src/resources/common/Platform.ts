@@ -30,6 +30,9 @@ export interface PlatformUserDefaults {
     onlyDirectCurrency: boolean;
     platformCredentialsEnabled: boolean;
     taggedPlatformCredentialsEnabled: boolean;
+
+    minRefundThreshold: number;
+    defaultMinRefundThreshold?: number;
 }
 
 export interface PlatformPaymentDefaults {
@@ -75,7 +78,6 @@ export interface PlatformConfiguration {
     paymentDefaults: PlatformPaymentDefaults;
     recurringCardChargeCvvConfirmationThreshold?: AmountWithCurrency[];
     refundPercentLimit: number;
-    minRefundThreshold: number;
     supportedLanguages: string[];
     timeZone: string;
     userDefaults: PlatformUserDefaults;

@@ -244,6 +244,7 @@ export interface ConfigurationItem {
     descriptorProvidedConfiguration?: DescriptorProvidedConfiguration;
     platformCredentialsEnabled?: boolean;
     taggedPlatformCredentialsEnabled?: boolean;
+    minRefundThreshold?: number;
 }
 
 export interface ConfigurationParams {
