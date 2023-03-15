@@ -91,7 +91,6 @@ export const generateFixture = (): ConfigurationItem => ({
     flatFees: [{ amount: 30, currency: "JPY" }],
     percentFee: 3.5,
     logoUrl: "http://fake.com/logo.jpg",
-    minRefundThreshold: 6,
     securityConfiguration: {
         inspectSuspiciousLoginAfter: "P7D",
         limitChargeByCardConfiguration: {
