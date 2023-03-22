@@ -21,6 +21,7 @@ export const generateFixture = (): TransactionTokenItem => ({
             brand: CardBrand.VISA,
             cardType: CardType.CREDIT,
             country: "JP",
+            cardBin: "400002",
         },
         billing: {
             line1: "Test",
