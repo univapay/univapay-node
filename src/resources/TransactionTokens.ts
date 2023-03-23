@@ -228,6 +228,7 @@ export interface TransactionTokenCardDetails {
     subBrand?: CardSubBrand;
     issuer?: string;
     category?: CardCategory;
+    cardBin?: string;
 }
 
 export interface TransactionTokenPaidyBilling {
