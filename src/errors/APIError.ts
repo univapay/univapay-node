@@ -273,6 +273,7 @@ export enum ResponseErrorCode {
     MustHaveAtLeastOneElement = "MUST_HAVE_AT_LEAST_ONE_ELEMENT",
     MustContainPlatformCurrency = "MUST_CONTAIN_PLATFORM_CURRENCY",
     CurrencyMustBeInAmountsList = "CURRENCY_MUST_BE_IN_AMOUNTS_LIST",
+    NumberMin = "NUMBER_MIN",
 
     BrandNotDefined = "BRAND_NOT_DEFINED",
 
