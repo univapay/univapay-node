@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
-import { fetchErrorReasons, formatErrors } from "../../../src/errors/RequestResponseError";
-import { createRawErrorRequest } from "../../fixtures/errors";
-import { ResponseErrorCode } from "../../../src/errors/APIError";
+import { fetchErrorReasons, formatErrors } from "../../../src/errors/RequestResponseError.js";
+import { createRawErrorRequest } from "../../fixtures/errors.js";
+import { ResponseErrorCode } from "../../../src/errors/APIError.js";
 
 describe("Common > fetchErrorReasons", () => {
     it("should return reasons from errors", async () => {

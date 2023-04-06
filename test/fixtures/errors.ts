@@ -12,8 +12,4 @@ export const createRawErrorRequest = (
     code: ResponseErrorCode | RequestErrorCode,
     errors: ErrorItem | ErrorItem[] = [],
     httpCode?: number
-): RawErrorRequest => ({
-    httpCode,
-    code,
-    errors,
-});
+): RawErrorRequest => ({ httpCode, code, errors });
