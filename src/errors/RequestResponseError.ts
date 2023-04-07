@@ -28,7 +28,7 @@ const isSymbol = (value: unknown): value is string | number | boolean =>
  * - Filters null and undefined errors
  * - When an item of errors is a symbol rather than an object, returns the UNKNOWN_ERROR as the code
  */
-export const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest): FormattedErrorRequest => {
+const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest): FormattedErrorRequest => {
     const formattedErrors = arrify(rawErrors)
         .filter(Boolean)
         .map((error: ErrorItem) => {
@@ -64,14 +64,16 @@ const serializeErrorResponse = ({ code, httpCode, errors }: FormattedErrorReques
     return `Code: ${code}, HttpCode: ${httpCode}, Errors: ${formattedErrors.join(", ")}`;
 };
 
-export const fetchErrorReasons = ({ errors, code }: FormattedErrorRequest) => {
-    const formattedErrors = arrify(errors);
+export const fetchErrorReasons = (errorRequest: RawErrorRequest) => {
+    const { errors, code } = formatErrors(errorRequest);
 
-    if (formattedErrors.length === 0) {
+    const arrifiedErrors = arrify(errors);
+
+    if (arrifiedErrors.length === 0) {
         return code;
     }
 
-    return formattedErrors.map((error) => error.reason);
+    return arrifiedErrors.map((error) => error.reason);
 };
 
 export class RequestResponseBaseError extends Error {
