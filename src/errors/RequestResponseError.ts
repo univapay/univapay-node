@@ -7,8 +7,8 @@ import { ErrorResponse, SubError, ValidationError } from "../api/RestAPI.js";
 
 import { RequestErrorCode, ResponseErrorCode } from "./APIError.js";
 
-type ErrorItem = boolean | number | string | SubError | ValidationError;
-type RawErrorRequest = {
+export type ErrorItem = boolean | number | string | SubError | ValidationError;
+export type RawErrorRequest = {
     httpCode?: number;
     code: ResponseErrorCode | RequestErrorCode;
     errors: ErrorItem | ErrorItem[];
@@ -62,6 +62,18 @@ const serializeErrorResponse = ({ code, httpCode, errors }: FormattedErrorReques
     );
 
     return `Code: ${code}, HttpCode: ${httpCode}, Errors: ${formattedErrors.join(", ")}`;
+};
+
+export const fetchErrorReasons = (errorRequest: RawErrorRequest) => {
+    const { errors, code } = formatErrors(errorRequest);
+
+    const arrifiedErrors = arrify(errors);
+
+    if (arrifiedErrors.length === 0) {
+        return code;
+    }
+
+    return arrifiedErrors.map((error) => error.reason);
 };
 
 export class RequestResponseBaseError extends Error {
