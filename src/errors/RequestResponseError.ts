@@ -8,7 +8,7 @@ import { ErrorResponse, SubError, ValidationError } from "../api/RestAPI.js";
 import { RequestErrorCode, ResponseErrorCode } from "./APIError.js";
 
 export type ErrorItem = boolean | number | string | SubError | ValidationError;
-export type RawErrorRequest = {
+type RawErrorRequest = {
     httpCode?: number;
     code: ResponseErrorCode | RequestErrorCode;
     errors: ErrorItem | ErrorItem[];
@@ -28,7 +28,7 @@ const isSymbol = (value: unknown): value is string | number | boolean =>
  * - Filters null and undefined errors
  * - When an item of errors is a symbol rather than an object, returns the UNKNOWN_ERROR as the code
  */
-const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest): FormattedErrorRequest => {
+const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest | ErrorResponse): FormattedErrorRequest => {
     const formattedErrors = arrify(rawErrors)
         .filter(Boolean)
         .map((error: ErrorItem) => {
@@ -64,7 +64,7 @@ const serializeErrorResponse = ({ code, httpCode, errors }: FormattedErrorReques
     return `Code: ${code}, HttpCode: ${httpCode}, Errors: ${formattedErrors.join(", ")}`;
 };
 
-export const fetchErrorReasons = (errorRequest: RawErrorRequest) => {
+export const fetchErrorReasons = (errorRequest: ErrorResponse) => {
     const { errors, code } = formatErrors(errorRequest);
 
     const arrifiedErrors = arrify(errors);
