@@ -10,12 +10,12 @@ describe("Common > fetchErrorReasons", () => {
             { field: "dummy-field", reason: ResponseErrorCode.NumberMin },
         ]);
 
-        await expect(fetchErrorReasons(data)).equal([ResponseErrorCode.NumberMin]);
+        await expect(fetchErrorReasons(data)).to.deep.equal([ResponseErrorCode.NumberMin]);
     });
 
     it("should return code when reasons are not provided", async () => {
         const data = createRawErrorRequest(ResponseErrorCode.BadRequest);
 
-        await expect(fetchErrorReasons(data)).equal(ResponseErrorCode.BadRequest);
+        await expect(fetchErrorReasons(data)).to.deep.equal(ResponseErrorCode.BadRequest);
     });
 });
