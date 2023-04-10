@@ -73,7 +73,7 @@ export const fetchErrorReasons = (errorRequest: ErrorResponse) => {
         return code;
     }
 
-    return arrifiedErrors.map((error) => error.reason);
+    return arrifiedErrors;
 };
 
 export class RequestResponseBaseError extends Error {

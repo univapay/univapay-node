@@ -10,7 +10,9 @@ describe("Common > fetchErrorReasons", () => {
             { field: "dummy-field", reason: ResponseErrorCode.NumberMin },
         ]);
 
-        await expect(fetchErrorReasons(data)).to.deep.equal([ResponseErrorCode.NumberMin]);
+        await expect(fetchErrorReasons(data)).to.deep.equal([
+            { field: "dummy-field", reason: ResponseErrorCode.NumberMin },
+        ]);
     });
 
     it("should return code when reasons are not provided", async () => {
