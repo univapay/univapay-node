@@ -1,5 +1,6 @@
 import { ResponseErrorCode, RequestErrorCode } from "../../src/errors/APIError.js";
-import { ErrorItem, RawErrorRequest, RequestError } from "../../src/errors/RequestResponseError.js";
+import { RequestError } from "../../src/errors/RequestResponseError.js";
+import { ErrorResponse, SubError, ValidationError } from "../../src/api/RestAPI.js";
 
 export const createRequestError = (fields: string[]): RequestError => {
     return new RequestError({
@@ -8,8 +9,8 @@ export const createRequestError = (fields: string[]): RequestError => {
     });
 };
 
-export const createRawErrorRequest = (
+export const createErrorResponse = (
     code: ResponseErrorCode | RequestErrorCode,
-    errors: ErrorItem | ErrorItem[] = [],
+    errors: (SubError | ValidationError)[] = [],
     httpCode?: number
-): RawErrorRequest => ({ httpCode, code, errors });
+): ErrorResponse => ({ httpCode, status: "error", code, errors });
