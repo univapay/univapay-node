@@ -110,6 +110,7 @@ export enum QRGateway {
     ALIPAY_PLUS = "alipay_plus",
     AU_PAY = "au_pay",
     BARTONG = "bartong",
+    HELLOMONEY = "hellomoney",
     BPI = "bpi",
     D_BARAI = "d_barai",
     D_BARAI_MPM = "d_barai_mpm",
