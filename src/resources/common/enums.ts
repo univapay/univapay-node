@@ -77,6 +77,7 @@ export enum QRBrand {
     GINKO_PAY = "ginko_pay",
     GLOBAL_PAY = "global_pay",
     HAMA_PAY = "hama_pay",
+    HELLOMONEY = "hellomoney",
     HOKUHOKU_PAY_HOKKAIDO = "hokuhoku_pay_hokkaido",
     HOKUHOKU_PAY_HOKURIKU = "hokuhoku_pay_hokuriku",
     JKOPAY = "jkopay",
