@@ -48,6 +48,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     successRedirectUrl?: string | null;
     failureRedirectUrl?: string | null;
     pendingRedirectUrl?: string | null;
+    autoRedirect?: boolean;
 
     /* Charge and token data */
     appId: string;
