@@ -28,7 +28,6 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
-    "suppressImplicitAnyIndexErrors": true,
     "baseUrl": ".",
     "outDir": "./dist/esm",
     "paths": {
