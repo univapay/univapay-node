@@ -33,7 +33,7 @@ export const generateFixture = (overrides?: Partial<SubscriptionItem>): Subscrip
         zoneId: "Asia/Tokyo",
         preserveEndOfMonth: true,
     },
-    installmentPlan: InstallmentPlan.FIXED_CYCLES,
+    installmentPlan: { planType: InstallmentPlan.FIXED_CYCLES, fixedCycles: 5 },
     nextPayment: generatePayment(),
     descriptor: "test",
     onlyDirectCurrency: false,

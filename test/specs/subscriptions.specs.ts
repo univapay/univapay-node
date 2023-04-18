@@ -9,8 +9,6 @@ import { POLLING_INTERVAL } from "../../src/common/constants.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
 import { ChargeStatus, SubscriptionItem } from "../../src/resources/index.js";
 import {
-    InstallmentBaseParams,
-    InstallmentCyclesParams,
     InstallmentPlan,
     SubscriptionCreateParams,
     SubscriptionPeriod,
@@ -209,7 +207,7 @@ describe("Subscriptions", () => {
 
     context("POST [/stores/:storeId]/subscriptions/simulate_plan", () => {
         it("should get response", async () => {
-            const simulationData: SubscriptionSimulationItem<InstallmentCyclesParams> = {
+            const simulationData: SubscriptionSimulationItem = {
                 installmentPlan: { planType: InstallmentPlan.FIXED_CYCLES, fixedCycles: 3 },
                 amount: 10000,
                 currency: "JPY",
@@ -229,7 +227,7 @@ describe("Subscriptions", () => {
                 }
             );
 
-            const data: SubscriptionSimulationParams<InstallmentCyclesParams> = {
+            const data: SubscriptionSimulationParams = {
                 installmentPlan: { planType: InstallmentPlan.FIXED_CYCLES, fixedCycles: 3 },
                 amount: 10000,
                 currency: "JPY",
@@ -247,7 +245,7 @@ describe("Subscriptions", () => {
         });
 
         it("should return validation error if data is invalid", async () => {
-            const asserts: [Partial<SubscriptionSimulationParams<any>>, RequestError][] = [
+            const asserts: [Partial<SubscriptionSimulationParams>, RequestError][] = [
                 [{}, createRequestError(["installmentPlan"])],
                 [{ installmentPlan: null }, createRequestError(["paymentType"])],
                 [{ installmentPlan: null, paymentType: PaymentType.CARD }, createRequestError(["currency"])],
@@ -258,7 +256,7 @@ describe("Subscriptions", () => {
             ];
 
             for (const [data, error] of asserts) {
-                await expect(subscriptions.simulation(data as SubscriptionSimulationParams<InstallmentBaseParams>))
+                await expect(subscriptions.simulation(data as SubscriptionSimulationParams))
                     .to.eventually.be.rejectedWith(RequestError)
                     .that.has.property("errorResponse")
                     .which.eql(error.errorResponse);
