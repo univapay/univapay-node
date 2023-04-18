@@ -111,11 +111,12 @@ export enum QRGateway {
     ALIPAY_PLUS = "alipay_plus",
     AU_PAY = "au_pay",
     BARTONG = "bartong",
-    HELLOMONEY = "hellomoney",
+    BOOST = "boost",
     BPI = "bpi",
     D_BARAI = "d_barai",
     D_BARAI_MPM = "d_barai_mpm",
     GINKO_PAY = "ginko_pay",
+    HELLOMONEY = "hellomoney",
     JKOPAY = "jkopay",
     LINE_PAY = "line_pay",
     MERPAY = "merpay",
@@ -137,8 +138,9 @@ export enum OnlineBrand {
     PAY_PAY_ONLINE = "pay_pay_online",
     WE_CHAT_ONLINE = "we_chat_online",
 
-    RABBIT_LINE_PAY = "rabbit_line_pay",
     BPI = "bpi",
+    BOOST = "boost",
+    RABBIT_LINE_PAY = "rabbit_line_pay",
 
     /**
      * @deprecated Use `ALIPAY_PLUS_ONLINE` instead
