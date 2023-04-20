@@ -169,6 +169,23 @@ export interface InstallmentsConfiguration {
 
 export interface InstallmentsConfigurationItem extends PaymentTypeConfiguration, InstallmentsConfiguration {}
 
+export type SubscriptionsPlanConfiguration = {
+    enabled: boolean | null;
+    fixedCycle: boolean | null;
+    fixedCycleAmount: boolean | null;
+    supportedPaymentTypes: boolean | null;
+    minChargeAmount: {
+        amount: number;
+        amountFormatted?: string;
+        currency: string;
+    };
+
+    /**
+     * Period e.g: P1Y
+     */
+    maxPayoutPeriod: string | null;
+};
+
 export interface SecurityConfiguration {
     inspectSuspiciousLoginAfter?: string;
     limitChargeByCardConfiguration?: {
@@ -239,6 +256,7 @@ export interface ConfigurationItem {
     recurringTokenConfiguration: RecurringTokenConfiguration;
     securityConfiguration: SecurityConfiguration;
     subscriptionConfiguration: SubscriptionsConfiguration;
+    subscriptionPlanConfiguration?: SubscriptionsPlanConfiguration;
     userTransactionsConfiguration?: UserTransactionsConfiguration;
     checkoutConfiguration: CheckoutConfiguration;
     descriptorProvidedConfiguration?: DescriptorProvidedConfiguration;
@@ -261,6 +279,7 @@ export interface ConfigurationParams {
     qrMerchantConfiguration?: Partial<QRMerchantConfigurationItem>;
     recurringTokenConfiguration?: Partial<RecurringTokenConfiguration>;
     subscriptionConfiguration?: Partial<SubscriptionsConfiguration>;
+    subscriptionPlanConfiguration?: SubscriptionsPlanConfiguration;
     securityConfiguration?: Partial<SecurityConfiguration>;
 }
 
