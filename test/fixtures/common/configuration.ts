@@ -8,6 +8,7 @@ import {
     SubscriptionsConfiguration,
     TransferMatchAmount,
     ConvenienceConfigurationItem,
+    SubscriptionPlanConfiguration,
 } from "../../../src/resources/common/Configuration.js";
 import { CardBrand } from "../../../src/resources/common/enums.js";
 
@@ -37,6 +38,19 @@ export const generateFixtureCardConfiguration = (): CardConfigurationItem => ({
         duration: "P1D",
     },
     onlyDirectCurrency: false,
+});
+
+export const generateFixtureSubscriptionPlanConfiguration = (): SubscriptionPlanConfiguration => ({
+    enabled: true,
+    fixedCycle: true,
+    fixedCycleAmount: true,
+    supportedPaymentTypes: null,
+    minChargeAmount: {
+        amount: 100,
+        amountFormatted: "100",
+        currency: "JPY",
+    },
+    maxPayoutPeriod: "P1Y",
 });
 
 export const generateFixtureInstallmentConfiguration = (): InstallmentsConfigurationItem => ({

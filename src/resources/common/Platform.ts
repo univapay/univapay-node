@@ -5,6 +5,7 @@ import {
     SubscriptionsConfiguration,
     UserTransactionsConfiguration,
     ConvenienceConfigurationItem,
+    SubscriptionPlanConfiguration,
 } from "./Configuration.js";
 import { TransferScheduleItem } from "./TransferSchedule.js";
 import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types.js";
@@ -31,6 +32,7 @@ export interface PlatformUserDefaults {
     platformCredentialsEnabled: boolean;
     taggedPlatformCredentialsEnabled: boolean;
     minRefundThreshold: number;
+    subscriptionPlanConfiguration: SubscriptionPlanConfiguration;
 }
 
 export interface PlatformPaymentDefaults {

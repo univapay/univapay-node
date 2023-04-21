@@ -9,6 +9,7 @@ import {
     generateFixtureInstallmentConfiguration,
     generateFixtureSubscriptionConfiguration,
     generateFixtureConvenienceConfiguration,
+    generateFixtureSubscriptionPlanConfiguration,
 } from "./common/configuration.js";
 import { generateFixture as generateTransferSchedule } from "./common/transfer-schedule.js";
 
@@ -45,6 +46,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             convenienceConfiguration: generateFixtureConvenienceConfiguration(),
             installmentsConfiguration: generateFixtureInstallmentConfiguration(),
             subscriptionConfiguration: generateFixtureSubscriptionConfiguration(),
+            subscriptionPlanConfiguration: generateFixtureSubscriptionPlanConfiguration(),
             onlyDirectCurrency: false,
             platformCredentialsEnabled: true,
             taggedPlatformCredentialsEnabled: true,
