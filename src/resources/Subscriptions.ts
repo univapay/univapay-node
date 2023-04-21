@@ -74,19 +74,18 @@ export type SubscriptionPlanItem =
     | { planType: InstallmentPlan.FIXED_CYCLES; fixedCycles: number }
     | { planType: InstallmentPlan.FIXED_CYCLE_AMOUNT; fixedCycleAmount: number };
 
-export interface SubscriptionsListParams extends CRUDPaginationParams {
+export type SubscriptionsListParams = CRUDPaginationParams & {
     search?: string;
     status?: SubscriptionStatus;
     mode?: ProcessingMode;
-}
+};
 
 export type ScheduledPaymentsListParams = CRUDPaginationParams;
 
-export interface SubscriptionCreateBaseParams<T extends Metadata = Metadata> {
+export type SubscriptionCreateBaseParams<T extends Metadata = Metadata> = {
     transactionTokenId: string;
     amount: number;
     currency: string;
-    period: SubscriptionPeriod;
     descriptor?: string;
     metadata?: T;
     initialAmount?: number;
@@ -101,22 +100,22 @@ export interface SubscriptionCreateBaseParams<T extends Metadata = Metadata> {
      */
     firstChargeCaptureAfter?: string;
     firstChargeAuthorizationOnly?: boolean;
-}
+} & PeriodParams;
 
-export interface SubscriptionCreateLegacyParams extends SubscriptionCreateBaseParams {
+export type SubscriptionCreateLegacyParams = SubscriptionCreateBaseParams & {
     /**
      * @deprecated Used scheduleSettings instead
      */
     subsequentCyclesStart?: string | number;
-}
+};
 
-export interface SubscriptionCreateNewParams extends SubscriptionCreateBaseParams {
+export type SubscriptionCreateNewParams = SubscriptionCreateBaseParams & {
     scheduleSettings: Partial<ScheduleSettings>;
-}
+};
 
 export type SubscriptionCreateParams = SubscriptionCreateLegacyParams | SubscriptionCreateNewParams;
 
-export interface SubscriptionUpdateParams<T extends Metadata = Metadata> {
+export type SubscriptionUpdateParams<T extends Metadata = Metadata> = {
     transactionTokenId?: string;
     amount?: number;
     status?: SubscriptionStatus;
@@ -132,18 +131,34 @@ export interface SubscriptionUpdateParams<T extends Metadata = Metadata> {
      */
     firstChargeCaptureAfter?: string;
     firstChargeAuthorizationOnly?: boolean;
-}
+};
 
 export type PaymentUpdateParams = Partial<ScheduledPaymentItem>;
 
-export interface ScheduleSettings {
+export type ScheduleSettings = {
     startOn?: string;
     zoneId: string;
     preserveEndOfMonth?: boolean;
-}
+};
 
 /* Response */
-export interface SubscriptionItem<T extends Metadata = Metadata> {
+
+type PeriodParams =
+    | {
+          /**
+           * Can not be used with the cyclicalPeriod parameter
+           */
+          period: SubscriptionPeriod;
+      }
+    | {
+          /**
+           * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter
+           */
+          cyclicalPeriod: string | null;
+          period?: never; // Ensure both parameter can not be specified together
+      };
+
+export type SubscriptionItem<T extends Metadata = Metadata> = {
     id: string;
     storeId: string;
     amount: number;
@@ -151,7 +166,6 @@ export interface SubscriptionItem<T extends Metadata = Metadata> {
     amountLeft: number;
     amountLeftFormatted: number;
     currency: string;
-    period: SubscriptionPeriod;
     initialAmount?: number | null;
     initialAmountFormatted?: number;
     subsequentCyclesStart?: string;
@@ -167,7 +181,7 @@ export interface SubscriptionItem<T extends Metadata = Metadata> {
     paymentsLeft: number;
     descriptor: string;
     onlyDirectCurrency: boolean;
-}
+} & PeriodParams;
 
 export type SubscriptionListItem = WithStoreMerchantName<SubscriptionItem>;
 
@@ -177,8 +191,7 @@ type SubscriptionSimulationBaseParams = {
     currency: string;
     initialAmount?: number;
     paymentType: PaymentType;
-    period: SubscriptionPeriod;
-};
+} & PeriodParams;
 
 export type SimulationInstallmentPayment = {
     amount: number;
@@ -189,28 +202,28 @@ export type SimulationInstallmentPayment = {
     zoneId: string;
 };
 
-export interface SubscriptionSimulationLegacyParams extends SubscriptionSimulationBaseParams {
+export type SubscriptionSimulationLegacyParams = SubscriptionSimulationBaseParams & {
     subsequentCyclesStart?: string | number;
-}
+};
 
-export interface SubscriptionSimulationNewParams extends SubscriptionSimulationBaseParams {
+export type SubscriptionSimulationNewParams = SubscriptionSimulationBaseParams & {
     scheduleSettings: ScheduleSettings;
-}
+};
 
 export type SubscriptionSimulationParams = SubscriptionSimulationLegacyParams | SubscriptionSimulationNewParams;
 
-export interface CycleAmount {
+export type CycleAmount = {
     cycleDate: string;
     amount: number;
-}
+};
 
 export type SubscriptionSimulationLegacyItem = Required<SubscriptionSimulationLegacyParams> & {
     cycles: CycleAmount[];
 };
 
-export interface SubscriptionSimulationNewItem {
+export type SubscriptionSimulationNewItem = {
     [index: string]: Omit<ScheduledPaymentItem, "id" | "createdOn">;
-}
+};
 
 export type SubscriptionSimulationItem = SubscriptionSimulationLegacyItem | SubscriptionSimulationNewItem;
 
