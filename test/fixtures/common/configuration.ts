@@ -8,7 +8,7 @@ import {
     SubscriptionsConfiguration,
     TransferMatchAmount,
     ConvenienceConfigurationItem,
-    SubscriptionsPlanConfiguration,
+    SubscriptionPlanConfiguration,
 } from "../../../src/resources/common/Configuration.js";
 import { CardBrand } from "../../../src/resources/common/enums.js";
 
@@ -40,7 +40,7 @@ export const generateFixtureCardConfiguration = (): CardConfigurationItem => ({
     onlyDirectCurrency: false,
 });
 
-export const generateFixtureSubscriptionPlanConfiguration = (): SubscriptionsPlanConfiguration => ({
+export const generateFixtureSubscriptionPlanConfiguration = (): SubscriptionPlanConfiguration => ({
     enabled: true,
     fixedCycle: true,
     fixedCycleAmount: true,
