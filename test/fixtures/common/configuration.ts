@@ -60,6 +60,7 @@ export const generateFixtureInstallmentConfiguration = (): InstallmentsConfigura
     minChargeAmount: { amount: 1000, currency: "JPY" },
     maxPayoutPeriod: "P7D",
     failedCyclesToCancel: 3,
+    cardProcessor: { fixedCycle: true, revolving: false },
 });
 
 export const generateFixtureSubscriptionConfiguration = (): SubscriptionsConfiguration => ({

@@ -165,6 +165,7 @@ export interface InstallmentsConfiguration {
     maxPayoutPeriod?: string;
     failedCyclesToCancel?: number;
     onlyWithProcessor?: boolean;
+    cardProcessor?: { fixedCycle: boolean; revolving: boolean } | null;
 }
 
 export interface InstallmentsConfigurationItem extends PaymentTypeConfiguration, InstallmentsConfiguration {}
