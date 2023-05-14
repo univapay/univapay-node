@@ -66,7 +66,7 @@
     "lint-staged": "13.2.2",
     "mocha": "10.2.0",
     "np": "7.7.0",
-    "p-map": "^5.5.0",
+    "p-map": "^6.0.0",
     "path-to-regexp": "6.2.1",
     "prettier": "2.8.7",
     "pretty-quick": "3.1.3",
