@@ -9,7 +9,7 @@ import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
 import { Metadata, WithStoreMerchantName } from "./common/types.js";
 import { Charges } from "./Charges.js";
 import { ChargesListParams, ResponseCharges } from "./Charges.js";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { ResponseCharge } from "./index.js";
 import { PaymentType } from "./TransactionTokens.js";
 import { DefinedRoute } from "./Resource.js";
@@ -228,10 +228,10 @@ export type SubscriptionSimulationNewItem = {
 export type SubscriptionSimulationItem = SubscriptionSimulationLegacyItem | SubscriptionSimulationNewItem;
 
 export type ResponseSubscription = SubscriptionItem;
-export type ResponseSubscriptions = CRUDItemsResponse<SubscriptionListItem>;
+export type ResponseSubscriptions = CRUDAOSItemsResponse<SubscriptionListItem>;
 
 export type ResponsePayment = ScheduledPaymentItem;
-export type ResponsePayments = CRUDItemsResponse<SchedulePaymentListItem>;
+export type ResponsePayments = CRUDAOSItemsResponse<SchedulePaymentListItem>;
 
 export class ScheduledPayments extends CRUDResource {
     static routeBase = "/stores/:storeId/subscriptions/:subscriptionsId/payments";

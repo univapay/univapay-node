@@ -9,7 +9,7 @@ import { ProcessingMode } from "./common/enums.js";
 import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
 import { Metadata, WithStoreMerchantName } from "./common/types.js";
 import { CaptureStatus } from "./Captures.js";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
 import { DefinedRoute } from "./Resource.js";
 
@@ -73,7 +73,7 @@ export interface IssuerTokenItem {
 export type ChargeListItem = WithStoreMerchantName<ChargeItem>;
 
 export type ResponseCharge = ChargeItem;
-export type ResponseCharges = CRUDItemsResponse<ChargeListItem>;
+export type ResponseCharges = CRUDAOSItemsResponse<ChargeListItem>;
 
 export type ResponseIssuerToken = IssuerTokenItem;
 

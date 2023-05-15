@@ -17,7 +17,7 @@ import {
     QRGateway,
 } from "./common/enums.js";
 import { Metadata, PhoneNumber, WithStoreMerchantName } from "./common/types.js";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 
 export enum UsageLimit {
@@ -306,7 +306,7 @@ export interface TransactionTokenItem<T extends Metadata = Metadata> {
 export type TransactionTokenListItem = WithStoreMerchantName<TransactionTokenItem>;
 
 export type ResponseTransactionToken = TransactionTokenItem;
-export type ResponseTransactionTokens = CRUDItemsResponse<TransactionTokenListItem>;
+export type ResponseTransactionTokens = CRUDAOSItemsResponse<TransactionTokenListItem>;
 
 export class TransactionTokens extends CRUDResource {
     static requiredParams: string[] = ["paymentType", "type", "data"];

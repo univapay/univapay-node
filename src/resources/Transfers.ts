@@ -5,7 +5,7 @@
 import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import { Metadata, WithMerchantName } from "./common/types.js";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 
 export enum TransferStatus {
@@ -56,8 +56,8 @@ export interface TransferStatusChangeItem {
 }
 
 export type ResponseTransfer = TransferItem;
-export type ResponseTransfers = CRUDItemsResponse<TransferListItem>;
-export type ResponseTransferStatusChanges = CRUDItemsResponse<TransferStatusChangeItem>;
+export type ResponseTransfers = CRUDAOSItemsResponse<TransferListItem>;
+export type ResponseTransferStatusChanges = CRUDAOSItemsResponse<TransferStatusChangeItem>;
 
 export class Transfers extends CRUDResource {
     static routeBase = "/transfers";
