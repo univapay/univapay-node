@@ -22,7 +22,6 @@ export type CRUDPaginationParams = {
 export type CRUDItemsResponse<A> = {
     items: A[];
     hasMore: boolean;
-    totalHits?: number;
 };
 
 export type CRUDAOSItemsResponse<A> = CRUDItemsResponse<A> & {
