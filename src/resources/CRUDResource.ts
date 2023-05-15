@@ -25,6 +25,10 @@ export type CRUDItemsResponse<A> = {
 };
 
 export type CRUDAOSItemsResponse<A> = CRUDItemsResponse<A> & {
+    /**
+     * Optional parameter indicating the total numbers of elements the list has.
+     * Only present when no cursor are provided when fetching the list.
+     */
     totalHits?: number;
 };
 
