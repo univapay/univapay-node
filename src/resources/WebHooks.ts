@@ -5,7 +5,7 @@
 import { AuthParams, SendData } from "../api/RestAPI.js";
 
 import { WithStoreMerchantName } from "./common/types.js";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 
 export enum WebHookTrigger {
@@ -61,7 +61,7 @@ export interface WebHookItem<Trigger = WebHookTrigger> {
 export type WebHookListItem<TriggerType> = WithStoreMerchantName<WebHookItem<TriggerType>>;
 
 export type ResponseWebHook<TriggerType> = WebHookItem<TriggerType>;
-export type ResponseWebHooks<TriggerType> = CRUDItemsResponse<WebHookListItem<TriggerType>>;
+export type ResponseWebHooks<TriggerType> = CRUDAOSItemsResponse<WebHookListItem<TriggerType>>;
 
 export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
     static requiredParams: string[] = ["triggers", "url"];

@@ -12,17 +12,25 @@ export enum CursorDirection {
 }
 
 /* Request */
-export interface CRUDPaginationParams {
+export type CRUDPaginationParams = {
     limit?: number;
     cursor?: string;
     cursorDirection?: CursorDirection;
-}
+};
 
 /* Response */
-export interface CRUDItemsResponse<A> {
+export type CRUDItemsResponse<A> = {
     items: A[];
     hasMore: boolean;
-}
+};
+
+export type CRUDAOSItemsResponse<A> = CRUDItemsResponse<A> & {
+    /**
+     * Optional parameter indicating the total numbers of elements the list has.
+     * Only present when no cursor are provided when fetching the list.
+     */
+    totalHits?: number;
+};
 
 interface CRUDResourceStatic extends Function {
     routeBase: string;

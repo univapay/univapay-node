@@ -7,7 +7,7 @@ import { AuthParams, PollParams, PollData, SendData } from "../api/RestAPI.js";
 import { PaymentError } from "../errors/APIError.js";
 import { ProcessingMode } from "./common/enums.js";
 import { Metadata } from "./common/types.js";
-import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
+import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 
 export enum RefundStatus {
@@ -64,7 +64,7 @@ export interface RefundItem<T extends Metadata = Metadata> {
 export type RefundListItem = RefundItem;
 
 export type ResponseRefund = RefundItem;
-export type ResponseRefunds = CRUDItemsResponse<RefundListItem>;
+export type ResponseRefunds = CRUDAOSItemsResponse<RefundListItem>;
 
 export class Refunds extends CRUDResource {
     static requiredParams: string[] = ["amount", "currency"];
