@@ -53,8 +53,13 @@ export type ECFormLinkItem = {
     subscriptionStartInMonths?: number;
     subscriptionStartDayOfMonth?: number;
     subscriptionInitialAmount?: number;
-    subscriptionPeriod?: SubscriptionPeriod;
     subscriptionCycles?: number;
+
+    /**
+     * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter
+     */
+    subscriptionCyclicalPeriod?: string | null;
+    subscriptionPeriod?: SubscriptionPeriod;
 };
 
 export type ResponseECFormLink = ECFormLinkItem;
