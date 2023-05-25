@@ -75,6 +75,23 @@ describe("Subscriptions", () => {
             await expect(subscriptions.create(data)).to.become(recordData);
         });
 
+        it("should get response with cyclical period", async () => {
+            fetchMock.postOnce(`${testEndpoint}/subscriptions`, {
+                status: 201,
+                body: recordData,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            const data: SubscriptionCreateParams = {
+                transactionTokenId: uuid(),
+                amount: 1000,
+                currency: "JPY",
+                cyclicalPeriod: "P1M",
+            };
+
+            await expect(subscriptions.create(data)).to.become(recordData);
+        });
+
         it("should return validation error if data is invalid", async () => {
             const asserts: [Partial<SubscriptionCreateParams>, RequestError][] = [
                 [{}, createRequestError(["transactionTokenId"])],

@@ -75,8 +75,10 @@ const getObjectType = (data: unknown): ObjectType => {
 export type DefineRouteOptions = ApiSendOptions & {
     /**
      * Parameters required for the route to be called.
+     *
+     * Pass an array of string in the array for OR between the given parameters
      */
-    requiredParams?: string[];
+    requiredParams?: (string | string[])[];
 };
 
 export abstract class Resource extends EventEmitter {
@@ -100,7 +102,7 @@ export abstract class Resource extends EventEmitter {
         return <A, B>(
             originalData?: SendData<A>,
             auth?: AuthParams,
-            pathParams: Record<string, string> = {}
+            pathParams: Record<string, string | string> = {}
         ): Promise<B> => {
             const { requiredParams = [], ...sendOptions } = options;
 
@@ -122,9 +124,19 @@ export abstract class Resource extends EventEmitter {
             }
 
             // Validate required body parameters
-            const firstMissingParam = data ? requiredParams.find((key) => data[key] === undefined) : requiredParams[0];
+            const firstMissingParam = data
+                ? requiredParams.find((key) =>
+                      typeof key === "string"
+                          ? data[key] === undefined
+                          : key.every((orKey) => data[orKey] === undefined)
+                  )
+                : requiredParams[0];
             if (firstMissingParam) {
-                const error = fromError(new RequestParameterError(firstMissingParam));
+                const error = fromError(
+                    new RequestParameterError(
+                        typeof firstMissingParam === "string" ? firstMissingParam : firstMissingParam?.[0]
+                    )
+                );
                 return Promise.reject(error);
             }
 
