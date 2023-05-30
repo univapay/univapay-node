@@ -23,6 +23,15 @@ export enum ChargeStatus {
     AUTHORIZED = "authorized",
 }
 
+export type ChargeExpiry = {
+    id: string;
+    chargeId: string;
+    expirationDate: string;
+    extensionCount: number;
+    createdOn: string;
+    updatedOn: string;
+};
+
 /* Request */
 export type ChargesListParams = CRUDPaginationParams;
 
@@ -128,5 +137,11 @@ export class Charges extends CRUDResource {
         const successCondition = pollParams?.successCondition ?? (({ status }) => status !== ChargeStatus.PENDING);
 
         return this.api.longPolling(promise, { ...pollParams, successCondition });
+    }
+
+    private _expiry?: DefinedRoute;
+    expiry(id: string, data?: SendData<void>, auth?: AuthParams, storeId?: string): Promise<ChargeExpiry> {
+        this._expiry = this._expiry ?? this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:id/expiry/latest");
+        return this._expiry(data, auth, { storeId, id });
     }
 }

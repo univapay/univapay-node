@@ -160,6 +160,28 @@ describe("Charges", () => {
         });
     });
 
+    context("GET /stores/:storeId/charges/:chargeId/expiry", () => {
+        it("should get response", async () => {
+            const pathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/charges/:chargeId/expiry/latest`);
+            const recordExpiry = {
+                id: uuid(),
+                chargeId: uuid(),
+                expirationDate: uuid(),
+                extensionCount: 1,
+                createdOn: new Date().toISOString(),
+                updatedOn: new Date().toISOString(),
+            };
+
+            fetchMock.getOnce(pathMatcher, {
+                status: 200,
+                body: recordExpiry,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            await expect(charges.expiry(uuid(), null, null, uuid())).to.become(recordExpiry);
+        });
+    });
+
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);
