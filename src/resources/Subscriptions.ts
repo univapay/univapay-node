@@ -181,7 +181,9 @@ export type SubscriptionItem<T extends Metadata = Metadata> = {
     paymentsLeft: number;
     descriptor: string;
     onlyDirectCurrency: boolean;
-} & PeriodParams;
+    period?: SubscriptionPeriod;
+    cyclicalPeriod?: string | null;
+};
 
 export type SubscriptionListItem = WithStoreMerchantName<SubscriptionItem>;
 
