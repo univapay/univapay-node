@@ -37,6 +37,8 @@ export type ProductItem = {
     createdOn: string;
     updatedOn: string;
     active: boolean;
+
+    metadata?: Record<string, string>;
 };
 
 export type ResponseProduct = ProductItem;
