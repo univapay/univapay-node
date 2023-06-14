@@ -74,16 +74,8 @@ export class ECFormLinks extends CRUDResource {
     }
 
     private _createTemporary?: DefinedRoute;
-    createTemporary(
-        merchantId: string,
-        storeId: string,
-        data?: SendData<void>,
-        auth?: AuthParams
-    ): Promise<ResponseECFormLink> {
+    createTemporary(data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink> {
         this._createTemporary = this._createTemporary ?? this.defineRoute(HTTPMethod.POST, "/checkout/links/temporary");
-        return this._createTemporary(data, auth, {
-            merchantId,
-            storeId,
-        });
+        return this._createTemporary(data, auth);
     }
 }

@@ -47,7 +47,7 @@ describe("EC Form links", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(ecFormLinks.createTemporary(uuid(), uuid())).to.become(recordData);
+            await expect(ecFormLinks.createTemporary()).to.become(recordData);
         });
     });
 });
