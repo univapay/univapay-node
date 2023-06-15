@@ -139,6 +139,7 @@ export type ScheduleSettings = {
     startOn?: string;
     zoneId: string;
     preserveEndOfMonth?: boolean;
+    retryInterval?: string;
 };
 
 /* Response */
