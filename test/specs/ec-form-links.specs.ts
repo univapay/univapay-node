@@ -13,7 +13,6 @@ describe("EC Form links", () => {
     let ecFormLinks: ECFormLinks;
 
     const recordData = generateCheckoutInfo();
-    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/links/:id`);
 
     beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
@@ -25,6 +24,8 @@ describe("EC Form links", () => {
     });
 
     context("GET /checkout/links/:id", () => {
+        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/links/:id`);
+
         it("should get response", async () => {
             fetchMock.getOnce(recordPathMatcher, {
                 status: 200,
@@ -33,6 +34,20 @@ describe("EC Form links", () => {
             });
 
             await expect(ecFormLinks.get(uuid())).to.become(recordData);
+        });
+    });
+
+    context("POST /checkout/links/temporary", () => {
+        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/checkout/links/temporary`);
+
+        it("should get response", async () => {
+            fetchMock.postOnce(recordPathMatcher, {
+                status: 201,
+                body: recordData,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            await expect(ecFormLinks.createTemporary()).to.become(recordData);
         });
     });
 });

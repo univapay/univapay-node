@@ -1,7 +1,7 @@
 /**
  *  @module Resources/ECFormLinks
  */
-import { AuthParams, SendData } from "../api/RestAPI.js";
+import { AuthParams, SendData, HTTPMethod } from "../api/RestAPI.js";
 
 import { Metadata } from "./common/types.js";
 import { CRUDResource } from "./CRUDResource.js";
@@ -71,5 +71,11 @@ export class ECFormLinks extends CRUDResource {
     get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });
+    }
+
+    private _createTemporary?: DefinedRoute;
+    createTemporary(data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink> {
+        this._createTemporary = this._createTemporary ?? this.defineRoute(HTTPMethod.POST, "/checkout/links/temporary");
+        return this._createTemporary(data, auth);
     }
 }
