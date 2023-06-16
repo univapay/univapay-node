@@ -40,6 +40,11 @@ export type LinkProductListItem = {
      */
     subscriptionCyclicalPeriod?: string | null;
     subscriptionPeriod?: SubscriptionPeriod;
+
+    /**
+     * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter
+     */
+    subscriptionRetryInterval?: string | null;
 };
 export type ResponseLinkProducts = CRUDItemsResponse<LinkProductListItem> & {
     hasMore: false; // no support for pagination

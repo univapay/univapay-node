@@ -60,6 +60,11 @@ export type ECFormLinkItem = {
      */
     subscriptionCyclicalPeriod?: string | null;
     subscriptionPeriod?: SubscriptionPeriod;
+
+    /**
+     * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter
+     */
+    subscriptionRetryInterval?: string | null;
 };
 
 export type ResponseECFormLink = ECFormLinkItem;
