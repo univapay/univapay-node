@@ -67,6 +67,11 @@ export type ECFormLinkItem = {
     subscriptionRetryInterval?: string | null;
 };
 
+export type ECFormLinkPublicCreateParams = Omit<
+    ECFormLinkItem,
+    "id" | "createdOn" | "updatedOn" | "amountFormatted" | "secret" | "active"
+>;
+
 export type ResponseECFormLink = ECFormLinkItem;
 
 export class ECFormLinks extends CRUDResource {
@@ -79,7 +84,7 @@ export class ECFormLinks extends CRUDResource {
     }
 
     private _createTemporary?: DefinedRoute;
-    createTemporary(data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink> {
+    createTemporary(data?: SendData<ECFormLinkPublicCreateParams>, auth?: AuthParams): Promise<ResponseECFormLink> {
         this._createTemporary = this._createTemporary ?? this.defineRoute(HTTPMethod.POST, "/checkout/links/temporary");
         return this._createTemporary(data, auth);
     }
