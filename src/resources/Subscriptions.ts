@@ -184,6 +184,7 @@ export type SubscriptionItem<T extends Metadata = Metadata> = {
     onlyDirectCurrency: boolean;
     period?: SubscriptionPeriod;
     cyclicalPeriod?: string | null;
+    cyclesLeft?: number;
 };
 
 export type SubscriptionListItem = WithStoreMerchantName<SubscriptionItem>;
