@@ -26,7 +26,16 @@ export type ProductItem = {
     subscriptionInitialAmount?: number;
     subscriptionStartDayOfMonth?: number;
     subscriptionStartInMonths?: number;
+
+    /**
+     * ISO 8601 period. e.g P1M, P23D.
+     */
     subscriptionStartIn?: string;
+
+    /**
+     * ISO 8601 period. e.g P1M, P23D.
+     */
+    subscriptionRetryInterval?: string;
 
     /**
      * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter
