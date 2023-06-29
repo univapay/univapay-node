@@ -8,7 +8,7 @@ import { PathParameterError } from "./PathParameterError.js";
 import { RequestParameterError } from "./RequestParameterError.js";
 import { RequestError, RequestResponseBaseError, ResponseError } from "./RequestResponseError.js";
 
-const getCodeByStatus = (status: number): string => {
+export const getProcessingErrorCodeByStatus = (status: number): string => {
     const codeMap: Record<number, string> = {
         301: ResponseErrorCode.CardNumberNotValid,
         302: ResponseErrorCode.CardExpirationMonthInvalid,
@@ -88,7 +88,7 @@ export const fromError = (error: Error): RequestResponseBaseError => {
         });
     } else if (error instanceof APIError) {
         return new ResponseError({
-            code: error.response ? error.response.code : getCodeByStatus(error.status),
+            code: error.response ? error.response.code : getProcessingErrorCodeByStatus(error.status),
             httpCode: error.status,
             errors: error.response ? error.response.errors || error.response : [],
         });
