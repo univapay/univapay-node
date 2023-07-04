@@ -191,7 +191,7 @@ export interface TransactionTokenListParams extends CRUDPaginationParams {
     mode?: ProcessingMode;
 }
 
-export interface TransactionTokenUpdateParams {
+export interface TransactionTokenUpdateParams<T extends Metadata = Metadata> {
     email?: string;
     data?: {
         cvv?: string;
@@ -210,6 +210,7 @@ export interface TransactionTokenUpdateParams {
             localNumber?: string;
         };
     };
+    metadata?: T;
 }
 
 export interface TransactionTokenConfirmParams {
