@@ -5,6 +5,10 @@ updates:
     versioning-strategy: increase
     schedule:
       interval: weekly
+    groups:
+      typescript-eslint:
+        patterns:
+          - "@typescript-eslint/*"
     ignore:
       - dependency-name: "query-string"
       - dependency-name: "arrify" # esm-only
