@@ -205,7 +205,7 @@ export interface TransactionTokenUpdateParams<T extends Metadata = Metadata> {
         city?: string;
         country?: string;
         zip?: string;
-        phoneNumber: {
+        phoneNumber?: {
             countryCode?: string;
             localNumber?: string;
         };
