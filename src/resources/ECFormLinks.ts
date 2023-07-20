@@ -31,7 +31,6 @@ export type ECFormLinkItem = {
     tokenType: TransactionTokenType;
     tokenOnly: boolean;
     hideCvv?: boolean;
-    email?: string;
     hidePrefilledEmail?: boolean;
     metadata?: Metadata;
 
