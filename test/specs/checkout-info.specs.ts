@@ -55,7 +55,7 @@ describe("Checkout Info", () => {
                     currency: "jpy",
                     callMethod: OnlineCallMethod.APP,
                     osType: OSType.IOS,
-                })
+                }),
             ).to.become(gatewayRecordData);
         });
     });

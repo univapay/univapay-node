@@ -23,7 +23,7 @@ export const isBlob = (data: unknown): data is Blob =>
 export const transformKeys = <Data = Record<string, unknown> | unknown[]>(
     obj: Data,
     transformer: Transformer,
-    ignoreKeys: string[] = []
+    ignoreKeys: string[] = [],
 ): Data => {
     if (Array.isArray(obj)) {
         return obj.map((item) => (isObject(item) ? transformKeys(item, transformer, ignoreKeys) : item)) as Data;

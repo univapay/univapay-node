@@ -3,7 +3,7 @@ import { ResponseErrorCode } from "../../errors/APIError.js";
 type WithOptionalDescriptor<Data> = Data | Omit<Data, "descriptor">;
 export const ignoreDescriptor = async <Data extends { descriptor?: string }>(
     execute: (data: WithOptionalDescriptor<Data>) => Promise<WithOptionalDescriptor<Data>>,
-    data: Data
+    data: Data,
 ): Promise<WithOptionalDescriptor<Data>> => {
     try {
         return execute(data);
@@ -12,7 +12,7 @@ export const ignoreDescriptor = async <Data extends { descriptor?: string }>(
             error.errorResponse.code === ResponseErrorCode.ValidationError &&
             error.errorResponse.errors.length === 1 &&
             error.errorResponse.errors.find(
-                (e) => e.field === "descriptor" && e.reason === ResponseErrorCode.NotSupportedByProcessor
+                (e) => e.field === "descriptor" && e.reason === ResponseErrorCode.NotSupportedByProcessor,
             );
 
         if (isDescriptorNotSupportedError) {

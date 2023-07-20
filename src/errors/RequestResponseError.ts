@@ -36,7 +36,7 @@ const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest | ErrorRes
                 const errorCodeKeys = [...Object.keys(ResponseErrorCode), ...Object.keys(RequestErrorCode)];
                 const upperCaseError = error.toUpperCase();
                 const isValidError = errorCodeKeys.some(
-                    (key) => ResponseErrorCode[key] === upperCaseError || RequestErrorCode[key] === upperCaseError
+                    (key) => ResponseErrorCode[key] === upperCaseError || RequestErrorCode[key] === upperCaseError,
                 );
 
                 return {
@@ -58,7 +58,7 @@ const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest | ErrorRes
 
 const serializeErrorResponse = ({ code, httpCode, errors }: FormattedErrorRequest): string => {
     const formattedErrors = errors.map((error: SubError | ValidationError) =>
-        "field" in error && !!error.field ? `${error.reason} (${error.field})` : `${error.reason}`
+        "field" in error && !!error.field ? `${error.reason} (${error.field})` : `${error.reason}`,
     );
 
     return `Code: ${code}, HttpCode: ${httpCode}, Errors: ${formattedErrors.join(", ")}`;

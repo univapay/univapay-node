@@ -14,7 +14,7 @@ describe("EC Info", () => {
 
     const recordData = generateECInfo();
     const recordPathMatcher = new RegExp(
-        `^${testEndpoint}${pathToRegexp("/checkout/info/:id", [], { start: false, end: false }).source}`
+        `^${testEndpoint}${pathToRegexp("/checkout/info/:id", [], { start: false, end: false }).source}`,
     );
 
     beforeEach(() => {
@@ -39,7 +39,7 @@ describe("EC Info", () => {
                     status: 200,
                     body: recordData,
                     headers: { "Content-Type": "application/json" },
-                }
+                },
             );
 
             await expect(ecInfo.get(uuid(), { secret: "mysecret" })).to.become(recordData);

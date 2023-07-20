@@ -317,7 +317,7 @@ export class TransactionTokens extends CRUDResource {
     create(data: SendData<TransactionTokenCreateParams>, auth?: AuthParams): Promise<ResponseTransactionToken> {
         return this.defineRoute(HTTPMethod.POST, "/tokens", { requiredParams: TransactionTokens.requiredParams })(
             data,
-            auth
+            auth,
         );
     }
 
@@ -331,7 +331,7 @@ export class TransactionTokens extends CRUDResource {
     list(
         data?: SendData<TransactionTokenListParams>,
         auth?: AuthParams,
-        storeId?: string
+        storeId?: string,
     ): Promise<ResponseTransactionTokens> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens");
         return this._list(data, auth, { storeId });
@@ -342,7 +342,7 @@ export class TransactionTokens extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<TransactionTokenUpdateParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseTransactionToken> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, id });
@@ -359,7 +359,7 @@ export class TransactionTokens extends CRUDResource {
         storeId: string,
         id: string,
         data: SendData<TransactionTokenConfirmParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<void> {
         this._confirm = this._confirm ?? this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:id/confirm");
         return this._confirm(data, auth, { storeId, id });

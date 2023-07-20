@@ -76,7 +76,7 @@ export class Refunds extends CRUDResource {
         storeId: string,
         chargeId: string,
         data?: SendData<RefundsListParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseRefunds> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth, { storeId, chargeId });
@@ -87,7 +87,7 @@ export class Refunds extends CRUDResource {
         storeId: string,
         chargeId: string,
         data: SendData<RefundCreateParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseRefund> {
         this._create = this._create ?? this._createRoute({ requiredParams: Refunds.requiredParams });
         return this._create(data, auth, { storeId, chargeId });
@@ -99,7 +99,7 @@ export class Refunds extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<PollData>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseRefund> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, chargeId, id });
@@ -111,7 +111,7 @@ export class Refunds extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<RefundUpdateParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseRefund> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, chargeId, id });
@@ -123,7 +123,7 @@ export class Refunds extends CRUDResource {
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-        pollParams?: Partial<PollParams<ResponseRefund>>
+        pollParams?: Partial<PollParams<ResponseRefund>>,
     ): Promise<ResponseRefund> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData, auth);

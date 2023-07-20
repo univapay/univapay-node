@@ -102,7 +102,7 @@ export abstract class Resource extends EventEmitter {
         return <A, B>(
             originalData?: SendData<A>,
             auth?: AuthParams,
-            pathParams: Record<string, string | string> = {}
+            pathParams: Record<string, string | string> = {},
         ): Promise<B> => {
             const { requiredParams = [], ...sendOptions } = options;
 
@@ -128,14 +128,14 @@ export abstract class Resource extends EventEmitter {
                 ? requiredParams.find((key) =>
                       typeof key === "string"
                           ? data[key] === undefined
-                          : key.every((orKey) => data[orKey] === undefined)
+                          : key.every((orKey) => data[orKey] === undefined),
                   )
                 : requiredParams[0];
             if (firstMissingParam) {
                 const error = fromError(
                     new RequestParameterError(
-                        typeof firstMissingParam === "string" ? firstMissingParam : firstMissingParam?.[0]
-                    )
+                        typeof firstMissingParam === "string" ? firstMissingParam : firstMissingParam?.[0],
+                    ),
                 );
                 return Promise.reject(error);
             }
