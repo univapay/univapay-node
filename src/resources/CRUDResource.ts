@@ -32,16 +32,13 @@ export type CRUDAOSItemsResponse<A> = CRUDItemsResponse<A> & {
     totalHits?: number;
 };
 
-interface CRUDResourceStatic extends Function {
-    routeBase: string;
-}
-
 export abstract class CRUDResource extends Resource {
     protected _routeBase: string;
+    static routeBase: string;
 
     constructor(api: RestAPI) {
         super(api);
-        this._routeBase = (this.constructor as CRUDResourceStatic).routeBase;
+        this._routeBase = (this.constructor as typeof CRUDResource).routeBase;
     }
 
     protected _listRoute(options?: DefineRouteOptions): DefinedRoute {
