@@ -24,7 +24,7 @@ export const assertPoll = async <Item>(
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
     successItem: Item,
-    pendingItem: Item | Item[]
+    pendingItem: Item | Item[],
 ) => {
     const pendingItems = arrify(pendingItem);
 
@@ -43,7 +43,7 @@ export const assertPollCancel = async <Item>(
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
     cancelItem: Item,
-    pendingItem: Item | Item[]
+    pendingItem: Item | Item[],
 ) => {
     const pendingItems = arrify(pendingItem);
 
@@ -61,7 +61,7 @@ export const assertPollTimeout = async <Item>(
     pathMatcher: fetchMock.MockMatcher,
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
-    pendingItem: Item
+    pendingItem: Item,
 ) => {
     mockFetchGet(pathMatcher, "pending", pendingItem);
 
@@ -74,7 +74,7 @@ export const assertPollTimeout = async <Item>(
 export const assertPollNotFoundError = async <Item>(
     pathMatcher: fetchMock.MockMatcher,
     call: () => Promise<Item>,
-    sandbox: sinon.SinonSandbox
+    sandbox: sinon.SinonSandbox,
 ) => {
     mockFetchGetOnce(pathMatcher, "not-found-error", "", 404);
     mockFetchGet(pathMatcher, "cancel-callback-sanity-check", "");
@@ -92,7 +92,7 @@ export const assertPollInternalServerError = async <Item>(
     pathMatcher: fetchMock.MockMatcher,
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
-    successItem: Item
+    successItem: Item,
 ) => {
     mockFetchGetOnce(pathMatcher, "internal-server-error", "", 500);
     mockFetchGet(pathMatcher, "cancel-callback-sanity-check", successItem);
@@ -106,7 +106,7 @@ export const assertPollInternalServerError = async <Item>(
 export const assertPollInternalServerErrorMaxRetry = async <Item>(
     pathMatcher: fetchMock.MockMatcher,
     call: () => Promise<Item>,
-    sandbox: sinon.SinonSandbox
+    sandbox: sinon.SinonSandbox,
 ) => {
     mockFetchGet(pathMatcher, "internal-server-error", "", 500);
 

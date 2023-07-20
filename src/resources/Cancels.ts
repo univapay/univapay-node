@@ -50,7 +50,7 @@ export class Cancels extends CRUDResource {
         storeId: string,
         chargeId: string,
         data?: SendData<CancelsListParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseCancels> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth, { storeId, chargeId });
@@ -61,7 +61,7 @@ export class Cancels extends CRUDResource {
         storeId: string,
         chargeId: string,
         data: SendData<CancelCreateParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseCancel> {
         this._create = this._create ?? this._createRoute({ requiredParams: Cancels.requiredParams });
         return this._create(data, auth, { storeId, chargeId });
@@ -73,7 +73,7 @@ export class Cancels extends CRUDResource {
         chargeId: string,
         id: string,
         data?: SendData<PollData>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseCancel> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, chargeId, id });
@@ -85,7 +85,7 @@ export class Cancels extends CRUDResource {
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-        pollParams?: Partial<PollParams<ResponseCancel>>
+        pollParams?: Partial<PollParams<ResponseCancel>>,
     ): Promise<ResponseCancel> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseCancel> = () => this.get(storeId, chargeId, id, pollData, auth);

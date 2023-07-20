@@ -15,7 +15,7 @@ describe("Errors", () => {
         });
 
         expect(error.toString()).to.equal(
-            "Error: Code: BAD_REQUEST, HttpCode: 400, Errors: DB_ERROR, FORBIDDEN (my no reason field)"
+            "Error: Code: BAD_REQUEST, HttpCode: 400, Errors: DB_ERROR, FORBIDDEN (my no reason field)",
         );
     });
 
@@ -30,7 +30,7 @@ describe("Errors", () => {
         });
 
         expect(error.toString()).to.equal(
-            "Error: Code: REQUEST_ERROR, HttpCode: 400, Errors: REQUEST_ERROR, REQUEST_ERROR (my no reason field)"
+            "Error: Code: REQUEST_ERROR, HttpCode: 400, Errors: REQUEST_ERROR, REQUEST_ERROR (my no reason field)",
         );
     });
 
@@ -52,7 +52,7 @@ describe("Errors", () => {
         });
 
         expect(error.toString()).to.equal(
-            "Error: Code: REQUEST_ERROR, HttpCode: 400, Errors: REQUEST_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR"
+            "Error: Code: REQUEST_ERROR, HttpCode: 400, Errors: REQUEST_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR",
         );
     });
 

@@ -126,7 +126,7 @@ export class CheckoutInfo extends Resource {
     gateway(
         brand: OnlineBrand,
         data?: SendData<CheckoutInfoBrandPayload>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<CheckoutInfoBrandItem> {
         this._gateway = this._gateway ?? this.defineRoute(HTTPMethod.POST, "/checkout_info/gateways/:brand");
         return this._gateway(data, auth, { brand });

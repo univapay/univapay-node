@@ -35,7 +35,7 @@ export class Captures extends CRUDResource {
         storeId: string,
         chargeId: string,
         data: SendData<CaptureCreateParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<CaptureItem> {
         this._create = this._create ?? this._createRoute({ requiredParams: Captures.requiredParams });
         return this._create(data, auth, { storeId, chargeId });
