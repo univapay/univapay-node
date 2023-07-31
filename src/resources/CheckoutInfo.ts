@@ -90,6 +90,11 @@ export type CheckoutInfoBrandPayload = {
      * Required when callMethod is "app", "sdk" or "http_get_mobile". Leave empty for the rest
      */
     osType?: OSType;
+
+    /**
+     * WeChat Online authorization code for 'web' call method
+     */
+    authorizationCode?: string;
 };
 
 type CheckoutInfoBrandItemBrand = {
@@ -107,10 +112,15 @@ type CheckoutInfoBrandItemBrand = {
     };
 };
 
-export type CheckoutInfoBrandItem = {
+export type AlipayPlusOnlineCheckoutInfoBrandItem = {
     service: OnlineBrand;
     serviceName: string;
     brands: CheckoutInfoBrandItemBrand[];
+};
+
+export type WeChatOnlineCheckoutInfoBrandItem = {
+    appId: string;
+    openId: string;
 };
 
 export type ResponseCheckoutInfo = CheckoutInfoItem;
@@ -127,7 +137,7 @@ export class CheckoutInfo extends Resource {
         brand: OnlineBrand,
         data?: SendData<CheckoutInfoBrandPayload>,
         auth?: AuthParams,
-    ): Promise<CheckoutInfoBrandItem> {
+    ): Promise<AlipayPlusOnlineCheckoutInfoBrandItem | WeChatOnlineCheckoutInfoBrandItem> {
         this._gateway = this._gateway ?? this.defineRoute(HTTPMethod.POST, "/checkout_info/gateways/:brand");
         return this._gateway(data, auth, { brand });
     }
