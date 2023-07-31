@@ -135,7 +135,7 @@ describe("API", function () {
             },
             {
                 headers: { Authorization: `Bearer ${secret}.${jwtToken}` },
-            }
+            },
         );
 
         process.env[ENV_KEY_APPLICATION_JWT] = jwt.sign({}, "foo");
@@ -198,7 +198,7 @@ describe("API", function () {
             {
                 method: HTTPMethod.GET,
                 repeat: asserts.length,
-            }
+            },
         );
 
         for (const [initParams, sendParams, authHeader] of asserts) {
@@ -277,7 +277,7 @@ describe("API", function () {
             {
                 method: HTTPMethod.GET,
                 repeat: asserts.length,
-            }
+            },
         );
 
         for (const [initParams, sendParams] of asserts) {
@@ -291,7 +291,7 @@ describe("API", function () {
                     ? sendParams.origin
                     : !!initParams && !!initParams.origin
                     ? initParams.origin
-                    : null
+                    : null,
             );
             expect(response).to.eql(okResponse);
         }
@@ -465,7 +465,7 @@ describe("API", function () {
                 exp: Math.round(dateNow.getTime() / 1000) - 1000,
                 foo: "bar",
             },
-            "foo"
+            "foo",
         );
 
         fetchMock.getOnce(`${testEndpoint}/heartbeat`, {

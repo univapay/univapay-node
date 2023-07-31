@@ -245,7 +245,7 @@ export class ScheduledPayments extends CRUDResource {
         storeId: string,
         subscriptionsId: string,
         data?: SendData<ScheduledPaymentsListParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponsePayments> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}`);
         return this._list(data, auth, { storeId, subscriptionsId });
@@ -257,7 +257,7 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         id: string,
         data?: SendData<void>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponsePayment> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, subscriptionsId, id });
@@ -269,7 +269,7 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         id: string,
         data?: SendData<PaymentUpdateParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponsePayment> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, subscriptionsId, id });
@@ -281,7 +281,7 @@ export class ScheduledPayments extends CRUDResource {
         subscriptionsId: string,
         paymentId: string,
         data?: SendData<ChargesListParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseCharges> {
         this._listCharges =
             this._listCharges ?? this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}/:paymentId/charges`);
@@ -314,7 +314,7 @@ export class Subscriptions extends CRUDResource {
     list(
         data?: SendData<SubscriptionsListParams>,
         auth?: AuthParams,
-        storeId?: string
+        storeId?: string,
     ): Promise<ResponseSubscriptions> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions");
         return this._list(data, auth, { storeId });
@@ -325,9 +325,9 @@ export class Subscriptions extends CRUDResource {
             (updatedData: SubscriptionCreateParams) =>
                 this.defineRoute(HTTPMethod.POST, "/subscriptions", { requiredParams: Subscriptions.requiredParams })(
                     updatedData,
-                    auth
+                    auth,
                 ),
-            data
+            data,
         );
     }
 
@@ -342,7 +342,7 @@ export class Subscriptions extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<SubscriptionUpdateParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseSubscription> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, id });
@@ -359,7 +359,7 @@ export class Subscriptions extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<ChargesListParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseCharges> {
         this._charges = this._charges ?? this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`);
         return this._charges(data, auth, { storeId, id });
@@ -370,7 +370,7 @@ export class Subscriptions extends CRUDResource {
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-        pollParams?: Partial<PollParams<ResponseSubscription>>
+        pollParams?: Partial<PollParams<ResponseSubscription>>,
     ): Promise<ResponseSubscription> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
@@ -384,7 +384,7 @@ export class Subscriptions extends CRUDResource {
         storeId: string,
         id: string,
         data?: SendData<PollData>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<{ subscription: ResponseSubscription; charge?: ResponseCharge }> {
         const subscription = await this.poll(storeId, id, data, auth);
 
@@ -394,7 +394,7 @@ export class Subscriptions extends CRUDResource {
                       successCondition: (charges) => !!charges.items.length,
                   })
                   .then(({ items: charges }) =>
-                      this.chargesResource.poll(charges[0].storeId, charges[0].id, data, auth)
+                      this.chargesResource.poll(charges[0].storeId, charges[0].id, data, auth),
                   )
             : null;
 
@@ -405,7 +405,7 @@ export class Subscriptions extends CRUDResource {
     simulation(
         data: SendData<SubscriptionSimulationParams>,
         auth?: AuthParams,
-        storeId?: string
+        storeId?: string,
     ): Promise<SimulationInstallmentPayment[]> {
         this._simulation =
             this._simulation ??

@@ -12,5 +12,5 @@ export const createRequestError = (fields: string[]): RequestError => {
 export const createErrorResponse = (
     code: ResponseErrorCode | RequestErrorCode,
     errors: (SubError | ValidationError)[] = [],
-    httpCode?: number
+    httpCode?: number,
 ): ErrorResponse => ({ httpCode, status: "error", code, errors });
