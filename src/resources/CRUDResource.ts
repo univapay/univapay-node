@@ -2,7 +2,7 @@
  *  @internal
  *  @module Resources
  */
-import { HTTPMethod, RestAPI } from "../api/RestAPI.js";
+import { HTTPMethod } from "../api/RestAPI.js";
 
 import { DefinedRoute, DefineRouteOptions, Resource } from "./Resource.js";
 
@@ -32,17 +32,9 @@ export type CRUDAOSItemsResponse<A> = CRUDItemsResponse<A> & {
     totalHits?: number;
 };
 
-interface CRUDResourceStatic extends Function {
-    routeBase: string;
-}
-
 export abstract class CRUDResource extends Resource {
-    protected _routeBase: string;
-
-    constructor(api: RestAPI) {
-        super(api);
-        this._routeBase = (this.constructor as CRUDResourceStatic).routeBase;
-    }
+    static routeBase: string;
+    protected _routeBase: string = (this.constructor as typeof CRUDResource).routeBase;
 
     protected _listRoute(options?: DefineRouteOptions): DefinedRoute {
         return this.defineRoute(HTTPMethod.GET, this._routeBase, options);

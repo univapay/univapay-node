@@ -72,7 +72,7 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
     list(
         data?: SendData<WebHooksListParams>,
         auth?: AuthParams,
-        storeId?: string
+        storeId?: string,
     ): Promise<ResponseWebHooks<TriggerType>> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth, { storeId });
@@ -82,7 +82,7 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
     create(
         data: SendData<WebHookCreateParams<TriggerType>>,
         auth?: AuthParams,
-        storeId?: string
+        storeId?: string,
     ): Promise<ResponseWebHook<TriggerType>> {
         this._create = this._create ?? this._createRoute({ requiredParams: WebHooks.requiredParams });
         return this._create(data, auth, { storeId });
@@ -99,7 +99,7 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
         id: string,
         data?: SendData<WebHookUpdateParams>,
         auth?: AuthParams,
-        storeId?: string
+        storeId?: string,
     ): Promise<ResponseWebHook<TriggerType>> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, id });

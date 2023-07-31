@@ -6,7 +6,7 @@ const arrayChunk = <T>(arr: T[], len: number): T[][] =>
     Array.from(
         Array(Math.ceil(arr.length / len))
             .fill(undefined)
-            .map((_, i) => arr.slice(i * len, i * len + len))
+            .map((_, i) => arr.slice(i * len, i * len + len)),
     );
 
 describe("Payload Helpers", () => {
@@ -97,7 +97,7 @@ describe("Payload Helpers", () => {
 
         // This will only work in nodeJs environment
         const names = arrayChunk<string>((formData as any)._streams, 3).map(
-            ([name]: string[]) => name.match(/name="(.*)"/i)[1]
+            ([name]: string[]) => name.match(/name="(.*)"/i)[1],
         );
 
         expect(names)
@@ -121,7 +121,7 @@ describe("Payload Helpers", () => {
 
         // This will only work in nodeJs environment
         const names = arrayChunk<string>((formData as any)._streams, 3).map(
-            ([name]: string[]) => name.match(/name="(.*)"/i)[1]
+            ([name]: string[]) => name.match(/name="(.*)"/i)[1],
         );
 
         expect(names).to.be.array().which.deep.equals(["foo", "foo2[0]", "fooBar.fizzBuzz"]);

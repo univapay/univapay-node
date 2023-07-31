@@ -150,7 +150,7 @@ export type ApiSendOptions = {
 const getRequestBody = <Data>(
     data: SendData<Data>,
     keyFormatter = toSnakeCase,
-    ignoreKeysFormatting: string[]
+    ignoreKeysFormatting: string[],
 ): string | FormData | Blob =>
     isBlob(data)
         ? data
@@ -229,7 +229,7 @@ export class RestAPI extends EventEmitter {
         uri: string,
         data?: SendData<Data>,
         auth?: AuthParams,
-        options: ApiSendOptions = {}
+        options: ApiSendOptions = {},
     ): Promise<ResponseBody | string | Blob | FormData> {
         const { acceptType, keyFormatter = toSnakeCase, ignoreKeysFormatting = ["metadata"] } = options;
 
@@ -242,7 +242,7 @@ export class RestAPI extends EventEmitter {
 
         const request: Request = new Request(
             `${/^https?:\/\//.test(uri) ? uri : `${this.endpoint}${uri}`}${payload ? "" : stringifyParams(data)}`,
-            payload ? { ...params, body: getRequestBody(data, keyFormatter, ignoreKeysFormatting) } : params
+            payload ? { ...params, body: getRequestBody(data, keyFormatter, ignoreKeysFormatting) } : params,
         );
 
         this.emit("request", request);
@@ -285,7 +285,7 @@ export class RestAPI extends EventEmitter {
         data: SendData<Data>,
         auth: AuthParams,
         payload: boolean,
-        acceptType = "application/json"
+        acceptType = "application/json",
     ): Headers {
         const headers: Headers = new Headers();
         const isFormData = containsBinaryData(data);

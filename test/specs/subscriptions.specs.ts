@@ -241,7 +241,7 @@ describe("Subscriptions", () => {
                     status: 200,
                     body: simulationData,
                     headers: { "Content-Type": "application/json" },
-                }
+                },
             );
 
             const data: SubscriptionSimulationParams = {
@@ -294,7 +294,7 @@ describe("Subscriptions", () => {
                     status: 200,
                     body: listData,
                     headers: { "Content-Type": "application/json" },
-                }
+                },
             );
 
             await expect(subscriptions.payments.list(uuid(), uuid())).to.become(listData);
@@ -311,7 +311,7 @@ describe("Subscriptions", () => {
                     status: 200,
                     body: recordData,
                     headers: { "Content-Type": "application/json" },
-                }
+                },
             );
 
             await expect(subscriptions.payments.get(uuid(), uuid(), uuid())).to.become(recordData);
@@ -328,7 +328,7 @@ describe("Subscriptions", () => {
                     status: 200,
                     body: recordData,
                     headers: { "Content-Type": "application/json" },
-                }
+                },
             );
 
             await expect(subscriptions.payments.update(uuid(), uuid(), uuid(), recordData)).to.become(recordData);
@@ -344,13 +344,13 @@ describe("Subscriptions", () => {
 
             fetchMock.getOnce(
                 pathToRegexMatcher(
-                    `${testEndpoint}/stores/:storeId/subscriptions/:subscriptionId/payments/:paymentId/charges`
+                    `${testEndpoint}/stores/:storeId/subscriptions/:subscriptionId/payments/:paymentId/charges`,
                 ),
                 {
                     status: 200,
                     body: listData,
                     headers: { "Content-Type": "application/json" },
-                }
+                },
             );
 
             await expect(subscriptions.payments.listCharges(uuid(), uuid(), uuid())).to.become(listData);
@@ -389,7 +389,7 @@ describe("Subscriptions", () => {
             fetchMock.getOnce(
                 recordPathMatcher,
                 { status: 200, body, headers: { "Content-Type": "application/json" } },
-                { method: HTTPMethod.GET, name }
+                { method: HTTPMethod.GET, name },
             );
 
         const mockSubscriptionPoll = (overrides?: Partial<SubscriptionItem>) => {

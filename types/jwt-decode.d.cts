@@ -25,7 +25,7 @@ declare namespace jwtDecode {
 
 declare function jwtDecode<T = unknown>(
     token: string,
-    options?: JwtDecodeOptions
+    options?: JwtDecodeOptions,
 ): T;
 
 export = jwtDecode;

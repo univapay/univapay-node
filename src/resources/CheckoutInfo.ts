@@ -137,7 +137,7 @@ export class CheckoutInfo extends Resource {
         brand: OnlineBrand,
         data?: SendData<CheckoutInfoBrandPayload>,
         auth?: AuthParams
-    ): Promise<AlipayPlusOnlineCheckoutInfoBrandItem | > {
+    ): Promise<AlipayPlusOnlineCheckoutInfoBrandItem | WeChatOnlineCheckoutInfoBrandItem> {
         this._gateway = this._gateway ?? this.defineRoute(HTTPMethod.POST, "/checkout_info/gateways/:brand");
         return this._gateway(data, auth, { brand });
     }

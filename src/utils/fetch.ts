@@ -11,7 +11,7 @@ import { toCamelCase, transformKeys } from "./object.js";
 
 export const parseJSON = async <FormattedBody>(
     response: Response,
-    ignoreKeys: string[] = ["metadata"]
+    ignoreKeys: string[] = ["metadata"],
 ): Promise<FormattedBody> => {
     const text = await response.text();
     return text ? transformKeys(parse(text), toCamelCase, ignoreKeys) : {};

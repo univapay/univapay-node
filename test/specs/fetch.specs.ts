@@ -34,7 +34,7 @@ describe("Fetch Helpers", () => {
 
         it("return the parsed response body with bigint", async () => {
             const result = await parseJSON(
-                createResponse({ key1: BigInt("123456789101112131415"), key2: [BigInt("123456789101112131415")] })
+                createResponse({ key1: BigInt("123456789101112131415"), key2: [BigInt("123456789101112131415")] }),
             );
 
             expect(result).eql({ key1: BigInt("123456789101112131415"), key2: [BigInt("123456789101112131415")] });

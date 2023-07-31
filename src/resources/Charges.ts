@@ -101,9 +101,9 @@ export class Charges extends CRUDResource {
             (updatedData: ChargeCreateParams) =>
                 this.defineRoute(HTTPMethod.POST, "/charges", { requiredParams: Charges.requiredParams })(
                     updatedData,
-                    auth
+                    auth,
                 ),
-            data
+            data,
         );
     }
 
@@ -118,7 +118,7 @@ export class Charges extends CRUDResource {
         storeId: string,
         chargeId: string,
         data?: SendData<ChargeIssuerTokenGetParams>,
-        auth?: AuthParams
+        auth?: AuthParams,
     ): Promise<ResponseIssuerToken> {
         this._getIssuerToken =
             this._getIssuerToken ?? this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken");
@@ -130,7 +130,7 @@ export class Charges extends CRUDResource {
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-        pollParams?: Partial<PollParams<ResponseCharge>>
+        pollParams?: Partial<PollParams<ResponseCharge>>,
     ): Promise<ResponseCharge> {
         const pollData = { ...data, polling: true };
         const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollData, auth);
