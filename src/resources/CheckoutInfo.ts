@@ -120,7 +120,7 @@ export type AlipayPlusOnlineCheckoutInfoBrandItem = {
 
 export type WeChatOnlineCheckoutInfoBrandItem = {
     appId: string;
-    openId: CheckoutInfoBrandItemBrand[];
+    openId: string;
 };
 
 export type ResponseCheckoutInfo = CheckoutInfoItem;

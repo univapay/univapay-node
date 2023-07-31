@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { CheckoutInfoBrandItem, CheckoutInfoItem } from "../../src/resources/CheckoutInfo.js";
+import { AlipayPlusOnlineCheckoutInfoBrandItem, CheckoutInfoItem } from "../../src/resources/CheckoutInfo.js";
 import { CardBrand, OnlineBrand, ProcessingMode } from "../../src/resources/common/enums.js";
 import { PaymentType, RecurringTokenPrivilege } from "../../src/resources/TransactionTokens.js";
 
@@ -57,7 +57,7 @@ export const generateFixture = (): CheckoutInfoItem => ({
     ],
 });
 
-export const generateGatewayFixture = (): CheckoutInfoBrandItem => ({
+export const generateGatewayFixture = (): AlipayPlusOnlineCheckoutInfoBrandItem => ({
     service: OnlineBrand.ALIPAY_PLUS_ONLINE,
     serviceName: "Alipay+",
     brands: [
