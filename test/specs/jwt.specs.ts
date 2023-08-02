@@ -45,17 +45,30 @@ describe("JWT", () => {
         }
     });
 
-    it("should extract JWT from HTTP headers", () => {
+    it("should extract JWT from HTTP headers preferring the string with Bearer keyword", () => {
+        const jwtToken1 = jwt.sign({ foo: "bar" }, "foo");
+        const jwtToken2 = jwt.sign({ foo: "bar2" }, "foo2");
+
+        const headers = new Headers({
+            "X-REFRESH-AUTHORIZATION": jwtToken2,
+            Authorization: `Bearer ${jwtToken1}`,
+            "Content-Type": "application/json",
+            "x-amzn-remapped-authorization": "Bearer invalid",
+        });
+
+        expect(extractJWT(new Response("foo", { headers }))).to.equal(jwtToken1);
+    });
+
+    it("should extract JWT from HTTP headers preferring the string without Bearer keyword", () => {
         const jwtToken = jwt.sign({ foo: "bar" }, "foo");
+        const headers = new Headers({ Authorization: jwtToken, "Content-Type": "application/json" });
 
-        const asserts: [Headers, string | null][] = [
-            [new Headers({ "Content-Type": "application/json" }), null],
-            [new Headers({ Authorization: `Bearer ${jwtToken}`, "Content-Type": "application/json" }), jwtToken],
-            [new Headers({ Authorization: jwtToken, "Content-Type": "application/json" }), null],
-        ];
+        expect(extractJWT(new Response("foo", { headers }))).to.equal(jwtToken);
+    });
 
-        for (const [headers, expectation] of asserts) {
-            expect(extractJWT(new Response("foo", { headers }))).to.equal(expectation);
-        }
+    it("should not extract JWT from HTTP when correct headers are not provided", () => {
+        const headers = new Headers({ "Content-Type": "application/json" });
+
+        expect(extractJWT(new Response("foo", { headers }))).to.equal(null);
     });
 });
