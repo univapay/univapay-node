@@ -45,18 +45,18 @@ describe("JWT", () => {
         }
     });
 
-    it("should extract JWT from HTTP headers preferring the string with Bearer keyword", () => {
+    it("should extract JWT from HTTP headers preferring the refresh token update", () => {
         const jwtToken1 = jwt.sign({ foo: "bar" }, "foo");
         const jwtToken2 = jwt.sign({ foo: "bar2" }, "foo2");
 
         const headers = new Headers({
-            "X-REFRESH-AUTHORIZATION": jwtToken2,
-            Authorization: `Bearer ${jwtToken1}`,
             "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken1}`,
             "x-amzn-remapped-authorization": "Bearer invalid",
+            "X-REFRESH-AUTHORIZATION": jwtToken2,
         });
 
-        expect(extractJWT(new Response("foo", { headers }))).to.equal(jwtToken1);
+        expect(extractJWT(new Response("foo", { headers }))).to.equal(jwtToken2);
     });
 
     it("should extract JWT from HTTP headers preferring the string without Bearer keyword", () => {
@@ -68,6 +68,16 @@ describe("JWT", () => {
 
     it("should not extract JWT from HTTP when correct headers are not provided", () => {
         const headers = new Headers({ "Content-Type": "application/json" });
+
+        expect(extractJWT(new Response("foo", { headers }))).to.equal(null);
+    });
+
+    it("should not extract JWT from HTTP when the token is invalid", () => {
+        const headers = new Headers({
+            "Content-Type": "application/json",
+            "x-amzn-remapped-authorization": "Bearer invalid",
+            "X-REFRESH-AUTHORIZATION": "fooo!",
+        });
 
         expect(extractJWT(new Response("foo", { headers }))).to.equal(null);
     });

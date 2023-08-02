@@ -51,18 +51,8 @@ export const extractJWT = (response: Response): string | null => {
     const headerNames = ["authorization", "x-amzn-remapped-authorization", "X-REFRESH-AUTHORIZATION"];
     const header = headerNames.reduce((acc: string, name: string) => {
         const header = response.headers.get(name);
-        if (!safeParseJWT(header?.replace("Bearer", "")?.trim())) {
-            return acc;
-        }
-
-        // Prefer header with the `Bearer` keyword but does not require it for valid JWT
-        const hasPriority = !acc || header?.includes("Bearer") || !acc?.includes("Bearer");
-        return hasPriority ? header : acc;
+        return !safeParseJWT(header?.replace("Bearer", "")?.trim()) ? acc : header;
     }, null);
-
-    if (!header && typeof header !== "string") {
-        return null;
-    }
 
     // Support both with and without the `Bearer` keyword, only the token part interest us here
     return header?.replace("Bearer", "").trim() || null;
