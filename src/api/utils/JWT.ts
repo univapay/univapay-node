@@ -36,19 +36,24 @@ export const parseJWT = <Payload>(jwt?: string | null, keepKeys = false): JWTPay
     }
 };
 
-const BearerRegexp = /^Bearer (.*)$/i;
+const safeParseJWT = <Payload>(jwt?: string | null, keepKeys = false): JWTPayload<Payload> | null => {
+    try {
+        return parseJWT(jwt, keepKeys);
+    } catch (error) {
+        return null;
+    }
+};
 
 /**
  *  @internal
  */
 export const extractJWT = (response: Response): string | null => {
     const headerNames = ["authorization", "x-amzn-remapped-authorization", "X-REFRESH-AUTHORIZATION"];
-    const header = headerNames.reduce((acc: string, name: string) => response.headers.get(name) || acc, null);
+    const header = headerNames.reduce((acc: string, name: string) => {
+        const header = response.headers.get(name);
+        return !safeParseJWT(header?.replace("Bearer", "")?.trim()) ? acc : header;
+    }, null);
 
-    if (header === null) {
-        return null;
-    }
-
-    const matches = header.match(BearerRegexp);
-    return matches === null ? null : matches[1];
+    // Support both with and without the `Bearer` keyword, only the token part interest us here
+    return header?.replace("Bearer", "").trim() || null;
 };
