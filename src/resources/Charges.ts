@@ -45,6 +45,9 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     ignoreDescriptorOnError?: boolean;
     onlyDirectCurrency?: boolean;
     metadata?: T;
+    redirect?: {
+        endpoint: string;
+    };
 }
 
 export type ChargeIssuerTokenGetParams = void;
@@ -73,6 +76,9 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     transactionTokenType: TransactionTokenType;
     descriptor: string;
     onlyDirectCurrency: boolean;
+    redirect?: {
+        redirectId?: string;
+    };
 }
 export interface IssuerTokenItem {
     issuerToken: string;
