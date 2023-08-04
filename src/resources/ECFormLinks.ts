@@ -34,6 +34,9 @@ export type ECFormLinkItem = {
     hidePrefilledEmail?: boolean;
     metadata?: Metadata;
 
+    active: boolean;
+    destination?: string;
+
     // Recurring
     cvvAuthorize?: boolean;
 
