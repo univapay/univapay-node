@@ -46,18 +46,28 @@ const safeParseJWT = <Payload>(jwt?: string | null): JWTPayload<Payload> | null 
 
 const BearerRegexp = /^Bearer (.*)$/i;
 
+const getHeaderJwt = (header: string): string | null => {
+    if (!header) {
+        return null;
+    }
+
+    const trimmedHeader = header.replace("Bearer", "").trim();
+    if (safeParseJWT(trimmedHeader)) {
+        return trimmedHeader;
+    }
+
+    // Support bearer match for hammerhead
+    const matches = header.match(BearerRegexp);
+    return matches ? matches[1] : null;
+};
+
 /**
  *  @internal
  */
 export const extractJWT = (response: Response): string | null => {
-    const headerNames = ["authorization", "x-amzn-remapped-authorization", "X-REFRESH-AUTHORIZATION"];
-    const header = headerNames.reduce((acc: string, name: string) => {
-        const header = response.headers.get(name);
+    const headerName = ["X-REFRESH-AUTHORIZATION", "x-amzn-remapped-authorization", "authorization"].find(
+        (name: string) => !!getHeaderJwt(response.headers.get(name)),
+    );
 
-        // The bearer regex matches fixes hammerhead and safe parse ensure that valid jwt are used even without bearer
-        return header?.match(BearerRegexp)?.[1] || safeParseJWT(header?.replace("Bearer", "")?.trim()) ? header : acc;
-    }, null);
-
-    // Support both with and without the `Bearer` keyword, only the token part interest us here
-    return header?.match(BearerRegexp)?.[1]?.trim() || header?.replace("Bearer", "").trim() || null;
+    return getHeaderJwt(response.headers.get(headerName));
 };
