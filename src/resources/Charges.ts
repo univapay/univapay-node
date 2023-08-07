@@ -55,6 +55,7 @@ export type ChargeIssuerTokenGetParams = void;
 /* Response */
 export interface ChargeItem<T extends Metadata = Metadata> {
     id: string;
+    platformId: string;
     merchantId: string;
     storeId: string;
     ledgerId?: string;
