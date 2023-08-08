@@ -6,7 +6,6 @@ import { TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
 export const generateFixture = (overrides?: Partial<ChargeItem>): ChargeItem => ({
     id: uuid(),
-    platformId: uuid(),
     merchantId: uuid(),
     storeId: uuid(),
     transactionTokenId: uuid(),
