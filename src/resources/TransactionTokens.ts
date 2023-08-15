@@ -132,6 +132,7 @@ export interface TransactionTokenConvenienceData {
 export interface TransactionTokenOnlineData {
     brand: OnlineBrand;
     callMethod?: OnlineCallMethod; // defaults to OnlineCallMethod.HTTP_POST
+    userIdentifier?: string;
 
     /** @deprecated Use `brand` instead */
     gateway?: OnlineGateway;
