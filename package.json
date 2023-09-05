@@ -68,7 +68,7 @@
     "np": "^8.0.4",
     "p-map": "^6.0.0",
     "path-to-regexp": "^6.2.1",
-    "prettier": "^3.0.2",
+    "prettier": "^3.0.3",
     "sinon": "^15.2.0",
     "sinon-chai": "^3.7.0",
     "ts-node": "^10.9.1",
