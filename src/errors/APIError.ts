@@ -191,6 +191,8 @@ export enum ResponseErrorCode {
     ExceededPendingThreshold = "EXCEEDED_PENDING_THRESHOLD",
     InternalError = "INTERNAL_ERROR",
 
+    ImpersonationNotAllowed = "IMPERSONATION_NOT_ALLOWED",
+
     /* online */
     AlipayOnlineInvalidSignatureType = "ALIPAY_ONLINE_INVALID_SIGNATURE_TYPE",
     PayPayOnlineInvalidPayMethod = "PAY_PAY_ONLINE_INVALID_PAY_METHOD",
