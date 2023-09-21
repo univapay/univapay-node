@@ -209,7 +209,7 @@ export interface UserTransactionsConfiguration {
     notifyUserOnFailedTransactions?: boolean;
     notifyCustomerOnFailedTransactions?: boolean;
     notifyUserOnConvenienceInstructions?: boolean;
-    notifyOnSubscription?: boolean;
+    notifyOnSubscriptions?: boolean;
 }
 
 export interface RecurringTokenConfiguration {
