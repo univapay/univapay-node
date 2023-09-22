@@ -210,6 +210,8 @@ export interface TransactionTokenUpdateParams<T extends Metadata = Metadata> {
             countryCode?: string;
             localNumber?: string;
         };
+        expirationPeriod?: string;
+        expirationTimeShift?: string;
     };
     metadata?: T;
 }
