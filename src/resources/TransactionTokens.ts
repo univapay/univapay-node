@@ -152,6 +152,17 @@ export type TransactionTokenBankTransferData = {
     branchCode: string | null;
     branchName: string | null;
     brand: BankTransferBrand;
+
+    /**
+     * Time with Time Zone.
+     * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
+     */
+    expirationTimeShift?: string;
+
+    /**
+     * Interval (e.g P7D)
+     */
+    expirationPeriod?: string;
 };
 
 export type TransactionTokenBankTransferCreateData = {
@@ -283,6 +294,7 @@ export interface TransactionTokenConvenienceDataItem extends TransactionTokenBas
     convenienceStore?: ConvenienceStore;
     customerName?: string;
     expirationPeriod?: string;
+    expirationTimeShift?: string;
     phoneNumber?: PhoneNumber;
 }
 export interface TransactionTokenItem<T extends Metadata = Metadata> {
