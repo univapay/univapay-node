@@ -33,6 +33,12 @@ export interface PlatformUserDefaults {
     taggedPlatformCredentialsEnabled: boolean;
     minRefundThreshold: number;
     subscriptionPlanConfiguration: SubscriptionPlanConfiguration;
+    securityConfiguration?: {
+        cardChargeCooldown?: string; // ISO8601 Duration (min. PT1S)
+        subscriptionCooldown?: string; // ISO8601 Duration (min. PT1S)
+        idempotentCardChargeCooldown?: string; // ISO8601 Duration (min. PT1S)
+        idempotentSubscriptionCooldown?: string; // ISO8601 Duration (min. PT1S)
+    };
 }
 
 export interface PlatformPaymentDefaults {
