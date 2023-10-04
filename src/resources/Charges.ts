@@ -48,6 +48,8 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     redirect?: {
         endpoint: string;
     };
+    feeAmount?: number | null;
+    feeCurrency?: string | null;
 }
 
 export type ChargeIssuerTokenGetParams = void;
@@ -79,6 +81,9 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     redirect?: {
         redirectId?: string;
     };
+    feeAmount?: number | null;
+    feeCurrency?: string | null;
+    feeAmountFormatted?: string | null;
 }
 export interface IssuerTokenItem {
     issuerToken: string;

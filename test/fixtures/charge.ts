@@ -24,5 +24,8 @@ export const generateFixture = (overrides?: Partial<ChargeItem>): ChargeItem => 
     createdOn: new Date().toISOString(),
     descriptor: "test",
     onlyDirectCurrency: false,
+    feeAmount: 100,
+    feeCurrency: "JPY",
+    feeAmountFormatted: "100",
     ...overrides,
 });
