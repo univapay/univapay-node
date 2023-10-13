@@ -457,6 +457,19 @@ export enum ResponseErrorCode {
     UnderDefaultExpiryExtension = "UNDER_DEFAULT_EXPIRY_EXTENSION", // default expiry cannot be under 1 day
     EitherPeriodOrDate = "EITHER_PERIOD_OR_DATE", // can only set either the expiry period + optional time shift or absolute date
     MaximumExtensionsReached = "MAXIMUM_EXTENSIONS_REACHED", // Reached the max num of expiry extensions
+
+    /* EC checkout API */
+    InvalidSubscriptionCycles = "INVALID_SUBSCRIPTION_CYCLES",
+    InvalidSubscriptionStartOn = "INVALID_SUBSCRIPTION_START_ON",
+    InvalidSubscriptionPeriod = "INVALID_SUBSCRIPTION_PERIOD",
+    InvalidSubscriptionInitialAmount = "INVALID_SUBSCRIPTION_INITIAL_AMOUNT",
+    InvalidSubscriptionStartDayOfTheMonth = "INVALID_SUBSCRIPTION_START_DAY_OF_MONTH",
+    PeerSubscriptionStartDayOfTheMonthRequired = "PEER_SUBSCRIPTION_START_DAY_OF_MONTH_REQUIRED",
+    PeerSubscriptionStartInMonthConflict = "PEER_SUBSCRIPTION_START_IN_MONTHS_CONFLICT",
+    InvalidDuration = "INVALID_DURATION",
+    AnyUnknown = "ANY_UNKNOWN",
+    InvalidFormatUuid = "INVALID_FORMAT_UUID",
+    DateGreater = "DATE_GREATER",
 }
 
 export enum PaymentErrorType {
