@@ -127,7 +127,7 @@ export enum ResponseErrorCode {
     PartialCaptureNotSupported = "PARTIAL_CAPTURE_NOT_SUPPORTED",
     DebitAuthorizationDisabled = "DEBIT_AUTHORIZATION_DISABLED",
     PrePaidAuthorizationDisabled = "PREPAID_AUTHORIZATION_DISABLED",
-    EMAIL_EXISTS_FOR_CARD = "EMAIL_EXISTS_FOR_CARD",
+    EmailExistsForCard = "EMAIL_EXISTS_FOR_CARD",
 
     NoGatewaysAvailable = "NO_GATEWAY_AVAILABLE",
     NoGatewayCredentialsAvailable = "NO_GATEWAY_CREDENTIALS_AVAILABLE",
