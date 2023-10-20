@@ -33,14 +33,18 @@ export interface RefundCreateParams<T extends Metadata = Metadata> {
     currency: string;
     reason?: RefundReason;
     message?: string;
-    metadata?: T;
+    metadata?: T | string;
 }
 
 export interface RefundUpdateParams<T extends Metadata = Metadata> {
     status?: RefundStatus;
     reason?: RefundReason;
     message?: string;
-    metadata?: T;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: T | string;
 }
 
 /* Response */
@@ -56,7 +60,11 @@ export interface RefundItem<T extends Metadata = Metadata> {
     reason?: RefundReason;
     message?: string;
     error?: PaymentError;
-    metadata?: T;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: T | string;
     mode: ProcessingMode;
     createdOn: string;
 }

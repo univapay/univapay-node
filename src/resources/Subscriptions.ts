@@ -87,11 +87,15 @@ export type SubscriptionCreateBaseParams<T extends Metadata = Metadata> = {
     amount: number;
     currency: string;
     descriptor?: string;
-    metadata?: T;
     initialAmount?: number;
     installmentPlan?: InstallmentPlanItem;
     subscriptionPlan?: SubscriptionPlanItem;
     onlyDirectCurrency?: boolean;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: T | string;
 
     /**
      * Interval (e.g: P7D)
@@ -119,10 +123,14 @@ export type SubscriptionUpdateParams<T extends Metadata = Metadata> = {
     transactionTokenId?: string;
     amount?: number;
     status?: SubscriptionStatus;
-    metadata?: T;
     installmentPlan?: Partial<InstallmentPlanItem>;
     subscriptionPlan?: Partial<SubscriptionPlanItem>;
     onlyDirectCurrency?: boolean;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: T | string;
 
     /**
      * Interval (e.g: P7D)
@@ -162,29 +170,34 @@ type PeriodParams =
 export type SubscriptionItem<T extends Metadata = Metadata> = {
     id: string;
     storeId: string;
+    transactionTokenId: string;
+    mode: ProcessingMode;
+    status: SubscriptionStatus;
     amount: number;
     amountFormatted: number;
     amountLeft: number;
     amountLeftFormatted: number;
     currency: string;
-    initialAmount?: number | null;
-    initialAmountFormatted?: number;
-    subsequentCyclesStart?: string;
-    scheduleSettings: ScheduleSettings | null;
-    status: SubscriptionStatus;
-    metadata?: T;
-    mode: ProcessingMode;
-    createdOn: string;
-    installmentPlan?: InstallmentPlanItem;
-    subscriptionPlan?: SubscriptionPlanItem;
-    transactionTokenId: string;
-    nextPayment: ScheduledPaymentItem;
     paymentsLeft: number;
     descriptor: string;
     onlyDirectCurrency: boolean;
+    createdOn: string;
+    scheduleSettings: ScheduleSettings | null;
+    nextPayment: ScheduledPaymentItem;
+
+    initialAmount?: number | null;
+    initialAmountFormatted?: number;
+    subsequentCyclesStart?: string;
+    installmentPlan?: InstallmentPlanItem;
+    subscriptionPlan?: SubscriptionPlanItem;
     period?: SubscriptionPeriod;
     cyclicalPeriod?: string | null;
     cyclesLeft?: number;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: T | string;
 };
 
 export type SubscriptionListItem = WithStoreMerchantName<SubscriptionItem>;

@@ -39,17 +39,22 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     transactionTokenId: string;
     amount: number;
     currency: string;
+
     captureAt?: string | number;
     capture?: boolean;
     descriptor?: string;
     ignoreDescriptorOnError?: boolean;
     onlyDirectCurrency?: boolean;
-    metadata?: T;
     redirect?: {
         endpoint: string;
     };
     feeAmount?: number | null;
     feeCurrency?: string | null;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: T | string;
 }
 
 export type ChargeIssuerTokenGetParams = void;
@@ -59,31 +64,36 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     id: string;
     merchantId: string;
     storeId: string;
-    ledgerId?: string;
-    subscriptionId?: string;
+    mode: ProcessingMode;
+    transactionTokenType: TransactionTokenType;
+    status: ChargeStatus;
+    createdOn: string;
+    descriptor: string;
+    onlyDirectCurrency: boolean;
     requestedAmount: number;
     requestedCurrency: string;
     requestedAmountFormatted: number;
     chargedAmount: number;
     chargedCurrency: string;
     chargedAmountFormatted: number;
+
+    ledgerId?: string;
+    subscriptionId?: string;
     captureAt?: string;
     captureStatus?: CaptureStatus;
-    status: ChargeStatus;
     error?: PaymentError;
-    metadata?: T;
-    mode: ProcessingMode;
-    createdOn: string;
     transactionTokenId?: string;
-    transactionTokenType: TransactionTokenType;
-    descriptor: string;
-    onlyDirectCurrency: boolean;
     redirect?: {
         redirectId?: string;
     };
     feeAmount?: number | null;
     feeCurrency?: string | null;
     feeAmountFormatted?: string | null;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: T | string;
 }
 export interface IssuerTokenItem {
     issuerToken: string;
