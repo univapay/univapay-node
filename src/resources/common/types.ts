@@ -27,7 +27,7 @@ export interface PhoneNumber {
 }
 
 export interface Metadata {
-    [key: string]: any;
+    [key: string]: string | number | bigint | boolean | (string | number | bigint | boolean)[];
 }
 
 export interface InvoiceChargeFee {

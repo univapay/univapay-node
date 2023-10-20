@@ -180,7 +180,7 @@ export type TransactionTokenBankTransferCreateData = {
     expirationPeriod?: string;
 };
 
-export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
+export interface TransactionTokenCreateParams {
     paymentType: PaymentType;
     type: TransactionTokenType;
     email?: string;
@@ -192,8 +192,12 @@ export interface TransactionTokenCreateParams<T extends Metadata = Metadata> {
         | TransactionTokenOnlineData
         | TransactionTokenPaidyData
         | TransactionTokenBankTransferCreateData;
-    metadata?: T;
     useConfirmation?: boolean;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: Metadata | string;
 }
 
 export interface TransactionTokenListParams extends CRUDPaginationParams {
@@ -203,7 +207,7 @@ export interface TransactionTokenListParams extends CRUDPaginationParams {
     mode?: ProcessingMode;
 }
 
-export interface TransactionTokenUpdateParams<T extends Metadata = Metadata> {
+export interface TransactionTokenUpdateParams {
     email?: string;
     data?: {
         cvv?: string;
@@ -224,7 +228,11 @@ export interface TransactionTokenUpdateParams<T extends Metadata = Metadata> {
         expirationPeriod?: string;
         expirationTimeShift?: string;
     };
-    metadata?: T;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: Metadata | string;
 }
 
 export interface TransactionTokenConfirmParams {
@@ -297,7 +305,7 @@ export interface TransactionTokenConvenienceDataItem extends TransactionTokenBas
     expirationTimeShift?: string;
     phoneNumber?: PhoneNumber;
 }
-export interface TransactionTokenItem<T extends Metadata = Metadata> {
+export interface TransactionTokenItem {
     id: string;
     storeId: string;
     email: string;
@@ -316,7 +324,11 @@ export interface TransactionTokenItem<T extends Metadata = Metadata> {
         | TransactionTokenPaidyData
         | TransactionTokenBankTransferData
     ) & { cvvAuthorize?: { status: CvvAuthorizedStatus } };
-    metadata?: T;
+
+    /**
+     * Metadata or stringified JSON object
+     */
+    metadata?: Metadata | string;
 }
 
 export type TransactionTokenListItem = WithStoreMerchantName<TransactionTokenItem>;
