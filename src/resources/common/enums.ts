@@ -157,7 +157,7 @@ export enum OnlineBrand {
 }
 
 // Alipay+ Offline
-export enum RetailsBrands {
+export enum RetailBrand {
     TINABA = "tinaba",
     NAVER_PAY = "naver_pay",
     TOSS_PAY = "toss_pay",
