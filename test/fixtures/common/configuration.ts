@@ -38,6 +38,7 @@ export const generateFixtureCardConfiguration = (): CardConfigurationItem => ({
         duration: "P1D",
     },
     onlyDirectCurrency: false,
+    allowDirectTokenCreation: true,
 });
 
 export const generateFixtureSubscriptionPlanConfiguration = (): SubscriptionPlanConfiguration => ({
@@ -66,6 +67,7 @@ export const generateFixtureInstallmentConfiguration = (): InstallmentsConfigura
 export const generateFixtureSubscriptionConfiguration = (): SubscriptionsConfiguration => ({
     failedChargesToCancel: 5,
     suspendOnCancel: true,
+    allowMerchantDueDatePatch: true,
 });
 
 export const generateFixtureBankTransferConfiguration = (): BankTransferConfiguration => ({
@@ -126,6 +128,7 @@ export const generateFixture = (): ConfigurationItem => ({
         enabled: true,
         suspendOnCancel: true,
         failedChargesToCancel: 10,
+        allowMerchantDueDatePatch: true,
     },
     checkoutConfiguration: {
         ecEmail: { enabled: true },

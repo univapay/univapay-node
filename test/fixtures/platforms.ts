@@ -34,6 +34,9 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             flatFees: [{ amount: 30, currency: "JPY" }],
             waitPeriod: "P7D",
             cardBrandPercentFees: {},
+            cardConfiguration: {
+                allowDirectTokenCreation: true,
+            },
             minTransferPayout: {
                 amount: 1000,
                 currency: "JPY",

@@ -18,6 +18,9 @@ type CheckoutConfiguration = {
 export interface PlatformUserDefaults {
     bankTransferConfiguration: BankTransferConfiguration;
     convenienceConfiguration: ConvenienceConfigurationItem;
+    cardConfiguration: {
+        allowDirectTokenCreation: boolean;
+    };
     percentFee: number;
     transferSchedule: TransferScheduleItem;
     flatFees: AmountWithCurrency[];
