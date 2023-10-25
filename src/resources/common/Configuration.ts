@@ -44,6 +44,7 @@ export interface CardConfigurationItem extends PaymentTypeConfiguration {
     cardLimit: CardConfigurationMonthlyLimit;
     allowEmptyCvv: boolean;
     onlyDirectCurrency: boolean;
+    allowDirectTokenCreation: boolean;
 }
 
 export interface QRScanConfigurationItem extends PaymentTypeConfiguration {
@@ -230,6 +231,7 @@ export interface SubscriptionsConfiguration {
     failedChargesToCancel: number;
     suspendOnCancel: boolean;
     allowMerchantAmountPatch?: boolean;
+    allowMerchantDueDatePatch?: boolean;
 }
 
 export interface DescriptorProvidedConfiguration {
