@@ -60,11 +60,7 @@ export interface RefundItem<T extends Metadata = Metadata> {
     reason?: RefundReason;
     message?: string;
     error?: PaymentError;
-
-    /**
-     * Metadata or stringified JSON object
-     */
-    metadata?: T | string;
+    metadata?: T;
     mode: ProcessingMode;
     createdOn: string;
 }

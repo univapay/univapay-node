@@ -193,11 +193,7 @@ export type SubscriptionItem<T extends Metadata = Metadata> = {
     period?: SubscriptionPeriod;
     cyclicalPeriod?: string | null;
     cyclesLeft?: number;
-
-    /**
-     * Metadata or stringified JSON object
-     */
-    metadata?: T | string;
+    metadata?: T;
 };
 
 export type SubscriptionListItem = WithStoreMerchantName<SubscriptionItem>;

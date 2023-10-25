@@ -89,11 +89,7 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     feeAmount?: number | null;
     feeCurrency?: string | null;
     feeAmountFormatted?: string | null;
-
-    /**
-     * Metadata or stringified JSON object
-     */
-    metadata?: T | string;
+    metadata?: T;
 }
 export interface IssuerTokenItem {
     issuerToken: string;
