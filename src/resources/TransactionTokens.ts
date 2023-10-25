@@ -197,7 +197,7 @@ export interface TransactionTokenCreateParams {
     /**
      * Metadata or stringified JSON object
      */
-    metadata?: Metadata | string;
+    metadata?: string | Metadata;
 }
 
 export interface TransactionTokenListParams extends CRUDPaginationParams {
@@ -232,7 +232,7 @@ export interface TransactionTokenUpdateParams {
     /**
      * Metadata or stringified JSON object
      */
-    metadata?: Metadata | string;
+    metadata?: string | Metadata;
 }
 
 export interface TransactionTokenConfirmParams {
@@ -325,10 +325,7 @@ export interface TransactionTokenItem {
         | TransactionTokenBankTransferData
     ) & { cvvAuthorize?: { status: CvvAuthorizedStatus } };
 
-    /**
-     * Metadata or stringified JSON object
-     */
-    metadata?: Metadata | string;
+    metadata?: Metadata;
 }
 
 export type TransactionTokenListItem = WithStoreMerchantName<TransactionTokenItem>;
