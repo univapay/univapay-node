@@ -143,11 +143,17 @@ export type SubscriptionUpdateParams<T extends Metadata = Metadata> = {
 
 export type PaymentUpdateParams = Partial<ScheduledPaymentItem>;
 
+export enum TerminateMode {
+    IMMEDIATE = "immediate",
+    ON_NEXT_PAYMENT = "on_next_payment",
+}
+
 export type ScheduleSettings = {
     startOn?: string;
     zoneId: string;
     preserveEndOfMonth?: boolean;
     retryInterval?: string;
+    terminateMode?: TerminateMode;
 };
 
 /* Response */
