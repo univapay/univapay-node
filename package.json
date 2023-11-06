@@ -39,7 +39,7 @@
   ],
   "devDependencies": {
     "@types/chai": "^4.3.8",
-    "@types/chai-arrays": "^2.0.1",
+    "@types/chai-arrays": "^2.0.2",
     "@types/chai-as-promised": "^7.1.6",
     "@types/fetch-mock": "^7.3.7",
     "@types/jsonwebtoken": "^9.0.3",
