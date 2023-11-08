@@ -311,7 +311,7 @@ const hasImmediateCharge = (subscription: SubscriptionItem) => {
 
 export class Subscriptions extends CRUDResource {
     static requiredParams = ["transactionTokenId", "amount", "currency", ["period", "cyclicalPeriod"]];
-    static requiredSimulationParams: string[] = ["installmentPlan", "paymentType", "currency", "period"];
+    static requiredSimulationParams: string[] = ["paymentType", "currency", "period"];
 
     static routeBase = "/stores/:storeId/subscriptions";
 
