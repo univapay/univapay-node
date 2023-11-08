@@ -263,13 +263,9 @@ describe("Subscriptions", () => {
 
         it("should return validation error if data is invalid", async () => {
             const asserts: [Partial<SubscriptionSimulationParams>, RequestError][] = [
-                [{}, createRequestError(["installmentPlan"])],
-                [{ installmentPlan: null }, createRequestError(["paymentType"])],
-                [{ installmentPlan: null, paymentType: PaymentType.CARD }, createRequestError(["currency"])],
-                [
-                    { installmentPlan: null, paymentType: PaymentType.CARD, currency: "JPY" },
-                    createRequestError(["period"]),
-                ],
+                [{}, createRequestError(["paymentType"])],
+                [{ paymentType: PaymentType.CARD }, createRequestError(["currency"])],
+                [{ paymentType: PaymentType.CARD, currency: "JPY" }, createRequestError(["period"])],
             ];
 
             for (const [data, error] of asserts) {
