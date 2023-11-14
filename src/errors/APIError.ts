@@ -157,6 +157,7 @@ export enum ResponseErrorCode {
     CardRejected = "CARD_REJECTED",
     CardInvalid = "CARD_INVALID",
     ChargeInvalidData = "CHARGE_INVALID_DATA",
+    ExpirationDateError = "EXPIRATION_DATE_ERROR",
     TooManyChargeRequests = "TOO_MANY_CHARGE_REQUESTS",
     CancelUnavailable = "CANCEL_UNAVAILABLE",
     ChargeExpired = "CHARGE_EXPIRED",
