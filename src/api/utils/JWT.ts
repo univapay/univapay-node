@@ -2,7 +2,7 @@
  *  @internal
  *  @module Utils
  */
-import decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 import { JWTError } from "../../errors/JWTError.js";
 import { toCamelCase, transformKeys } from "../../utils/object.js";
@@ -29,7 +29,7 @@ export const parseJWT = <Payload>(jwt?: string | null, keepKeys = false): JWTPay
     }
 
     try {
-        const decoded = decode<Payload>(jwt);
+        const decoded = jwtDecode<Payload>(jwt);
         return keepKeys || typeof decoded === "string" ? decoded : transformKeys(decoded, toCamelCase);
     } catch {
         throw new JWTError();
@@ -38,7 +38,7 @@ export const parseJWT = <Payload>(jwt?: string | null, keepKeys = false): JWTPay
 
 const safeParseJWT = <Payload>(jwt?: string | null): JWTPayload<Payload> | null => {
     try {
-        return jwt ? decode<Payload>(jwt) : null;
+        return jwt ? jwtDecode<Payload>(jwt) : null;
     } catch (error) {
         return null;
     }
