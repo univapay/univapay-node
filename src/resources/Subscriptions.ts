@@ -139,6 +139,10 @@ export type SubscriptionUpdateParams<T extends Metadata = Metadata> = {
      */
     firstChargeCaptureAfter?: string;
     firstChargeAuthorizationOnly?: boolean;
+
+    scheduleSettings?: {
+        terminateMode?: TerminateMode;
+    };
 };
 
 export type PaymentUpdateParams = Partial<ScheduledPaymentItem>;
