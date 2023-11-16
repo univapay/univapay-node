@@ -215,6 +215,10 @@ export interface UserTransactionsConfiguration {
     notifyCustomerOnFailedTransactions?: boolean;
     notifyUserOnConvenienceInstructions?: boolean;
     notifyOnSubscriptions?: boolean;
+    notifyOnRecurringTokenCvvFailed?: boolean;
+    notifyOnAuthorizations?: boolean;
+    notifyOnCvvAuthorizations?: boolean;
+    notifyOnCancels?: boolean;
 }
 
 export interface RecurringTokenConfiguration {
