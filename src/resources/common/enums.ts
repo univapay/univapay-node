@@ -160,7 +160,7 @@ export enum OnlineBrand {
 export enum RetailBrand {
     TINABA = "tinaba",
     NAVER_PAY = "naver_pay",
-    TOSS_PAY = "toss_pay",
+    TOSS_PAY = "tosspay",
     OCBC_BANK = "ocbc_bank",
     CHANGI_PAY = "changi_pay",
     HI_PAY = "hi_pay",
