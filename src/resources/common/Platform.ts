@@ -6,6 +6,7 @@ import {
     UserTransactionsConfiguration,
     ConvenienceConfigurationItem,
     SubscriptionPlanConfiguration,
+    CustomerManagementConfiguration,
 } from "./Configuration.js";
 import { TransferScheduleItem } from "./TransferSchedule.js";
 import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types.js";
@@ -42,6 +43,7 @@ export interface PlatformUserDefaults {
         idempotentCardChargeCooldown?: string; // ISO8601 Duration (min. PT1S)
         idempotentSubscriptionCooldown?: string; // ISO8601 Duration (min. PT1S)
     };
+    customerManagementConfiguration: CustomerManagementConfiguration;
 }
 
 export interface PlatformPaymentDefaults {

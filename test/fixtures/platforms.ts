@@ -12,6 +12,7 @@ import {
     generateFixtureSubscriptionPlanConfiguration,
 } from "./common/configuration.js";
 import { generateFixture as generateTransferSchedule } from "./common/transfer-schedule.js";
+import { CustomerRole } from "../../src/resources/common/Configuration.js";
 
 export const generateFixture = (): PlatformConfigurationItem => ({
     id: uuid(),
@@ -34,6 +35,15 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             flatFees: [{ amount: 30, currency: "JPY" }],
             waitPeriod: "P7D",
             cardBrandPercentFees: {},
+            customerManagementConfiguration: {
+                enabled: true,
+                defaultRoles: [
+                    CustomerRole.SUBSCRIPTION_READ,
+                    CustomerRole.SUBSCRIPTION_UPDATE_TOKEN,
+                    CustomerRole.TRANSACTION_TOKEN_READ,
+                    CustomerRole.TRANSACTION_TOKEN_READ,
+                ],
+            },
             cardConfiguration: {
                 allowDirectTokenCreation: true,
             },

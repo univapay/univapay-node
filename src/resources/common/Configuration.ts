@@ -15,6 +15,20 @@ export enum TransferMatchAmount {
     DISABLED = "disabled",
 }
 
+export enum CustomerRole {
+    TRANSACTION_TOKEN_READ = "transaction_token_read",
+    TRANSACTION_TOKEN_UPDATE = "transaction_token_update",
+    SUBSCRIPTION_READ = "subscription_read",
+    SUBSCRIPTION_UPDATE_TOKEN = "subscription_update_token",
+    SUBSCRIPTION_SUSPEND = "subscription_suspend", // Also controls resume functionality
+    SUBSCRIPTION_DELETE = "subscription_delete",
+}
+
+export type CustomerManagementConfiguration = {
+    enabled: boolean;
+    defaultRoles: CustomerRole[];
+};
+
 export interface PaymentTypeConfiguration {
     enabled?: boolean;
 }
@@ -273,6 +287,7 @@ export interface ConfigurationItem {
     userTransactionsConfiguration?: UserTransactionsConfiguration;
     checkoutConfiguration: CheckoutConfiguration;
     descriptorProvidedConfiguration?: DescriptorProvidedConfiguration;
+    customerManagementConfiguration?: CustomerManagementConfiguration;
     platformCredentialsEnabled?: boolean;
     taggedPlatformCredentialsEnabled?: boolean;
 }
@@ -294,6 +309,7 @@ export interface ConfigurationParams {
     subscriptionConfiguration?: Partial<SubscriptionsConfiguration>;
     subscriptionPlanConfiguration?: SubscriptionPlanConfiguration;
     securityConfiguration?: Partial<SecurityConfiguration>;
+    customerManagementConfiguration?: Partial<CustomerManagementConfiguration>;
 }
 
 export type ConfigurationCreateParams = ConfigurationParams;
