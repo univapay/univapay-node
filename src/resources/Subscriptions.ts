@@ -141,7 +141,7 @@ export type SubscriptionUpdateParams<T extends Metadata = Metadata> = {
     firstChargeAuthorizationOnly?: boolean;
 
     scheduleSettings?: {
-        terminateMode?: TerminateMode;
+        terminationMode?: TerminateMode;
     };
 };
 
@@ -157,7 +157,7 @@ export type ScheduleSettings = {
     zoneId: string;
     preserveEndOfMonth?: boolean;
     retryInterval?: string;
-    terminateMode?: TerminateMode;
+    terminationMode?: TerminateMode;
 };
 
 /* Response */
