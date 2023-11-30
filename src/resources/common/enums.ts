@@ -146,9 +146,9 @@ export enum OnlineBrand {
     TINABA = "tinaba",
     NAVER_PAY = "naver_pay",
     TOSS_PAY = "toss_pay",
-    PAYMAYA = "paymaya",
-    GRAB_PAY = "grab_pay",
-    KREDIVO = "kredivo",
+    PAYMAYA = "maya",
+    GRAB_PAY = "grab_sg",
+    KREDIVO = "kredivo_id",
 
     /**
      * @deprecated Use `ALIPAY_PLUS_ONLINE` instead
@@ -159,13 +159,13 @@ export enum OnlineBrand {
 // Alipay+ Offline
 export enum RetailBrand {
     TINABA = "tinaba",
-    NAVER_PAY = "naver_pay",
+    NAVER_PAY = "naverpay",
     TOSS_PAY = "tosspay",
-    OCBC_BANK = "ocbc_bank",
-    CHANGI_PAY = "changi_pay",
-    HI_PAY = "hi_pay",
-    PUBLIC_BANK = "public_bank",
-    M_PAY = "m_pay",
+    OCBC_BANK = "ocbc",
+    CHANGI_PAY = "changipay",
+    HI_PAY = "hipay",
+    PUBLIC_BANK = "pbengagemy",
+    M_PAY = "mpay",
 }
 
 /**
