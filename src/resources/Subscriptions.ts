@@ -351,7 +351,7 @@ export class Subscriptions extends CRUDResource {
     unsuspend(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponsePayment> {
         this._unsuspend =
             this._unsuspend ?? this.defineRoute(HTTPMethod.PATCH, "(/stores/:storeId)/subscriptions/:id/unsuspend");
-        return this._suspend(data, auth, { storeId, id });
+        return this._unsuspend(data, auth, { storeId, id });
     }
 
     create(data: SubscriptionCreateParams, auth?: AuthParams): Promise<ResponseSubscription> {

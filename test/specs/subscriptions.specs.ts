@@ -194,6 +194,30 @@ describe("Subscriptions", () => {
         });
     });
 
+    context("PATCH /stores/:storeId/subscriptions/:id/suspend", () => {
+        it("should get response", async () => {
+            fetchMock.patchOnce(pathToRegexMatcher(`${testEndpoint}/stores/:storeId/subscriptions/:id/suspend`), {
+                status: 200,
+                body: recordData,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            await expect(subscriptions.suspend(uuid(), uuid())).to.become(recordData);
+        });
+    });
+
+    context("PATCH /stores/:storeId/subscriptions/:id/unsuspend", () => {
+        it("should get response", async () => {
+            fetchMock.patchOnce(pathToRegexMatcher(`${testEndpoint}/stores/:storeId/subscriptions/:id/unsuspend`), {
+                status: 200,
+                body: recordData,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            await expect(subscriptions.unsuspend(uuid(), uuid())).to.become(recordData);
+        });
+    });
+
     context("DELETE /stores/:storeId/subscriptions/:id", () => {
         it("should get response", async () => {
             fetchMock.deleteOnce(recordPathMatcher, {
