@@ -25,6 +25,7 @@ import {
     Verification,
     WebHooks,
     WebHookTrigger as PublicWebHookTrigger,
+    Refers,
 } from "./resources/index.js";
 import { LinksProducts } from "./resources/LinksProducts.js";
 import PaymentsSDK from "./sdk/index.js";
@@ -52,6 +53,7 @@ export default class SDK<WebhookTrigger = PublicWebHookTrigger> extends Payments
     public merchants: Merchants = new Merchants(this.api);
     public platforms: Platforms = new Platforms(this.api);
     public products: Products = new Products(this.api);
+    public refers: Refers = new Refers(this.api);
     public refunds: Refunds = new Refunds(this.api);
     public stores: Stores = new Stores(this.api);
     public subscriptions: Subscriptions = new Subscriptions(this.api);
