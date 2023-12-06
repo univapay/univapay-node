@@ -21,6 +21,7 @@ export * from "./Ledgers.js";
 export * from "./Merchants.js";
 export * from "./Platforms.js";
 export * from "./Products.js";
+export * from "./Refers.js";
 export * from "./Refunds.js";
 export * from "./Resource.js";
 export * from "./Stores.js";
