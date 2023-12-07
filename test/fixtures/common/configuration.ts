@@ -11,7 +11,7 @@ import {
     SubscriptionPlanConfiguration,
     CustomerRole,
 } from "../../../src/resources/common/Configuration.js";
-import { CardBrand } from "../../../src/resources/common/enums.js";
+import { CardBrand, ProcessingMode } from "../../../src/resources/common/enums.js";
 
 export const generateFixturePaymentType = (): PaymentTypeConfiguration => ({
     enabled: true,
@@ -106,7 +106,11 @@ export const generateFixture = (): ConfigurationItem => ({
     paidyConfiguration: generateFixturePaymentType(),
     onlineConfiguration: generateFixturePaymentType(),
     bankTransferConfiguration: generateFixtureBankTransferConfiguration(),
-    customerManagementConfiguration: { enabled: true, defaultRoles: [CustomerRole.SUBSCRIPTION_READ] },
+    customerManagementConfiguration: {
+        enabled: true,
+        defaultRoles: [CustomerRole.SUBSCRIPTION_READ],
+        defaultMode: ProcessingMode.TEST,
+    },
     flatFees: [{ amount: 30, currency: "JPY" }],
     percentFee: 3.5,
     logoUrl: "http://fake.com/logo.jpg",

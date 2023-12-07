@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { CardBrand } from "../../src/resources/common/enums.js";
+import { CardBrand, ProcessingMode } from "../../src/resources/common/enums.js";
 import { PlatformConfigurationItem } from "../../src/resources/Platforms.js";
 import { PaymentType } from "../../src/resources/TransactionTokens.js";
 
@@ -43,6 +43,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
                     CustomerRole.TRANSACTION_TOKEN_READ,
                     CustomerRole.TRANSACTION_TOKEN_READ,
                 ],
+                defaultMode: ProcessingMode.TEST,
             },
             cardConfiguration: {
                 allowDirectTokenCreation: true,
