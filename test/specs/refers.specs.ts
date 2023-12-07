@@ -20,9 +20,9 @@ describe("Refers", () => {
         fetchMock.restore();
     });
 
-    context("POST (/stores/:storeId)/authorize/customer_login", () => {
+    context("POST (/stores/:storeId)/customers/authenticate", () => {
         const recordData = { jwt: "dummy-jwt" };
-        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/authorize/customer_login`);
+        const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/customers/authenticate`);
 
         it("should get authorize response", async () => {
             fetchMock.postOnce(recordPathMatcher, {
