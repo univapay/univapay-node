@@ -35,7 +35,7 @@ export type ParsedAuthenticateToken = {
 };
 
 export class Refers extends CRUDResource {
-    static routeBase = "(/stores/:storeId/)customers";
+    static routeBase = "(/stores/:storeId)/customers";
 
     private _authorize: DefinedRoute;
     authorize(
