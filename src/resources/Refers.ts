@@ -35,7 +35,7 @@ export type ParsedAuthenticateToken = {
 };
 
 export class Refers extends CRUDResource {
-    static routeBase = "/stores/:storeId/refers";
+    static routeBase = "(/stores/:storeId/)customers";
 
     private _authorize: DefinedRoute;
     authorize(
@@ -44,7 +44,7 @@ export class Refers extends CRUDResource {
         auth?: AuthParams,
     ): Promise<ReferAuthenticateResponse> {
         this._authorize =
-            this._authorize ?? this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/authorize/customer_login");
+            this._authorize ?? this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/customers/authenticate");
         return this._authorize(data, auth, { storeId });
     }
 
@@ -55,7 +55,7 @@ export class Refers extends CRUDResource {
         auth?: AuthParams,
     ): Promise<ReferAuthenticateResponse> {
         this._sendCode =
-            this._sendCode ?? this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/authorize/customer_login");
+            this._sendCode ?? this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/customers/authenticate");
         return this._sendCode(data, auth, { storeId });
     }
 }
