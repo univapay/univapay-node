@@ -5,7 +5,7 @@
 
 import { RecurringTokenPrivilege } from "../TransactionTokens.js";
 
-import { CardBrand } from "./enums.js";
+import { CardBrand, ProcessingMode } from "./enums.js";
 import { AmountWithCurrency } from "./types.js";
 
 export enum TransferMatchAmount {
@@ -27,6 +27,7 @@ export enum CustomerRole {
 export type CustomerManagementConfiguration = {
     enabled: boolean;
     defaultRoles: CustomerRole[];
+    defaultMode: ProcessingMode;
 };
 
 export interface PaymentTypeConfiguration {
