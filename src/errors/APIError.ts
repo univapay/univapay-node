@@ -472,6 +472,12 @@ export enum ResponseErrorCode {
     AnyUnknown = "ANY_UNKNOWN",
     InvalidFormatUuid = "INVALID_FORMAT_UUID",
     DateGreater = "DATE_GREATER",
+
+    /* Refer */
+    CustomerLoginNotEnabled = "CUSTOMER_LOGIN_NOT_ENABLED",
+    InvalidStoreId = "INVALID_STORE_ID",
+    InvalidEmailAddress = "INVALID_EMAIL_ADDRESS",
+    ExpiredOTPToken = "EXPIRED_OTP_TOKEN",
 }
 
 export enum PaymentErrorType {
