@@ -7,6 +7,7 @@ import { CRUDItemsResponse, CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 import { SubscriptionPeriod } from "./Subscriptions.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
+import { Metadata } from "./index.js";
 
 export type LinkProductListItem = {
     id: string;
@@ -46,6 +47,8 @@ export type LinkProductListItem = {
      * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter
      */
     subscriptionRetryInterval?: string | null;
+
+    metadata?: Metadata | null;
 };
 export type ResponseLinkProducts = CRUDItemsResponse<LinkProductListItem> & {
     hasMore: false; // no support for pagination
