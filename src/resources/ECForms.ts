@@ -112,7 +112,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     /* Metadata */
     descriptor: string | null;
     ignoreDescriptorOnError: boolean | null;
-    metadata: Metadata | null;
+    metadata?: Metadata | null;
     customFieldsTitles?: Partial<Record<Languages, string>> | null;
     orderSummaryTitles?: Partial<Record<Languages, string>> | null;
     customFields?: Partial<Record<Languages, ECFormCustomField[]>> | null;
