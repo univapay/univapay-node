@@ -34,6 +34,7 @@ export type LinkProductListItem = {
     subscriptionStartDayOfMonth?: number;
     subscriptionStartInMonths?: number;
     subscriptionStartIn?: string;
+    subscriptionStartOn?: string;
 
     /**
      * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter

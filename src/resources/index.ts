@@ -18,6 +18,7 @@ export * from "./ECInfo.js";
 export * from "./Emails.js";
 export * from "./ExchangeRates.js";
 export * from "./Ledgers.js";
+export * from "./LinksProducts.js";
 export * from "./Merchants.js";
 export * from "./Platforms.js";
 export * from "./Products.js";

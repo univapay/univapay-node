@@ -15,7 +15,13 @@ import {
 import { BankTransferBrand, CardBrand, OnlineBrand, ProcessingMode } from "./common/enums.js";
 import { AmountWithCurrency } from "./common/types.js";
 import { DefinedRoute, Resource } from "./Resource.js";
-import { OnlineCallMethod, OSType, PaymentType, RecurringTokenPrivilege } from "./TransactionTokens.js";
+import {
+    ConvenienceStore,
+    OnlineCallMethod,
+    OSType,
+    PaymentType,
+    RecurringTokenPrivilege,
+} from "./TransactionTokens.js";
 
 /* Request */
 export interface CheckoutInfoParams {
@@ -35,7 +41,7 @@ export interface CheckoutColors {
 }
 
 export interface SupportedBrand {
-    brand: CardBrand | OnlineBrand | "paidy" | BankTransferBrand;
+    brand: OnlineBrand | PaymentType | CardBrand | ConvenienceStore | BankTransferBrand | "paidy";
     supportAuthCapture: boolean;
     requiresFullName: boolean;
     supportDynamicDescriptor: boolean;
@@ -43,6 +49,11 @@ export interface SupportedBrand {
     countriesAllowed?: string[] | null;
     supportedCurrencies: string[];
     paymentType: PaymentType;
+
+    /**
+     * WeChat brand only
+     */
+    appId?: string;
 
     /**
      * @deprecated
