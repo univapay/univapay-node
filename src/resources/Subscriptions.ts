@@ -354,6 +354,18 @@ export class Subscriptions extends CRUDResource {
         return this._unsuspend(data, auth, { storeId, id });
     }
 
+    private _updateToken?: DefinedRoute;
+    updateToken(
+        storeId: string,
+        id: string,
+        data?: SendData<{ transactionTokenId: string }>,
+        auth?: AuthParams,
+    ): Promise<ResponseSubscription> {
+        this._updateToken =
+            this._updateToken ?? this.defineRoute(HTTPMethod.PATCH, "(/stores/:storeId)/subscriptions/:id/token");
+        return this._updateToken(data, auth, { storeId, id });
+    }
+
     create(data: SubscriptionCreateParams, auth?: AuthParams): Promise<ResponseSubscription> {
         return ignoreDescriptor(
             (updatedData: SubscriptionCreateParams) =>

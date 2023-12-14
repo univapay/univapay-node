@@ -31,8 +31,8 @@
   "prettier.ignorePath": "../.prettierignore",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.tslint": false,
-    "source.fixAll.stylelint": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.tslint": "never",
+    "source.fixAll.stylelint": "explicit"
   }
 }

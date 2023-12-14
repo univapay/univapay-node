@@ -218,6 +218,18 @@ describe("Subscriptions", () => {
         });
     });
 
+    context("PATCH /stores/:storeId/subscriptions/:id/token", () => {
+        it("should get response", async () => {
+            fetchMock.patchOnce(pathToRegexMatcher(`${testEndpoint}/stores/:storeId/subscriptions/:id/token`), {
+                status: 200,
+                body: recordData,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            await expect(subscriptions.updateToken(uuid(), uuid())).to.become(recordData);
+        });
+    });
+
     context("DELETE /stores/:storeId/subscriptions/:id", () => {
         it("should get response", async () => {
             fetchMock.deleteOnce(recordPathMatcher, {
