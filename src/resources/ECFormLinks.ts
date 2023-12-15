@@ -56,6 +56,7 @@ export type ECFormLinkItem = {
     subscriptionStartIn?: string;
     subscriptionStartInMonths?: number;
     subscriptionStartDayOfMonth?: number;
+    subscriptionPreserveEndOfMonth?: boolean;
     subscriptionInitialAmount?: number;
     subscriptionCycles?: number;
 

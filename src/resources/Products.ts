@@ -31,6 +31,7 @@ export type ProductItem = {
      * ISO 8601 period. e.g P1M, P23D.
      */
     subscriptionStartIn?: string;
+    subscriptionPreserveEndOfMonth?: boolean;
 
     /**
      * ISO 8601 period. e.g P1M, P23D.
