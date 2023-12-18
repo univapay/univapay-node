@@ -151,7 +151,7 @@ describe("Transaction Tokens", () => {
                 },
             };
 
-            await expect(transactionTokens.update(uuid(), uuid(), data)).to.become(response);
+            await expect(transactionTokens.renew(uuid(), uuid(), data)).to.become(response);
         });
     });
 
