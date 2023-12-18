@@ -196,6 +196,8 @@ export type SubscriptionItem<T extends Metadata = Metadata> = {
     scheduleSettings: ScheduleSettings | null;
     nextPayment: ScheduledPaymentItem;
 
+    nextPaymentDate?: string;
+
     initialAmount?: number | null;
     initialAmountFormatted?: number;
     subsequentCyclesStart?: string;

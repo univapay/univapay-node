@@ -9,6 +9,7 @@ import { RequestError } from "../../src/errors/RequestResponseError.js";
 import {
     PaymentType,
     TransactionTokenCreateParams,
+    TransactionTokenRenewParams,
     TransactionTokens,
     TransactionTokenType,
     TransactionTokenUpdateParams,
@@ -130,6 +131,27 @@ describe("Transaction Tokens", () => {
             };
 
             await expect(transactionTokens.update(uuid(), uuid(), data)).to.become(recordData);
+        });
+    });
+
+    context("POST /stores/:storeId/tokens/:id/renew", () => {
+        it("should get response", async () => {
+            const response = { previousId: "dummy-transaction-token-id" };
+            fetchMock.postOnce(pathToRegexMatcher(`${testEndpoint}/stores/:storeId/tokens/:id/renew`), {
+                status: 200,
+                body: response,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            const data: TransactionTokenRenewParams = {
+                data: {
+                    cardholder: "Dummy Card Holder",
+                    expMonth: 1,
+                    expYear: 2030,
+                },
+            };
+
+            await expect(transactionTokens.update(uuid(), uuid(), data)).to.become(response);
         });
     });
 

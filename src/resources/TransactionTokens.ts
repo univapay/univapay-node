@@ -235,6 +235,14 @@ export interface TransactionTokenUpdateParams {
     metadata?: string | Metadata;
 }
 
+export type TransactionTokenRenewParams = {
+    data?: {
+        cardholder: string;
+        expMonth: number | string;
+        expYear: number | string;
+    };
+};
+
 export interface TransactionTokenConfirmParams {
     confirmationCode: string;
 }
@@ -370,6 +378,17 @@ export class TransactionTokens extends CRUDResource {
     ): Promise<ResponseTransactionToken> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, id });
+    }
+
+    private _renew?: DefinedRoute;
+    renew(
+        storeId: string,
+        id: string,
+        data: SendData<TransactionTokenRenewParams>,
+        auth?: AuthParams,
+    ): Promise<{ previousId: string }> {
+        this._renew = this._renew ?? this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/tokens/:id/renew");
+        return this._renew(data, auth, { storeId, id });
     }
 
     private _delete?: DefinedRoute;
