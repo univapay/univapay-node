@@ -234,6 +234,11 @@ export interface UserTransactionsConfiguration {
     notifyOnAuthorizations?: boolean;
     notifyOnCvvAuthorizations?: boolean;
     notifyOnCancels?: boolean;
+
+    /**
+     * Boolean when the ${customer_refer_link} parameter should be shown on the subscription templates
+     */
+    customerReferLinkEnabled?: boolean;
 }
 
 export interface RecurringTokenConfiguration {
