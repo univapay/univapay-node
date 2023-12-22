@@ -78,6 +78,7 @@ export type SubscriptionPlanItem =
 export type SubscriptionsListParams = CRUDPaginationParams & {
     search?: string;
     status?: SubscriptionStatus;
+    statuses?: SubscriptionStatus[];
     mode?: ProcessingMode;
 };
 
