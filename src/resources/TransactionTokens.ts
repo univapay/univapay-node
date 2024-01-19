@@ -314,6 +314,7 @@ export interface TransactionTokenConvenienceDataItem extends TransactionTokenBas
     phoneNumber?: PhoneNumber;
 }
 export interface TransactionTokenItem {
+    active: boolean;
     id: string;
     storeId: string;
     email: string;
