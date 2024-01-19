@@ -386,7 +386,7 @@ export class TransactionTokens extends CRUDResource {
         id: string,
         data: SendData<TransactionTokenRenewParams>,
         auth?: AuthParams,
-    ): Promise<{ previousId: string }> {
+    ): Promise<ResponseTransactionToken & { previousId: string }> {
         this._renew = this._renew ?? this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/tokens/:id/renew");
         return this._renew(data, auth, { storeId, id });
     }

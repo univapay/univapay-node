@@ -8,6 +8,7 @@ import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
 import {
     PaymentType,
+    TransactionTokenCardDataItem,
     TransactionTokenCreateParams,
     TransactionTokenRenewParams,
     TransactionTokens,
@@ -136,7 +137,18 @@ describe("Transaction Tokens", () => {
 
     context("POST /stores/:storeId/tokens/:id/renew", () => {
         it("should get response", async () => {
-            const response = { previousId: "dummy-transaction-token-id" };
+            const newCardData = { card: { cardholder: "Dummy Card Holder", expMonth: 1, expYear: 2030 } };
+
+            const cardDataItem = recordData.data as TransactionTokenCardDataItem;
+            const newRecordData = {
+                ...recordData,
+                data: {
+                    ...cardDataItem,
+                    card: { ...cardDataItem.card, ...newCardData },
+                },
+            };
+
+            const response = { newRecordData, previousId: "dummy-transaction-token-id" };
             fetchMock.postOnce(pathToRegexMatcher(`${testEndpoint}/stores/:storeId/tokens/:id/renew`), {
                 status: 200,
                 body: response,
