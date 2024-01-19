@@ -4,6 +4,7 @@ import { CardBrand, CardType, ProcessingMode } from "../../src/resources/common/
 import { PaymentType, TransactionTokenItem, TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
 export const generateFixture = (): TransactionTokenItem => ({
+    active: true,
     id: uuid(),
     storeId: uuid(),
     email: "test@fake.com",
