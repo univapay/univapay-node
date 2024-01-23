@@ -135,7 +135,7 @@ export enum QRGateway {
 export enum OnlineBrand {
     ALIPAY_ONLINE = "alipay_online",
     ALIPAY_PLUS_ONLINE = "alipay_plus_online",
-    D_BARAI_ONLINE = "dbarai_online",
+    D_BARAI_ONLINE = "d_barai_online",
     PAY_PAY_ONLINE = "pay_pay_online",
     WE_CHAT_ONLINE = "we_chat_online",
 
@@ -174,7 +174,7 @@ export enum RetailBrand {
  */
 export enum OnlineGateway {
     ALIPAY_ONLINE = "alipay_online",
-    D_BARAI_ONLINE = "dbarai_online",
+    D_BARAI_ONLINE = "d_barai_online",
     PAY_PAY_ONLINE = "pay_pay_online",
     WE_CHAT_ONLINE = "we_chat_online",
 }
