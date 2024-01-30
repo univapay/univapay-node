@@ -5,7 +5,7 @@
     "downlevelIteration": true,
     "importHelpers": true,
     "sourceMap": true,
-    "target": "es2020",
+    "target": "es2022",
     "module": "nodenext",
     "declaration": true,
     "allowJs": false,
@@ -31,9 +31,15 @@
     "baseUrl": ".",
     "outDir": "./dist/esm",
     "paths": {
-      "*": ["types/*.d.ts"]
+      "*": [
+        "types/*.d.ts"
+      ]
     }
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

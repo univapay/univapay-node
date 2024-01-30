@@ -3,8 +3,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "./dist/cjs",
+    "target": "es2020",
     "paths": {
-      "*": ["types/*.d.cts"]
+      "*": [
+        "types/*.d.cts"
+      ]
     }
   }
 }
