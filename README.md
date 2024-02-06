@@ -144,7 +144,7 @@ const charge = await sdk.charges.poll(
 
     // ポーリングが成功する条件。デフォルトは、statusがpendingではないこと
     // 任意: (charge: ResponseCharge) => boolean
-    successCondition
+    successCondition,
 );
 ```
 

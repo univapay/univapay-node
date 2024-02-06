@@ -155,8 +155,8 @@ const getRequestBody = <Data>(
     isBlob(data)
         ? data
         : containsBinaryData(data)
-        ? objectToFormData(data, keyFormatter, ignoreKeysFormatting)
-        : stringify(transformKeys(data, keyFormatter, ignoreKeysFormatting));
+          ? objectToFormData(data, keyFormatter, ignoreKeysFormatting)
+          : stringify(transformKeys(data, keyFormatter, ignoreKeysFormatting));
 
 const stringifyParams = (data: unknown): string => {
     const query = stringifyQuery(flatten(transformKeys(data, toSnakeCase), { safe: true }), {

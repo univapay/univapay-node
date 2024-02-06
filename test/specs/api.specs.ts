@@ -290,8 +290,8 @@ describe("API", function () {
                 !!sendParams && !!sendParams.origin
                     ? sendParams.origin
                     : !!initParams && !!initParams.origin
-                    ? initParams.origin
-                    : null,
+                      ? initParams.origin
+                      : null,
             );
             expect(response).to.eql(okResponse);
         }
