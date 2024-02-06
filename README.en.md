@@ -143,7 +143,7 @@ const charge = await sdk.charges.poll(
 
     // Condition where the poll should succeed. By default when the status is not Pending.
     // Optional: (charge: ResponseCharge) => boolean
-    successCondition
+    successCondition,
 );
 ```
 
