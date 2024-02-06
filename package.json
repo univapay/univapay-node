@@ -50,7 +50,7 @@
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
-    "c8": "^8.0.1",
+    "c8": "^9.1.0",
     "chai": "^4.3.10",
     "chai-arrays": "^2.2.0",
     "chai-as-promised": "^7.1.1",
