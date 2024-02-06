@@ -101,6 +101,6 @@
     "preversion": "npm test",
     "docs": "typedoc --options typedoc.json",
     "release": "np --yolo --no-yarn --no-publish",
-    "prepare": "husky install"
+    "prepare": "husky"
   }
 }
