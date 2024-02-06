@@ -44,7 +44,6 @@ jobs:
 
   finish:
     needs: test
-    if: $
     runs-on: ubuntu-latest
     steps:
       - name: Close parallel build
