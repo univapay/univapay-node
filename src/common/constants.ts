@@ -6,9 +6,8 @@ import { env } from "node:process";
  */
 
 const parseInt = (str: string | undefined): number | undefined => {
-    if (str === undefined) return undefined;
-
     const parsed = Number.parseInt(str);
+
     return Number.isNaN(parsed) ? undefined : parsed;
 };
 
