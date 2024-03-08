@@ -18,7 +18,10 @@ export enum TransferMatchAmount {
 export enum CustomerRole {
     TRANSACTION_TOKEN_READ = "transaction_token_read",
     TRANSACTION_TOKEN_UPDATE = "transaction_token_update",
-    SUBSCRIPTION_READ = "subscription_read",
+    TRANSACTION_TOKEN_CREATE = "transaction_token_create",
+    DISPLAY_PAYMENT_METHOD = "display_payment_method",
+
+    SUBSCRIPTION_READ = "subscription_read", // Also controls subscription page display on the management system
     SUBSCRIPTION_UPDATE_TOKEN = "subscription_update_token",
     SUBSCRIPTION_SUSPEND = "subscription_suspend", // Also controls resume functionality
     SUBSCRIPTION_DELETE = "subscription_delete",
