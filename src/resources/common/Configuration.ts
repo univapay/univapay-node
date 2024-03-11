@@ -20,6 +20,7 @@ export enum CustomerRole {
     TRANSACTION_TOKEN_UPDATE = "transaction_token_update",
     TRANSACTION_TOKEN_CREATE = "transaction_token_create",
     DISPLAY_PAYMENT_METHOD = "display_payment_method",
+    DISPLAY_PAYMENT_METHOD_SWITCHING = "display_payment_method_switching",
 
     SUBSCRIPTION_READ = "subscription_read", // Also controls subscription page display on the management system
     SUBSCRIPTION_UPDATE_TOKEN = "subscription_update_token",
@@ -299,6 +300,7 @@ export interface ConfigurationItem {
     customerManagementConfiguration?: CustomerManagementConfiguration;
     platformCredentialsEnabled?: boolean;
     taggedPlatformCredentialsEnabled?: boolean;
+    foreignCardsEnabled?: boolean;
 }
 
 export interface ConfigurationParams {

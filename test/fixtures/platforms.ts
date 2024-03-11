@@ -29,6 +29,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
         displayImages: {
             placeholderUri: "http://fake.com/logo.jpg",
         },
+        foreignCardsEnabled: true,
         userDefaults: {
             percentFee: 3.5,
             transferSchedule: generateTransferSchedule(),

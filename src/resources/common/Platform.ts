@@ -83,6 +83,7 @@ export interface PlatformConfiguration {
         placeholderUri?: string;
         squareUri?: string;
     };
+    foreignCardsEnabled: boolean;
     maximumChargeAmounts: AmountWithCurrency[];
     minimumChargeAmounts: AmountWithCurrency[];
     notifyUserTransactions: boolean;

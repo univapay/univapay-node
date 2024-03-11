@@ -205,6 +205,12 @@ export interface TransactionTokenListParams extends CRUDPaginationParams {
     type?: TransactionTokenType;
     search?: string;
     mode?: ProcessingMode;
+
+    /**
+     * Requires secret
+     * id of the token that was replaced by the current token using the renew/replace routes
+     */
+    previousTransactionTokenId?: string;
 }
 
 export interface TransactionTokenUpdateParams {
