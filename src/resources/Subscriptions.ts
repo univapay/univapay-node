@@ -63,6 +63,7 @@ export interface ScheduledPaymentItem {
     createdOn: string;
     successfulPaymentDate?: string;
     terminateWithStatus?: SubscriptionStatus;
+    retryDate?: string;
 }
 
 export type SchedulePaymentListItem = ScheduledPaymentItem;
@@ -221,15 +222,12 @@ type SubscriptionSimulationBaseParams = {
 } & PeriodParams;
 
 export type SimulationInstallmentPayment = {
-    id: string;
     amount: number;
-    amountFormatted: string;
     currency: string;
     dueDate: string;
     isLastPayment: boolean;
     isPaid: boolean;
     zoneId: string;
-    retryDate?: string;
 };
 
 export type SubscriptionSimulationLegacyParams = SubscriptionSimulationBaseParams & {
