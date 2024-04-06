@@ -281,6 +281,8 @@ export enum ResponseErrorCode {
 
     BrandNotDefined = "BRAND_NOT_DEFINED",
 
+    CountryNotAllowed = "COUNTRY_NOT_ALLOWED",
+
     /** Used when creating a new Merchant */
     OnlyASCII = "ONLY_ASCII",
     UniqueCharacters = "UNIQUE_CHARACTERS",
