@@ -25,6 +25,7 @@ export enum ResponseErrorCode {
     InvalidRequest = "INVALID_REQUEST",
     UnableToGetIdempotentResult = "UNABLE_TO_GET_IDEMPOTENT_REQUEST",
     ServiceUnavailableTryAgain = "SERVICE_UNAVAILABLE_TRY_AGAIN",
+    ServiceRestricted = "SERVICE_RESTRICTED", // too many charge failure on the IP
     RateLimitExceeded = "RATE_LIMIT_EXCEEDED",
 
     /* auth */

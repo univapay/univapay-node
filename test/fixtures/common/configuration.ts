@@ -122,6 +122,11 @@ export const generateFixture = (): ConfigurationItem => ({
         },
         refundPercentLimit: 5,
         minRefundThreshold: 5,
+        restrictIpAfterFailedCharge: {
+            enabled: true,
+            count: 50,
+            cooldown: "P1S",
+        },
     },
     installmentsConfiguration: generateFixtureInstallmentConfiguration(),
     minimumChargeAmounts: [],

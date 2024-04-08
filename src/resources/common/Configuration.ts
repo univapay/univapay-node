@@ -219,6 +219,11 @@ export interface SecurityConfiguration {
     subscriptionCooldown?: string; // ISO8601 Duration (min. PT1S)
     idempotentCardChargeCooldown?: string; // ISO8601 Duration (min. PT1S)
     idempotentSubscriptionCooldown?: string; // ISO8601 Duration (min. PT1S)
+    restrictIpAfterFailedCharge?: {
+        enabled: boolean;
+        count: number;
+        cooldown: string; // duration
+    };
 }
 
 export interface UserTransactionsConfiguration {
