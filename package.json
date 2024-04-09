@@ -67,7 +67,7 @@
     "mocha": "^10.4.0",
     "np": "^10.0.2",
     "p-map": "^6.0.0",
-    "path-to-regexp": "^6.2.1",
+    "path-to-regexp": "^6.2.2",
     "prettier": "^3.2.5",
     "sinon": "^17.0.1",
     "sinon-chai": "^3.7.0",
