@@ -331,6 +331,7 @@ export interface TransactionTokenItem {
     paymentType: PaymentType;
     usageLimit?: UsageLimit;
     confirmed?: boolean;
+    previousId?: string;
     data?: (
         | TransactionTokenCardDataItem
         | TransactionTokenQRScanDataItem
