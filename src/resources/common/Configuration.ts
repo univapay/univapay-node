@@ -243,6 +243,7 @@ export interface UserTransactionsConfiguration {
     notifyOnAuthorizations?: boolean;
     notifyOnCvvAuthorizations?: boolean;
     notifyOnCancels?: boolean;
+    notifyOnConvenienceExpiry?: boolean;
 
     /**
      * Boolean when the ${customer_refer_link} parameter should be shown on the subscription templates
