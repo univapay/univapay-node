@@ -10,6 +10,7 @@ import {
     ConvenienceConfigurationItem,
     SubscriptionPlanConfiguration,
     CustomerRole,
+    Period,
 } from "../../../src/resources/common/Configuration.js";
 import { CardBrand, ProcessingMode } from "../../../src/resources/common/enums.js";
 
@@ -126,6 +127,11 @@ export const generateFixture = (): ConfigurationItem => ({
             enabled: true,
             count: 50,
             cooldown: "P1S",
+        },
+        limitRefundBySales: {
+            enabled: true,
+            period: Period.ANNUALLY,
+            rollingWindow: true,
         },
     },
     installmentsConfiguration: generateFixtureInstallmentConfiguration(),

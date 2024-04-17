@@ -7,6 +7,7 @@ import {
     ConvenienceConfigurationItem,
     SubscriptionPlanConfiguration,
     CustomerManagementConfiguration,
+    Period,
 } from "./Configuration.js";
 import { TransferScheduleItem } from "./TransferSchedule.js";
 import { AmountWithCurrency, InvoiceChargeFee, WithCreatedOn } from "./types.js";
@@ -46,6 +47,11 @@ export interface PlatformUserDefaults {
             enabled: boolean;
             count: number;
             cooldown: string; // duration
+        };
+        limitRefundBySales: {
+            enabled: boolean;
+            period: Period;
+            rollingWindow?: boolean;
         };
     };
     customerManagementConfiguration: CustomerManagementConfiguration;

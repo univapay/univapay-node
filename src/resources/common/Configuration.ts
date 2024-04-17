@@ -224,6 +224,11 @@ export interface SecurityConfiguration {
         count: number;
         cooldown: string; // duration
     };
+    limitRefundBySales?: {
+        enabled: boolean;
+        period?: Period;
+        rollingWindow?: boolean;
+    };
 }
 
 export interface UserTransactionsConfiguration {
@@ -276,6 +281,17 @@ export type CheckoutConfiguration = {
     ecEmail: { enabled?: boolean };
     ecProducts: { enabled?: boolean };
 };
+
+export enum Period {
+    DAILY = "daily",
+    WEEKLY = "weekly",
+    BIWEEKLY = "biweekly",
+    MONTHLY = "monthly",
+    BIMONTHLY = "bimonthly",
+    QUARTERLY = "quarterly",
+    SEMIANNUALLY = "semiannually",
+    ANNUALLY = "annually",
+}
 
 export interface ConfigurationItem {
     bankTransferConfiguration: BankTransferConfiguration;
