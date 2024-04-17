@@ -282,8 +282,6 @@ export enum ResponseErrorCode {
 
     BrandNotDefined = "BRAND_NOT_DEFINED",
 
-    CountryNotAllowed = "COUNTRY_NOT_ALLOWED",
-
     /** Used when creating a new Merchant */
     OnlyASCII = "ONLY_ASCII",
     UniqueCharacters = "UNIQUE_CHARACTERS",
@@ -481,6 +479,9 @@ export enum ResponseErrorCode {
     InvalidStoreId = "INVALID_STORE_ID",
     InvalidEmailAddress = "INVALID_EMAIL_ADDRESS",
     ExpiredOTPToken = "EXPIRED_OTP_TOKEN",
+
+    /* Invalid card error (lowercased errors) */
+    CountryNotAllowed = "country_not_allowed",
 }
 
 export enum PaymentErrorType {
