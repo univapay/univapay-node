@@ -207,6 +207,7 @@ export enum ResponseErrorCode {
     ValidationError = "VALIDATION_ERROR",
     RequiredValue = "REQUIRED_VALUE",
     MustBeFutureTime = "MUST_BE_FUTURE_TIME",
+    MustBeFutureOrToday = "MUST_BE_FUTURE_OR_TODAY",
     InvalidFormat = "INVALID_FORMAT",
     InvalidPercentFee = "INVALID_PERCENT_FEE",
     InvalidCardNumber = "INVALID_CARD_NUMBER",
