@@ -205,6 +205,7 @@ export interface TransactionTokenListParams extends CRUDPaginationParams {
     type?: TransactionTokenType;
     search?: string;
     mode?: ProcessingMode;
+    paymentType?: PaymentType;
 
     /**
      * Requires secret
