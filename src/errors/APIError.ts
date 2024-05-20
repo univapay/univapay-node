@@ -113,6 +113,7 @@ export enum ResponseErrorCode {
     ConfirmationRequiresEmail = "CONFIRMATION_REQUIRES_EMAIL",
     WrongConfirmationCode = "WRONG_CONFIRMATION_CODE",
     RefundNotWithinBounds = "REFUND_NOT_WITHIN_BOUNDS",
+    RefundExceedsSales = "REFUND_EXCEEDS_SALES",
     InvalidTransfer = "INVALID_TRANSFER",
     TransferAlreadyExists = "TRANSFER_ALREADY_EXISTS",
     NoLedgers = "NO_LEDGERS",
