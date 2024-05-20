@@ -7,7 +7,7 @@ import { AuthParams, HTTPMethod, PollData, PollParams, RestAPI, SendData } from 
 import { ProcessingMode } from "./common/enums.js";
 import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
 import { Metadata, WithStoreMerchantName } from "./common/types.js";
-import { Charges } from "./Charges.js";
+import { ChargeCreateParams, Charges } from "./Charges.js";
 import { ChargesListParams, ResponseCharges } from "./Charges.js";
 import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { ResponseCharge } from "./index.js";
@@ -261,6 +261,24 @@ export type ResponseSubscriptions = CRUDAOSItemsResponse<SubscriptionListItem>;
 export type ResponsePayment = ScheduledPaymentItem;
 export type ResponsePayments = CRUDAOSItemsResponse<SchedulePaymentListItem>;
 
+export type BatchSubscriptionCreateParams = {
+    subscriptions: SubscriptionCreateParams[];
+    charges?: ChargeCreateParams[];
+};
+
+export enum BatchStatus {
+    SUCCESSFUL = "successful",
+    FAILED = "failed",
+    AWAITING = "awaiting",
+}
+
+export type BatchSubscriptionResponse = {
+    batchId: string;
+    status: BatchStatus;
+    subscriptions?: string[];
+    charges?: string[];
+};
+
 export class ScheduledPayments extends CRUDResource {
     static routeBase = "/stores/:storeId/subscriptions/:subscriptionsId/payments";
 
@@ -381,10 +399,24 @@ export class Subscriptions extends CRUDResource {
         );
     }
 
+    createBatch(data: BatchSubscriptionCreateParams, auth?: AuthParams): Promise<BatchSubscriptionResponse> {
+        return ignoreDescriptor(
+            (updatedData: BatchSubscriptionCreateParams) =>
+                this.defineRoute(HTTPMethod.POST, "/subscriptions/batches")(updatedData, auth),
+            data,
+        );
+    }
+
     private _get: DefinedRoute;
     get(storeId: string, id: string, data?: SendData<PollData>, auth?: AuthParams): Promise<ResponseSubscription> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, id });
+    }
+
+    private _getBatch: DefinedRoute;
+    getBatch(batchId: string, data?: SendData<PollData>, auth?: AuthParams): Promise<BatchSubscriptionResponse> {
+        this._getBatch = this._getBatch ?? this.defineRoute(HTTPMethod.GET, "/subscriptions/batches/:batchId");
+        return this._getBatch(data, auth, { batchId });
     }
 
     private _update: DefinedRoute;
@@ -426,6 +458,19 @@ export class Subscriptions extends CRUDResource {
         const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
         const successCondition =
             pollParams?.successCondition ?? (({ status }) => status !== SubscriptionStatus.UNVERIFIED);
+
+        return this.api.longPolling(promise, { ...pollParams, successCondition });
+    }
+
+    pollBatch(
+        batchId: string,
+        data?: SendData<PollData>,
+        auth?: AuthParams,
+        pollParams?: Partial<PollParams<BatchSubscriptionResponse>>,
+    ): Promise<BatchSubscriptionResponse> {
+        const pollData = { ...data, polling: true };
+        const promise: () => Promise<BatchSubscriptionResponse> = () => this.getBatch(batchId, pollData, auth);
+        const successCondition = pollParams?.successCondition ?? (({ status }) => status !== BatchStatus.AWAITING);
 
         return this.api.longPolling(promise, { ...pollParams, successCondition });
     }
