@@ -64,8 +64,8 @@ export interface CardConfigurationItem extends PaymentTypeConfiguration {
     allowEmptyCvv: boolean;
     onlyDirectCurrency: boolean;
     allowDirectTokenCreation: boolean;
-    three_ds_address_required?: boolean;
-    three_ds_required?: boolean;
+    threeDsAddressRequired?: boolean;
+    threeDsRequired?: boolean;
 }
 
 export interface QRScanConfigurationItem extends PaymentTypeConfiguration {
