@@ -231,8 +231,10 @@ describe("Subscriptions", () => {
             charges: [uuid()],
         };
 
+        const batchSubscriptionRecordPathMatcher = pathToRegexMatcher(`${testEndpoint}/subscriptions/batches/:batchId`);
+
         it("should get response", async () => {
-            fetchMock.getOnce(`${testEndpoint}/subscriptions/batches/:batchId`, {
+            fetchMock.getOnce(batchSubscriptionRecordPathMatcher, {
                 status: 200,
                 body: batchSubscriptionData,
                 headers: { "Content-Type": "application/json" },
@@ -243,47 +245,27 @@ describe("Subscriptions", () => {
 
         it("should perform long polling", async () => {
             const call = () => subscriptions.pollBatch(uuid());
-            await assertPoll(
-                `${testEndpoint}/subscriptions/batches/:batchId`,
-                call,
-                sandbox,
-                successItem,
-                batchSubscriptionData,
-            );
+            await assertPoll(batchSubscriptionRecordPathMatcher, call, sandbox, successItem, batchSubscriptionData);
         });
 
         it("should timeout polling", async () => {
             const call = () => subscriptions.pollBatch(uuid());
-            await assertPollTimeout(
-                `${testEndpoint}/subscriptions/batches/:batchId`,
-                call,
-                sandbox,
-                batchSubscriptionData,
-            );
+            await assertPollTimeout(batchSubscriptionRecordPathMatcher, call, sandbox, batchSubscriptionData);
         });
 
         it("should abort poll on error", async () => {
             const call = () => subscriptions.pollBatch(uuid());
-            await assertPollNotFoundError(`${testEndpoint}/subscriptions/batches/:batchId`, call, sandbox);
+            await assertPollNotFoundError(batchSubscriptionRecordPathMatcher, call, sandbox);
         });
 
         it("should retry poll on internal server error", async () => {
             const call = () => subscriptions.pollBatch(uuid());
-            await assertPollInternalServerError(
-                `${testEndpoint}/subscriptions/batches/:batchId`,
-                call,
-                sandbox,
-                successItem,
-            );
+            await assertPollInternalServerError(batchSubscriptionRecordPathMatcher, call, sandbox, successItem);
         });
 
         it("should fail poll on internal server error when retry count is exceeded", async () => {
-            const call = () => subscriptions.poll(uuid(), uuid());
-            await assertPollInternalServerErrorMaxRetry(
-                `${testEndpoint}/subscriptions/batches/:batchId`,
-                call,
-                sandbox,
-            );
+            const call = () => subscriptions.pollBatch(uuid());
+            await assertPollInternalServerErrorMaxRetry(batchSubscriptionRecordPathMatcher, call, sandbox);
         });
     });
 
