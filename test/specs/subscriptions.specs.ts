@@ -9,6 +9,8 @@ import { POLLING_INTERVAL } from "../../src/common/constants.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
 import { ChargeStatus, SubscriptionItem } from "../../src/resources/index.js";
 import {
+    BatchStatus,
+    BatchSubscriptionCreateParams,
     InstallmentPlan,
     SubscriptionCreateParams,
     SubscriptionPeriod,
@@ -23,7 +25,10 @@ import { generateFixture as generateCharge } from "../fixtures/charge.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateScheduledPayment } from "../fixtures/scheduled-payment.js";
-import { generateFixture as generateSubscription } from "../fixtures/subscription.js";
+import {
+    generateFixture as generateSubscription,
+    generateBatchSubscriptionResponse,
+} from "../fixtures/subscription.js";
 import { testEndpoint } from "../utils/index.js";
 import {
     assertPoll,
@@ -42,6 +47,7 @@ describe("Subscriptions", () => {
 
     const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/subscriptions/:id`);
     const recordData = generateSubscription();
+    const batchSubscriptionData = generateBatchSubscriptionResponse();
 
     beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
@@ -106,6 +112,46 @@ describe("Subscriptions", () => {
                     .that.has.property("errorResponse")
                     .which.eql(error.errorResponse);
             }
+        });
+    });
+
+    context("POST /subscriptions/batches", () => {
+        it("should get response", async () => {
+            fetchMock.postOnce(`${testEndpoint}/subscriptions/batches`, {
+                status: 201,
+                body: batchSubscriptionData,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            const transactionTokenId = uuid();
+            const data: BatchSubscriptionCreateParams = {
+                subscriptions: [
+                    {
+                        transactionTokenId,
+                        amount: 1000,
+                        initialAmount: 300,
+                        currency: "JPY",
+                        period: SubscriptionPeriod.DAILY,
+                    },
+                    {
+                        transactionTokenId,
+                        amount: 2000,
+                        initialAmount: 400,
+                        currency: "JPY",
+                        period: SubscriptionPeriod.WEEKLY,
+                    },
+                    {
+                        transactionTokenId,
+                        amount: 3000,
+                        initialAmount: 500,
+                        currency: "JPY",
+                        period: SubscriptionPeriod.MONTHLY,
+                    },
+                ],
+                charges: [{ transactionTokenId, amount: 600, currency: "JPY" }],
+            };
+
+            await expect(subscriptions.createBatch(data)).to.become(batchSubscriptionData);
         });
     });
 
@@ -174,6 +220,52 @@ describe("Subscriptions", () => {
         it("should fail poll on internal server error when retry count is exceeded", async () => {
             const call = () => subscriptions.poll(uuid(), uuid());
             await assertPollInternalServerErrorMaxRetry(recordPathMatcher, call, sandbox);
+        });
+    });
+
+    context("GET subscriptions/batches/:batchId", () => {
+        const successItem = {
+            ...batchSubscriptionData,
+            status: BatchStatus.SUCCESSFUL,
+            subscriptions: [uuid(), uuid(), uuid()],
+            charges: [uuid()],
+        };
+
+        const batchSubscriptionRecordPathMatcher = pathToRegexMatcher(`${testEndpoint}/subscriptions/batches/:batchId`);
+
+        it("should get response", async () => {
+            fetchMock.getOnce(batchSubscriptionRecordPathMatcher, {
+                status: 200,
+                body: batchSubscriptionData,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            await expect(subscriptions.getBatch(uuid())).to.become(batchSubscriptionData);
+        });
+
+        it("should perform long polling", async () => {
+            const call = () => subscriptions.pollBatch(uuid());
+            await assertPoll(batchSubscriptionRecordPathMatcher, call, sandbox, successItem, batchSubscriptionData);
+        });
+
+        it("should timeout polling", async () => {
+            const call = () => subscriptions.pollBatch(uuid());
+            await assertPollTimeout(batchSubscriptionRecordPathMatcher, call, sandbox, batchSubscriptionData);
+        });
+
+        it("should abort poll on error", async () => {
+            const call = () => subscriptions.pollBatch(uuid());
+            await assertPollNotFoundError(batchSubscriptionRecordPathMatcher, call, sandbox);
+        });
+
+        it("should retry poll on internal server error", async () => {
+            const call = () => subscriptions.pollBatch(uuid());
+            await assertPollInternalServerError(batchSubscriptionRecordPathMatcher, call, sandbox, successItem);
+        });
+
+        it("should fail poll on internal server error when retry count is exceeded", async () => {
+            const call = () => subscriptions.pollBatch(uuid());
+            await assertPollInternalServerErrorMaxRetry(batchSubscriptionRecordPathMatcher, call, sandbox);
         });
     });
 

@@ -2,6 +2,8 @@ import { v4 as uuid } from "uuid";
 
 import { ProcessingMode } from "../../src/resources/common/enums.js";
 import {
+    BatchStatus,
+    BatchSubscriptionResponse,
     InstallmentPlan,
     SubscriptionItem,
     SubscriptionPeriod,
@@ -37,5 +39,13 @@ export const generateFixture = (overrides?: Partial<SubscriptionItem>): Subscrip
     nextPayment: generatePayment(),
     descriptor: "test",
     onlyDirectCurrency: false,
+    ...overrides,
+});
+
+export const generateBatchSubscriptionResponse = (
+    overrides?: Partial<BatchSubscriptionResponse>,
+): BatchSubscriptionResponse => ({
+    batchId: uuid(),
+    status: BatchStatus.AWAITING,
     ...overrides,
 });
