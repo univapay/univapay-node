@@ -17,6 +17,7 @@ export enum ResponseErrorCode {
     InternalServerError = "INTERNAL_SERVER_ERROR",
     ServiceUnavailable = "SERVICE_UNAVAILABLE",
     NotAuthorized = "NOT_AUTHORIZED",
+    ProcessingError = "PROCESSING_ERROR",
 
     /* global */
     UnknownError = "UNKNOWN_ERROR",
