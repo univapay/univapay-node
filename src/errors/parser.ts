@@ -18,7 +18,7 @@ export const getProcessingErrorCodeByStatus = (status: number): string => {
         306: ResponseErrorCode.CardRejected,
         307: ResponseErrorCode.CardInvalid,
         308: ResponseErrorCode.ChargeInvalidData,
-        309: ResponseErrorCode.ExpirationDateError,
+        309: ResponseErrorCode.ProcessingError,
         310: ResponseErrorCode.InvalidUserData,
         311: ResponseErrorCode.TooManyChargeRequests,
         312: ResponseErrorCode.CancelUnavailable,
