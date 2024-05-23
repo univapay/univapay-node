@@ -148,7 +148,7 @@ describe("Subscriptions", () => {
                         period: SubscriptionPeriod.MONTHLY,
                     },
                 ],
-                charges: [{ transactionTokenId, amount: 600, currency: "JPY" }],
+                charge: { transactionTokenId, amount: 600, currency: "JPY" },
             };
 
             await expect(subscriptions.createBatch(data)).to.become(batchSubscriptionData);
@@ -228,7 +228,7 @@ describe("Subscriptions", () => {
             ...batchSubscriptionData,
             status: BatchStatus.SUCCESSFUL,
             subscriptions: [uuid(), uuid(), uuid()],
-            charges: [uuid()],
+            charge: uuid(),
         };
 
         const batchSubscriptionRecordPathMatcher = pathToRegexMatcher(`${testEndpoint}/subscriptions/batches/:batchId`);
