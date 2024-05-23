@@ -263,7 +263,7 @@ export type ResponsePayments = CRUDAOSItemsResponse<SchedulePaymentListItem>;
 
 export type BatchSubscriptionCreateParams = {
     subscriptions: SubscriptionCreateParams[];
-    charges?: ChargeCreateParams[];
+    charge?: ChargeCreateParams;
 };
 
 export enum BatchStatus {
@@ -276,7 +276,7 @@ export type BatchSubscriptionResponse = {
     batchId: string;
     status: BatchStatus;
     subscriptions?: string[];
-    charges?: string[];
+    charge?: string;
 };
 
 export class ScheduledPayments extends CRUDResource {
