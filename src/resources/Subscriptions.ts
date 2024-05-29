@@ -261,9 +261,13 @@ export type ResponseSubscriptions = CRUDAOSItemsResponse<SubscriptionListItem>;
 export type ResponsePayment = ScheduledPaymentItem;
 export type ResponsePayments = CRUDAOSItemsResponse<SchedulePaymentListItem>;
 
-export type BatchSubscriptionCreateParams = {
+export type BatchSubscriptionCreateParams<T extends Metadata = Metadata> = {
     subscriptions: SubscriptionCreateParams[];
-    charge?: ChargeCreateParams;
+    charges?: ChargeCreateParams[];
+    /**
+     * Metadata or stringified JSON object
+     */
+    initialChargeMetadata: T | string;
 };
 
 export enum BatchStatus {

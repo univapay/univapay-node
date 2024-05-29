@@ -148,7 +148,8 @@ describe("Subscriptions", () => {
                         period: SubscriptionPeriod.MONTHLY,
                     },
                 ],
-                charge: { transactionTokenId, amount: 600, currency: "JPY" },
+                charges: [{ transactionTokenId, amount: 600, currency: "JPY" }],
+                initialChargeMetadata: {},
             };
 
             await expect(subscriptions.createBatch(data)).to.become(batchSubscriptionData);
