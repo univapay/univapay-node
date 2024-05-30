@@ -132,6 +132,7 @@ describe("Subscriptions", () => {
                         initialAmount: 300,
                         currency: "JPY",
                         period: SubscriptionPeriod.DAILY,
+                        metadata: JSON.stringify({ "univapay-product-names": "SP1" }),
                     },
                     {
                         transactionTokenId,
@@ -139,6 +140,7 @@ describe("Subscriptions", () => {
                         initialAmount: 400,
                         currency: "JPY",
                         period: SubscriptionPeriod.WEEKLY,
+                        metadata: JSON.stringify({ "univapay-product-names": "SP2" }),
                     },
                     {
                         transactionTokenId,
@@ -146,10 +148,18 @@ describe("Subscriptions", () => {
                         initialAmount: 500,
                         currency: "JPY",
                         period: SubscriptionPeriod.MONTHLY,
+                        metadata: JSON.stringify({ "univapay-product-names": "SP3" }),
                     },
                 ],
-                charges: [{ transactionTokenId, amount: 600, currency: "JPY" }],
-                initialChargeMetadata: {},
+                charges: [
+                    {
+                        transactionTokenId,
+                        amount: 600,
+                        currency: "JPY",
+                        metadata: JSON.stringify({ "univapay-product-names": "OTP1" }),
+                    },
+                ],
+                initialChargeMetadata: JSON.stringify({ "univapay-product-names": "SP1, SP2, SP3, OTP1" }),
             };
 
             await expect(subscriptions.createBatch(data)).to.become(batchSubscriptionData);
