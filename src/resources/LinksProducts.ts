@@ -48,6 +48,11 @@ export type LinkProductListItem = {
      */
     subscriptionRetryInterval?: string | null;
 
+    /**
+     * Subscription total amount set explicitly (widget fallback)
+     */
+    planAmount?: number | string;
+
     metadata?: Metadata | null;
 };
 export type ResponseLinkProducts = CRUDItemsResponse<LinkProductListItem> & {
