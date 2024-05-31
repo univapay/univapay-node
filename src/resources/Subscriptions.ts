@@ -267,7 +267,7 @@ export type BatchSubscriptionCreateParams<T extends Metadata = Metadata> = {
     /**
      * Metadata or stringified JSON object
      */
-    initialChargeMetadata: T | string;
+    initialChargeMetadata?: T | string;
 };
 
 export enum BatchStatus {
