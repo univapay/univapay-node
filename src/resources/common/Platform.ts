@@ -22,6 +22,8 @@ export interface PlatformUserDefaults {
     convenienceConfiguration: ConvenienceConfigurationItem;
     cardConfiguration: {
         allowDirectTokenCreation: boolean;
+        threeDsRequired?: boolean;
+        threeDsAddressRequired?: boolean;
     };
     percentFee: number;
     transferSchedule: TransferScheduleItem;
