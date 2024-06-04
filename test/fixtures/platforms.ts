@@ -48,6 +48,8 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             },
             cardConfiguration: {
                 allowDirectTokenCreation: true,
+                threeDsRequired: false,
+                threeDsAddressRequired: false,
             },
             minTransferPayout: {
                 amount: 1000,
