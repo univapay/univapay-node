@@ -238,8 +238,8 @@ describe("Subscriptions", () => {
         const successItem = {
             ...batchSubscriptionData,
             status: BatchStatus.SUCCESSFUL,
-            subscriptions: [uuid(), uuid(), uuid()],
-            charge: uuid(),
+            subscriptionIds: [uuid(), uuid(), uuid()],
+            chargeId: uuid(),
         };
 
         const batchSubscriptionRecordPathMatcher = pathToRegexMatcher(`${testEndpoint}/subscriptions/batches/:batchId`);
