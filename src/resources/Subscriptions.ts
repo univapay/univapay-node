@@ -279,8 +279,8 @@ export enum BatchStatus {
 export type BatchSubscriptionResponse = {
     batchId: string;
     status: BatchStatus;
-    subscriptions?: string[];
-    charge?: string;
+    subscriptionIds?: string[];
+    chargeId?: string;
 };
 
 export class ScheduledPayments extends CRUDResource {
