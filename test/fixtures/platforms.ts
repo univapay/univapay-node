@@ -22,7 +22,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
         timeZone: "Asia/Tokyo",
         adminEmailAddresses: ["test@fake.com"],
         notifyUserTransactions: true,
-        notifyUserOnFailedTransaction: false,
+        notifyUserOnFailedTransactions: false,
         defaultLanguage: "JA_JP",
         supportedLanguages: ["JA_JP"],
         country: "JP",
