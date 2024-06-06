@@ -100,6 +100,7 @@ export interface PlatformConfiguration {
     maximumChargeAmounts: AmountWithCurrency[];
     minimumChargeAmounts: AmountWithCurrency[];
     notifyUserTransactions: boolean;
+    notifyUserOnFailedTransaction?: boolean;
     paymentDefaults: PlatformPaymentDefaults;
     recurringCardChargeCvvConfirmationThreshold?: AmountWithCurrency[];
     refundPercentLimit: number;
