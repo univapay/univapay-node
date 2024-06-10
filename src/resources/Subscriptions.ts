@@ -64,6 +64,7 @@ export interface ScheduledPaymentItem {
     successfulPaymentDate?: string;
     terminateWithStatus?: SubscriptionStatus;
     retryDate?: string;
+    retryInterval?: string;
 }
 
 export type SchedulePaymentListItem = ScheduledPaymentItem;
