@@ -63,6 +63,7 @@ export interface RefundItem<T extends Metadata = Metadata> {
     metadata?: T;
     mode: ProcessingMode;
     createdOn: string;
+    updatedOn: string;
 }
 
 export type RefundListItem = RefundItem;

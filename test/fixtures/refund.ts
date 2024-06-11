@@ -17,4 +17,5 @@ export const generateFixture = (): RefundItem => ({
     metadata: {},
     mode: ProcessingMode.TEST,
     createdOn: new Date().toISOString(),
+    updatedOn: new Date().toISOString(),
 });
