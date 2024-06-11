@@ -51,6 +51,11 @@ export interface SupportedBrand {
     paymentType: PaymentType;
 
     /**
+     * Boolean when card brand supports card company installment for the store
+     */
+    installmentCapable?: boolean;
+
+    /**
      * WeChat brand only
      */
     appId?: string;
