@@ -19,6 +19,7 @@ export enum CustomerRole {
     TRANSACTION_TOKEN_READ = "transaction_token_read",
     TRANSACTION_TOKEN_UPDATE = "transaction_token_update",
     TRANSACTION_TOKEN_CREATE = "transaction_token_create",
+    TRANSACTION_TOKEN_DELETE = "transaction_token_delete",
     DISPLAY_PAYMENT_METHOD = "display_payment_method",
     DISPLAY_PAYMENT_METHOD_SWITCHING = "display_payment_method_switching",
 
