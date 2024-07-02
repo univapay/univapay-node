@@ -48,9 +48,9 @@ export type PollParams<Response> = {
     timeout?: number;
 
     /**
-     * Interval between polls
+     * Interval between polls or function to compute the interval
      */
-    interval?: number;
+    interval?: number | (() => number);
 
     /**
      * Callback to be triggered at each poll iteration
@@ -352,7 +352,8 @@ export class RestAPI extends EventEmitter {
         return execRequest(async () => {
             let internalErrorCount = 0;
 
-            const sleepInterval = () => new Promise((resolve) => setTimeout(resolve, interval));
+            const computedInterval = typeof interval === "number" ? interval : interval();
+            const sleepInterval = () => new Promise((resolve) => setTimeout(resolve, computedInterval));
 
             const repeater = async (): Promise<Response> => {
                 if (browserSkipCallForInactiveTabs && document?.hidden) {
