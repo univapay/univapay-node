@@ -56,6 +56,12 @@ export type PollParams<Response> = {
      * Callback to be triggered at each poll iteration
      */
     iterationCallback?: (response: Response) => void;
+
+    /**
+     * Boolean when the call should not be executed when the tab is inactive. Defaults to false.
+     * Only works on a valid webbrowser environment
+     */
+    browserSkipCallForInactiveTabs?: boolean;
 };
 
 export enum HTTPMethod {
@@ -340,6 +346,7 @@ export class RestAPI extends EventEmitter {
             iterationCallback,
             timeout = POLLING_TIMEOUT,
             interval = POLLING_INTERVAL,
+            browserSkipCallForInactiveTabs = false,
         } = pollParams;
 
         return execRequest(async () => {
@@ -348,6 +355,11 @@ export class RestAPI extends EventEmitter {
             const sleepInterval = () => new Promise((resolve) => setTimeout(resolve, interval));
 
             const repeater = async (): Promise<Response> => {
+                if (browserSkipCallForInactiveTabs && document?.hidden) {
+                    await sleepInterval();
+                    return repeater();
+                }
+
                 try {
                     const result = await execute();
 
