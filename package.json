@@ -64,7 +64,7 @@
     "isomorphic-form-data": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
     "lint-staged": "^15.2.7",
-    "mocha": "^10.5.2",
+    "mocha": "^10.6.0",
     "np": "^10.0.6",
     "p-map": "^7.0.2",
     "path-to-regexp": "^6.2.2",
