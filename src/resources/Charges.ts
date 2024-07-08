@@ -138,7 +138,7 @@ export class Charges extends CRUDResource {
         auth?: AuthParams,
     ): Promise<ResponseIssuerToken> {
         this._getIssuerToken =
-            this._getIssuerToken ?? this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuerToken");
+            this._getIssuerToken ?? this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuer_token");
         return this._getIssuerToken(data, auth, { storeId, chargeId });
     }
 

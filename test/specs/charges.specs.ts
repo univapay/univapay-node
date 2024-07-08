@@ -143,9 +143,9 @@ describe("Charges", () => {
         });
     });
 
-    context("GET /stores/:storeId/charges/:chargeId/issuerToken", () => {
+    context("GET /stores/:storeId/charges/:chargeId/issuer_token", () => {
         it("should get response", async () => {
-            const pathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/charges/:chargeId/issuerToken`);
+            const pathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/charges/:chargeId/issuer_token`);
             const recordIssuerToken = {
                 issuerToken: "mytoken",
                 callMethod: "http_get",
