@@ -35,6 +35,12 @@ export type ChargeExpiry = {
 /* Request */
 export type ChargesListParams = CRUDPaginationParams;
 
+export enum ChargeThreeDsMode {
+    NORMAL = "normal", // default
+    FORCE = "force",
+    SKIP = "skip",
+}
+
 export interface ChargeCreateParams<T extends Metadata = Metadata> {
     transactionTokenId: string;
     amount: number;
@@ -50,6 +56,8 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     };
     feeAmount?: number | null;
     feeCurrency?: string | null;
+
+    threeDsMode?: ChargeThreeDsMode;
 
     /**
      * Metadata or stringified JSON object
