@@ -225,6 +225,7 @@ describe("API", function () {
         api.on("request", onRequest);
         await api.send(HTTPMethod.GET, "/ok");
 
+        // eslint-disable-next-line
         expect(onRequest).to.have.been.calledOnce;
         expect(onRequest.firstCall.lastArg).to.include({
             method: "GET",
@@ -246,6 +247,7 @@ describe("API", function () {
         api.on("response", onResponse);
         await api.send(HTTPMethod.GET, "/ok");
 
+        // eslint-disable-next-line
         expect(onResponse).to.have.been.calledOnce;
         expect(onResponse.firstCall.lastArg)
             .to.include({
@@ -300,7 +302,9 @@ describe("API", function () {
     it("should update token if it comes back in the response", async function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
 
+        // eslint-disable-next-line
         expect(api.jwtRaw).to.be.undefined;
+        // eslint-disable-next-line
         expect(api.jwt).to.be.null;
 
         const asserts = [
@@ -330,7 +334,9 @@ describe("API", function () {
     it("should update token if it comes back in the error response", async function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
 
+        // eslint-disable-next-line
         expect(api.jwtRaw).to.be.undefined;
+        // eslint-disable-next-line
         expect(api.jwt).to.be.null;
 
         const asserts = [
