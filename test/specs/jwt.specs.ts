@@ -27,6 +27,7 @@ describe("JWT", () => {
         expect(parseJWT(jwtToken, true)).to.contain(jwtTokenPayload);
 
         for (const empty of [null, undefined, ""]) {
+            // eslint-disable-next-line
             expect(parseJWT(empty)).to.be.null;
         }
     });

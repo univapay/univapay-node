@@ -58,6 +58,7 @@ describe("SDK", () => {
 
         sdk.emit("test");
 
+        // eslint-disable-next-line
         expect(expectedPromise).to.eventually.be.fulfilled;
     });
 
@@ -69,6 +70,7 @@ describe("SDK", () => {
 
         resource.emit("test");
 
+        // eslint-disable-next-line
         expect(expectedPromise).to.eventually.be.fulfilled;
     });
 });

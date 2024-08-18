@@ -40,7 +40,7 @@ const safeParseJWT = <Payload>(jwt?: string | null): JWTPayload<Payload> | null 
     try {
         return jwt ? decode<Payload>(jwt) : null;
     } catch (error) {
-        return null;
+        return error ? null : null;
     }
 };
 
