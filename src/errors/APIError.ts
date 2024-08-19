@@ -194,6 +194,7 @@ export enum ResponseErrorCode {
     PaymentMethodTemporarilyUnavailable = "PAYMENT_METHOD_TEMPORARILY_UNAVAILABLE",
     PaymentCanceled = "PAYMENT_CANCELED",
     ExceededPendingThreshold = "EXCEEDED_PENDING_THRESHOLD",
+    PaymentTypeNotSupported = "PAYMENT_TYPE_NOT_SUPPORTED",
     InternalError = "INTERNAL_ERROR",
 
     ImpersonationNotAllowed = "IMPERSONATION_NOT_ALLOWED",
