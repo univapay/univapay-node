@@ -43,6 +43,7 @@ export const generateFixtureCardConfiguration = (): CardConfigurationItem => ({
     allowDirectTokenCreation: true,
     threeDsRequired: false,
     threeDsAddressRequired: false,
+    threeDsSkipEnabled: false,
 });
 
 export const generateFixtureSubscriptionPlanConfiguration = (): SubscriptionPlanConfiguration => ({
