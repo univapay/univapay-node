@@ -24,6 +24,7 @@ export interface PlatformUserDefaults {
         allowDirectTokenCreation: boolean;
         threeDsRequired?: boolean;
         threeDsAddressRequired?: boolean;
+        threeDsSkipEnabled?: boolean;
     };
     percentFee: number;
     transferSchedule: TransferScheduleItem;

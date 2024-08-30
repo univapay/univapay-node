@@ -66,6 +66,7 @@ export interface CardConfigurationItem extends PaymentTypeConfiguration {
     allowDirectTokenCreation: boolean;
     threeDsAddressRequired?: boolean;
     threeDsRequired?: boolean;
+    threeDsSkipEnabled?: boolean;
 }
 
 export interface QRScanConfigurationItem extends PaymentTypeConfiguration {
