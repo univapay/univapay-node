@@ -68,6 +68,7 @@ export const getProcessingErrorCodeByStatus = (status: number): string => {
         501: ResponseErrorCode.InternalServerError,
         502: ResponseErrorCode.Timeout,
         503: ResponseErrorCode.ServiceUnavailable,
+        504: ResponseErrorCode.NoGatewayAvailableToProcessRequest,
     };
 
     if (Object.keys(codeMap).indexOf(status.toString()) !== -1) {

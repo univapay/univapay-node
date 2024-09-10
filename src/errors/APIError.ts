@@ -16,6 +16,7 @@ export enum ResponseErrorCode {
     TooManyRequests = "TOO_MANY_REQUESTS",
     InternalServerError = "INTERNAL_SERVER_ERROR",
     ServiceUnavailable = "SERVICE_UNAVAILABLE",
+    NoGatewayAvailableToProcessRequest = "NO_GATEWAY_AVAILABLE_TO_PROCESS_REQUEST",
     NotAuthorized = "NOT_AUTHORIZED",
     ProcessingError = "PROCESSING_ERROR",
 
