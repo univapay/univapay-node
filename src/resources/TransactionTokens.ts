@@ -92,6 +92,14 @@ export enum OSType {
     ANDROID = "android",
 }
 
+export enum ThreeDsStatus {
+    SUCCESSFUL = "successful",
+    FAILED = "failed",
+    ERROR = "error",
+    AWAITING = "awaiting",
+    PENDING = "pending",
+}
+
 /* Request */
 
 export interface TransactionTokenCardData {
@@ -113,6 +121,10 @@ export interface TransactionTokenCardData {
         chargeId?: string;
         credentialsId?: string;
         currency?: string;
+    };
+    threeDs?: {
+        enabled: boolean;
+        status: ThreeDsStatus;
     };
 }
 
@@ -303,6 +315,10 @@ export interface TransactionTokenBase {
         credentialsId: string;
         currency?: string;
     };
+    threeDs?: {
+        enabled: boolean;
+        status: ThreeDsStatus;
+    };
 }
 
 export interface TransactionTokenCardDataItem extends TransactionTokenBase {
@@ -348,7 +364,13 @@ export interface TransactionTokenItem {
         | TransactionTokenOnlineDataItem
         | TransactionTokenPaidyData
         | TransactionTokenBankTransferData
-    ) & { cvvAuthorize?: { status: CvvAuthorizedStatus } };
+    ) & {
+        cvvAuthorize?: { status: CvvAuthorizedStatus };
+        threeDs?: {
+            enabled: boolean;
+            status: ThreeDsStatus;
+        };
+    };
 
     metadata?: Metadata;
 }
