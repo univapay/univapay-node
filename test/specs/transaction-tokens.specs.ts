@@ -194,6 +194,29 @@ describe("Transaction Tokens", () => {
         });
     });
 
+    context("GET /stores/:storeId/tokens/:tokenId/three_ds/issuer_token", () => {
+        it("should get response", async () => {
+            const pathMatcher = pathToRegexMatcher(
+                `${testEndpoint}/stores/:storeId/tokens/:tokenId/three_ds/issuer_token`,
+            );
+            const issuerToken = {
+                issuerToken: "http://www.test.com/test",
+                callMethod: "http_post",
+                payload: { resourceId: uuid() },
+                paymentType: "card",
+                contentType: "application/json",
+            };
+
+            fetchMock.getOnce(pathMatcher, {
+                status: 200,
+                body: issuerToken,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            await expect(transactionTokens.threeDsissuerToken(uuid(), uuid())).to.become(issuerToken);
+        });
+    });
+
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);

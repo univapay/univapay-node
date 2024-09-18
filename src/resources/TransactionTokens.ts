@@ -20,6 +20,14 @@ import { Metadata, PhoneNumber, WithStoreMerchantName } from "./common/types.js"
 import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 
+export type TokenThreeDsIssuerToken = {
+    issuerToken: string;
+    callMethod: "http_post" | "http_get";
+    payload: Record<string, string>;
+    paymentType: PaymentType;
+    contentType: string;
+};
+
 export enum UsageLimit {
     DAILY = "daily",
     WEEKLY = "weekly",
@@ -415,5 +423,13 @@ export class TransactionTokens extends CRUDResource {
     ): Promise<void> {
         this._confirm = this._confirm ?? this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:id/confirm");
         return this._confirm(data, auth, { storeId, id });
+    }
+
+    private _threeDsissuerToken?: DefinedRoute;
+    threeDsissuerToken(storeId: string, id: string, auth?: AuthParams): Promise<TokenThreeDsIssuerToken> {
+        this._threeDsissuerToken =
+            this._threeDsissuerToken ??
+            this.defineRoute(HTTPMethod.GET, "/stores/:storeId/tokens/:tokenId/three_ds/issuer_token");
+        return this._threeDsissuerToken(null, auth, { storeId, tokenId: id });
     }
 }

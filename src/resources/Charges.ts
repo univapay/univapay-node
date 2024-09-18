@@ -10,7 +10,7 @@ import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
 import { Metadata, WithStoreMerchantName } from "./common/types.js";
 import { CaptureStatus } from "./Captures.js";
 import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
-import { TransactionTokenType } from "./TransactionTokens.js";
+import { PaymentType, TransactionTokenType } from "./TransactionTokens.js";
 import { DefinedRoute } from "./Resource.js";
 
 export enum ChargeStatus {
@@ -40,6 +40,14 @@ export enum ChargeThreeDsMode {
     FORCE = "force",
     SKIP = "skip",
 }
+
+export type ChargeThreeDsIssuerToken = {
+    issuerToken: string;
+    callMethod: "http_post" | "http_get";
+    payload: Record<string, string>;
+    paymentType: PaymentType;
+    contentType: string;
+};
 
 export interface ChargeCreateParams<T extends Metadata = Metadata> {
     transactionTokenId: string;
@@ -168,5 +176,13 @@ export class Charges extends CRUDResource {
     expiry(id: string, data?: SendData<void>, auth?: AuthParams, storeId?: string): Promise<ChargeExpiry> {
         this._expiry = this._expiry ?? this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:id/expiry/latest");
         return this._expiry(data, auth, { storeId, id });
+    }
+
+    private _threeDsIssuerToken?: DefinedRoute;
+    threeDsissuerToken(storeId: string, id: string, auth?: AuthParams): Promise<ChargeThreeDsIssuerToken> {
+        this._threeDsIssuerToken =
+            this._threeDsIssuerToken ??
+            this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/three_ds/issuer_token");
+        return this._threeDsIssuerToken(null, auth, { storeId, chargeId: id });
     }
 }
