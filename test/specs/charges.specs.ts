@@ -201,7 +201,7 @@ describe("Charges", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(charges.threeDsissuerToken(uuid(), uuid())).to.become(issuerToken);
+            await expect(charges.threeDsIssuerToken(uuid(), uuid())).to.become(issuerToken);
         });
     });
 

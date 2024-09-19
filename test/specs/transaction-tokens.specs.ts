@@ -213,7 +213,7 @@ describe("Transaction Tokens", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(transactionTokens.threeDsissuerToken(uuid(), uuid())).to.become(issuerToken);
+            await expect(transactionTokens.threeDsIssuerToken(uuid(), uuid())).to.become(issuerToken);
         });
     });
 

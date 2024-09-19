@@ -179,7 +179,7 @@ export class Charges extends CRUDResource {
     }
 
     private _threeDsIssuerToken?: DefinedRoute;
-    threeDsissuerToken(storeId: string, id: string, auth?: AuthParams): Promise<ChargeThreeDsIssuerToken> {
+    threeDsIssuerToken(storeId: string, id: string, auth?: AuthParams): Promise<ChargeThreeDsIssuerToken> {
         this._threeDsIssuerToken =
             this._threeDsIssuerToken ??
             this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/three_ds/issuer_token");
