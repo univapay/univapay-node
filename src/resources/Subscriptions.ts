@@ -95,6 +95,7 @@ export type SubscriptionCreateBaseParams<T extends Metadata = Metadata> = {
     installmentPlan?: InstallmentPlanItem;
     subscriptionPlan?: SubscriptionPlanItem;
     onlyDirectCurrency?: boolean;
+    threeDsMode?: ChargeThreeDsMode;
 
     /**
      * Metadata or stringified JSON object
@@ -130,7 +131,6 @@ export type SubscriptionUpdateParams<T extends Metadata = Metadata> = {
     installmentPlan?: Partial<InstallmentPlanItem>;
     subscriptionPlan?: Partial<SubscriptionPlanItem>;
     onlyDirectCurrency?: boolean;
-    threeDsMode?: ChargeThreeDsMode;
 
     /**
      * Metadata or stringified JSON object
