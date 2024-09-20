@@ -7,7 +7,7 @@ import { AuthParams, HTTPMethod, PollData, PollParams, RestAPI, SendData } from 
 import { ProcessingMode } from "./common/enums.js";
 import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
 import { Metadata, WithStoreMerchantName } from "./common/types.js";
-import { ChargeCreateParams, Charges } from "./Charges.js";
+import { ChargeCreateParams, Charges, ChargeThreeDsMode } from "./Charges.js";
 import { ChargesListParams, ResponseCharges } from "./Charges.js";
 import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { ResponseCharge } from "./index.js";
@@ -130,6 +130,7 @@ export type SubscriptionUpdateParams<T extends Metadata = Metadata> = {
     installmentPlan?: Partial<InstallmentPlanItem>;
     subscriptionPlan?: Partial<SubscriptionPlanItem>;
     onlyDirectCurrency?: boolean;
+    threeDsMode?: ChargeThreeDsMode;
 
     /**
      * Metadata or stringified JSON object
