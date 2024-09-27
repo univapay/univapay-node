@@ -451,7 +451,9 @@ export class TransactionTokens extends CRUDResource {
     threeDsIssuerToken(storeId: string, id: string, auth?: AuthParams): Promise<TokenThreeDsIssuerToken> {
         this._threeDsIssuerToken =
             this._threeDsIssuerToken ??
-            this.defineRoute(HTTPMethod.GET, "/stores/:storeId/tokens/:tokenId/three_ds/issuer_token");
+            this.defineRoute(HTTPMethod.GET, "/stores/:storeId/tokens/:tokenId/three_ds/issuer_token", {
+                ignoreKeysFormatting: ["payload"],
+            });
         return this._threeDsIssuerToken(null, auth, { storeId, tokenId: id });
     }
 }
