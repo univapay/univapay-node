@@ -154,10 +154,7 @@ export class Charges extends CRUDResource {
         auth?: AuthParams,
     ): Promise<ResponseIssuerToken> {
         this._getIssuerToken =
-            this._getIssuerToken ??
-            this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuer_token", {
-                ignoreKeysFormatting: ["payload"],
-            });
+            this._getIssuerToken ?? this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/issuer_token");
         return this._getIssuerToken(data, auth, { storeId, chargeId });
     }
 
@@ -185,7 +182,9 @@ export class Charges extends CRUDResource {
     threeDsIssuerToken(storeId: string, id: string, auth?: AuthParams): Promise<ChargeThreeDsIssuerToken> {
         this._threeDsIssuerToken =
             this._threeDsIssuerToken ??
-            this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/three_ds/issuer_token");
+            this.defineRoute(HTTPMethod.GET, "/stores/:storeId/charges/:chargeId/three_ds/issuer_token", {
+                ignoreKeysFormatting: ["payload"],
+            });
         return this._threeDsIssuerToken(null, auth, { storeId, chargeId: id });
     }
 }
