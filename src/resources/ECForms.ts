@@ -3,7 +3,7 @@
  */
 import { AuthParams, SendData } from "../api/RestAPI.js";
 
-import { OnlineBrand } from "./common/enums.js";
+import { OnlineBrand, ProcessingMode } from "./common/enums.js";
 import { AmountWithCurrency } from "./common/types.js";
 import { CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
@@ -44,6 +44,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     storeId: string;
     name: string;
     createdOn: string;
+    mode: ProcessingMode;
 
     /* Redirects */
     successRedirectUrl?: string | null;

@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { OnlineBrand } from "../../src/resources/common/enums.js";
+import { OnlineBrand, ProcessingMode } from "../../src/resources/common/enums.js";
 import { CheckoutType, ECFormCustomField, ECFormItem, ECFormCustomFieldType } from "../../src/resources/ECForms.js";
 import { PaymentType, TransactionTokenType } from "../../src/resources/TransactionTokens.js";
 
@@ -27,6 +27,7 @@ export const generateFixture = (): ECFormItem => ({
     onlyDirectCurrency: false,
     displayStoreName: true,
     displayStoreLogo: false,
+    mode: ProcessingMode.LIVE,
 
     supportedPaymentMethods: [PaymentType.CARD, PaymentType.KONBINI, OnlineBrand.PAY_PAY_ONLINE],
 
