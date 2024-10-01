@@ -32,6 +32,8 @@ export enum WebHookTrigger {
     TRANSFER_CREATED = "transfer_created",
     TRANSFER_UPDATED = "transfer_updated",
     TRANSFER_FINALIZED = "transfer_finalized",
+
+    BANK_TRANSFER_STATUS_UPDATED = "bank_transfer_status_updated",
 }
 
 /* Request */

@@ -65,7 +65,11 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     feeAmount?: number | null;
     feeCurrency?: string | null;
 
-    threeDsMode?: ChargeThreeDsMode;
+    threeDs?: {
+        mode?: ChargeThreeDsMode;
+        redirectEndpoint?: string;
+        redirectId?: string;
+    };
 
     /**
      * Metadata or stringified JSON object
@@ -92,6 +96,12 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     chargedAmount: number;
     chargedCurrency: string;
     chargedAmountFormatted: number;
+
+    threeDs?: {
+        mode?: ChargeThreeDsMode;
+        redirectEndpoint?: string;
+        redirectId?: string;
+    };
 
     ledgerId?: string;
     subscriptionId?: string;

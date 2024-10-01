@@ -20,6 +20,12 @@ import { Metadata, PhoneNumber, WithStoreMerchantName } from "./common/types.js"
 import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 
+export enum TokenThreeDsMode {
+    NORMAL = "normal", // default
+    FORCE = "force",
+    SKIP = "skip",
+}
+
 export type TokenThreeDsIssuerToken = {
     issuerToken: string;
     callMethod: "http_post" | "http_get";
@@ -214,6 +220,12 @@ export interface TransactionTokenCreateParams {
         | TransactionTokenBankTransferCreateData;
     useConfirmation?: boolean;
 
+    threeDs?: {
+        mode?: TokenThreeDsMode;
+        redirectEndpoint?: string;
+        redirectId?: string;
+    };
+
     /**
      * Metadata or stringified JSON object
      */
@@ -369,6 +381,9 @@ export interface TransactionTokenItem {
         threeDs?: {
             enabled: boolean;
             status: ThreeDsStatus;
+            mode?: TokenThreeDsMode;
+            redirectEndpoint?: string;
+            redirectId?: string;
         };
     };
 

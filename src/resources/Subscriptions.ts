@@ -95,7 +95,12 @@ export type SubscriptionCreateBaseParams<T extends Metadata = Metadata> = {
     installmentPlan?: InstallmentPlanItem;
     subscriptionPlan?: SubscriptionPlanItem;
     onlyDirectCurrency?: boolean;
-    threeDsMode?: ChargeThreeDsMode;
+
+    threeDs?: {
+        mode?: ChargeThreeDsMode;
+        redirectEndpoint?: string;
+        redirectId?: string;
+    };
 
     /**
      * Metadata or stringified JSON object
@@ -199,6 +204,12 @@ export type SubscriptionItem<T extends Metadata = Metadata> = {
     createdOn: string;
     scheduleSettings: ScheduleSettings | null;
     nextPayment: ScheduledPaymentItem;
+
+    threeDs?: {
+        mode?: ChargeThreeDsMode;
+        redirectEndpoint?: string;
+        redirectId?: string;
+    };
 
     nextPaymentDate?: string;
 
