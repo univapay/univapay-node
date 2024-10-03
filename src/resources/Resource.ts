@@ -100,7 +100,8 @@ export abstract class Resource extends EventEmitter {
         required: string[] = [],
         requireAuth = true,
         acceptType?: string,
-        keyFormatter = toSnakeCase
+        keyFormatter = toSnakeCase,
+        ignoreKeys = ["metadata"]
     ): DefinedRoute {
         const api: RestAPI = this.api;
 
@@ -138,7 +139,17 @@ export abstract class Resource extends EventEmitter {
             }
 
             // TODO: Have a look as this cast, the response can be other objects such as string, Blob or FormData
-            return api.send(method, url, data, auth, callback, requireAuth, acceptType, keyFormatter) as Promise<B>;
+            return api.send(
+                method,
+                url,
+                data,
+                auth,
+                callback,
+                requireAuth,
+                acceptType,
+                keyFormatter,
+                ignoreKeys
+            ) as Promise<B>;
         };
     }
 }

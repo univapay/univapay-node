@@ -187,7 +187,8 @@ export class RestAPI extends EventEmitter {
         callback?: ResponseCallback<ResponseBody>,
         requireAuth = true,
         acceptType?: string,
-        keyFormatter = toSnakeCase
+        keyFormatter = toSnakeCase,
+        ignoreKeys = ["metadata"]
     ): Promise<ResponseBody | string | Blob | FormData> {
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
@@ -234,7 +235,7 @@ export class RestAPI extends EventEmitter {
 
             const contentType = response.headers.get("content-type");
             if (contentType === "application/json") {
-                return parseJSON<ResponseBody>(response, ["metadata"]);
+                return parseJSON<ResponseBody>(response, ignoreKeys);
             } else if (contentType) {
                 if (contentType.indexOf("text/") === 0) {
                     return response.text();
