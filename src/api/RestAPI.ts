@@ -244,6 +244,7 @@ export class RestAPI extends EventEmitter {
         const params: RequestInit = {
             headers: this.getHeaders(data, auth, payload, acceptType),
             method,
+            credentials: "include",
         };
 
         const request: Request = new Request(

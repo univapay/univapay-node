@@ -299,6 +299,40 @@ describe("API", function () {
         }
     });
 
+    // TODO: figure out how to test that a cookie is automatically set by `set-cookie` header
+    // it("should send request with Cookie header", async function () {
+    //     fetchMock.get(`${testEndpoint}/login`, {
+    //         status: 200,
+    //         body: okResponse,
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Access-Control-Allow-Credentials": "true",
+    //             "Set-Cookie": `SESSIONID=12345; Path=/; SameSite=none`,
+    //         },
+    //     });
+
+    //     const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+    //     const response = await api.send(HTTPMethod.GET, "/login");
+    //     expect(response).to.eql(okResponse);
+
+    //     const mock = fetchMock.get(`${testEndpoint}/somerequest`, {
+    //         status: 200,
+    //         body: okResponse,
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Access-Control-Allow-Credentials": "true",
+    //         },
+    //     });
+
+    //     const someResponse = await api.send(HTTPMethod.GET, "/somerequest");
+    //     const { request } = mock.lastCall();
+    //     const reqCookieHeader = request.headers.get("Cookie");
+
+    //     expect(reqCookieHeader).to.be.equal(`SESSIONID=12345; Path=/; SameSite=none`);
+
+    //     expect(someResponse).to.eql(okResponse);
+    // });
+
     it("should update token if it comes back in the response", async function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
 
