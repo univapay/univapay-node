@@ -94,6 +94,25 @@ describe("Charges", () => {
                 await expect(assert).to.become(listData);
             }
         });
+
+        it("should filter by metadata", async () => {
+            const listData = generateList({
+                count: 10,
+                recordGenerator: generateCharge,
+            });
+
+            fetchMock.get(
+                pathToRegexMatcher(`${testEndpoint}/charges`),
+                {
+                    status: 200,
+                    body: listData,
+                    headers: { "Content-Type": "application/json" },
+                },
+                { query: { metadata: "foo: bar" } },
+            );
+
+            await expect(charges.list({ metadata: "foo: bar" }, undefined)).to.become(listData);
+        });
     });
 
     context("GET /stores/:storeId/charges/:id", () => {
