@@ -33,7 +33,9 @@ export type ChargeExpiry = {
 };
 
 /* Request */
-export type ChargesListParams = CRUDPaginationParams;
+export type ChargesListParams = CRUDPaginationParams & {
+    metadata?: string;
+};
 
 export enum ChargeThreeDsMode {
     NORMAL = "normal", // default
