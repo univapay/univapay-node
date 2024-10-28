@@ -75,7 +75,7 @@
     "typedoc": "^0.26.6",
     "typedoc-plugin-internal-external": "^2.2.0",
     "typescript": "^5.5.4",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.2"
   },
   "dependencies": {
     "@apimatic/json-bigint": "^1.2.0",
