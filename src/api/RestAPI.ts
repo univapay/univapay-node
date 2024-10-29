@@ -117,6 +117,7 @@ export interface AuthParams {
     secret?: string;
     idempotentKey?: string;
     origin?: string;
+    useCredentials?: boolean;
 
     // Deprecated
     authToken?: string;
@@ -244,6 +245,7 @@ export class RestAPI extends EventEmitter {
         const params: RequestInit = {
             headers: this.getHeaders(data, auth, payload, acceptType),
             method,
+            ...(auth?.useCredentials ? { credentials: "include" } : {}),
         };
 
         const request: Request = new Request(

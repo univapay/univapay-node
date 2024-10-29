@@ -299,6 +299,45 @@ describe("API", function () {
         }
     });
 
+    it("should set request credentials to include when userCredentials is passed through AuthParams", async function () {
+        if (process.version < "v18.00") {
+            // Request credentials was introduced in v18.00, so skip older versions
+            this.skip();
+        }
+        const loginMock = fetchMock.get(`${testEndpoint}/login`, {
+            status: 200,
+            body: okResponse,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": "true",
+                "Set-Cookie": `SESSIONID=12345; Path=/; SameSite=none`,
+            },
+        });
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+
+        const response = await api.send(HTTPMethod.GET, "/login");
+        const { request: loginReq } = loginMock.lastCall();
+        const loginReqCredentials = loginReq.credentials;
+        expect(loginReqCredentials).to.be.equal("same-origin");
+        expect(response).to.eql(okResponse);
+
+        const someReqMock = fetchMock.get(`${testEndpoint}/somerequest`, {
+            status: 200,
+            body: okResponse,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": "true",
+            },
+        });
+
+        const someResponse = await api.send(HTTPMethod.GET, "/somerequest", null, { useCredentials: true });
+        const { request } = someReqMock.lastCall();
+        const reqCredentials = request.credentials;
+        expect(reqCredentials).to.be.equal("include");
+        expect(someResponse).to.eql(okResponse);
+    });
+
     it("should update token if it comes back in the response", async function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
 
