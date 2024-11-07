@@ -284,7 +284,8 @@ export enum ResponseErrorCode {
     MustContainPlatformCurrency = "MUST_CONTAIN_PLATFORM_CURRENCY",
     CurrencyMustBeInAmountsList = "CURRENCY_MUST_BE_IN_AMOUNTS_LIST",
     NumberMin = "NUMBER_MIN",
-    UnfinishedChargeExistForToken = "UNFINISHED_CHARGES_EXIST_FOR_TOKEN",
+    UnfinishedChargesExistForToken = "UNFINISHED_CHARGES_EXIST_FOR_TOKEN",
+    OngoingSubscriptionsExistForToken = "ONGOING_SUBSCRIPTIONS_EXIST_FOR_TOKEN",
 
     BrandNotDefined = "BRAND_NOT_DEFINED",
 
