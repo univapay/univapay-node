@@ -284,13 +284,9 @@ export enum ResponseErrorCode {
     MustContainPlatformCurrency = "MUST_CONTAIN_PLATFORM_CURRENCY",
     CurrencyMustBeInAmountsList = "CURRENCY_MUST_BE_IN_AMOUNTS_LIST",
     NumberMin = "NUMBER_MIN",
-<<<<<<< Updated upstream
     UnfinishedChargesExistForToken = "UNFINISHED_CHARGES_EXIST_FOR_TOKEN",
     OngoingSubscriptionsExistForToken = "ONGOING_SUBSCRIPTIONS_EXIST_FOR_TOKEN",
-=======
-    UnfinishedChargeExistForToken = "UNFINISHED_CHARGES_EXIST_FOR_TOKEN",
     PaymentExpirationExceedsPeriod = "PAYMENT_EXPIRATION_EXCEEDS_PERIOD",
->>>>>>> Stashed changes
 
     BrandNotDefined = "BRAND_NOT_DEFINED",
 
