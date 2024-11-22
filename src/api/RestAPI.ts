@@ -275,10 +275,10 @@ export class RestAPI extends EventEmitter {
             }
 
             const contentType = response.headers.get("content-type");
-            if (contentType.indexOf("application/json") !== -1) {
-                return parseJSON<ResponseBody>(response, ignoreKeysFormatting);
-            } else if (contentType) {
-                if (contentType.indexOf("text/") === 0) {
+            if (contentType) {
+                if (contentType.indexOf("application/json") !== -1) {
+                    return parseJSON<ResponseBody>(response, ignoreKeysFormatting);
+                } else if (contentType.indexOf("text/") === 0) {
                     return response.text();
                 } else if (contentType.indexOf("multipart/") === 0) {
                     return response.formData();
