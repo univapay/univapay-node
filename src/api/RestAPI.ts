@@ -275,7 +275,7 @@ export class RestAPI extends EventEmitter {
             }
 
             const contentType = response.headers.get("content-type");
-            if (contentType === "application/json") {
+            if (contentType.indexOf("application/json") !== -1) {
                 return parseJSON<ResponseBody>(response, ignoreKeysFormatting);
             } else if (contentType) {
                 if (contentType.indexOf("text/") === 0) {
