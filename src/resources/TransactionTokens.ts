@@ -279,6 +279,16 @@ export type TransactionTokenRenewParams = {
         cardholder: string;
         expMonth: number | string;
         expYear: number | string;
+        line1?: string;
+        line2?: string;
+        state?: string;
+        city?: string;
+        country?: string;
+        zip?: string;
+        phoneNumber?: {
+            countryCode?: string;
+            localNumber?: string;
+        };
     };
 };
 
