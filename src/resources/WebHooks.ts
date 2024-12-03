@@ -27,6 +27,7 @@ export enum WebHookTrigger {
     TOKEN_UPDATED = "token_updated",
     TOKEN_CVV_AUTH_UPDATED = "token_cvv_auth_updated",
     TOKEN_CVV_AUTH_CHECK_UPDATED = "token_cvv_auth_check_updated",
+    TOKEN_THREE_DS_UPDATED = "token_three_ds_updated",
 
     // Merchant
     TRANSFER_CREATED = "transfer_created",
