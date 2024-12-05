@@ -162,6 +162,20 @@ export enum OnlineBrand {
     ALIPAY_CONNECT_ONLINE = "alipay_connect_online",
 }
 
+export enum AlipayPlusOnlineBrand {
+    TINABA = "tinaba",
+    NAVER_PAY = "naver_pay",
+    TOSS_PAY = "toss_pay",
+    PAYMAYA = "maya",
+    GRAB_PAY = "grab_sg",
+    KREDIVO = "kredivo_id",
+    K_PLUS = "k_plus",
+    BIG_PAY_MY = "big_pay_my",
+    BIG_PAY_SG = "big_pay_sg",
+    BIG_PAY_TH = "big_pay_th",
+    KASPI_KZ = "kaspi_kz",
+}
+
 // Alipay+ Offline
 export enum RetailBrand {
     TINABA = "tinaba",
