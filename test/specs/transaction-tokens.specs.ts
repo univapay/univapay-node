@@ -217,6 +217,26 @@ describe("Transaction Tokens", () => {
         });
     });
 
+    context("POST /stores/:storeId/tokens/:tokenId/three_ds", () => {
+        it("should enable", async () => {
+            const pathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/tokens/:tokenId/three_ds`);
+
+            fetchMock.postOnce(pathMatcher, recordData);
+
+            await expect(transactionTokens.enableThreeDs(uuid(), uuid())).to.become(recordData);
+        });
+    });
+
+    context("DELETE /stores/:storeId/tokens/:tokenId/three_ds", () => {
+        it("should disable", async () => {
+            const pathMatcher = pathToRegexMatcher(`${testEndpoint}/stores/:storeId/tokens/:tokenId/three_ds`);
+
+            fetchMock.deleteOnce(pathMatcher, recordData);
+
+            await expect(transactionTokens.disableThreeDs(uuid(), uuid())).to.become(recordData);
+        });
+    });
+
     it("should return request error when parameters for route are invalid", async () => {
         const errorId = createRequestError(["id"]);
         const errorStoreId = createRequestError(["storeId"]);

@@ -276,6 +276,7 @@ export interface TransactionTokenUpdateParams {
 
 export type TransactionTokenRenewParams = {
     data?: {
+        email?: string;
         cardholder: string;
         expMonth: number | string;
         expYear: number | string;
@@ -480,5 +481,19 @@ export class TransactionTokens extends CRUDResource {
                 ignoreKeysFormatting: ["payload"],
             });
         return this._threeDsIssuerToken(null, auth, { storeId, tokenId: id });
+    }
+
+    private _enableThreeDs?: DefinedRoute;
+    enableThreeDs(storeId: string, id: string, auth?: AuthParams): Promise<TransactionTokenItem> {
+        this._enableThreeDs =
+            this._enableThreeDs ?? this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:tokenId/three_ds");
+        return this._enableThreeDs(null, auth, { storeId, tokenId: id });
+    }
+
+    private _disableThreeDs?: DefinedRoute;
+    disableThreeDs(storeId: string, id: string, auth?: AuthParams): Promise<TransactionTokenItem> {
+        this._disableThreeDs =
+            this._disableThreeDs ?? this.defineRoute(HTTPMethod.DELETE, "/stores/:storeId/tokens/:tokenId/three_ds");
+        return this._disableThreeDs(null, auth, { storeId, tokenId: id });
     }
 }
