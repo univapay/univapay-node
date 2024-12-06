@@ -490,10 +490,10 @@ export class TransactionTokens extends CRUDResource {
         return this._enableThreeDs(null, auth, { storeId, tokenId: id });
     }
 
-    private _disablehreeDs?: DefinedRoute;
+    private _disableThreeDs?: DefinedRoute;
     disableThreeDs(storeId: string, id: string, auth?: AuthParams): Promise<TransactionTokenItem> {
-        this._disablehreeDs =
-            this._disablehreeDs ?? this.defineRoute(HTTPMethod.DELETE, "/stores/:storeId/tokens/:tokenId/three_ds");
-        return this._disablehreeDs(null, auth, { storeId, tokenId: id });
+        this._disableThreeDs =
+            this._disableThreeDs ?? this.defineRoute(HTTPMethod.DELETE, "/stores/:storeId/tokens/:tokenId/three_ds");
+        return this._disableThreeDs(null, auth, { storeId, tokenId: id });
     }
 }
