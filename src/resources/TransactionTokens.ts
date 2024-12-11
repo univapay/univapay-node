@@ -24,6 +24,7 @@ export enum TokenThreeDsMode {
     NORMAL = "normal", // default
     FORCE = "force",
     SKIP = "skip",
+    IF_AVAILABLE = "if_available",
 }
 
 export type TokenThreeDsIssuerToken = {
