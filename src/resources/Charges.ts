@@ -43,6 +43,7 @@ export enum ChargeThreeDsMode {
     SKIP = "skip",
     IF_AVAILABLE = "if_available",
     REQUIRE = "require",
+    PROVIDED = "provided",
 }
 
 export type ChargeThreeDsIssuerToken = {
