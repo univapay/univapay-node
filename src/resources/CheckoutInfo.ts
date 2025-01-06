@@ -51,6 +51,11 @@ export interface SupportedBrand {
     paymentType: PaymentType;
 
     /**
+     * Boolean when the brand can proceed the CVV authorization (0/1 yen charge to tokenize the CVV). Known as カード確認 by support
+     */
+    cvvAuth?: boolean;
+
+    /**
      * Boolean when card brand supports card company installment for the store
      */
     installmentCapable?: boolean;
