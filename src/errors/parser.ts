@@ -57,6 +57,7 @@ export const getProcessingErrorCodeByStatus = (status: number): string => {
         345: ResponseErrorCode.PaymentCanceled,
         346: ResponseErrorCode.ExceededPendingThreshold,
         355: ResponseErrorCode.PaymentTypeNotSupported,
+        358: ResponseErrorCode.ThreeDsCouldNotBeCompleted,
         400: ResponseErrorCode.BadRequest,
         401: ResponseErrorCode.NotAuthorized,
         403: ResponseErrorCode.Forbidden,
