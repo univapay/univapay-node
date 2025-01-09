@@ -196,6 +196,7 @@ export enum ResponseErrorCode {
     PaymentCanceled = "PAYMENT_CANCELED",
     ExceededPendingThreshold = "EXCEEDED_PENDING_THRESHOLD",
     PaymentTypeNotSupported = "PAYMENT_TYPE_NOT_SUPPORTED",
+    InvalidThreeDsStatus = "INVALID_THREE_DS_STATUS",
     ThreeDsCouldNotBeCompleted = "THREE_DS_COULD_NOT_BE_COMPLETED",
     InternalError = "INTERNAL_ERROR",
 
