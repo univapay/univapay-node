@@ -9,6 +9,37 @@ import { WithMerchantName } from "./common/types.js";
 import { CRUDItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 
+export enum ProductSelection {
+    ALL = "all",
+    MANUAL = "manual",
+}
+
+export enum ReceivingType {
+    USER = "user",
+    STORE = "store",
+    USER_OR_STORE = "user_or_store",
+}
+
+export enum SupportedCardBrand {
+    VISA = "visa",
+    MASTERCARD = "mastercard",
+    JCB = "jcb",
+    AMEX = "american_express",
+    DINERS = "diners_club",
+}
+
+export enum CartType {
+    SINGLE_PRODUCT = "single_product",
+    MULTIPLE_PRODUCT = "multiple_product",
+}
+
+export type Cart = {
+    items: string[];
+    type: CartType;
+    id?: string; // TODO Confirm if carts will have 'id'
+    name?: string;
+};
+
 /* Request */
 export interface StoresListParams extends CRUDPaginationParams {
     search?: string;
