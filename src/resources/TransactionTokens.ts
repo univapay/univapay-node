@@ -2,6 +2,7 @@
  *  @module Resources/TransactionTokens
  */
 
+import { PaymentError } from "../errors/APIError.js";
 import { AuthParams, HTTPMethod, SendData } from "../api/RestAPI.js";
 
 import {
@@ -132,6 +133,7 @@ export interface TransactionTokenCardData {
     threeDs?: {
         enabled: boolean;
         status: ThreeDsStatus;
+        error?: PaymentError;
     };
 }
 
@@ -342,6 +344,7 @@ export interface TransactionTokenBase {
     threeDs?: {
         enabled: boolean;
         status: ThreeDsStatus;
+        error?: PaymentError;
     };
 }
 
@@ -396,6 +399,7 @@ export interface TransactionTokenItem {
             mode?: TokenThreeDsMode;
             redirectEndpoint?: string;
             redirectId?: string;
+            error?: PaymentError;
         };
     };
 
