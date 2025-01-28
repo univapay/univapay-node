@@ -80,6 +80,7 @@ export interface RestAPIOptions {
     handleUpdateJWT?: (jwt: string) => void;
     secret?: string;
     origin?: string;
+    authParams?: DefaultAuthParams;
 
     // Deprecated
     authToken?: string;
@@ -123,6 +124,10 @@ export interface AuthParams {
     authToken?: string;
     appId?: string;
 }
+
+export type DefaultAuthParams = {
+    useCredentials?: boolean;
+};
 
 export type PollData = {
     polling?: boolean;
@@ -192,6 +197,8 @@ export class RestAPI extends EventEmitter {
     origin: string;
     secret: string;
 
+    defaultAuthParams?: DefaultAuthParams;
+
     /**
      *  @deprecated
      */
@@ -213,6 +220,7 @@ export class RestAPI extends EventEmitter {
         this.origin = options.origin || this.origin;
         this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT];
         this.handleUpdateJWT = options.handleUpdateJWT || undefined;
+        this.defaultAuthParams = options.authParams;
 
         this.appId = options.appId || process.env[ENV_KEY_APP_ID];
         this.secret = options.secret || process.env[ENV_KEY_SECRET];
@@ -238,14 +246,15 @@ export class RestAPI extends EventEmitter {
         auth?: AuthParams,
         options: ApiSendOptions = {},
     ): Promise<ResponseBody | string | Blob | FormData> {
+        const authParams = { ...this.defaultAuthParams, ...auth };
         const { acceptType, keyFormatter = toSnakeCase, ignoreKeysFormatting = ["metadata"] } = options;
 
         const payload: boolean = [HTTPMethod.GET, HTTPMethod.DELETE].includes(method) === false;
 
         const params: RequestInit = {
-            headers: this.getHeaders(data, auth, payload, acceptType),
+            headers: this.getHeaders(data, authParams, payload, acceptType),
             method,
-            ...(auth?.useCredentials ? { credentials: "include" } : {}),
+            ...(authParams?.useCredentials ? { credentials: "include" } : {}),
         };
 
         const request: Request = new Request(
