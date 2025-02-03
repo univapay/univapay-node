@@ -77,6 +77,11 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     };
 
     /**
+     * IP address override for backend usage in order to identify the user
+     */
+    ipAddress?: string;
+
+    /**
      * Metadata or stringified JSON object
      */
     metadata?: T | string;
