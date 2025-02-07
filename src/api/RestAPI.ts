@@ -64,6 +64,8 @@ export type PollParams<Response> = {
     browserSkipCallForInactiveTabs?: boolean;
 };
 
+export type BodyTransferType = "entity" | "message";
+
 export enum HTTPMethod {
     GET = "GET",
     POST = "POST",
@@ -157,6 +159,15 @@ export type ApiSendOptions = {
      * List of key to ignore formatting on when parsing the response
      */
     ignoreKeysFormatting?: string[];
+
+    /**
+     * Overrides default body transfer encoding of the request.
+     *
+     * Note: Can not for for GET and HEAD request
+     *
+     * Default is "message-body" for DELETE, HEAD and GET and "entity-body" for all other call methods.
+     */
+    bodyTransferEncoding?: BodyTransferType;
 };
 
 const getRequestBody = <Data>(
@@ -247,9 +258,19 @@ export class RestAPI extends EventEmitter {
         options: ApiSendOptions = {},
     ): Promise<ResponseBody | string | Blob | FormData> {
         const authParams = { ...this.defaultAuthParams, ...auth };
-        const { acceptType, keyFormatter = toSnakeCase, ignoreKeysFormatting = ["metadata"] } = options;
+        const {
+            acceptType,
+            keyFormatter = toSnakeCase,
+            ignoreKeysFormatting = ["metadata"],
+            bodyTransferEncoding,
+        } = options;
 
-        const payload: boolean = [HTTPMethod.GET, HTTPMethod.DELETE].includes(method) === false;
+        const payload: boolean =
+            bodyTransferEncoding === "entity"
+                ? true && ![HTTPMethod.GET, HTTPMethod.HEAD].includes(method)
+                : bodyTransferEncoding === "message"
+                  ? false
+                  : ![HTTPMethod.GET, HTTPMethod.HEAD, HTTPMethod.DELETE].includes(method);
 
         const params: RequestInit = {
             headers: this.getHeaders(data, authParams, payload, acceptType),
