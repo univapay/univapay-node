@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { parseUrl } from "query-string";
 import sinon, { SinonSandbox } from "sinon";
 
-import { HTTPMethod, RestAPI, RestAPIOptions } from "../../src/api/RestAPI.js";
+import { BodyTransferType, HTTPMethod, RestAPI, RestAPIOptions } from "../../src/api/RestAPI.js";
 import {
     ENV_KEY_APP_ID,
     ENV_KEY_APPLICATION_JWT,
@@ -580,6 +580,57 @@ describe("API", function () {
                     .to.eql(body)
                     .and.be.a(typeof body);
             }
+        }
+    });
+
+    it("should use default body transfer encoding", async function () {
+        const url = "http://mock-api/encoding";
+        const payload = { foo: 1, bar: "foobar" };
+        const requestToJson = (request: Request | undefined, hasPayload: boolean) =>
+            hasPayload ? request?.json() : new Promise((resolve) => resolve(request?.body));
+        const mock: FetchMockStatic = fetchMock.mock(`begin:${testEndpoint}/encoding`, {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const asserts: {
+            method: HTTPMethod;
+            transfer: BodyTransferType;
+            override?: BodyTransferType;
+            result?: BodyTransferType;
+        }[] = [
+            // Default cases
+            { method: HTTPMethod.POST, transfer: "entity" },
+            { method: HTTPMethod.PATCH, transfer: "entity" },
+            { method: HTTPMethod.PUT, transfer: "entity" },
+            { method: HTTPMethod.OPTION, transfer: "entity" },
+            { method: HTTPMethod.DELETE, transfer: "message" },
+            { method: HTTPMethod.GET, transfer: "message" },
+            { method: HTTPMethod.HEAD, transfer: "message" },
+
+            // Transfer encoding overrides
+            { method: HTTPMethod.POST, transfer: "entity", override: "message" },
+            { method: HTTPMethod.PATCH, transfer: "entity", override: "message" },
+            { method: HTTPMethod.PUT, transfer: "entity", override: "message" },
+            { method: HTTPMethod.OPTION, transfer: "entity", override: "message" },
+            { method: HTTPMethod.DELETE, transfer: "message", override: "entity" },
+
+            // Transfer encoding override exception: Can not be overriden by web specs
+            { method: HTTPMethod.GET, transfer: "message", override: "entity", result: "message" },
+            { method: HTTPMethod.HEAD, transfer: "message", override: "entity", result: "message" },
+        ];
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+
+        // For request with payload
+        for (const { method, transfer, override = transfer, result = override } of asserts) {
+            const hasEntityPayload = result === "entity";
+
+            await api.send(method, "/encoding", payload, undefined, { bodyTransferEncoding: override });
+            const req = (mock.lastCall() as fetchMock.MockCall).request;
+
+            expect(req!.url).to.eql(!hasEntityPayload ? `${url}?bar=foobar&foo=1` : url);
+            expect(requestToJson(req, hasEntityPayload)).to.become(hasEntityPayload ? payload : null);
         }
     });
 });
