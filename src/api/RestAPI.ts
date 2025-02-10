@@ -163,7 +163,7 @@ export type ApiSendOptions = {
     /**
      * Overrides default body transfer encoding of the request.
      *
-     * Note: Can not for for GET and HEAD request
+     * Note: Can not for GET and HEAD request
      *
      * Default is "message-body" for DELETE, HEAD and GET and "entity-body" for all other call methods.
      */
@@ -267,7 +267,7 @@ export class RestAPI extends EventEmitter {
 
         const payload: boolean =
             bodyTransferEncoding === "entity"
-                ? true && ![HTTPMethod.GET, HTTPMethod.HEAD].includes(method)
+                ? ![HTTPMethod.GET, HTTPMethod.HEAD].includes(method)
                 : bodyTransferEncoding === "message"
                   ? false
                   : ![HTTPMethod.GET, HTTPMethod.HEAD, HTTPMethod.DELETE].includes(method);
