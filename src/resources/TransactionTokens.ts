@@ -371,7 +371,15 @@ export interface TransactionTokenConvenienceDataItem extends TransactionTokenBas
     expirationTimeShift?: string;
     phoneNumber?: PhoneNumber;
 }
-export interface TransactionTokenItem {
+export interface TransactionTokenItem<
+    TransactionTokenData =
+        | TransactionTokenCardDataItem
+        | TransactionTokenQRScanDataItem
+        | TransactionTokenConvenienceDataItem
+        | TransactionTokenOnlineDataItem
+        | TransactionTokenPaidyData
+        | TransactionTokenBankTransferData,
+> {
     active: boolean;
     id: string;
     storeId: string;
@@ -384,14 +392,7 @@ export interface TransactionTokenItem {
     usageLimit?: UsageLimit;
     confirmed?: boolean;
     previousId?: string;
-    data?: (
-        | TransactionTokenCardDataItem
-        | TransactionTokenQRScanDataItem
-        | TransactionTokenConvenienceDataItem
-        | TransactionTokenOnlineDataItem
-        | TransactionTokenPaidyData
-        | TransactionTokenBankTransferData
-    ) & {
+    data?: TransactionTokenData & {
         cvvAuthorize?: { status: CvvAuthorizedStatus };
         threeDs?: {
             enabled: boolean;
