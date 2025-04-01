@@ -61,6 +61,7 @@ export enum ProcessingMode {
 }
 
 export enum QRBrand {
+    AEON_PAY = "aeon_pay",
     ALIPAY = "alipay",
     ALIPAY_CHINA = "alipay_china",
     ALIPAY_CONNECT_MPM = "alipay_connect_mpm",
@@ -104,6 +105,7 @@ export enum QRBrand {
 }
 
 export enum QRGateway {
+    AEON_PAY = "aeon_pay",
     ALIPAY = "alipay",
     ALIPAY_CONNECT = "alipay_connect",
     ALIPAY_CONNECT_MPM = "alipay_connect_mpm",
