@@ -45,6 +45,8 @@ export interface RestAPIOptions {
     secret?: string;
     origin?: string;
 
+    authParams?: DefaultAuthParams;
+
     // Deprecated
     authToken?: string;
     appId?: string;
@@ -87,6 +89,8 @@ export interface AuthParams {
     idempotentKey?: string;
     origin?: string;
 
+    headers?: Record<string, string>;
+
     // Deprecated
     authToken?: string;
     appId?: string;
@@ -95,6 +99,11 @@ export interface AuthParams {
 export interface PollParams {
     polling?: boolean;
 }
+
+export type DefaultAuthParams = {
+    useCredentials?: boolean;
+    headers?: Record<string, string>;
+};
 
 export type PromiseCreator<A> = () => Promise<A>;
 
@@ -137,6 +146,8 @@ export class RestAPI extends EventEmitter {
     origin: string;
     secret: string;
 
+    defaultAuthParams: DefaultAuthParams;
+
     /**
      *  @deprecated
      */
@@ -157,6 +168,7 @@ export class RestAPI extends EventEmitter {
         this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
         this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT];
+        this.defaultAuthParams = options.authParams;
 
         if (options.handleUpdateJWT && typeof options.handleUpdateJWT === "function") {
             this.handleUpdateJWT = options.handleUpdateJWT;
@@ -190,6 +202,7 @@ export class RestAPI extends EventEmitter {
         keyFormatter = toSnakeCase,
         ignoreKeys = ["metadata"]
     ): Promise<ResponseBody | string | Blob | FormData> {
+        const authParams = { ...this.defaultAuthParams, ...auth };
         const dateNow = new Date();
         const timestampUTC = Math.round(dateNow.getTime() / 1000);
 
@@ -203,8 +216,9 @@ export class RestAPI extends EventEmitter {
         const payload: boolean = [HTTPMethod.GET, HTTPMethod.DELETE].indexOf(method) === -1;
 
         const params: RequestInit = {
-            headers: this.getHeaders(data, auth, payload, acceptType),
+            headers: this.getHeaders(data, authParams, payload, acceptType),
             method,
+            ...(authParams?.useCredentials ? { credentials: "include" } : {}),
         };
 
         const request: Request = new Request(
@@ -270,7 +284,12 @@ export class RestAPI extends EventEmitter {
             appId = this.appId,
             secret = this.secret,
             jwt = this.jwtRaw,
+            headers: headerOverrides,
         } = auth || {};
+
+        if (headerOverrides) {
+            Object.keys(headerOverrides).forEach((key) => headers.append(key, headerOverrides[key]))
+        }
 
         if (origin) {
             headers.append("Origin", origin);
