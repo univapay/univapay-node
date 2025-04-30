@@ -308,6 +308,7 @@ export enum ResponseErrorCode {
     UnfinishedChargesExistForToken = "UNFINISHED_CHARGES_EXIST_FOR_TOKEN",
     OngoingSubscriptionsExistForToken = "ONGOING_SUBSCRIPTIONS_EXIST_FOR_TOKEN",
     PaymentExpirationExceedsPeriod = "PAYMENT_EXPIRATION_EXCEEDS_PERIOD",
+    SchedulingOnlyForFuture = "SCHEDULING_ONLY_FOR_FUTURE",
 
     BrandNotDefined = "BRAND_NOT_DEFINED",
 
