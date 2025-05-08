@@ -360,7 +360,7 @@ export class Subscriptions extends CRUDResource {
     static routeBase = "/stores/:storeId/subscriptions";
 
     payments: ScheduledPayments;
-    private chargesResource: Charges;
+    protected chargesResource: Charges;
 
     constructor(api: RestAPI) {
         super(api);
