@@ -199,8 +199,20 @@ export enum ResponseErrorCode {
     MissingThreeDSServerTransID = "MISSING_THREE_DS_SERVER_TRANS_ID",
     PaymentTypeNotSupported = "PAYMENT_TYPE_NOT_SUPPORTED",
     InvalidThreeDsStatus = "INVALID_THREE_DS_STATUS",
+    CardNotEnrolledInThreeDS = "CARD_NOT_ENROLLED_IN_THREE_DS",
     ThreeDsCouldNotBeCompleted = "THREE_DS_COULD_NOT_BE_COMPLETED",
     InternalError = "INTERNAL_ERROR",
+
+    // Charge 3DS errors
+    ThreeDsLimitExceededForPaymentType = "THREE_DS_LIMIT_EXCEEDED_FOR_PAYMENT_TYPE",
+    ThreeDSCardExpired = "THREE_DS_CARD_EXPIRED",
+    ThreeDSCardNumberNotValid = "THREE_DS_CARD_NUMBER_NOT_VALID",
+    ThreeDSCardInvalid = "THREE_DS_CARD_INVALID",
+    ThreeDsSeizeCard = "THREE_DS_SEIZE_CARD",
+    ThreeDsFraudSuspected = "THREE_DS_FRAUD_SUSPECTED",
+    ThreeDsCardRejected = "THREE_DS_CARD_REJECTED",
+    ThreeDsConfirmationPeriodExpired = "THREE_DS_CONFIRMATION_PERIOD_EXPIRED",
+    ThreeDSGatewayServerError = "THREE_DS_GATEWAY_SERVER_ERROR",
 
     /* 309 processing errors */
     UnknownDevice = "UNKNOWN_DEVICE",
