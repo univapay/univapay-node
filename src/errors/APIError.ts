@@ -203,8 +203,8 @@ export enum ResponseErrorCode {
     ThreeDsCouldNotBeCompleted = "THREE_DS_COULD_NOT_BE_COMPLETED",
     InternalError = "INTERNAL_ERROR",
 
-    // Charge 3DS default error
-    ThreeDsDefaultError = "THREE_DS_DEFAULT_ERROR",
+    // Charge 3DS generic error
+    GenericThreeDsProcessingError = "GENERIC_THREE_DS_PROCESSING_ERROR",
 
     /* 309 processing errors */
     UnknownDevice = "UNKNOWN_DEVICE",
