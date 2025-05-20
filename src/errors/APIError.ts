@@ -195,7 +195,7 @@ export enum ResponseErrorCode {
     PaymentMethodTemporarilyUnavailable = "PAYMENT_METHOD_TEMPORARILY_UNAVAILABLE",
     PaymentCanceled = "PAYMENT_CANCELED",
     ExceededPendingThreshold = "EXCEEDED_PENDING_THRESHOLD",
-    DisputedTransation = "DISPUTED_TRANSATION",
+    DisputedTransaction = "DISPUTED_TRANSACTION",
     MissingThreeDSServerTransID = "MISSING_THREE_DS_SERVER_TRANS_ID",
     PaymentTypeNotSupported = "PAYMENT_TYPE_NOT_SUPPORTED",
     InvalidThreeDsStatus = "INVALID_THREE_DS_STATUS",

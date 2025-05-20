@@ -56,7 +56,7 @@ export const getProcessingErrorCodeByStatus = (status: number, isThreeDsError?: 
         344: ResponseErrorCode.PaymentMethodTemporarilyUnavailable,
         345: ResponseErrorCode.PaymentCanceled,
         346: ResponseErrorCode.ExceededPendingThreshold,
-        351: isThreeDsError ? ResponseErrorCode.ThreeDsDefaultError : ResponseErrorCode.DisputedTransation,
+        351: isThreeDsError ? ResponseErrorCode.ThreeDsDefaultError : ResponseErrorCode.DisputedTransaction,
         355: ResponseErrorCode.PaymentTypeNotSupported,
         356: isThreeDsError ? ResponseErrorCode.ThreeDsDefaultError : ResponseErrorCode.CardNotEnrolledInThreeDS,
         358: isThreeDsError ? ResponseErrorCode.ThreeDsDefaultError : ResponseErrorCode.ThreeDsCouldNotBeCompleted,
