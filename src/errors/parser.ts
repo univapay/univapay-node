@@ -8,27 +8,37 @@ import { PathParameterError } from "./PathParameterError.js";
 import { RequestParameterError } from "./RequestParameterError.js";
 import { RequestError, RequestResponseBaseError, ResponseError } from "./RequestResponseError.js";
 
-export const getProcessingErrorCodeByStatus = (status: number): string => {
+export const getProcessingErrorCodeByStatus = (
+    status: number,
+    message?: string,
+    options?: { isThreeDsError?: boolean },
+): string => {
+    const { isThreeDsError } = options || {};
+
     const codeMap: Record<number, string> = {
-        301: ResponseErrorCode.CardNumberNotValid,
+        301: isThreeDsError ? ResponseErrorCode.GenericThreeDsProcessingError : ResponseErrorCode.CardNumberNotValid,
         302: ResponseErrorCode.CardExpirationMonthInvalid,
         303: ResponseErrorCode.CardExpirationYearInvalid,
-        304: ResponseErrorCode.CardExpired,
+        304: isThreeDsError ? ResponseErrorCode.GenericThreeDsProcessingError : ResponseErrorCode.CardExpired,
         305: ResponseErrorCode.CardCVVInvalid,
         306: ResponseErrorCode.CardRejected,
-        307: ResponseErrorCode.CardInvalid,
+        307: isThreeDsError ? ResponseErrorCode.GenericThreeDsProcessingError : ResponseErrorCode.CardInvalid,
         308: ResponseErrorCode.ChargeInvalidData,
-        309: ResponseErrorCode.ProcessingError,
+        309: isThreeDsError
+            ? ResponseErrorCode.GenericThreeDsProcessingError
+            : ResponseErrorCode[message]
+              ? ResponseErrorCode[message]
+              : ResponseErrorCode.ProcessingError,
         310: ResponseErrorCode.InvalidUserData,
         311: ResponseErrorCode.TooManyChargeRequests,
         312: ResponseErrorCode.CancelUnavailable,
         313: ResponseErrorCode.ChargeExpired,
-        314: ResponseErrorCode.SeizeCard,
+        314: isThreeDsError ? ResponseErrorCode.GenericThreeDsProcessingError : ResponseErrorCode.SeizeCard,
         315: ResponseErrorCode.ContactBank,
         316: ResponseErrorCode.LastNameRequired,
         317: ResponseErrorCode.PartialCaptureNotSupported,
         318: ResponseErrorCode.PartialRefundNotSupported,
-        319: ResponseErrorCode.FraudSuspected,
+        319: isThreeDsError ? ResponseErrorCode.GenericThreeDsProcessingError : ResponseErrorCode.FraudSuspected,
         320: ResponseErrorCode.BankSystemFailure,
         321: ResponseErrorCode.DynamicDescriptorNotSupported,
         322: ResponseErrorCode.PaymentCodeInvalid,
@@ -36,7 +46,9 @@ export const getProcessingErrorCodeByStatus = (status: number): string => {
         324: ResponseErrorCode.PaymentCodeAlreadyUsed,
         325: ResponseErrorCode.PaymentCodeStillInUse,
         326: ResponseErrorCode.RejectedHighRisk,
-        327: ResponseErrorCode.ConfirmationPeriodExpired,
+        327: isThreeDsError
+            ? ResponseErrorCode.GenericThreeDsProcessingError
+            : ResponseErrorCode.ConfirmationPeriodExpired,
         328: ResponseErrorCode.RevertFailed,
         329: ResponseErrorCode.RefundFailed,
         330: ResponseErrorCode.PaymentWalletInsufficientFunds,
@@ -45,7 +57,9 @@ export const getProcessingErrorCodeByStatus = (status: number): string => {
         333: ResponseErrorCode.CrossBorderNotAcceptedMissingPhoneNumber,
         334: ResponseErrorCode.CrossBorderNotAcceptedUnacceptedPaymentMethod,
         335: ResponseErrorCode.CrossBorderNotAcceptedMissingName,
-        336: ResponseErrorCode.LimitExceededForPaymentType,
+        336: isThreeDsError
+            ? ResponseErrorCode.GenericThreeDsProcessingError
+            : ResponseErrorCode.LimitExceededForPaymentType,
         337: ResponseErrorCode.LimitExceededForMerchant,
         338: ResponseErrorCode.TransactionNotFound,
         339: ResponseErrorCode.DuplicateTransaction,
@@ -56,10 +70,15 @@ export const getProcessingErrorCodeByStatus = (status: number): string => {
         344: ResponseErrorCode.PaymentMethodTemporarilyUnavailable,
         345: ResponseErrorCode.PaymentCanceled,
         346: ResponseErrorCode.ExceededPendingThreshold,
-        351: ResponseErrorCode.DisputedTransation,
+        351: isThreeDsError ? ResponseErrorCode.GenericThreeDsProcessingError : ResponseErrorCode.DisputedTransaction,
         355: ResponseErrorCode.PaymentTypeNotSupported,
-        358: ResponseErrorCode.ThreeDsCouldNotBeCompleted,
-        359: ResponseErrorCode.MissingThreeDSServerTransID,
+        356: isThreeDsError
+            ? ResponseErrorCode.GenericThreeDsProcessingError
+            : ResponseErrorCode.CardNotEnrolledInThreeDS,
+        358: isThreeDsError
+            ? ResponseErrorCode.GenericThreeDsProcessingError
+            : ResponseErrorCode.ThreeDsCouldNotBeCompleted,
+        359: isThreeDsError ? ResponseErrorCode.GenericThreeDsProcessingError : ResponseErrorCode.CardRejected,
         400: ResponseErrorCode.BadRequest,
         401: ResponseErrorCode.NotAuthorized,
         403: ResponseErrorCode.Forbidden,

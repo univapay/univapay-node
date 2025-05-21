@@ -195,12 +195,16 @@ export enum ResponseErrorCode {
     PaymentMethodTemporarilyUnavailable = "PAYMENT_METHOD_TEMPORARILY_UNAVAILABLE",
     PaymentCanceled = "PAYMENT_CANCELED",
     ExceededPendingThreshold = "EXCEEDED_PENDING_THRESHOLD",
-    DisputedTransation = "DISPUTED_TRANSATION",
+    DisputedTransaction = "DISPUTED_TRANSACTION",
     MissingThreeDSServerTransID = "MISSING_THREE_DS_SERVER_TRANS_ID",
     PaymentTypeNotSupported = "PAYMENT_TYPE_NOT_SUPPORTED",
     InvalidThreeDsStatus = "INVALID_THREE_DS_STATUS",
+    CardNotEnrolledInThreeDS = "CARD_NOT_ENROLLED_IN_THREE_DS",
     ThreeDsCouldNotBeCompleted = "THREE_DS_COULD_NOT_BE_COMPLETED",
     InternalError = "INTERNAL_ERROR",
+
+    // Charge 3DS generic error
+    GenericThreeDsProcessingError = "GENERIC_THREE_DS_PROCESSING_ERROR",
 
     /* 309 processing errors */
     UnknownDevice = "UNKNOWN_DEVICE",
