@@ -633,4 +633,25 @@ describe("API", function () {
             expect(requestToJson(req, hasEntityPayload)).to.become(hasEntityPayload ? payload : null);
         }
     });
+
+    it("should use query impersonate", async function () {
+        const url = "http://mock-api/encoding";
+        const payload = { foo: 1, bar: "foobar" };
+        const mock: FetchMockStatic = fetchMock.mock(`begin:${testEndpoint}/encoding`, {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+
+        await api.send(HTTPMethod.POST, "/encoding", payload, undefined, { queryImpersonate: "1234" });
+        const postReq = (mock.lastCall() as fetchMock.MockCall).request;
+        expect(postReq!.url).to.eql(`${url}?impersonate=1234`);
+        expect(postReq?.json()).to.become(payload);
+
+        await api.send(HTTPMethod.GET, "/encoding", payload, undefined, { queryImpersonate: "1234" });
+        const getReq = (mock.lastCall() as fetchMock.MockCall).request;
+        expect(getReq!.url).to.eql(`${url}?bar=foobar&foo=1&impersonate=1234`);
+        expect(getReq?.body).to.eq(null);
+    });
 });
