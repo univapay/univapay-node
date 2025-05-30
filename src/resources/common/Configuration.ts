@@ -52,6 +52,11 @@ export interface CardBrandPercentFeesItem {
 
 export type CardConfigurationMonthlyLimit = AmountWithCurrency & { duration: string };
 
+export enum DirectDebitTransferDateType {
+    MIDDLE_OF_MONTH = "14th",
+    END_OF_MONTH = "27th",
+}
+
 export interface CardConfigurationItem extends PaymentTypeConfiguration {
     debitEnabled: boolean;
     debitAuthorizationEnabled: boolean;
@@ -183,6 +188,14 @@ export type BankTransferConfiguration = PaymentTypeConfiguration & {
     chargeRequestCanceledNotificationEnabled?: boolean;
 };
 
+export type DirectDebitConfiguration = PaymentTypeConfiguration & {
+    legacyId?: string;
+    transferDateType?: DirectDebitTransferDateType;
+    consigneeCode?: string;
+    name?: string;
+    type?: string;
+};
+
 export interface InstallmentsConfiguration {
     enabled?: boolean;
     minChargeAmount?: AmountWithCurrency;
@@ -254,6 +267,10 @@ export interface UserTransactionsConfiguration {
     notifyOnCancels?: boolean;
     notifyOnConvenienceExpiry?: boolean;
 
+    notifyOnDirectDebitMailingDeadline?: boolean;
+    notifyOnDirectDebitUploadDeadline?: boolean;
+    notifyOnDirectDebitTransferResult?: boolean;
+
     /**
      * Boolean when the ${customer_refer_link} parameter should be shown on the subscription templates
      */
@@ -301,6 +318,7 @@ export interface ConfigurationItem {
     bankTransferConfiguration: BankTransferConfiguration;
     cardBrandPercentFees: CardBrandPercentFeesItem;
     cardConfiguration: CardConfigurationItem;
+    directDebitConfiguration?: DirectDebitConfiguration;
     convenienceConfiguration: ConvenienceConfigurationItem;
     onlineConfiguration: OnlineConfigurationItem;
     paidyConfiguration: PaidyConfigurationItem;
@@ -334,6 +352,7 @@ export interface ConfigurationParams {
 
     bankTransferConfiguration?: Partial<BankTransferConfiguration>;
     cardConfiguration?: Partial<CardConfigurationItem>;
+    directDebitConfiguration?: Partial<DirectDebitConfiguration>;
     checkoutConfiguration?: Partial<CheckoutConfiguration>;
     convenienceConfiguration?: Partial<ConvenienceConfigurationItem>;
     descriptorProvidedConfiguration?: Partial<DescriptorProvidedConfiguration>;

@@ -11,6 +11,8 @@ import {
     SubscriptionPlanConfiguration,
     CustomerRole,
     Period,
+    DirectDebitConfiguration,
+    DirectDebitTransferDateType,
 } from "../../../src/resources/common/Configuration.js";
 import { CardBrand, ProcessingMode } from "../../../src/resources/common/enums.js";
 
@@ -101,6 +103,15 @@ export const generateFixtureConvenienceConfiguration = (): ConvenienceConfigurat
     expirationTimeShift: { enabled: true, value: "09:00:00.000+09:00" },
 });
 
+export const generateFixtureDirectDebitConfiguration = (): DirectDebitConfiguration => ({
+    enabled: true,
+    legacyId: "dummy-legacy-id",
+    transferDateType: DirectDebitTransferDateType.MIDDLE_OF_MONTH,
+    consigneeCode: "0001",
+    name: "dummy-name",
+    type: "1324512345",
+});
+
 export const generateFixture = (): ConfigurationItem => ({
     cardBrandPercentFees: {},
     cardConfiguration: generateFixtureCardConfiguration(),
@@ -110,6 +121,7 @@ export const generateFixture = (): ConfigurationItem => ({
     paidyConfiguration: generateFixturePaymentType(),
     onlineConfiguration: generateFixturePaymentType(),
     bankTransferConfiguration: generateFixtureBankTransferConfiguration(),
+    directDebitConfiguration: generateFixtureDirectDebitConfiguration(),
     customerManagementConfiguration: {
         enabled: true,
         defaultRoles: [CustomerRole.SUBSCRIPTION_READ],
