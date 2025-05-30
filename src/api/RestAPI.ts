@@ -168,6 +168,11 @@ export type ApiSendOptions = {
      * Default is "message-body" for DELETE, HEAD and GET and "entity-body" for all other call methods.
      */
     bodyTransferEncoding?: BodyTransferType;
+
+    /**
+     * Some of the services require query impersonate to be present.
+     */
+    queryImpersonate?: string;
 };
 
 const getRequestBody = <Data>(
@@ -263,6 +268,7 @@ export class RestAPI extends EventEmitter {
             keyFormatter = toSnakeCase,
             ignoreKeysFormatting = ["metadata"],
             bodyTransferEncoding,
+            queryImpersonate,
         } = options;
 
         const payload: boolean =
@@ -278,8 +284,12 @@ export class RestAPI extends EventEmitter {
             ...(authParams?.useCredentials ? { credentials: "include" } : {}),
         };
 
+        const query = stringifyParams({
+            ...(payload || !data ? {} : data),
+            ...(queryImpersonate ? { impersonate: queryImpersonate } : {}),
+        });
         const request: Request = new Request(
-            `${/^https?:\/\//.test(uri) ? uri : `${this.endpoint}${uri}`}${payload ? "" : stringifyParams(data)}`,
+            `${/^https?:\/\//.test(uri) ? uri : `${this.endpoint}${uri}`}${query}`,
             payload ? { ...params, body: getRequestBody(data, keyFormatter, ignoreKeysFormatting) } : params,
         );
 
