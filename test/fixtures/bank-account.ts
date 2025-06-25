@@ -15,6 +15,6 @@ export const generateFixture = (): BankAccountItem => ({
     status: BankAccountStatus.VERIFIED,
     primary: true,
     accountNumber: "1234567890",
-    accountType: BankAccountType.REGULAR,
+    accountType: BankAccountType.CHECKING,
     createdOn: new Date().toISOString(),
 });

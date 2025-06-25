@@ -51,7 +51,7 @@ describe("Bank Accounts", () => {
                 branchName: "Branch",
                 bankAddress: "Address",
                 swiftCode: "FAKECODE",
-                accountType: BankAccountType.REGULAR,
+                accountType: BankAccountType.CHECKING,
             };
 
             await expect(bankAccounts.create(data)).to.become(recordData);
@@ -136,7 +136,7 @@ describe("Bank Accounts", () => {
                 branchName: "Branch",
                 bankAddress: "Address",
                 swiftCode: "FAKECODE",
-                accountType: BankAccountType.REGULAR,
+                accountType: BankAccountType.CHECKING,
             };
 
             await expect(bankAccounts.update(uuid(), data)).to.become(recordData);

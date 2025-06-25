@@ -15,7 +15,7 @@ export enum BankAccountStatus {
 }
 
 export enum BankAccountType {
-    REGULAR = "regular",
+    CHECKING = "checking",
     SAVINGS = "savings",
 }
 
