@@ -106,7 +106,7 @@ export const generateFixtureConvenienceConfiguration = (): ConvenienceConfigurat
 export const generateFixtureDirectDebitConfiguration = (): DirectDebitConfiguration => ({
     enabled: true,
     legacyId: "dummy-legacy-id",
-    transferDateType: DirectDebitTransferDateType.MIDDLE_OF_MONTH,
+    transferDateType: DirectDebitTransferDateType.FOURTEEN,
     consigneeCode: "0001",
     name: "dummy-name",
     type: "1324512345",

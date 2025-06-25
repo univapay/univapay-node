@@ -53,8 +53,8 @@ export interface CardBrandPercentFeesItem {
 export type CardConfigurationMonthlyLimit = AmountWithCurrency & { duration: string };
 
 export enum DirectDebitTransferDateType {
-    MIDDLE_OF_MONTH = "14th",
-    END_OF_MONTH = "27th",
+    FOURTEEN = "fourteen",
+    TWENTY_SEVEN = "twenty_seven",
 }
 
 export interface CardConfigurationItem extends PaymentTypeConfiguration {
