@@ -35,9 +35,7 @@ export type DefinedRoute = (data?: unknown, auth?: AuthParams, pathParams?: Reco
 function compilePath(path: string, pathParams: Record<string, string>): string {
     return path
         .replace(/\((\w|:|\/)+\)/gi, (o: string) => {
-            const part: string = o.replace(/:(\w+)/gi, (s: string, p: string) => {
-                return pathParams[p] || s;
-            });
+            const part = o.replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);
             return part.indexOf(":") === -1 ? part.replace(/\(|\)/g, "") : "";
         })
         .replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);

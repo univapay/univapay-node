@@ -173,6 +173,8 @@ export type ApiSendOptions = {
      * Some of the services require query impersonate to be present.
      */
     queryImpersonate?: string;
+
+    requestInit?: RequestInit;
 };
 
 const getRequestBody = <Data>(
@@ -269,6 +271,7 @@ export class RestAPI extends EventEmitter {
             ignoreKeysFormatting = ["metadata"],
             bodyTransferEncoding,
             queryImpersonate,
+            requestInit,
         } = options;
 
         const payload: boolean =
@@ -296,7 +299,7 @@ export class RestAPI extends EventEmitter {
         this.emit("request", request);
 
         return execRequest<ResponseBody | string | Blob | FormData>(async () => {
-            const response = await fetch(request);
+            const response = await fetch(request, requestInit);
 
             this.emit("response", response);
 
