@@ -325,20 +325,20 @@ export class RestAPI extends EventEmitter {
                 this.handleUpdateJWT?.(jwt);
             }
 
-            debug(() => console.info("Validating response status", response.status));
-            await checkStatus(response);
-            debug(() => console.info("Validated response status", response.status));
-
             const noContentStatus = 204;
             if (response.status === noContentStatus) {
                 debug(() => console.info("No body status found. Early returns body as empty."));
                 return "";
             }
 
-            if (response.status === 303 && options?.requestInit?.redirect === "manual") {
-                const redirect = response.headers.get("location");
+            const redirect = response.headers.get("location");
+            if (response.redirected === false && redirect && options?.requestInit?.redirect === "manual") {
                 debug(() => console.info(`Redirecting to ${redirect} after 303 call`, response.headers));
                 return this.send(method, redirect, data, auth, options);
+            } else {
+                debug(() => console.info("Validating response status", response.status));
+                await checkStatus(response);
+                debug(() => console.info("Validated response status", response.status));
             }
 
             const contentType = response.headers.get("content-type");
