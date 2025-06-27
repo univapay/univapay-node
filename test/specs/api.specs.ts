@@ -546,7 +546,7 @@ describe("API", function () {
     });
 
     it("should parse JSON only if proper header is present in the response", async function () {
-        const blobBody = await new Response(new ArrayBuffer(2) as Buffer).blob();
+        const blobBody = await new Response(new ArrayBuffer(2) as ArrayBuffer).blob();
         const asserts = [
             ["json", { foo: "bar" }, "application/json"],
             ["raw", "foo", "text/plain"],
@@ -653,5 +653,25 @@ describe("API", function () {
         const getReq = (mock.lastCall() as fetchMock.MockCall).request;
         expect(getReq!.url).to.eql(`${url}?bar=foobar&foo=1&impersonate=1234`);
         expect(getReq?.body).to.eq(null);
+    });
+
+    it("should send the manual query", async function () {
+        const payload = { foo: 1, bar: "foobar" };
+        fetchMock.mock(`begin:${testEndpoint}/redirect`, {
+            status: 303,
+            headers: { "Content-Type": "application/json", "Location": "http://mock-api-redirect/test" },
+        });
+        fetchMock.mock("begin:http://mock-api-redirect/test", {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+            body: okResponse,
+        });
+
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+
+        const response = await api.send(HTTPMethod.GET, "/redirect", payload, undefined, {
+            requestInit: { redirect: "manual" },
+        });
+        expect(response).to.eql(okResponse);
     });
 });

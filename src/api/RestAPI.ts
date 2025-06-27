@@ -174,7 +174,17 @@ export type ApiSendOptions = {
      */
     queryImpersonate?: string;
 
+    /**
+     * Fetch request init parameters
+     *
+     * Using `redirect` as `manual` will automatically do the redirect from the SDK to preserve the origin
+     */
     requestInit?: RequestInit;
+
+    /**
+     * Boolean when debug logs should be shown for debugging purpose
+     */
+    debug?: boolean;
 };
 
 const getRequestBody = <Data>(
@@ -298,31 +308,41 @@ export class RestAPI extends EventEmitter {
 
         this.emit("request", request);
 
+        const debug = options.debug ? (execute: () => void) => execute() : () => undefined;
+
         return execRequest<ResponseBody | string | Blob | FormData>(async () => {
+            debug(() => console.info(`Excecuting ${method} ${uri}`, data, auth, options));
             const response = await fetch(request, requestInit);
+            debug(() => console.info("Executed with response", response));
 
             this.emit("response", response);
 
             const jwt = extractJWT(response);
 
             if (jwt) {
+                debug(() => console.info("Refresh jwt", jwt));
                 this.jwtRaw = jwt;
                 this.handleUpdateJWT?.(jwt);
             }
 
+            debug(() => console.info("Validating response status", response.status));
             await checkStatus(response);
+            debug(() => console.info("Validated response status", response.status));
 
             const noContentStatus = 204;
             if (response.status === noContentStatus) {
+                debug(() => console.info("No body status found. Early returns body as empty."));
                 return "";
             }
 
-            if (response.status === 303 && options.requestInit.redirect === "manual") {
+            if (response.status === 303 && options?.requestInit?.redirect === "manual") {
                 const redirect = response.headers.get("location");
+                debug(() => console.info(`Redirecting to ${redirect} after 303 call`, response.headers));
                 return this.send(method, redirect, data, auth, options);
             }
 
             const contentType = response.headers.get("content-type");
+            debug(() => console.info(`Parsing body with content type ${contentType}`, response.headers));
             if (contentType) {
                 if (contentType.indexOf("application/json") !== -1) {
                     return parseJSON<ResponseBody>(response, ignoreKeysFormatting);
