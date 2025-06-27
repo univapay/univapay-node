@@ -317,6 +317,11 @@ export class RestAPI extends EventEmitter {
                 return "";
             }
 
+            if (response.status === 303 && options.requestInit.redirect === "manual") {
+                const redirect = response.headers.get("location");
+                return this.send(method, redirect, data, auth, options);
+            }
+
             const contentType = response.headers.get("content-type");
             if (contentType) {
                 if (contentType.indexOf("application/json") !== -1) {
