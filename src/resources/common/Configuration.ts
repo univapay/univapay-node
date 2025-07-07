@@ -190,10 +190,10 @@ export type BankTransferConfiguration = PaymentTypeConfiguration & {
 
 export type DirectDebitConfiguration = PaymentTypeConfiguration & {
     legacyId?: string;
-    transferDateType?: DirectDebitTransferDateType;
-    consigneeCode?: string;
-    name?: string;
-    type?: string;
+    debitDate?: DirectDebitTransferDateType;
+    consignorCode?: string;
+    classifier?: string;
+    signature?: string;
 };
 
 export interface InstallmentsConfiguration {
