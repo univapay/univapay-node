@@ -24,6 +24,7 @@ export interface PlatformUserDefaults {
         allowDirectTokenCreation: boolean;
         threeDsRequired?: boolean;
         threeDsAddressRequired?: boolean;
+        threeDsPhoneNumberRequired?: boolean;
         threeDsSkipEnabled?: boolean;
     };
     percentFee: number;

@@ -45,6 +45,7 @@ export const generateFixtureCardConfiguration = (): CardConfigurationItem => ({
     allowDirectTokenCreation: true,
     threeDsRequired: false,
     threeDsAddressRequired: false,
+    threeDsPhoneNumberRequired: true,
     threeDsSkipEnabled: false,
 });
 

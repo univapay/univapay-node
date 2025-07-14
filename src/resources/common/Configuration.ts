@@ -71,6 +71,7 @@ export interface CardConfigurationItem extends PaymentTypeConfiguration {
     onlyDirectCurrency: boolean;
     allowDirectTokenCreation: boolean;
     threeDsAddressRequired?: boolean;
+    threeDsPhoneNumberRequired?: boolean;
     threeDsRequired?: boolean;
     threeDsSkipEnabled?: boolean;
 }
