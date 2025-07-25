@@ -134,6 +134,7 @@ export interface TransactionTokenCardData {
         enabled: boolean;
         status: ThreeDsStatus;
         error?: PaymentError;
+        exempted?: boolean;
     };
 }
 
@@ -345,6 +346,7 @@ export interface TransactionTokenBase {
         enabled: boolean;
         status: ThreeDsStatus;
         error?: PaymentError;
+        exempted?: boolean;
     };
 }
 
@@ -401,6 +403,7 @@ export interface TransactionTokenItem<
             redirectEndpoint?: string;
             redirectId?: string;
             error?: PaymentError;
+            exempted?: boolean;
         };
     };
 
