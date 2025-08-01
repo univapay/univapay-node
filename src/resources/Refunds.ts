@@ -22,6 +22,8 @@ export enum RefundReason {
     FRAUD = "fraud",
     CUSTOMER_REQUEST = "customer_request",
     CHARGEBACK = "chargeback",
+    CHARGEBACK_FEE_EXEMPT = "chargeback_fee_exempt",
+    CHARGEBACK_REVERSE = "chargeback_reverse",
     SYSTEM_FAILURE = "system_failure",
 }
 
