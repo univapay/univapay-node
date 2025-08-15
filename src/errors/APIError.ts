@@ -44,6 +44,7 @@ export enum ResponseErrorCode {
     ExpiredLoginToken = "EXPIRED_LOGIN_TOKEN",
     OutdatedAppToken = "OUTDATED_APP_TOKEN",
     ChargeTooQuick = "CHARGE_TOO_QUICK",
+    IncorrectPassword = "INCORRECT_PASSWORD",
 
     /* file upload */
     FileUploadError = "FILE_UPLOAD_ERROR",
