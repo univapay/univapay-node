@@ -115,6 +115,8 @@ export interface ChargeItem<T extends Metadata = Metadata> {
 
     multiCurrency?: {
         enabled?: boolean;
+        amount?: number;
+        currency?: string;
     };
 
     ledgerId?: string;
