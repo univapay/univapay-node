@@ -256,6 +256,7 @@ export interface UserTransactionsConfiguration {
     notifyUserOnFailedTransaction?: boolean;
     notifyCustomerOnFailedTransaction?: boolean;
     notifyOnRecurringTokenCreation?: boolean;
+    notifyOnRecurringTokenCreationWithThreeDs?: boolean;
     notifyOnWebhookFailure?: boolean;
     notifyOnWebhookDisabled?: boolean;
     notifyUserOnFailedTransactions?: boolean;
