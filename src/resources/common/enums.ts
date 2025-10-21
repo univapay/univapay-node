@@ -111,6 +111,7 @@ export enum QRGateway {
     ALIPAY_CONNECT_MPM = "alipay_connect_mpm",
     ALIPAY_MERCHANT_QR = "alipay_merchant_qr",
     ALIPAY_PLUS = "alipay_plus",
+    ALIPAY_PLUS_MPM = "alipay_plus_mpm",
     AU_PAY = "au_pay",
     BARTONG = "bartong",
     BOOST = "boost",
