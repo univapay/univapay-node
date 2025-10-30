@@ -451,6 +451,7 @@ export enum ResponseErrorCode {
     Deprecated = "DEPRECATED",
     CannotBeZero = "CANNOT_BE_ZERO",
     NeedAtLeastTwoCycles = "NEED_AT_LEAST_TWO_CYCLES",
+    StartOnExceedsLimit = "START_ON_EXCEEDS_LIMIT",
     InstallmentInvalidCyclesCount = "INSTALLMENT_INVALID_CYCLES_COUNT",
 
     CannotSetInitialAmountToZero = "CANNOT_SET_INITIAL_AMOUNT_TO_ZERO",
