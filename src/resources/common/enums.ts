@@ -158,6 +158,12 @@ export enum OnlineBrand {
     BIG_PAY_SG = "big_pay_sg",
     BIG_PAY_TH = "big_pay_th",
     KASPI_KZ = "kaspi_kz",
+    ZALO_PAY = "zalopay",
+    BLUECODE = "bluecode",
+    NAYA_PAY = "naya_pay",
+    SCB_PLANET_PLUS = "scb_planet_plus",
+    HUMO = "humo",
+    MOMO = "momo",
 
     /**
      * @deprecated Use `ALIPAY_PLUS_ONLINE` instead
@@ -177,6 +183,12 @@ export enum AlipayPlusOnlineBrand {
     BIG_PAY_SG = "big_pay_sg",
     BIG_PAY_TH = "big_pay_th",
     KASPI_KZ = "kaspi_kz",
+    ZALO_PAY = "zalopay",
+    BLUECODE = "bluecode",
+    NAYA_PAY = "naya_pay",
+    SCB_PLANET_PLUS = "scb_planet_plus",
+    HUMO = "humo",
+    MOMO = "momo",
 }
 
 // Alipay+ Offline
