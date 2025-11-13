@@ -201,6 +201,12 @@ export enum RetailBrand {
     HI_PAY = "hipay",
     PUBLIC_BANK = "pbengagemy",
     M_PAY = "mpay",
+    ZALO_PAY = "zalopay",
+    BLUECODE = "bluecode",
+    NAYA_PAY = "naya_pay",
+    SCB_PLANET_PLUS = "scb_planet_plus",
+    HUMO = "humo",
+    MOMO = "momo",
 }
 
 /**
