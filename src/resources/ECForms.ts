@@ -61,6 +61,7 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     captureAt?: string | null;
     onlyDirectCurrency?: boolean;
     supportedPaymentMethods: (PaymentType | OnlineBrand)[];
+    hidePrivacyLink?: boolean;
 
     /* Display */
     title: string | null;
