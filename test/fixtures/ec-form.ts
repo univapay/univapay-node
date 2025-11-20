@@ -28,6 +28,7 @@ export const generateFixture = (): ECFormItem => ({
     displayStoreName: true,
     displayStoreLogo: false,
     mode: ProcessingMode.LIVE,
+    hidePrivacyLink: false,
 
     supportedPaymentMethods: [PaymentType.CARD, PaymentType.KONBINI, OnlineBrand.PAY_PAY_ONLINE],
 
