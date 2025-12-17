@@ -2,6 +2,10 @@ name: Frontend environment setup
 description: Sets up the Frontend environment with Node
 runs:
   using: "composite"
+  inputs:
+    node-version:
+      description: "Node version to be used for setup"
+      default: "22"
   steps:
     - name: Setup timezone
       shell: bash
@@ -10,7 +14,7 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: ${{ inputs.node-version }}
         scope: univapay
         registry-url: "https://registry.npmjs.org"
         always-auth: true
