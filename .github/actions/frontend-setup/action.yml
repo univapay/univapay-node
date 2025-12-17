@@ -1,0 +1,25 @@
+name: Frontend environment setup
+description: Sets up the Frontend environment with Node
+runs:
+  using: "composite"
+  steps:
+    - name: Setup timezone
+      shell: bash
+      run: sudo timedatectl set-timezone "Asia/Tokyo"
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        scope: univapay
+        registry-url: "https://registry.npmjs.org"
+        always-auth: true
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        npm config set //registry.npmjs.org/:_authToken=${{ env.NODE_AUTH_TOKEN }}
+        npm install -g npm@latest
+        npm i
+      env:
+        CI: true

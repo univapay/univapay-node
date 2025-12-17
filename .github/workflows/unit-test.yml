@@ -1,0 +1,24 @@
+name: Unit Test
+
+on:
+  workflow_call:
+
+jobs:
+  Frontend:
+    name: Lint & Unit Test Frontend
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      WORKSPACE: ${{ github.workspace }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Job setup
+        uses: ./.github/actions/frontend-setup
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Unit Tests
+        run: npm test

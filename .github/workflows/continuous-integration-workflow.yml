@@ -1,0 +1,28 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "*"
+  pull_request:
+
+jobs:
+  unit-test:
+    name: Lint & Unit Test
+    uses: ./.github/workflows/unit-test.yml
+    secrets: inherit
+
+  build:
+    name: Build
+    if: success()
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  publish:
+    name: Publish
+    needs: [unit-test, build]
+    if: success() && startsWith(github.ref, 'refs/tags/')
+    uses: ./.github/workflows/publish.yml
+    secrets: inherit
