@@ -3,7 +3,7 @@ description: Sets up the Frontend environment with Node
 runs:
   using: "composite"
   inputs:
-    node-version:
+    node_version:
       description: "Node version to be used for setup"
       default: "22"
   steps:
@@ -14,7 +14,7 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ inputs.node-version }}
+        node-version: ${{ inputs.node_version }}
         scope: univapay
         registry-url: "https://registry.npmjs.org"
         always-auth: true
