@@ -1,7 +1,7 @@
 name: Frontend environment setup
 description: Sets up the Frontend environment with Node
 inputs:
-  node_version:
+  node-version:
     description: "Node version to be used for setup"
     default: "22"
 runs:
@@ -15,7 +15,7 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ inputs.node_version }}
+        node-version: ${{ inputs.node-version }}
         scope: univapay
         registry-url: "https://registry.npmjs.org"
         always-auth: true
