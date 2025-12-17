@@ -4,9 +4,15 @@ on:
   workflow_call:
 
 jobs:
-  Frontend:
+  test:
     name: Lint & Unit Test Frontend
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 20.x
+          - 22.x
+          - 24.x
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       WORKSPACE: ${{ github.workspace }}
@@ -22,3 +28,18 @@ jobs:
 
       - name: Unit Tests
         run: npm test
+
+      - name: Publish to coveralls.io
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close parallel build
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
