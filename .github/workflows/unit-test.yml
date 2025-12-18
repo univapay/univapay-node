@@ -1,40 +1,35 @@
-name: test
+name: Unit Test
+
 on:
-  push:
-    branches:
-      - master
-  pull_request:
+  workflow_call:
 
 jobs:
   test:
+    name: Lint & Unit Test Frontend
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version:
-          - 18.x
           - 20.x
           - 22.x
+          - 24.x
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      WORKSPACE: ${{ github.workspace }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - name: Job setup
+        uses: ./.github/actions/frontend-setup
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
-
-      - name: Lint
+      - name: Run linter
         run: npm run lint
 
-      - name: Test
+      - name: Unit Tests
         run: npm test
-
-      - name: Build
-        run: npm run build
 
       - name: Publish to coveralls.io
         uses: coverallsapp/github-action@master
