@@ -380,14 +380,24 @@ export class Subscriptions extends CRUDResource {
     }
 
     private _suspend?: DefinedRoute;
-    suspend(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseSubscription> {
+    suspend(
+        storeId: string,
+        id: string,
+        data?: SendData<{ scheduleSettings?: { terminationMode?: TerminateMode } }> | null,
+        auth?: AuthParams | null,
+    ): Promise<ResponseSubscription> {
         this._suspend =
             this._suspend ?? this.defineRoute(HTTPMethod.PATCH, "(/stores/:storeId)/subscriptions/:id/suspend");
         return this._suspend(data, auth, { storeId, id });
     }
 
     private _unsuspend?: DefinedRoute;
-    unsuspend(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseSubscription> {
+    unsuspend(
+        storeId: string,
+        id: string,
+        data?: SendData<{ scheduleSettings?: { terminationMode?: TerminateMode } }> | null,
+        auth?: AuthParams | null,
+    ): Promise<ResponseSubscription> {
         this._unsuspend =
             this._unsuspend ?? this.defineRoute(HTTPMethod.PATCH, "(/stores/:storeId)/subscriptions/:id/unsuspend");
         return this._unsuspend(data, auth, { storeId, id });
