@@ -8,11 +8,18 @@ import { Resource } from "../../../src/resources/Resource.js";
 
 describe("Common > Resource", () => {
     const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/test/:fooPart(foo/[^/]+)?/bar/:bar`);
+    const recordWithDashInPatPathMatcher = pathToRegexMatcher(
+        `${testEndpoint}/test/:fooPart(foo-foos/[^/]+)?/bar/:bar`,
+    );
     class CustomResource extends Resource {
         static routeBase = "/test";
 
         get(bar?: string, foo?: string): Promise<unknown> {
             return this.defineRoute(HTTPMethod.GET, "/test(/foo/:foo)/bar/:bar")(null, undefined, { foo, bar });
+        }
+
+        getWithDashInPath(bar?: string, foo?: string): Promise<unknown> {
+            return this.defineRoute(HTTPMethod.GET, "/test(/foo-foos/:foo)/bar/:bar")(null, undefined, { foo, bar });
         }
 
         postObject(bar?: string, foo?: string): Promise<unknown> {
@@ -52,6 +59,11 @@ describe("Common > Resource", () => {
         it("should get response with optional parameter missing", async () => {
             fetchMock.getOnce(recordPathMatcher, dummyResponse);
             await expect(resource.get("bar")).to.become(dummyResponse.body);
+        });
+
+        it("should get response with optional parameter missing with dash", async () => {
+            fetchMock.getOnce(recordWithDashInPatPathMatcher, dummyResponse);
+            await expect(resource.getWithDashInPath("bar")).to.become(dummyResponse.body);
         });
 
         it("should get response with all parameters", async () => {

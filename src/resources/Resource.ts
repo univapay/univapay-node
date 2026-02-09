@@ -32,14 +32,13 @@ export type DefinedRoute = (data?: unknown, auth?: AuthParams, pathParams?: Reco
  * @param path The full path to compile, e.g. `(/merchant/:merchantId)/store/:storeId`
  * @param pathParams Object of params to fill into the path, e.g. `{ merchantId: "abc" }`
  */
-function compilePath(path: string, pathParams: Record<string, string>): string {
-    return path
-        .replace(/\((\w|:|\/)+\)/gi, (o: string) => {
+const compilePath = (path: string, pathParams: Record<string, string>): string =>
+    path
+        .replace(/\((\w|:|-|\/)+\)/gi, (o: string) => {
             const part = o.replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);
             return part.indexOf(":") === -1 ? part.replace(/\(|\)/g, "") : "";
         })
         .replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);
-}
 
 type ObjectType =
     | "array"
@@ -115,7 +114,7 @@ export abstract class Resource extends EventEmitter {
             const url = compilePath(path, pathParams);
 
             // Validate required path parameters
-            const firstMissingPathParam = url.match(/:([a-z]+)(?![^()]*\))/gi)?.[0];
+            const firstMissingPathParam = url.match(/:([a-z]+)/gi)?.[0];
             if (firstMissingPathParam) {
                 const error = fromError(new PathParameterError(firstMissingPathParam.replace(":", "")));
                 return Promise.reject(error);
