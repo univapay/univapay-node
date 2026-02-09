@@ -99,8 +99,8 @@ export abstract class Resource extends EventEmitter {
     protected defineRoute(method: HTTPMethod, path: string, options: DefineRouteOptions = {}): DefinedRoute {
         return <A, B>(
             originalData?: SendData<A>,
-            auth?: AuthParams,
-            pathParams: Record<string, string | string> = {},
+            auth?: AuthParams | null,
+            pathParams: Record<string, string | undefined> = {},
         ): Promise<B> => {
             const { requiredParams = [], ...sendOptions } = options;
 
@@ -115,7 +115,7 @@ export abstract class Resource extends EventEmitter {
             const url = compilePath(path, pathParams);
 
             // Validate required path parameters
-            const firstMissingPathParam = url.match(/:([a-z]+)/gi)?.[0];
+            const firstMissingPathParam = url.match(/:([a-z]+)(?![^()]*\))/gi)?.[0];
             if (firstMissingPathParam) {
                 const error = fromError(new PathParameterError(firstMissingPathParam.replace(":", "")));
                 return Promise.reject(error);
