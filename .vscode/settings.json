@@ -34,5 +34,7 @@
     "source.fixAll.eslint": "explicit",
     "source.fixAll.tslint": "never",
     "source.fixAll.stylelint": "explicit"
-  }
+  },
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
 }
