@@ -74,6 +74,9 @@ export interface SupportedBrand {
      * @deprecated
      */
     onlineBrand?: OnlineBrand;
+
+    mcpCapabled?: boolean;
+    mcpOnly?: boolean;
 }
 
 export interface CheckoutInfoItem {
