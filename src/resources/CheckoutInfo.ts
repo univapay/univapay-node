@@ -75,7 +75,7 @@ export interface SupportedBrand {
      */
     onlineBrand?: OnlineBrand;
 
-    mcpCapabled?: boolean;
+    mcpCapable?: boolean;
     mcpOnly?: boolean;
 }
 
