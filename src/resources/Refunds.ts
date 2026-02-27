@@ -36,6 +36,11 @@ export interface RefundCreateParams<T extends Metadata = Metadata> {
     reason?: RefundReason;
     message?: string;
     metadata?: T | string;
+
+    /**
+     * Pricing token jwt
+     */
+    multiCurrencyPricingToken?: string;
 }
 
 export interface RefundUpdateParams<T extends Metadata = Metadata> {
@@ -55,6 +60,7 @@ export interface RefundItem<T extends Metadata = Metadata> {
     storeId: string;
     chargeId: string;
     ledgerId?: string;
+    mcpTokenId?: string;
     status: RefundStatus;
     amount: number;
     currency: string;

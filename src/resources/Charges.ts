@@ -77,6 +77,11 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     };
 
     /**
+     * Pricing token jwt
+     */
+    multiCurrencyPricingToken?: string;
+
+    /**
      * IP address override for backend usage in order to identify the user
      */
     ipAddress?: string;
@@ -106,6 +111,8 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     chargedAmount: number;
     chargedCurrency: string;
     chargedAmountFormatted: number;
+
+    mcpTokenId?: string;
 
     threeDs?: {
         mode?: ChargeThreeDsMode;
