@@ -18,7 +18,7 @@ jobs:
       WORKSPACE: ${{ github.workspace }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Job setup
         uses: ./.github/actions/frontend-setup
