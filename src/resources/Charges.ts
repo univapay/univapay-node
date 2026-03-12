@@ -120,13 +120,6 @@ export interface ChargeItem<T extends Metadata = Metadata> {
         redirectId?: string;
     };
 
-    multiCurrency?: {
-        enabled?: boolean;
-        amount?: number;
-        currency?: string;
-        jti?: string;
-    };
-
     ledgerId?: string;
     subscriptionId?: string;
     captureAt?: string;
