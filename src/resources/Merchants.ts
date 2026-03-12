@@ -26,6 +26,7 @@ export interface MerchantItem {
     createdOn: string;
     configuration: MerchantConfigurationItem;
     notificationEmail?: string;
+    financeNotificationEmail?: string;
 }
 
 export type ResponseMerchant = MerchantItem;
