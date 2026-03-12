@@ -265,6 +265,7 @@ export interface UserTransactionsConfiguration {
     notifyOnSubscriptions?: boolean;
     notifyOnRecurringTokenCvvFailed?: boolean;
     notifyOnAuthorizations?: boolean;
+    notifyOnChargebacks?: boolean;
     notifyOnCvvAuthorizations?: boolean;
     notifyOnCancels?: boolean;
     notifyOnConvenienceExpiry?: boolean;
