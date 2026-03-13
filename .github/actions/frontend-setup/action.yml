@@ -3,7 +3,7 @@ description: Sets up the Frontend environment with Node
 inputs:
   node-version:
     description: "Node version to be used for setup"
-    default: "22"
+    default: "24"
 runs:
   using: "composite"
 
