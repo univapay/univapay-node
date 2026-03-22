@@ -53,7 +53,7 @@ export const parseJSON = async <FormattedBody>(
     ignoreKeys: string[] = ["metadata"],
 ): Promise<FormattedBody> => {
     const text = await response.text();
-    return text ? transformKeys(parse(text), toCamelCase, ignoreKeys) : {};
+    return text ? transformKeys(parse(text), toCamelCase, ignoreKeys) : ({} as FormattedBody);
 };
 
 export const checkStatus = async (response: Response): Promise<Response> => {

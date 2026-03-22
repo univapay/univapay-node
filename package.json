@@ -16,12 +16,14 @@
   "module": "dist/esm",
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js",
-      "default": "./dist/esm/index.js"
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
     },
     "./*": {
-      "require": "./dist/cjs/*.js",
-      "default": "./dist/esm/*.js"
+      "types": "./dist/esm/*.d.ts",
+      "import": "./dist/esm/*.js",
+      "require": "./dist/cjs/*.js"
     }
   },
   "files": [
@@ -48,8 +50,8 @@
     "@types/sinon": "^17.0.3",
     "@types/sinon-chai": "^3.2.12",
     "@types/uuid": "^10.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.57.0",
-    "@typescript-eslint/parser": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.1",
     "c8": "^10.1.2",
     "chai": "^4.5.0",
     "chai-arrays": "^2.2.0",
@@ -72,9 +74,9 @@
     "sinon": "^18.0.0",
     "sinon-chai": "^3.7.0",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.26.6",
+    "typedoc": "^0.28.17",
     "typedoc-plugin-internal-external": "^2.2.0",
-    "typescript": "^5.5.4",
+    "typescript": "^5.9.3",
     "uuid": "^10.0.0"
   },
   "dependencies": {
