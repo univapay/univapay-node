@@ -50,7 +50,7 @@ describe("Temporary Token Alias", () => {
 
     context("GET /stores/:storeId/tokens/alias/:id", () => {
         it("should get response", async () => {
-            const blobBody = await new Response(new ArrayBuffer(2) as Buffer).blob();
+            const blobBody = await new Response(new ArrayBuffer(2)).blob();
 
             fetchMock.get(recordPathMatcher, (uri) => {
                 const params = parse(url.parse(uri).query);
