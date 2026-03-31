@@ -145,10 +145,10 @@ export interface IssuerTokenItem {
     callMethod: "http_get" | "http_post" | "sdk";
 }
 
-export type ChargeListItem = WithStoreMerchantName<ChargeItem>;
+export type ChargeListItem<T extends Metadata = Metadata> = WithStoreMerchantName<ChargeItem<T>>;
 
-export type ResponseCharge = ChargeItem;
-export type ResponseCharges = CRUDAOSItemsResponse<ChargeListItem>;
+export type ResponseCharge<T extends Metadata = Metadata> = ChargeItem<T>;
+export type ResponseCharges<T extends Metadata = Metadata> = CRUDAOSItemsResponse<ChargeListItem<T>>;
 
 export type ResponseIssuerToken = IssuerTokenItem;
 
@@ -157,12 +157,19 @@ export class Charges extends CRUDResource {
     static routeBase = "/stores/:storeId/charges";
 
     private _list?: DefinedRoute;
-    list(data?: SendData<ChargesListParams>, auth?: AuthParams, storeId?: string): Promise<ResponseCharges> {
+    list<T extends Metadata = Metadata>(
+        data?: SendData<ChargesListParams>,
+        auth?: AuthParams,
+        storeId?: string,
+    ): Promise<ResponseCharges<T>> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/charges");
         return this._list(data, auth, { storeId });
     }
 
-    async create(data: SendData<ChargeCreateParams>, auth?: AuthParams): Promise<ResponseCharge> {
+    async create<T extends Metadata = Metadata>(
+        data: SendData<ChargeCreateParams>,
+        auth?: AuthParams,
+    ): Promise<ResponseCharge<T>> {
         return ignoreDescriptor(
             (updatedData: ChargeCreateParams) =>
                 this.defineRoute(HTTPMethod.POST, "/charges", { requiredParams: Charges.requiredParams })(
@@ -174,7 +181,12 @@ export class Charges extends CRUDResource {
     }
 
     private _get?: DefinedRoute;
-    get(storeId: string, id: string, data?: SendData<PollData>, auth?: AuthParams): Promise<ResponseCharge> {
+    get<T extends Metadata = Metadata>(
+        storeId: string,
+        id: string,
+        data?: SendData<PollData>,
+        auth?: AuthParams,
+    ): Promise<ResponseCharge<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, id });
     }
@@ -191,15 +203,15 @@ export class Charges extends CRUDResource {
         return this._getIssuerToken(data, auth, { storeId, chargeId });
     }
 
-    poll(
+    poll<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-        pollParams?: Partial<PollParams<ResponseCharge>>,
-    ): Promise<ResponseCharge> {
+        pollParams?: Partial<PollParams<ResponseCharge<T>>>,
+    ): Promise<ResponseCharge<T>> {
         const pollData = { ...data, polling: true };
-        const promise: () => Promise<ResponseCharge> = () => this.get(storeId, id, pollData, auth);
+        const promise: () => Promise<ResponseCharge<T>> = () => this.get(storeId, id, pollData, auth);
         const successCondition = pollParams?.successCondition ?? (({ status }) => status !== ChargeStatus.PENDING);
 
         return this.api.longPolling(promise, { ...pollParams, successCondition });
