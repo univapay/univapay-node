@@ -43,7 +43,7 @@ export interface TransferItem<T extends Metadata = Metadata> {
     to: string;
 }
 
-export type TransferListItem = WithMerchantName<TransferItem>;
+export type TransferListItem<T extends Metadata = Metadata> = WithMerchantName<TransferItem<T>>;
 
 export interface TransferStatusChangeItem {
     id: string;
@@ -55,21 +55,21 @@ export interface TransferStatusChangeItem {
     createdOn: string;
 }
 
-export type ResponseTransfer = TransferItem;
-export type ResponseTransfers = CRUDAOSItemsResponse<TransferListItem>;
+export type ResponseTransfer<T extends Metadata = Metadata> = TransferItem<T>;
+export type ResponseTransfers<T extends Metadata = Metadata> = CRUDAOSItemsResponse<TransferListItem<T>>;
 export type ResponseTransferStatusChanges = CRUDAOSItemsResponse<TransferStatusChangeItem>;
 
 export class Transfers extends CRUDResource {
     static routeBase = "/transfers";
 
     private _list?: DefinedRoute;
-    list(data?: SendData<TransfersListParams>, auth?: AuthParams): Promise<ResponseTransfers> {
+    list<T extends Metadata = Metadata>(data?: SendData<TransfersListParams>, auth?: AuthParams): Promise<ResponseTransfers<T>> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth);
     }
 
     private _get?: DefinedRoute;
-    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransfer> {
+    get<T extends Metadata = Metadata>(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransfer<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });
     }

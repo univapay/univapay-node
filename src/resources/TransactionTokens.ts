@@ -381,6 +381,7 @@ export interface TransactionTokenItem<
         | TransactionTokenOnlineDataItem
         | TransactionTokenPaidyData
         | TransactionTokenBankTransferData,
+    T extends Metadata = Metadata,
 > {
     active: boolean;
     id: string;
@@ -407,20 +408,38 @@ export interface TransactionTokenItem<
         };
     };
 
-    metadata?: Metadata;
+    metadata?: T;
 }
 
-export type TransactionTokenListItem = WithStoreMerchantName<TransactionTokenItem>;
+export type TransactionTokenListItem<T extends Metadata = Metadata> = WithStoreMerchantName<
+    TransactionTokenItem<
+        | TransactionTokenCardDataItem
+        | TransactionTokenQRScanDataItem
+        | TransactionTokenConvenienceDataItem
+        | TransactionTokenOnlineDataItem
+        | TransactionTokenPaidyData
+        | TransactionTokenBankTransferData,
+        T
+    >
+>;
 
-export type ResponseTransactionToken = TransactionTokenItem;
-export type ResponseTransactionTokens = CRUDAOSItemsResponse<TransactionTokenListItem>;
+export type ResponseTransactionToken<T extends Metadata = Metadata> = TransactionTokenItem<
+    | TransactionTokenCardDataItem
+    | TransactionTokenQRScanDataItem
+    | TransactionTokenConvenienceDataItem
+    | TransactionTokenOnlineDataItem
+    | TransactionTokenPaidyData
+    | TransactionTokenBankTransferData,
+    T
+>;
+export type ResponseTransactionTokens<T extends Metadata = Metadata> = CRUDAOSItemsResponse<TransactionTokenListItem<T>>;
 
 export class TransactionTokens extends CRUDResource {
     static requiredParams: string[] = ["paymentType", "type", "data"];
 
     static routeBase = "/stores/:storeId/tokens";
 
-    create(data: SendData<TransactionTokenCreateParams>, auth?: AuthParams): Promise<ResponseTransactionToken> {
+    create<T extends Metadata = Metadata>(data: SendData<TransactionTokenCreateParams>, auth?: AuthParams): Promise<ResponseTransactionToken<T>> {
         return this.defineRoute(HTTPMethod.POST, "/tokens", { requiredParams: TransactionTokens.requiredParams })(
             data,
             auth,
@@ -428,39 +447,39 @@ export class TransactionTokens extends CRUDResource {
     }
 
     private _get?: DefinedRoute;
-    get(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransactionToken> {
+    get<T extends Metadata = Metadata>(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransactionToken<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, id });
     }
 
     private _list?: DefinedRoute;
-    list(
+    list<T extends Metadata = Metadata>(
         data?: SendData<TransactionTokenListParams>,
         auth?: AuthParams,
         storeId?: string,
-    ): Promise<ResponseTransactionTokens> {
+    ): Promise<ResponseTransactionTokens<T>> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens");
         return this._list(data, auth, { storeId });
     }
 
     private _update?: DefinedRoute;
-    update(
+    update<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<TransactionTokenUpdateParams>,
         auth?: AuthParams,
-    ): Promise<ResponseTransactionToken> {
+    ): Promise<ResponseTransactionToken<T>> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, id });
     }
 
     private _renew?: DefinedRoute;
-    renew(
+    renew<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data: SendData<TransactionTokenRenewParams>,
         auth?: AuthParams,
-    ): Promise<ResponseTransactionToken & { previousId: string }> {
+    ): Promise<ResponseTransactionToken<T> & { previousId: string }> {
         this._renew = this._renew ?? this.defineRoute(HTTPMethod.POST, "(/stores/:storeId)/tokens/:id/renew");
         return this._renew(data, auth, { storeId, id });
     }
@@ -493,14 +512,14 @@ export class TransactionTokens extends CRUDResource {
     }
 
     private _enableThreeDs?: DefinedRoute;
-    enableThreeDs(storeId: string, id: string, auth?: AuthParams): Promise<TransactionTokenItem> {
+    enableThreeDs<T extends Metadata = Metadata>(storeId: string, id: string, auth?: AuthParams): Promise<ResponseTransactionToken<T>> {
         this._enableThreeDs =
             this._enableThreeDs ?? this.defineRoute(HTTPMethod.POST, "/stores/:storeId/tokens/:tokenId/three_ds");
         return this._enableThreeDs(null, auth, { storeId, tokenId: id });
     }
 
     private _disableThreeDs?: DefinedRoute;
-    disableThreeDs(storeId: string, id: string, auth?: AuthParams): Promise<TransactionTokenItem> {
+    disableThreeDs<T extends Metadata = Metadata>(storeId: string, id: string, auth?: AuthParams): Promise<ResponseTransactionToken<T>> {
         this._disableThreeDs =
             this._disableThreeDs ?? this.defineRoute(HTTPMethod.DELETE, "/stores/:storeId/tokens/:tokenId/three_ds");
         return this._disableThreeDs(null, auth, { storeId, tokenId: id });
