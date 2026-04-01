@@ -83,13 +83,20 @@ export class ECFormLinks extends CRUDResource {
     static routeBase = "/checkout/links";
 
     private _get?: DefinedRoute;
-    get<T extends Metadata = Metadata>(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink<T>> {
+    get<T extends Metadata = Metadata>(
+        id: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+    ): Promise<ResponseECFormLink<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });
     }
 
     private _createTemporary?: DefinedRoute;
-    createTemporary<T extends Metadata = Metadata>(data?: SendData<ECFormLinkPublicCreateParams<T>>, auth?: AuthParams): Promise<ResponseECFormLink<T>> {
+    createTemporary<T extends Metadata = Metadata>(
+        data?: SendData<ECFormLinkPublicCreateParams<T>>,
+        auth?: AuthParams,
+    ): Promise<ResponseECFormLink<T>> {
         this._createTemporary = this._createTemporary ?? this.defineRoute(HTTPMethod.POST, "/checkout/links/temporary");
         return this._createTemporary(data, auth);
     }

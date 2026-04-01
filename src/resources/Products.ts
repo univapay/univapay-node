@@ -58,13 +58,21 @@ export class Products extends CRUDResource {
     static routeBase = "/checkout/products";
 
     private _get?: DefinedRoute;
-    get<T extends Metadata = Metadata>(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseProduct<T>> {
+    get<T extends Metadata = Metadata>(
+        id: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+    ): Promise<ResponseProduct<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });
     }
 
     private _getByCode?: DefinedRoute;
-    getByCode<T extends Metadata = Metadata>(code: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseProduct<T>> {
+    getByCode<T extends Metadata = Metadata>(
+        code: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+    ): Promise<ResponseProduct<T>> {
         this._getByCode = this._getByCode ?? this.defineRoute(HTTPMethod.GET, "/checkout/products/code/:code");
         return this._getByCode(data, auth, { code });
     }

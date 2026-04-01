@@ -58,7 +58,11 @@ export class LinksProducts extends CRUDResource {
     static routeBase = "/checkout/links/:linkId/products";
 
     private _list?: DefinedRoute;
-    list<T extends Metadata = Metadata>(linkId: string, data?: SendData<{ [k: string]: never }>, auth?: AuthParams): Promise<ResponseLinkProducts<T>> {
+    list<T extends Metadata = Metadata>(
+        linkId: string,
+        data?: SendData<{ [k: string]: never }>,
+        auth?: AuthParams,
+    ): Promise<ResponseLinkProducts<T>> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth, { linkId });
     }

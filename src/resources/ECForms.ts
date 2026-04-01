@@ -125,7 +125,11 @@ export class ECForms extends CRUDResource {
     static routeBase = "/checkout/forms";
 
     private _get?: DefinedRoute;
-    get<T extends Metadata = Metadata>(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECForm<T>> {
+    get<T extends Metadata = Metadata>(
+        id: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+    ): Promise<ResponseECForm<T>> {
         const ignoreKeysFormatting = ["metadata", ...Object.values(Languages)];
         this._get = this._get ?? this._getRoute({ ignoreKeysFormatting });
         return this._get(data, auth, { id });

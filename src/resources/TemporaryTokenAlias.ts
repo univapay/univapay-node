@@ -72,7 +72,10 @@ export class TemporaryTokenAlias extends CRUDResource {
     static routeBase = "/stores/:storeId/tokens/alias";
 
     private _create?: DefinedRoute;
-    create<T extends Metadata = Metadata>(data: SendData<TemporaryTokenAliasCreateParams>, auth?: AuthParams): Promise<ResponseTemporaryTokenAlias<T>> {
+    create<T extends Metadata = Metadata>(
+        data: SendData<TemporaryTokenAliasCreateParams>,
+        auth?: AuthParams,
+    ): Promise<ResponseTemporaryTokenAlias<T>> {
         this._create =
             this._create ??
             this.defineRoute(HTTPMethod.POST, "/tokens/alias", {
