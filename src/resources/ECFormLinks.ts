@@ -9,7 +9,7 @@ import { DefinedRoute } from "./Resource.js";
 import { SubscriptionPeriod } from "./Subscriptions.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
 
-export type ECFormLinkItem = {
+export type ECFormLinkItem<T extends Metadata = Metadata> = {
     id: string;
     merchantId: string;
     storeId: string;
@@ -32,7 +32,7 @@ export type ECFormLinkItem = {
     tokenOnly: boolean;
     hideCvv?: boolean;
     hidePrefilledEmail?: boolean;
-    metadata?: Metadata;
+    metadata?: T;
 
     active: boolean;
     destination?: string;
@@ -72,24 +72,24 @@ export type ECFormLinkItem = {
     subscriptionRetryInterval?: string | null;
 };
 
-export type ECFormLinkPublicCreateParams = Omit<
-    ECFormLinkItem,
+export type ECFormLinkPublicCreateParams<T extends Metadata = Metadata> = Omit<
+    ECFormLinkItem<T>,
     "id" | "createdOn" | "updatedOn" | "amountFormatted" | "secret" | "active"
 >;
 
-export type ResponseECFormLink = ECFormLinkItem;
+export type ResponseECFormLink<T extends Metadata = Metadata> = ECFormLinkItem<T>;
 
 export class ECFormLinks extends CRUDResource {
     static routeBase = "/checkout/links";
 
     private _get?: DefinedRoute;
-    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink> {
+    get<T extends Metadata = Metadata>(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECFormLink<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });
     }
 
     private _createTemporary?: DefinedRoute;
-    createTemporary(data?: SendData<ECFormLinkPublicCreateParams>, auth?: AuthParams): Promise<ResponseECFormLink> {
+    createTemporary<T extends Metadata = Metadata>(data?: SendData<ECFormLinkPublicCreateParams<T>>, auth?: AuthParams): Promise<ResponseECFormLink<T>> {
         this._createTemporary = this._createTemporary ?? this.defineRoute(HTTPMethod.POST, "/checkout/links/temporary");
         return this._createTemporary(data, auth);
     }

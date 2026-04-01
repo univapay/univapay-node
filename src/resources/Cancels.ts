@@ -36,59 +36,59 @@ export interface CancelItem<T extends Metadata = Metadata> {
     createdOn: string;
 }
 
-export type CancelListItem = CancelItem;
+export type CancelListItem<T extends Metadata = Metadata> = CancelItem<T>;
 
-export type ResponseCancel = CancelItem;
-export type ResponseCancels = CRUDItemsResponse<CancelListItem>;
+export type ResponseCancel<T extends Metadata = Metadata> = CancelItem<T>;
+export type ResponseCancels<T extends Metadata = Metadata> = CRUDItemsResponse<CancelListItem<T>>;
 
 export class Cancels extends CRUDResource {
     static requiredParams: string[] = [];
     static routeBase = "/stores/:storeId/charges/:chargeId/cancels";
 
     private _list?: DefinedRoute;
-    list(
+    list<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         data?: SendData<CancelsListParams>,
         auth?: AuthParams,
-    ): Promise<ResponseCancels> {
+    ): Promise<ResponseCancels<T>> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth, { storeId, chargeId });
     }
 
     private _create?: DefinedRoute;
-    create(
+    create<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         data: SendData<CancelCreateParams>,
         auth?: AuthParams,
-    ): Promise<ResponseCancel> {
+    ): Promise<ResponseCancel<T>> {
         this._create = this._create ?? this._createRoute({ requiredParams: Cancels.requiredParams });
         return this._create(data, auth, { storeId, chargeId });
     }
 
     private _get?: DefinedRoute;
-    get(
+    get<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-    ): Promise<ResponseCancel> {
+    ): Promise<ResponseCancel<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, chargeId, id });
     }
 
-    poll(
+    poll<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-        pollParams?: Partial<PollParams<ResponseCancel>>,
-    ): Promise<ResponseCancel> {
+        pollParams?: Partial<PollParams<ResponseCancel<T>>>,
+    ): Promise<ResponseCancel<T>> {
         const pollData = { ...data, polling: true };
-        const promise: () => Promise<ResponseCancel> = () => this.get(storeId, chargeId, id, pollData, auth);
+        const promise: () => Promise<ResponseCancel<T>> = () => this.get(storeId, chargeId, id, pollData, auth);
         const successCondition = pollParams?.successCondition ?? (({ status }) => status !== CancelStatus.PENDING);
 
         return this.api.longPolling(promise, { ...pollParams, successCondition });

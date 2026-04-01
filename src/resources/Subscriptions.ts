@@ -224,7 +224,7 @@ export type SubscriptionItem<T extends Metadata = Metadata> = {
     metadata?: T;
 };
 
-export type SubscriptionListItem = WithStoreMerchantName<SubscriptionItem>;
+export type SubscriptionListItem<T extends Metadata = Metadata> = WithStoreMerchantName<SubscriptionItem<T>>;
 
 type SubscriptionSimulationBaseParams = {
     installmentPlan?: InstallmentPlanItem | null;
@@ -268,8 +268,8 @@ export type SubscriptionSimulationNewItem = {
 
 export type SubscriptionSimulationItem = SubscriptionSimulationLegacyItem | SubscriptionSimulationNewItem;
 
-export type ResponseSubscription = SubscriptionItem;
-export type ResponseSubscriptions = CRUDAOSItemsResponse<SubscriptionListItem>;
+export type ResponseSubscription<T extends Metadata = Metadata> = SubscriptionItem<T>;
+export type ResponseSubscriptions<T extends Metadata = Metadata> = CRUDAOSItemsResponse<SubscriptionListItem<T>>;
 
 export type ResponsePayment = ScheduledPaymentItem;
 export type ResponsePayments = CRUDAOSItemsResponse<SchedulePaymentListItem>;
@@ -335,13 +335,13 @@ export class ScheduledPayments extends CRUDResource {
     }
 
     private _listCharges?: DefinedRoute;
-    listCharges(
+    listCharges<T extends Metadata = Metadata>(
         storeId: string,
         subscriptionsId: string,
         paymentId: string,
         data?: SendData<ChargesListParams>,
         auth?: AuthParams,
-    ): Promise<ResponseCharges> {
+    ): Promise<ResponseCharges<T>> {
         this._listCharges =
             this._listCharges ?? this.defineRoute(HTTPMethod.GET, `${ScheduledPayments.routeBase}/:paymentId/charges`);
         return this._listCharges(data, auth, { storeId, subscriptionsId, paymentId });
@@ -370,52 +370,55 @@ export class Subscriptions extends CRUDResource {
     }
 
     private _list: DefinedRoute;
-    list(
+    list<T extends Metadata = Metadata>(
         data?: SendData<SubscriptionsListParams>,
         auth?: AuthParams,
         storeId?: string,
-    ): Promise<ResponseSubscriptions> {
+    ): Promise<ResponseSubscriptions<T>> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/subscriptions");
         return this._list(data, auth, { storeId });
     }
 
     private _suspend?: DefinedRoute;
-    suspend(
+    suspend<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<{ scheduleSettings?: { terminationMode?: TerminateMode } }> | null,
         auth?: AuthParams | null,
-    ): Promise<ResponseSubscription> {
+    ): Promise<ResponseSubscription<T>> {
         this._suspend =
             this._suspend ?? this.defineRoute(HTTPMethod.PATCH, "(/stores/:storeId)/subscriptions/:id/suspend");
         return this._suspend(data, auth, { storeId, id });
     }
 
     private _unsuspend?: DefinedRoute;
-    unsuspend(
+    unsuspend<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<{ scheduleSettings?: { terminationMode?: TerminateMode } }> | null,
         auth?: AuthParams | null,
-    ): Promise<ResponseSubscription> {
+    ): Promise<ResponseSubscription<T>> {
         this._unsuspend =
             this._unsuspend ?? this.defineRoute(HTTPMethod.PATCH, "(/stores/:storeId)/subscriptions/:id/unsuspend");
         return this._unsuspend(data, auth, { storeId, id });
     }
 
     private _updateToken?: DefinedRoute;
-    updateToken(
+    updateToken<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<{ transactionTokenId: string }>,
         auth?: AuthParams,
-    ): Promise<ResponseSubscription> {
+    ): Promise<ResponseSubscription<T>> {
         this._updateToken =
             this._updateToken ?? this.defineRoute(HTTPMethod.PATCH, "(/stores/:storeId)/subscriptions/:id/token");
         return this._updateToken(data, auth, { storeId, id });
     }
 
-    create(data: SubscriptionCreateParams, auth?: AuthParams): Promise<ResponseSubscription> {
+    create<T extends Metadata = Metadata>(
+        data: SubscriptionCreateParams,
+        auth?: AuthParams,
+    ): Promise<ResponseSubscription<T>> {
         return ignoreDescriptor(
             (updatedData: SubscriptionCreateParams) =>
                 this.defineRoute(HTTPMethod.POST, "/subscriptions", { requiredParams: Subscriptions.requiredParams })(
@@ -435,7 +438,12 @@ export class Subscriptions extends CRUDResource {
     }
 
     private _get: DefinedRoute;
-    get(storeId: string, id: string, data?: SendData<PollData>, auth?: AuthParams): Promise<ResponseSubscription> {
+    get<T extends Metadata = Metadata>(
+        storeId: string,
+        id: string,
+        data?: SendData<PollData>,
+        auth?: AuthParams,
+    ): Promise<ResponseSubscription<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, id });
     }
@@ -447,12 +455,12 @@ export class Subscriptions extends CRUDResource {
     }
 
     private _update: DefinedRoute;
-    update(
+    update<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<SubscriptionUpdateParams>,
         auth?: AuthParams,
-    ): Promise<ResponseSubscription> {
+    ): Promise<ResponseSubscription<T>> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, id });
     }
@@ -464,25 +472,25 @@ export class Subscriptions extends CRUDResource {
     }
 
     private _charges: DefinedRoute;
-    charges(
+    charges<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<ChargesListParams>,
         auth?: AuthParams,
-    ): Promise<ResponseCharges> {
+    ): Promise<ResponseCharges<T>> {
         this._charges = this._charges ?? this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`);
         return this._charges(data, auth, { storeId, id });
     }
 
-    poll(
+    poll<T extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-        pollParams?: Partial<PollParams<ResponseSubscription>>,
-    ): Promise<ResponseSubscription> {
+        pollParams?: Partial<PollParams<ResponseSubscription<T>>>,
+    ): Promise<ResponseSubscription<T>> {
         const pollData = { ...data, polling: true };
-        const promise: () => Promise<ResponseSubscription> = () => this.get(storeId, id, pollData, auth);
+        const promise: () => Promise<ResponseSubscription<T>> = () => this.get(storeId, id, pollData, auth);
         const successCondition =
             pollParams?.successCondition ?? (({ status }) => status !== SubscriptionStatus.UNVERIFIED);
 
@@ -502,21 +510,21 @@ export class Subscriptions extends CRUDResource {
         return this.api.longPolling(promise, { ...pollParams, successCondition });
     }
 
-    async pollSubscriptionWithFirstCharge(
+    async pollSubscriptionWithFirstCharge<T extends Metadata = Metadata, T2 extends Metadata = Metadata>(
         storeId: string,
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-    ): Promise<{ subscription: ResponseSubscription; charge?: ResponseCharge }> {
-        const subscription = await this.poll(storeId, id, data, auth);
+    ): Promise<{ subscription: ResponseSubscription<T>; charge?: ResponseCharge<T2> }> {
+        const subscription = await this.poll<T>(storeId, id, data, auth);
 
         const charge = hasImmediateCharge(subscription)
             ? await this.api
-                  .longPolling(() => this.charges(storeId, id, undefined, auth), {
+                  .longPolling(() => this.charges<T2>(storeId, id, undefined, auth), {
                       successCondition: (charges) => !!charges.items.length,
                   })
                   .then(({ items: charges }) =>
-                      this.chargesResource.poll(charges[0].storeId, charges[0].id, data, auth),
+                      this.chargesResource.poll<T2>(charges[0].storeId, charges[0].id, data, auth),
                   )
             : null;
 
