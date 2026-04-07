@@ -67,10 +67,10 @@ const getHeaderJwt = (header: string | null): string | null => {
  *  @internal
  */
 export const extractJWT = (response: Response): string | null => {
-    const headerName =
-        ["X-REFRESH-AUTHORIZATION", "x-amzn-remapped-authorization", "authorization"].find(
-            (name: string) => !!getHeaderJwt(response.headers.get(name)),
-        ) || "";
+    const headerName = ["X-REFRESH-AUTHORIZATION", "x-amzn-remapped-authorization", "authorization"].find(
+        (name: string) => !!getHeaderJwt(response.headers.get(name)),
+    );
 
+    // @ts-expect-error testing invalid params
     return getHeaderJwt(response.headers.get(headerName));
 };
