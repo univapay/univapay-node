@@ -4,13 +4,11 @@
 import { AuthParams, SendData } from "../api/RestAPI.js";
 
 import { OnlineBrand, ProcessingMode } from "./common/enums.js";
-import { AmountWithCurrency } from "./common/types.js";
+import { AmountWithCurrency, Metadata } from "./common/types.js";
 import { CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 import { InstallmentPlan, SubscriptionPeriod } from "./Subscriptions.js";
 import { PaymentType, TransactionTokenType, UsageLimit } from "./TransactionTokens.js";
-
-type BaseMetadata = Record<string, string>;
 
 export enum CheckoutType {
     PAYMENT = "payment",
@@ -37,7 +35,7 @@ export type ECFormCustomField = {
     options?: string[];
 };
 
-export type ECFormItem<Metadata = BaseMetadata> = {
+export type ECFormItem<T extends Metadata = Metadata> = {
     /* EC Form data */
     id: string;
     merchantId: string;
@@ -114,20 +112,24 @@ export type ECFormItem<Metadata = BaseMetadata> = {
     /* Metadata */
     descriptor: string | null;
     ignoreDescriptorOnError: boolean | null;
-    metadata?: Metadata | null;
+    metadata?: T | null;
     customFieldsTitles?: Partial<Record<Languages, string>> | null;
     orderSummaryTitles?: Partial<Record<Languages, string>> | null;
     customFields?: Partial<Record<Languages, ECFormCustomField[]>> | null;
 };
 
-export type ResponseECForm<Metadata = BaseMetadata> = ECFormItem<Metadata>;
+export type ResponseECForm<T extends Metadata = Metadata> = ECFormItem<T>;
 
 export class ECForms extends CRUDResource {
     static requiredParams: string[] = [];
     static routeBase = "/checkout/forms";
 
     private _get?: DefinedRoute;
-    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseECForm> {
+    get<T extends Metadata = Metadata>(
+        id: string,
+        data?: SendData<void>,
+        auth?: AuthParams,
+    ): Promise<ResponseECForm<T>> {
         const ignoreKeysFormatting = ["metadata", ...Object.values(Languages)];
         this._get = this._get ?? this._getRoute({ ignoreKeysFormatting });
         return this._get(data, auth, { id });

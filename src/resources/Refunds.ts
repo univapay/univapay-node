@@ -73,10 +73,10 @@ export interface RefundItem<T extends Metadata = Metadata> {
     createdOn: string;
 }
 
-export type RefundListItem = RefundItem;
+export type RefundListItem<T extends Metadata = Metadata> = RefundItem<T>;
 
-export type ResponseRefund = RefundItem;
-export type ResponseRefunds = CRUDAOSItemsResponse<RefundListItem>;
+export type ResponseRefund<T extends Metadata = Metadata> = RefundItem<T>;
+export type ResponseRefunds<T extends Metadata = Metadata> = CRUDAOSItemsResponse<RefundListItem<T>>;
 
 export class Refunds extends CRUDResource {
     static requiredParams: string[] = ["amount", "currency"];
@@ -84,61 +84,61 @@ export class Refunds extends CRUDResource {
     static routeBase = "/stores/:storeId/charges/:chargeId/refunds";
 
     private _list?: DefinedRoute;
-    list(
+    list<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         data?: SendData<RefundsListParams>,
         auth?: AuthParams,
-    ): Promise<ResponseRefunds> {
+    ): Promise<ResponseRefunds<T>> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth, { storeId, chargeId });
     }
 
     private _create?: DefinedRoute;
-    create(
+    create<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         data: SendData<RefundCreateParams>,
         auth?: AuthParams,
-    ): Promise<ResponseRefund> {
+    ): Promise<ResponseRefund<T>> {
         this._create = this._create ?? this._createRoute({ requiredParams: Refunds.requiredParams });
         return this._create(data, auth, { storeId, chargeId });
     }
 
     private _get?: DefinedRoute;
-    get(
+    get<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-    ): Promise<ResponseRefund> {
+    ): Promise<ResponseRefund<T>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, chargeId, id });
     }
 
     private _update?: DefinedRoute;
-    update(
+    update<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         id: string,
         data?: SendData<RefundUpdateParams>,
         auth?: AuthParams,
-    ): Promise<ResponseRefund> {
+    ): Promise<ResponseRefund<T>> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, chargeId, id });
     }
 
-    poll(
+    poll<T extends Metadata = Metadata>(
         storeId: string,
         chargeId: string,
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-        pollParams?: Partial<PollParams<ResponseRefund>>,
-    ): Promise<ResponseRefund> {
+        pollParams?: Partial<PollParams<ResponseRefund<T>>>,
+    ): Promise<ResponseRefund<T>> {
         const pollData = { ...data, polling: true };
-        const promise: () => Promise<ResponseRefund> = () => this.get(storeId, chargeId, id, pollData, auth);
+        const promise: () => Promise<ResponseRefund<T>> = () => this.get(storeId, chargeId, id, pollData, auth);
         const successCondition = pollParams?.successCondition ?? (({ status }) => status !== RefundStatus.PENDING);
 
         return this.api.longPolling(promise, { ...pollParams, successCondition }) as Promise<ResponseRefund>;

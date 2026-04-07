@@ -10,7 +10,7 @@ import { CRUDResource } from "./CRUDResource.js";
 import { DefinedRoute } from "./Resource.js";
 import { PaymentType, TransactionTokenType } from "./TransactionTokens.js";
 
-export interface TemporaryTokenAliasItem {
+export interface TemporaryTokenAliasItem<T extends Metadata = Metadata> {
     id?: string;
     platformId?: string;
     merchantId?: string;
@@ -24,7 +24,7 @@ export interface TemporaryTokenAliasItem {
     lastUsedOn?: string;
     amount?: number;
     currency?: string;
-    aliasMetadata?: Metadata;
+    aliasMetadata?: T;
 }
 
 export interface TemporaryTokenAliasShortItem {
@@ -62,7 +62,7 @@ export interface TemporaryTokenAliasQrOptions {
     color?: string;
 }
 
-export type ResponseTemporaryTokenAlias = TemporaryTokenAliasItem;
+export type ResponseTemporaryTokenAlias<T extends Metadata = Metadata> = TemporaryTokenAliasItem<T>;
 
 export type MethodGet<P, R> = (storeId: string, id: string, data?: SendData<P>) => Promise<R>;
 
@@ -72,7 +72,10 @@ export class TemporaryTokenAlias extends CRUDResource {
     static routeBase = "/stores/:storeId/tokens/alias";
 
     private _create?: DefinedRoute;
-    create(data: SendData<TemporaryTokenAliasCreateParams>, auth?: AuthParams): Promise<ResponseTemporaryTokenAlias> {
+    create<T extends Metadata = Metadata>(
+        data: SendData<TemporaryTokenAliasCreateParams>,
+        auth?: AuthParams,
+    ): Promise<ResponseTemporaryTokenAlias<T>> {
         this._create =
             this._create ??
             this.defineRoute(HTTPMethod.POST, "/tokens/alias", {

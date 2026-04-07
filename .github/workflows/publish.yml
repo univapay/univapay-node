@@ -11,13 +11,13 @@ jobs:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup environment
         uses: ./.github/actions/frontend-setup
 
       - name: Download Build Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: frontend-build
           path: dist

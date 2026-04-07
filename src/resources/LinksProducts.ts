@@ -9,7 +9,7 @@ import { SubscriptionPeriod } from "./Subscriptions.js";
 import { TransactionTokenType } from "./TransactionTokens.js";
 import { Metadata } from "./index.js";
 
-export type LinkProductListItem = {
+export type LinkProductListItem<T extends Metadata = Metadata> = {
     id: string;
     merchantId: string;
     storeId: string;
@@ -48,9 +48,9 @@ export type LinkProductListItem = {
      */
     subscriptionRetryInterval?: string | null;
 
-    metadata?: Metadata | null;
+    metadata?: T | null;
 };
-export type ResponseLinkProducts = CRUDItemsResponse<LinkProductListItem> & {
+export type ResponseLinkProducts<T extends Metadata = Metadata> = CRUDItemsResponse<LinkProductListItem<T>> & {
     hasMore: false; // no support for pagination
 };
 
@@ -58,7 +58,11 @@ export class LinksProducts extends CRUDResource {
     static routeBase = "/checkout/links/:linkId/products";
 
     private _list?: DefinedRoute;
-    list(linkId: string, data?: SendData<{ [k: string]: never }>, auth?: AuthParams): Promise<ResponseLinkProducts> {
+    list<T extends Metadata = Metadata>(
+        linkId: string,
+        data?: SendData<{ [k: string]: never }>,
+        auth?: AuthParams,
+    ): Promise<ResponseLinkProducts<T>> {
         this._list = this._list ?? this._listRoute();
         return this._list(data, auth, { linkId });
     }
