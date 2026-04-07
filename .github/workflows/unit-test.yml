@@ -20,14 +20,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Fix npm version to run on node 22
+        if: ${{ matrix.node-version == '22' }}
+        run: npm install -g npm@11.11.0
+
       - name: Job setup
         uses: ./.github/actions/frontend-setup
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Fix npm version to run on node 22
-        if: ${{ matrix.node-version == '22' }}
-        run: npm install -g npm@11.11.0
 
       - name: Run linter
         run: npm run lint
