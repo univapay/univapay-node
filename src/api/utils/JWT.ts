@@ -71,6 +71,5 @@ export const extractJWT = (response: Response): string | null => {
         (name: string) => !!getHeaderJwt(response.headers.get(name)),
     );
 
-    // @ts-expect-error testing invalid params
-    return getHeaderJwt(response.headers.get(headerName));
+    return headerName ? getHeaderJwt(response.headers.get(headerName)) : null;
 };
