@@ -203,7 +203,7 @@ export enum ResponseErrorCode {
     CardNotEnrolledInThreeDS = "CARD_NOT_ENROLLED_IN_THREE_DS",
     ThreeDsCouldNotBeCompleted = "THREE_DS_COULD_NOT_BE_COMPLETED",
     InternalError = "INTERNAL_ERROR",
-    ProcessFail = "PROCESS_FAIL",
+    ProcessFailed = "PROCESS_FAIL",
 
     // Charge 3DS generic error
     GenericThreeDsProcessingError = "GENERIC_THREE_DS_PROCESSING_ERROR",
