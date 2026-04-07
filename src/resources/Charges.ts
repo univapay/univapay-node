@@ -214,7 +214,7 @@ export class Charges extends CRUDResource {
         const promise: () => Promise<ResponseCharge<T>> = () => this.get(storeId, id, pollData, auth);
         const successCondition = pollParams?.successCondition ?? (({ status }) => status !== ChargeStatus.PENDING);
 
-        return this.api.longPolling(promise, { ...pollParams, successCondition }) as Promise<ResponseCharge>;
+        return this.api.longPolling(promise, { ...pollParams, successCondition }) as Promise<ResponseCharge<T>>;
     }
 
     private _expiry?: DefinedRoute;
