@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/chai": "^4.3.10",
     "@types/chai-arrays": "^2.0.3",
-    "@types/chai-as-promised": "^7.1.8",
+    "@types/chai-as-promised": "^8.0.2",
     "@types/fetch-mock": "^7.3.8",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mocha": "^10.0.7",
@@ -55,7 +55,7 @@
     "c8": "^10.1.2",
     "chai": "^4.5.0",
     "chai-arrays": "^2.2.0",
-    "chai-as-promised": "^8.0.0",
+    "chai-as-promised": "^8.0.2",
     "cross-fetch": "^4.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
