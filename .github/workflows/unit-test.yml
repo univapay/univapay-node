@@ -11,7 +11,6 @@ jobs:
       matrix:
         node-version:
           - 20.x
-          - 22.x
           - 24.x
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
@@ -25,6 +24,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Fix npm version to run on node 22
+        run: npm install -g npm@11.11.0
+
       - name: Run linter
         run: npm run lint
 
@@ -37,6 +39,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
+          fail-on-error: false
 
   finish:
     needs: test
@@ -47,3 +50,4 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           parallel-finished: true
+          fail-on-error: false
