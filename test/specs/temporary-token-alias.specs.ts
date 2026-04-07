@@ -41,7 +41,7 @@ describe("Temporary Token Alias", () => {
                 headers: { "Content-Type": "application/json" },
             });
             const data: TemporaryTokenAliasCreateParams = {
-                transactionTokenId: recordData.id,
+                transactionTokenId: recordData.id as string,
                 validUntil: new Date().toISOString(),
             };
             await expect(temporaryTokenAlias.create(data)).to.become(recordData);
@@ -53,7 +53,7 @@ describe("Temporary Token Alias", () => {
             const blobBody = await new Response(new ArrayBuffer(2)).blob();
 
             fetchMock.get(recordPathMatcher, (uri) => {
-                const params = parse(url.parse(uri).query);
+                const params = parse(url.parse(uri).query || "");
                 const isBlob = params.media === TemporaryTokenAliasMedia.QR;
 
                 return {
@@ -67,13 +67,14 @@ describe("Temporary Token Alias", () => {
 
             const asserts: (TemporaryTokenAliasParams | TemporaryTokenAliasQrOptions)[] = [
                 // JSON
+                // @ts-expect-error expected undefined
                 undefined,
                 // Blob
                 { media: TemporaryTokenAliasMedia.QR },
             ];
 
             for (const data of asserts) {
-                const response = await temporaryTokenAlias.get(recordData.storeId, recordData.id, data);
+                const response = await temporaryTokenAlias.get(recordData.storeId || "", recordData.id || "", data);
 
                 if (response.constructor === Object) {
                     expect(response).to.be.an("object").that.eql(recordData);
@@ -90,7 +91,8 @@ describe("Temporary Token Alias", () => {
                 status: 204,
                 headers: { "Content-Type": "application/json" },
             });
-            await expect(temporaryTokenAlias.delete(recordData.storeId, recordData.id)).to.eventually.be.empty;
+            await expect(temporaryTokenAlias.delete(recordData.storeId || "", recordData.id || "")).to.eventually.be
+                .empty;
         });
     });
 });

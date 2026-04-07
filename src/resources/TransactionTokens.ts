@@ -435,8 +435,8 @@ export class TransactionTokens extends CRUDResource {
 
     private _list?: DefinedRoute;
     list(
-        data?: SendData<TransactionTokenListParams>,
-        auth?: AuthParams,
+        data?: SendData<TransactionTokenListParams> | null,
+        auth?: AuthParams | null,
         storeId?: string,
     ): Promise<ResponseTransactionTokens> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens");
@@ -466,7 +466,7 @@ export class TransactionTokens extends CRUDResource {
     }
 
     private _delete?: DefinedRoute;
-    delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+    delete(storeId: string, id: string, data?: SendData<void> | null, auth?: AuthParams): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { storeId, id });
     }

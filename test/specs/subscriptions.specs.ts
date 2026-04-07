@@ -213,7 +213,7 @@ describe("Subscriptions", () => {
         });
 
         it("should cancel polling", async () => {
-            const cancelCondition = ({ status }) => status === SubscriptionStatus.SUSPENDED;
+            const cancelCondition = ({ status }: SubscriptionItem) => status === SubscriptionStatus.SUSPENDED;
             const call = () => subscriptions.poll(uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
@@ -497,17 +497,29 @@ describe("Subscriptions", () => {
         const errorStoreId = createRequestError(["storeId"]);
 
         const asserts: [Promise<unknown>, RequestError][] = [
+            // @ts-expect-error testing invalid params
             [subscriptions.get(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [subscriptions.get(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [subscriptions.get(uuid(), null), errorId],
+            // @ts-expect-error testing invalid params
             [subscriptions.update(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [subscriptions.update(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [subscriptions.update(uuid(), null), errorId],
+            // @ts-expect-error testing invalid params
             [subscriptions.delete(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [subscriptions.delete(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [subscriptions.delete(uuid(), null), errorId],
+            // @ts-expect-error testing invalid params
             [subscriptions.charges(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [subscriptions.charges(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [subscriptions.charges(uuid(), null), errorId],
         ];
 

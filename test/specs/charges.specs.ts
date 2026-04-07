@@ -141,7 +141,7 @@ describe("Charges", () => {
         });
 
         it("should cancel polling", async () => {
-            const cancelCondition = ({ status }) => status === ChargeStatus.FAILED;
+            const cancelCondition = ({ status }: ResponseCharge) => status === ChargeStatus.FAILED;
             const call = () => charges.poll(uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
@@ -229,8 +229,11 @@ describe("Charges", () => {
         const errorStoreId = createRequestError(["storeId"]);
 
         const asserts: [Promise<ResponseCharge>, RequestError][] = [
+            // @ts-expect-error testing invalid params
             [charges.get(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [charges.get(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [charges.get(uuid(), null), errorId],
         ];
 

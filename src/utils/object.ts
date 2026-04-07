@@ -30,17 +30,20 @@ export const transformKeys = <Data = Record<string, unknown> | unknown[]>(
     }
 
     const ignoredKeySet = new Set(ignoreKeys);
-    return Object.keys(obj || {}).reduce((acc: Data, key: string) => {
-        const value = obj[key];
+    return Object.keys(obj || {}).reduce(
+        (acc: Record<string, any>, key: string) => {
+            const value = (obj as Record<string, any>)[key];
 
-        if (ignoredKeySet.has(key)) {
-            return { ...acc, [key]: value };
-        }
+            if (ignoredKeySet.has(key)) {
+                return { ...acc, [key]: value };
+            }
 
-        const shouldTransformKeys = isObject(value) && !isBlob(value) && !isBuffer(value);
-        const formattedValue = shouldTransformKeys ? transformKeys(value, transformer, ignoreKeys) : value;
+            const shouldTransformKeys = isObject(value) && !isBlob(value) && !isBuffer(value);
+            const formattedValue = shouldTransformKeys ? transformKeys(value, transformer, ignoreKeys) : value;
 
-        acc[transformer(key)] = formattedValue;
-        return acc;
-    }, {}) as Data;
+            acc[transformer(key)] = formattedValue;
+            return acc;
+        },
+        {} as Record<string, any>,
+    ) as Data;
 };

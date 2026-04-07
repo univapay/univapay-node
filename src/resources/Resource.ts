@@ -10,7 +10,11 @@ import { PathParameterError } from "../errors/PathParameterError.js";
 import { RequestParameterError } from "../errors/RequestParameterError.js";
 import { isBlob } from "../utils/object.js";
 
-export type DefinedRoute = (data?: unknown, auth?: AuthParams, pathParams?: Record<string, string>) => Promise<any>;
+export type DefinedRoute = (
+    data?: unknown,
+    auth?: AuthParams | null,
+    pathParams?: Record<string, string | undefined>,
+) => Promise<any>;
 
 /**
  * Returns a path with pathParams filled into `:paramName`.
@@ -32,7 +36,7 @@ export type DefinedRoute = (data?: unknown, auth?: AuthParams, pathParams?: Reco
  * @param path The full path to compile, e.g. `(/merchant/:merchantId)/store/:storeId`
  * @param pathParams Object of params to fill into the path, e.g. `{ merchantId: "abc" }`
  */
-const compilePath = (path: string, pathParams: Record<string, string>): string =>
+const compilePath = (path: string, pathParams: Record<string, string | undefined>): string =>
     path
         .replace(/\((\w|:|-|\/)+\)/gi, (o: string) => {
             const part = o.replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);

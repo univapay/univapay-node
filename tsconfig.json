@@ -27,13 +27,19 @@
     "noImplicitThis": false,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "baseUrl": ".",
     "outDir": "./dist/esm",
     "paths": {
-      "*": ["types/*.d.ts"]
+      "*": [
+        "types/*.d.ts"
+      ]
     }
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -242,14 +242,23 @@ describe("Transaction Tokens", () => {
         const errorStoreId = createRequestError(["storeId"]);
 
         const asserts: [Promise<unknown>, RequestError][] = [
+            // @ts-expect-error testing invalid params
             [transactionTokens.get(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [transactionTokens.get(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [transactionTokens.get(uuid(), null), errorId],
+            // @ts-expect-error testing invalid params
             [transactionTokens.update(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [transactionTokens.update(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [transactionTokens.update(uuid(), null), errorId],
+            // @ts-expect-error testing invalid params
             [transactionTokens.delete(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [transactionTokens.delete(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [transactionTokens.delete(uuid(), null), errorId],
         ];
 

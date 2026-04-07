@@ -584,12 +584,12 @@ export type PaymentError = {
 export class APIError extends Error {
     name = "APIError";
     status: number;
-    response: Record<string, any>;
+    response: Record<string, any> | null;
 
     constructor(status: number, response?: Record<string, any>) {
         super(`API request failed with status ${status}`);
         this.status = status;
-        this.response = Object.keys(response || {}).length !== 0 ? response : null;
+        this.response = response && Object.keys(response).length !== 0 ? response : null;
         Object.setPrototypeOf(this, APIError.prototype);
     }
 }

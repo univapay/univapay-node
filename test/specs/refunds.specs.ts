@@ -8,6 +8,7 @@ import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
 import {
     RefundCreateParams,
+    RefundItem,
     RefundReason,
     Refunds,
     RefundStatus,
@@ -129,7 +130,7 @@ describe("Refunds", () => {
         });
 
         it("should cancel polling", async () => {
-            const cancelCondition = ({ status }) => status === RefundStatus.FAILED;
+            const cancelCondition = ({ status }: RefundItem) => status === RefundStatus.FAILED;
             const call = () => refunds.poll(uuid(), uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
@@ -174,26 +175,46 @@ describe("Refunds", () => {
         const errorChargeId = createRequestError(["chargeId"]);
 
         const asserts: [Promise<ResponseRefund> | Promise<ResponseRefunds>, RequestError][] = [
+            // @ts-expect-error testing invalid params
             [refunds.create(null, null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.create(null, uuid(), null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.create(uuid(), null, null), errorChargeId],
+            // @ts-expect-error testing invalid params
             [refunds.list(null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.list(null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.list(uuid(), null), errorChargeId],
+            // @ts-expect-error testing invalid params
             [refunds.get(null, null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.get(null, uuid(), null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.get(null, null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.get(null, uuid(), uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.get(uuid(), null, null), errorChargeId],
+            // @ts-expect-error testing invalid params
             [refunds.get(uuid(), null, uuid()), errorChargeId],
+            // @ts-expect-error testing invalid params
             [refunds.get(uuid(), uuid(), null), errorId],
 
+            // @ts-expect-error testing invalid params
             [refunds.update(null, null, null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.update(null, uuid(), null), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.update(null, null, uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.update(null, uuid(), uuid()), errorStoreId],
+            // @ts-expect-error testing invalid params
             [refunds.update(uuid(), null, null), errorChargeId],
+            // @ts-expect-error testing invalid params
             [refunds.update(uuid(), null, uuid()), errorChargeId],
+            // @ts-expect-error testing invalid params
             [refunds.update(uuid(), uuid(), null), errorId],
         ];
 

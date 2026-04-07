@@ -18,7 +18,7 @@ export const getProcessingErrorCodeByStatus = (status: number, message?: string)
         306: ResponseErrorCode.CardRejected,
         307: ResponseErrorCode.CardInvalid,
         308: ResponseErrorCode.ChargeInvalidData,
-        309: ResponseErrorCode[message] ? ResponseErrorCode[message] : ResponseErrorCode.ProcessingError,
+        309: ResponseErrorCode[message as keyof typeof ResponseErrorCode] ?? ResponseErrorCode.ProcessingError,
         310: ResponseErrorCode.InvalidUserData,
         311: ResponseErrorCode.TooManyChargeRequests,
         312: ResponseErrorCode.CancelUnavailable,

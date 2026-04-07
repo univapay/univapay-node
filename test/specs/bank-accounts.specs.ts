@@ -158,8 +158,11 @@ describe("Bank Accounts", () => {
         const errorId = createRequestError(["id"]);
 
         const asserts: [Promise<BankAccountItem> | Promise<void>, RequestError][] = [
+            // @ts-expect-error testing invalid params
             [bankAccounts.get(null), errorId],
+            // @ts-expect-error testing invalid params
             [bankAccounts.update(null), errorId],
+            // @ts-expect-error testing invalid params
             [bankAccounts.delete(null), errorId],
         ];
 

@@ -76,7 +76,9 @@ describe("Transfers", () => {
         const errorId = createRequestError(["id"]);
 
         const asserts: [Promise<unknown>, RequestError][] = [
+            // @ts-expect-error testing invalid params
             [transfers.get(null), errorId],
+            // @ts-expect-error testing invalid params
             [transfers.statusChanges(null), errorId],
         ];
 
