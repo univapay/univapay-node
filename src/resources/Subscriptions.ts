@@ -519,7 +519,7 @@ export class Subscriptions extends CRUDResource {
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-    ): Promise<{ subscription: ResponseSubscription<T>; charge?: ResponseCharge<T2> }> {
+    ): Promise<{ subscription: ResponseSubscription<T>; charge: ResponseCharge<T2> | null }> {
         const subscription = await this.poll<T>(storeId, id, data, auth);
 
         const charge = hasImmediateCharge(subscription)
@@ -530,8 +530,7 @@ export class Subscriptions extends CRUDResource {
               ).then(({ items: charges }) =>
                   this.chargesResource.poll<T2>(charges[0].storeId, charges[0].id, data, auth),
               )
-            : undefined;
-
+            : null;
         return { subscription, charge };
     }
 

@@ -246,18 +246,21 @@ export class RestAPI extends EventEmitter {
 
         this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
-        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT] || "";
-        this.handleUpdateJWT = options.handleUpdateJWT ?? undefined;
+        // @ts-expect-error ignore warning for now
+        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT];
+        this.handleUpdateJWT = options.handleUpdateJWT || undefined;
         this.defaultAuthParams = options.authParams;
 
-        this.appId = options.appId || process.env[ENV_KEY_APP_ID] || "";
+        // @ts-expect-error ignore warning for now
+        this.appId = options.appId || process.env[ENV_KEY_APP_ID];
         this.secret = options.secret || process.env[ENV_KEY_SECRET];
-        this.authToken = options.authToken || "";
+        // @ts-expect-error ignore warning for now
+        this.authToken = options.authToken;
     }
 
     set jwtRaw(jwtRaw: string | null) {
         this._jwtRaw = jwtRaw;
-        this.jwt = jwtRaw ? parseJWT(jwtRaw) : null;
+        this.jwt = parseJWT(jwtRaw);
     }
 
     get jwtRaw(): string | null {
