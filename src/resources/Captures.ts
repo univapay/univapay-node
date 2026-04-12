@@ -32,9 +32,9 @@ export class Captures extends CRUDResource {
 
     private _create?: DefinedRoute;
     create(
-        storeId: string,
-        chargeId: string,
-        data: SendData<CaptureCreateParams>,
+        storeId: string | null,
+        chargeId: string | null,
+        data: SendData<CaptureCreateParams> | null,
         auth?: AuthParams,
     ): Promise<CaptureItem> {
         this._create = this._create ?? this._createRoute({ requiredParams: Captures.requiredParams });

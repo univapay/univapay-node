@@ -61,6 +61,6 @@ export const checkStatus = async (response: Response): Promise<Response> => {
         return response;
     }
 
-    const json = await parseJSON(response, ["metadata"]);
+    const json = await parseJSON<Record<string, unknown>>(response, ["metadata"]);
     throw new APIError(response.status, json);
 };

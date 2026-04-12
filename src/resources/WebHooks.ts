@@ -93,24 +93,29 @@ export class WebHooks<TriggerType = WebHookTrigger> extends CRUDResource {
     }
 
     private _get?: DefinedRoute;
-    get(id: string, data?: SendData<void>, auth?: AuthParams, storeId?: string): Promise<ResponseWebHook<TriggerType>> {
+    get(
+        id: string | null,
+        data?: SendData<void> | null,
+        auth?: AuthParams,
+        storeId?: string | null,
+    ): Promise<ResponseWebHook<TriggerType>> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { storeId, id });
     }
 
     private _update?: DefinedRoute;
     update(
-        id: string,
-        data?: SendData<WebHookUpdateParams>,
+        id: string | null,
+        data?: SendData<WebHookUpdateParams> | null,
         auth?: AuthParams,
-        storeId?: string,
+        storeId?: string | null,
     ): Promise<ResponseWebHook<TriggerType>> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { storeId, id });
     }
 
     private _delete?: DefinedRoute;
-    delete(id: string, data?: SendData<void>, auth?: AuthParams, storeId?: string): Promise<void> {
+    delete(id: string | null, data?: SendData<void> | null, auth?: AuthParams, storeId?: string | null): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { storeId, id });
     }

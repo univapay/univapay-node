@@ -30,7 +30,9 @@ export const parseJWT = <Payload>(jwt?: string | null, keepKeys = false): JWTPay
 
     try {
         const decoded = decode<Payload>(jwt);
-        return keepKeys || typeof decoded === "string" ? decoded : transformKeys(decoded, toCamelCase);
+        return (
+            keepKeys || typeof decoded === "string" ? decoded : transformKeys(decoded, toCamelCase)
+        ) as JWTPayload<Payload>;
     } catch {
         throw new JWTError();
     }
@@ -38,7 +40,7 @@ export const parseJWT = <Payload>(jwt?: string | null, keepKeys = false): JWTPay
 
 const safeParseJWT = <Payload>(jwt?: string | null): JWTPayload<Payload> | null => {
     try {
-        return jwt ? decode<Payload>(jwt) : null;
+        return jwt ? decode<JWTPayload<Payload>>(jwt) : null;
     } catch (error) {
         return error ? null : null;
     }
@@ -46,7 +48,7 @@ const safeParseJWT = <Payload>(jwt?: string | null): JWTPayload<Payload> | null 
 
 const BearerRegexp = /^Bearer (.*)$/i;
 
-const getHeaderJwt = (header: string): string | null => {
+const getHeaderJwt = (header: string | null): string | null => {
     if (!header) {
         return null;
     }
@@ -69,5 +71,5 @@ export const extractJWT = (response: Response): string | null => {
         (name: string) => !!getHeaderJwt(response.headers.get(name)),
     );
 
-    return getHeaderJwt(response.headers.get(headerName));
+    return headerName ? getHeaderJwt(response.headers.get(headerName)) : null;
 };

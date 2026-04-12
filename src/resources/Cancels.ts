@@ -47,8 +47,8 @@ export class Cancels extends CRUDResource {
 
     private _list?: DefinedRoute;
     list<T extends Metadata = Metadata>(
-        storeId: string,
-        chargeId: string,
+        storeId: string | null,
+        chargeId: string | null,
         data?: SendData<CancelsListParams>,
         auth?: AuthParams,
     ): Promise<ResponseCancels<T>> {
@@ -58,9 +58,9 @@ export class Cancels extends CRUDResource {
 
     private _create?: DefinedRoute;
     create<T extends Metadata = Metadata>(
-        storeId: string,
-        chargeId: string,
-        data: SendData<CancelCreateParams>,
+        storeId: string | null,
+        chargeId: string | null,
+        data: SendData<CancelCreateParams> | null,
         auth?: AuthParams,
     ): Promise<ResponseCancel<T>> {
         this._create = this._create ?? this._createRoute({ requiredParams: Cancels.requiredParams });
@@ -69,9 +69,9 @@ export class Cancels extends CRUDResource {
 
     private _get?: DefinedRoute;
     get<T extends Metadata = Metadata>(
-        storeId: string,
-        chargeId: string,
-        id: string,
+        storeId: string | null,
+        chargeId: string | null,
+        id: string | null,
         data?: SendData<PollData>,
         auth?: AuthParams,
     ): Promise<ResponseCancel<T>> {
@@ -91,6 +91,6 @@ export class Cancels extends CRUDResource {
         const promise: () => Promise<ResponseCancel<T>> = () => this.get(storeId, chargeId, id, pollData, auth);
         const successCondition = pollParams?.successCondition ?? (({ status }) => status !== CancelStatus.PENDING);
 
-        return this.api.longPolling(promise, { ...pollParams, successCondition });
+        return this.api.longPolling(promise, { ...pollParams, successCondition }) as Promise<ResponseCancel<T>>;
     }
 }

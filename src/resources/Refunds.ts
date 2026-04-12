@@ -85,9 +85,9 @@ export class Refunds extends CRUDResource {
 
     private _list?: DefinedRoute;
     list<T extends Metadata = Metadata>(
-        storeId: string,
-        chargeId: string,
-        data?: SendData<RefundsListParams>,
+        storeId: string | null,
+        chargeId: string | null,
+        data?: SendData<RefundsListParams> | null,
         auth?: AuthParams,
     ): Promise<ResponseRefunds<T>> {
         this._list = this._list ?? this._listRoute();
@@ -96,9 +96,9 @@ export class Refunds extends CRUDResource {
 
     private _create?: DefinedRoute;
     create<T extends Metadata = Metadata>(
-        storeId: string,
-        chargeId: string,
-        data: SendData<RefundCreateParams>,
+        storeId: string | null,
+        chargeId: string | null,
+        data: SendData<RefundCreateParams> | null,
         auth?: AuthParams,
     ): Promise<ResponseRefund<T>> {
         this._create = this._create ?? this._createRoute({ requiredParams: Refunds.requiredParams });
@@ -107,9 +107,9 @@ export class Refunds extends CRUDResource {
 
     private _get?: DefinedRoute;
     get<T extends Metadata = Metadata>(
-        storeId: string,
-        chargeId: string,
-        id: string,
+        storeId: string | null,
+        chargeId: string | null,
+        id: string | null,
         data?: SendData<PollData>,
         auth?: AuthParams,
     ): Promise<ResponseRefund<T>> {
@@ -119,10 +119,10 @@ export class Refunds extends CRUDResource {
 
     private _update?: DefinedRoute;
     update<T extends Metadata = Metadata>(
-        storeId: string,
-        chargeId: string,
-        id: string,
-        data?: SendData<RefundUpdateParams>,
+        storeId: string | null,
+        chargeId: string | null,
+        id: string | null,
+        data?: SendData<RefundUpdateParams> | null,
         auth?: AuthParams,
     ): Promise<ResponseRefund<T>> {
         this._update = this._update ?? this._updateRoute();
@@ -141,6 +141,6 @@ export class Refunds extends CRUDResource {
         const promise: () => Promise<ResponseRefund<T>> = () => this.get(storeId, chargeId, id, pollData, auth);
         const successCondition = pollParams?.successCondition ?? (({ status }) => status !== RefundStatus.PENDING);
 
-        return this.api.longPolling(promise, { ...pollParams, successCondition });
+        return this.api.longPolling(promise, { ...pollParams, successCondition }) as Promise<ResponseRefund<T>>;
     }
 }

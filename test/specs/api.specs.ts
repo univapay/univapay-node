@@ -204,8 +204,8 @@ describe("API", function () {
         for (const [initParams, sendParams, authHeader] of asserts) {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint, ...initParams });
             const response = await api.send(HTTPMethod.GET, "/header", null, sendParams);
-            const { request } = mock.lastCall();
-            const reqAuthHeader = request.headers.get("Authorization");
+            const { request } = mock.lastCall() as fetchMock.MockCall;
+            const reqAuthHeader = (request as Request).headers.get("Authorization");
 
             expect(reqAuthHeader).to.eql(authHeader || null);
             expect(response).to.eql(okResponse);
@@ -285,8 +285,8 @@ describe("API", function () {
         for (const [initParams, sendParams] of asserts) {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint, ...initParams });
             const response = await api.send(HTTPMethod.GET, "/origin", null, sendParams);
-            const { request } = mock.lastCall();
-            const reqOriginHeader = request.headers.get("Origin");
+            const { request } = mock.lastCall() as fetchMock.MockCall;
+            const reqOriginHeader = (request as Request).headers.get("Origin");
 
             expect(reqOriginHeader).to.be.equal(
                 !!sendParams && !!sendParams.origin
@@ -317,8 +317,8 @@ describe("API", function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
 
         const response = await api.send(HTTPMethod.GET, "/login");
-        const { request: loginReq } = loginMock.lastCall();
-        const loginReqCredentials = loginReq.credentials;
+        const { request: loginReq } = loginMock.lastCall() as fetchMock.MockCall;
+        const loginReqCredentials = (loginReq as Request).credentials;
         expect(loginReqCredentials).to.be.equal("same-origin");
         expect(response).to.eql(okResponse);
 
@@ -332,8 +332,8 @@ describe("API", function () {
         });
 
         const someResponse = await api.send(HTTPMethod.GET, "/somerequest", null, { useCredentials: true });
-        const { request } = someReqMock.lastCall();
-        const reqCredentials = request.credentials;
+        const { request } = someReqMock.lastCall() as fetchMock.MockCall;
+        const reqCredentials = (request as Request).credentials;
         expect(reqCredentials).to.be.equal("include");
         expect(someResponse).to.eql(okResponse);
     });
@@ -432,8 +432,8 @@ describe("API", function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
         await api.send(HTTPMethod.GET, "/header", null, { idempotentKey: "test" });
 
-        const { request } = mock.lastCall();
-        const keyHeader = request.headers.get(IDEMPOTENCY_KEY_HEADER);
+        const { request } = mock.lastCall() as fetchMock.MockCall;
+        const keyHeader = (request as Request).headers.get(IDEMPOTENCY_KEY_HEADER);
 
         expect(keyHeader).to.equal("test");
     });
@@ -475,7 +475,7 @@ describe("API", function () {
         // For request without payload
         for (const assert of asserts) {
             await api.send(HTTPMethod.GET, "/camel", assert);
-            const url = mock.lastUrl();
+            const url = mock.lastUrl() as string;
             const { query } = parseUrl(url);
             expect(query).to.eql(expectationGet);
         }

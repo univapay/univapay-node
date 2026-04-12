@@ -8,6 +8,7 @@ import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
 import {
     RefundCreateParams,
+    RefundItem,
     RefundReason,
     Refunds,
     RefundStatus,
@@ -129,7 +130,7 @@ describe("Refunds", () => {
         });
 
         it("should cancel polling", async () => {
-            const cancelCondition = ({ status }) => status === RefundStatus.FAILED;
+            const cancelCondition = ({ status }: RefundItem) => status === RefundStatus.FAILED;
             const call = () => refunds.poll(uuid(), uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });
@@ -187,7 +188,6 @@ describe("Refunds", () => {
             [refunds.get(uuid(), null, null), errorChargeId],
             [refunds.get(uuid(), null, uuid()), errorChargeId],
             [refunds.get(uuid(), uuid(), null), errorId],
-
             [refunds.update(null, null, null), errorStoreId],
             [refunds.update(null, uuid(), null), errorStoreId],
             [refunds.update(null, null, uuid()), errorStoreId],

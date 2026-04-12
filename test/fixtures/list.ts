@@ -9,7 +9,7 @@ export interface FixtureListOptions<Record> {
 export const generateList = <Record>(options?: FixtureListOptions<Record>): CRUDItemsResponse<Record> => {
     const { count = 0, hasMore = true, recordGenerator } = { ...options };
 
-    const items = [];
+    const items: Record[] = [];
     if (count > 0 && typeof recordGenerator === "function") {
         for (let i = 0; i < count; i++) {
             items.push(recordGenerator());

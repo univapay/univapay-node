@@ -453,9 +453,9 @@ export class TransactionTokens extends CRUDResource {
 
     private _get?: DefinedRoute;
     get<T extends Metadata = Metadata>(
-        storeId: string,
-        id: string,
-        data?: SendData<void>,
+        storeId: string | null,
+        id: string | null,
+        data?: SendData<void> | null,
         auth?: AuthParams,
     ): Promise<ResponseTransactionToken<T>> {
         this._get = this._get ?? this._getRoute();
@@ -464,8 +464,8 @@ export class TransactionTokens extends CRUDResource {
 
     private _list?: DefinedRoute;
     list<T extends Metadata = Metadata>(
-        data?: SendData<TransactionTokenListParams>,
-        auth?: AuthParams,
+        data?: SendData<TransactionTokenListParams> | null,
+        auth?: AuthParams | null,
         storeId?: string,
     ): Promise<ResponseTransactionTokens<T>> {
         this._list = this._list ?? this.defineRoute(HTTPMethod.GET, "(/stores/:storeId)/tokens");
@@ -474,9 +474,9 @@ export class TransactionTokens extends CRUDResource {
 
     private _update?: DefinedRoute;
     update<T extends Metadata = Metadata>(
-        storeId: string,
-        id: string,
-        data?: SendData<TransactionTokenUpdateParams>,
+        storeId: string | null,
+        id: string | null,
+        data?: SendData<TransactionTokenUpdateParams> | null,
         auth?: AuthParams,
     ): Promise<ResponseTransactionToken<T>> {
         this._update = this._update ?? this._updateRoute();
@@ -495,7 +495,7 @@ export class TransactionTokens extends CRUDResource {
     }
 
     private _delete?: DefinedRoute;
-    delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+    delete(storeId: string | null, id: string | null, data?: SendData<void> | null, auth?: AuthParams): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { storeId, id });
     }

@@ -8,7 +8,7 @@ const isPrimitive = (value: unknown): value is symbol | null =>
 const isObject = (value: unknown): value is Record<string, unknown> => value === Object(value);
 
 const isClassInstance = (value: unknown): boolean =>
-    typeof value === "object" && !(value instanceof Array) && value.constructor !== Object;
+    !!value && typeof value === "object" && !(value instanceof Array) && value.constructor !== Object;
 
 export const containsBinaryData = (data: unknown): boolean => {
     if (isPrimitive(data)) {

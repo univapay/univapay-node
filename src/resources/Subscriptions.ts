@@ -350,7 +350,11 @@ export class ScheduledPayments extends CRUDResource {
 
 const hasImmediateCharge = (subscription: SubscriptionItem) => {
     const { initialAmount, scheduleSettings } = subscription;
-    return !!initialAmount || !scheduleSettings || new Date(scheduleSettings.startOn) <= new Date();
+    return (
+        !!initialAmount ||
+        !scheduleSettings ||
+        (scheduleSettings.startOn && new Date(scheduleSettings.startOn) <= new Date())
+    );
 };
 
 export class Subscriptions extends CRUDResource {
@@ -439,9 +443,9 @@ export class Subscriptions extends CRUDResource {
 
     private _get: DefinedRoute;
     get<T extends Metadata = Metadata>(
-        storeId: string,
-        id: string,
-        data?: SendData<PollData>,
+        storeId: string | null,
+        id: string | null,
+        data?: SendData<PollData> | null,
         auth?: AuthParams,
     ): Promise<ResponseSubscription<T>> {
         this._get = this._get ?? this._getRoute();
@@ -456,9 +460,9 @@ export class Subscriptions extends CRUDResource {
 
     private _update: DefinedRoute;
     update<T extends Metadata = Metadata>(
-        storeId: string,
-        id: string,
-        data?: SendData<SubscriptionUpdateParams>,
+        storeId: string | null,
+        id: string | null,
+        data?: SendData<SubscriptionUpdateParams> | null,
         auth?: AuthParams,
     ): Promise<ResponseSubscription<T>> {
         this._update = this._update ?? this._updateRoute();
@@ -466,16 +470,16 @@ export class Subscriptions extends CRUDResource {
     }
 
     private _delete: DefinedRoute;
-    delete(storeId: string, id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+    delete(storeId: string | null, id: string | null, data?: SendData<void> | null, auth?: AuthParams): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { storeId, id });
     }
 
     private _charges: DefinedRoute;
     charges<T extends Metadata = Metadata>(
-        storeId: string,
-        id: string,
-        data?: SendData<ChargesListParams>,
+        storeId: string | null,
+        id: string | null,
+        data?: SendData<ChargesListParams> | null,
         auth?: AuthParams,
     ): Promise<ResponseCharges<T>> {
         this._charges = this._charges ?? this.defineRoute(HTTPMethod.GET, `${Subscriptions.routeBase}/:id/charges`);
@@ -494,7 +498,7 @@ export class Subscriptions extends CRUDResource {
         const successCondition =
             pollParams?.successCondition ?? (({ status }) => status !== SubscriptionStatus.UNVERIFIED);
 
-        return this.api.longPolling(promise, { ...pollParams, successCondition });
+        return this.api.longPolling(promise, { ...pollParams, successCondition }) as Promise<ResponseSubscription<T>>;
     }
 
     pollBatch(
@@ -507,7 +511,7 @@ export class Subscriptions extends CRUDResource {
         const promise: () => Promise<BatchSubscriptionResponse> = () => this.getBatch(batchId, pollData, auth);
         const successCondition = pollParams?.successCondition ?? (({ status }) => status !== BatchStatus.AWAITING);
 
-        return this.api.longPolling(promise, { ...pollParams, successCondition });
+        return this.api.longPolling(promise, { ...pollParams, successCondition }) as Promise<BatchSubscriptionResponse>;
     }
 
     async pollSubscriptionWithFirstCharge<T extends Metadata = Metadata, T2 extends Metadata = Metadata>(
@@ -515,19 +519,18 @@ export class Subscriptions extends CRUDResource {
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
-    ): Promise<{ subscription: ResponseSubscription<T>; charge?: ResponseCharge<T2> }> {
+    ): Promise<{ subscription: ResponseSubscription<T>; charge: ResponseCharge<T2> | null }> {
         const subscription = await this.poll<T>(storeId, id, data, auth);
 
         const charge = hasImmediateCharge(subscription)
-            ? await this.api
-                  .longPolling(() => this.charges<T2>(storeId, id, undefined, auth), {
+            ? await (
+                  this.api.longPolling(() => this.charges(storeId, id, undefined, auth), {
                       successCondition: (charges) => !!charges.items.length,
-                  })
-                  .then(({ items: charges }) =>
-                      this.chargesResource.poll<T2>(charges[0].storeId, charges[0].id, data, auth),
-                  )
+                  }) as Promise<ResponseCharges>
+              ).then(({ items: charges }) =>
+                  this.chargesResource.poll<T2>(charges[0].storeId, charges[0].id, data, auth),
+              )
             : null;
-
         return { subscription, charge };
     }
 
