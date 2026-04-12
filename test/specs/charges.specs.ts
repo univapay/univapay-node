@@ -229,11 +229,8 @@ describe("Charges", () => {
         const errorStoreId = createRequestError(["storeId"]);
 
         const asserts: [Promise<ResponseCharge>, RequestError][] = [
-            // @ts-expect-error testing invalid params
             [charges.get(null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [charges.get(null, uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [charges.get(uuid(), null), errorId],
         ];
 

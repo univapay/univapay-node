@@ -166,11 +166,8 @@ describe("Web Hooks", () => {
         const errorId = createRequestError(["id"]);
 
         const asserts: [Promise<ResponseWebHook<WebHookTrigger>> | Promise<void>, RequestError][] = [
-            // @ts-expect-error testing invalid params
             [webHooks.get(null), errorId],
-            // @ts-expect-error testing invalid params
             [webHooks.update(null), errorId],
-            // @ts-expect-error testing invalid params
             [webHooks.delete(null), errorId],
         ];
 

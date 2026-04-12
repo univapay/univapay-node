@@ -57,11 +57,8 @@ describe("Captures", () => {
         const errorChargeId = createRequestError(["chargeId"]);
 
         const asserts: [Promise<CaptureItem>, RequestError][] = [
-            // @ts-expect-error testing invalid params
             [captures.create(null, null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [captures.create(null, uuid(), null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [captures.create(uuid(), null, null), errorChargeId],
         ];
 

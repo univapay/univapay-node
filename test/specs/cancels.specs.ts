@@ -127,31 +127,18 @@ describe("Cancels", () => {
         const errorChargeId = createRequestError(["chargeId"]);
 
         const asserts: [Promise<unknown>, RequestError][] = [
-            // @ts-expect-error testing invalid params
             [cancels.create(null, null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [cancels.create(null, uuid(), null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [cancels.create(uuid(), null, null), errorChargeId],
-            // @ts-expect-error testing invalid params
             [cancels.list(null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [cancels.list(null, uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [cancels.list(uuid(), null), errorChargeId],
-            // @ts-expect-error testing invalid params
             [cancels.get(null, null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [cancels.get(null, uuid(), null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [cancels.get(null, null, uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [cancels.get(null, uuid(), uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [cancels.get(uuid(), null, null), errorChargeId],
-            // @ts-expect-error testing invalid params
             [cancels.get(uuid(), null, uuid()), errorChargeId],
-            // @ts-expect-error testing invalid params
             [cancels.get(uuid(), uuid(), null), errorId],
         ];
 

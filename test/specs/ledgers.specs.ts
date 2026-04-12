@@ -60,9 +60,7 @@ describe("Ledgers", () => {
         const errorTransferId = createRequestError(["transferId"]);
 
         const asserts: [Promise<LedgerItem> | Promise<ResponseLedgers>, RequestError][] = [
-            // @ts-expect-error testing invalid params
             [ledgers.list(null), errorTransferId],
-            // @ts-expect-error testing invalid params
             [ledgers.get(null), errorId],
         ];
 

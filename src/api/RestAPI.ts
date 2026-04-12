@@ -230,14 +230,14 @@ export class RestAPI extends EventEmitter {
     /**
      *  @deprecated
      */
-    appId: string;
+    appId?: string;
 
     /**
      *  @deprecated
      */
-    authToken: string;
+    authToken?: string;
 
-    private _jwtRaw: string | null = null;
+    private _jwtRaw: string | undefined = undefined;
 
     protected handleUpdateJWT?: (jwt: string) => void;
 
@@ -246,24 +246,21 @@ export class RestAPI extends EventEmitter {
 
         this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
-        // @ts-expect-error ignore warning for now
-        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT];
+        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT] || undefined;
         this.handleUpdateJWT = options.handleUpdateJWT || undefined;
         this.defaultAuthParams = options.authParams;
 
-        // @ts-expect-error ignore warning for now
         this.appId = options.appId || process.env[ENV_KEY_APP_ID];
         this.secret = options.secret || process.env[ENV_KEY_SECRET];
-        // @ts-expect-error ignore warning for now
         this.authToken = options.authToken;
     }
 
-    set jwtRaw(jwtRaw: string | null) {
+    set jwtRaw(jwtRaw: string | undefined) {
         this._jwtRaw = jwtRaw;
         this.jwt = parseJWT(jwtRaw);
     }
 
-    get jwtRaw(): string | null {
+    get jwtRaw(): string | undefined {
         return this._jwtRaw;
     }
 
@@ -453,6 +450,7 @@ export class RestAPI extends EventEmitter {
 
                     return result;
                 } catch (error) {
+                    // Use retry mechanism for 500 as internal server error on API side do not always mean failure
                     const apiError = error as { errorResponse?: { httpCode?: number } };
                     if (apiError.errorResponse?.httpCode !== 500 || internalErrorCount >= MAX_INTERNAL_ERROR_RETRY) {
                         throw error;

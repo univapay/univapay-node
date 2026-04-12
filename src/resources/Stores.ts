@@ -55,19 +55,19 @@ export class Stores extends CRUDResource {
     }
 
     private _get?: DefinedRoute;
-    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseStore> {
+    get(id: string | null, data?: SendData<void> | null, auth?: AuthParams): Promise<ResponseStore> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });
     }
 
     private _update?: DefinedRoute;
-    update(id: string, data?: SendData<StoreUpdateParams>, auth?: AuthParams): Promise<ResponseStore> {
+    update(id: string | null, data?: SendData<StoreUpdateParams> | null, auth?: AuthParams): Promise<ResponseStore> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { id });
     }
 
     private _delete?: DefinedRoute;
-    delete(id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+    delete(id: string | null, data?: SendData<void> | null, auth?: AuthParams): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { id });
     }

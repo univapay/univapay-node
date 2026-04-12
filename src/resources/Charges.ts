@@ -182,8 +182,8 @@ export class Charges extends CRUDResource {
 
     private _get?: DefinedRoute;
     get<T extends Metadata = Metadata>(
-        storeId: string,
-        id: string,
+        storeId: string | null,
+        id: string | null,
         data?: SendData<PollData>,
         auth?: AuthParams,
     ): Promise<ResponseCharge<T>> {

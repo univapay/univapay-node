@@ -115,11 +115,8 @@ describe("Stores", () => {
         const errorId = createRequestError(["id"]);
 
         const asserts: [Promise<StoreItem> | Promise<void>, RequestError][] = [
-            // @ts-expect-error testing invalid params
             [stores.get(null), errorId],
-            // @ts-expect-error testing invalid params
             [stores.update(null), errorId],
-            // @ts-expect-error testing invalid params
             [stores.delete(null), errorId],
         ];
 

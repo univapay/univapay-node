@@ -13,7 +13,7 @@ import { isBlob } from "../utils/object.js";
 export type DefinedRoute = (
     data?: unknown,
     auth?: AuthParams | null,
-    pathParams?: Record<string, string | undefined>,
+    pathParams?: Record<string, string | undefined | null>,
 ) => Promise<any>;
 
 /**

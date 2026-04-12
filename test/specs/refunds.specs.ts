@@ -175,46 +175,25 @@ describe("Refunds", () => {
         const errorChargeId = createRequestError(["chargeId"]);
 
         const asserts: [Promise<ResponseRefund> | Promise<ResponseRefunds>, RequestError][] = [
-            // @ts-expect-error testing invalid params
             [refunds.create(null, null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.create(null, uuid(), null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.create(uuid(), null, null), errorChargeId],
-            // @ts-expect-error testing invalid params
             [refunds.list(null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.list(null, uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.list(uuid(), null), errorChargeId],
-            // @ts-expect-error testing invalid params
             [refunds.get(null, null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.get(null, uuid(), null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.get(null, null, uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.get(null, uuid(), uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.get(uuid(), null, null), errorChargeId],
-            // @ts-expect-error testing invalid params
             [refunds.get(uuid(), null, uuid()), errorChargeId],
-            // @ts-expect-error testing invalid params
             [refunds.get(uuid(), uuid(), null), errorId],
-
-            // @ts-expect-error testing invalid params
             [refunds.update(null, null, null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.update(null, uuid(), null), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.update(null, null, uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.update(null, uuid(), uuid()), errorStoreId],
-            // @ts-expect-error testing invalid params
             [refunds.update(uuid(), null, null), errorChargeId],
-            // @ts-expect-error testing invalid params
             [refunds.update(uuid(), null, uuid()), errorChargeId],
-            // @ts-expect-error testing invalid params
             [refunds.update(uuid(), uuid(), null), errorId],
         ];
 
