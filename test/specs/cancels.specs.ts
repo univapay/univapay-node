@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import { RequestError } from "../../src/errors/RequestResponseError.js";
-import { CancelCreateParams, Cancels, CancelStatus } from "../../src/resources/Cancels.js";
+import { CancelCreateParams, Cancels, CancelStatus, ResponseCancel } from "../../src/resources/Cancels.js";
 import { generateFixture as generateCancel } from "../fixtures/cancel.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
@@ -100,7 +100,7 @@ describe("Cancels", () => {
         });
 
         it("should cancel polling", async () => {
-            const cancelCondition = ({ status }) => status === CancelStatus.FAILED;
+            const cancelCondition = ({ status }: ResponseCancel) => status === CancelStatus.FAILED;
             const call = () => cancels.poll(uuid(), uuid(), uuid(), undefined, undefined, { cancelCondition });
             await assertPollCancel(recordPathMatcher, call, sandbox, failingItem, pendingItem);
         });

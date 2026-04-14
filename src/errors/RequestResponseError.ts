@@ -11,7 +11,7 @@ export type ErrorItem = boolean | number | string | SubError | ValidationError;
 type RawErrorRequest = {
     httpCode?: number;
     code: ResponseErrorCode | RequestErrorCode;
-    errors: ErrorItem | ErrorItem[];
+    errors: (ErrorItem | null | undefined) | (ErrorItem | null | undefined)[];
 };
 
 type FormattedSubError = (SubError & Partial<ValidationError>) & { rawError?: string | number | boolean };

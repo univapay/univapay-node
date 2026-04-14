@@ -73,8 +73,8 @@ export class Transfers extends CRUDResource {
 
     private _get?: DefinedRoute;
     get<T extends Metadata = Metadata>(
-        id: string,
-        data?: SendData<void>,
+        id: string | null,
+        data?: SendData<void> | null,
         auth?: AuthParams,
     ): Promise<ResponseTransfer<T>> {
         this._get = this._get ?? this._getRoute();
@@ -82,7 +82,11 @@ export class Transfers extends CRUDResource {
     }
 
     private _statusChanges?: DefinedRoute;
-    statusChanges(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseTransferStatusChanges> {
+    statusChanges(
+        id: string | null,
+        data?: SendData<void> | null,
+        auth?: AuthParams,
+    ): Promise<ResponseTransferStatusChanges> {
         this._statusChanges =
             this._statusChanges ?? this.defineRoute(HTTPMethod.GET, `${Transfers.routeBase}/:id/status_changes`);
         return this._statusChanges(data, auth, { id });

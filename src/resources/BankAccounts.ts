@@ -84,19 +84,23 @@ export class BankAccounts extends CRUDResource {
     }
 
     private _get?: DefinedRoute;
-    get(id: string, data?: SendData<void>, auth?: AuthParams): Promise<ResponseBankAccount> {
+    get(id: string | null, data?: SendData<void>, auth?: AuthParams): Promise<ResponseBankAccount> {
         this._get = this._get ?? this._getRoute();
         return this._get(data, auth, { id });
     }
 
     private _update?: DefinedRoute;
-    update(id: string, data?: SendData<BankAccountUpdateParams>, auth?: AuthParams): Promise<ResponseBankAccount> {
+    update(
+        id: string | null,
+        data?: SendData<BankAccountUpdateParams>,
+        auth?: AuthParams,
+    ): Promise<ResponseBankAccount> {
         this._update = this._update ?? this._updateRoute();
         return this._update(data, auth, { id });
     }
 
     private _delete?: DefinedRoute;
-    delete(id: string, data?: SendData<void>, auth?: AuthParams): Promise<void> {
+    delete(id: string | null, data?: SendData<void>, auth?: AuthParams): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { id });
     }

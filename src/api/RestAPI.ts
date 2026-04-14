@@ -80,8 +80,8 @@ export interface RestAPIOptions {
     endpoint?: string;
     jwt?: string;
     handleUpdateJWT?: (jwt: string) => void;
-    secret?: string;
-    origin?: string;
+    secret?: string | null;
+    origin?: string | null;
     authParams?: DefaultAuthParams;
 
     // Deprecated
@@ -105,7 +105,7 @@ export interface SubError {
 }
 
 export interface ValidationError extends SubError {
-    field: string;
+    field: string | null;
 }
 
 export interface ErrorResponse {
@@ -221,32 +221,32 @@ const execRequest = async <Response>(execute: () => Promise<Response>): Promise<
 
 export class RestAPI extends EventEmitter {
     endpoint: string;
-    jwt: JWTPayload<unknown>;
-    origin: string;
-    secret: string;
+    jwt: JWTPayload<unknown> | null;
+    origin?: string;
+    secret?: string;
 
     defaultAuthParams?: DefaultAuthParams;
 
     /**
      *  @deprecated
      */
-    appId: string;
+    appId?: string;
 
     /**
      *  @deprecated
      */
-    authToken: string;
+    authToken?: string;
 
-    private _jwtRaw: string = null;
+    private _jwtRaw: string | undefined = undefined;
 
-    protected handleUpdateJWT: (jwt: string) => void;
+    protected handleUpdateJWT?: (jwt: string) => void;
 
     constructor(options: RestAPIOptions = {}) {
         super();
 
         this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
-        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT];
+        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT] || undefined;
         this.handleUpdateJWT = options.handleUpdateJWT || undefined;
         this.defaultAuthParams = options.authParams;
 
@@ -255,12 +255,12 @@ export class RestAPI extends EventEmitter {
         this.authToken = options.authToken;
     }
 
-    set jwtRaw(jwtRaw: string) {
+    set jwtRaw(jwtRaw: string | undefined) {
         this._jwtRaw = jwtRaw;
         this.jwt = parseJWT(jwtRaw);
     }
 
-    get jwtRaw(): string | null {
+    get jwtRaw(): string | undefined {
         return this._jwtRaw;
     }
 
@@ -271,7 +271,7 @@ export class RestAPI extends EventEmitter {
         method: HTTPMethod,
         uri: string,
         data?: SendData<Data>,
-        auth?: AuthParams,
+        auth?: AuthParams | null,
         options: ApiSendOptions = {},
     ): Promise<ResponseBody | string | Blob | FormData> {
         const authParams = { ...this.defaultAuthParams, ...auth };
@@ -409,7 +409,10 @@ export class RestAPI extends EventEmitter {
     /**
      * @internal
      */
-    async longPolling<Response>(execute: PollExecute<Response>, pollParams: PollParams<Response>): Promise<Response> {
+    async longPolling<Response>(
+        execute: PollExecute<Response>,
+        pollParams: PollParams<Response>,
+    ): Promise<Response | null> {
         const {
             successCondition,
             cancelCondition,
@@ -425,7 +428,7 @@ export class RestAPI extends EventEmitter {
             const computedInterval = typeof interval === "number" ? interval : interval();
             const sleepInterval = () => new Promise((resolve) => setTimeout(resolve, computedInterval));
 
-            const repeater = async (): Promise<Response> => {
+            const repeater = async (): Promise<Response | null> => {
                 if (browserSkipCallForInactiveTabs && document?.hidden) {
                     await sleepInterval();
                     return repeater();
@@ -448,7 +451,8 @@ export class RestAPI extends EventEmitter {
                     return result;
                 } catch (error) {
                     // Use retry mechanism for 500 as internal server error on API side do not always mean failure
-                    if (error.errorResponse?.httpCode !== 500 || internalErrorCount >= MAX_INTERNAL_ERROR_RETRY) {
+                    const apiError = error as { errorResponse?: { httpCode?: number } };
+                    if (apiError.errorResponse?.httpCode !== 500 || internalErrorCount >= MAX_INTERNAL_ERROR_RETRY) {
                         throw error;
                     }
 
