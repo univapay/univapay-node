@@ -127,7 +127,7 @@ export class ECForms extends CRUDResource {
     private _get?: DefinedRoute;
     get<T extends Metadata = Metadata>(
         id: string,
-        data?: SendData<void>,
+        data?: SendData<void> | null,
         auth?: AuthParams,
     ): Promise<ResponseECForm<T>> {
         const ignoreKeysFormatting = ["metadata", ...Object.values(Languages)];

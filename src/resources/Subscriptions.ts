@@ -315,7 +315,7 @@ export class ScheduledPayments extends CRUDResource {
         storeId: string,
         subscriptionsId: string,
         id: string,
-        data?: SendData<void>,
+        data?: SendData<void> | null,
         auth?: AuthParams,
     ): Promise<ResponsePayment> {
         this._get = this._get ?? this._getRoute();
