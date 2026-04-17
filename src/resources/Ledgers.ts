@@ -57,7 +57,7 @@ export class Ledgers extends CRUDResource {
     }
 
     private _get?: DefinedRoute;
-    get(id: string | null, data?: SendData<void>, auth?: AuthParams): Promise<ResponseLedger> {
+    get(id: string | null, data?: SendData<void> | null, auth?: AuthParams): Promise<ResponseLedger> {
         this._get = this._get ?? this.defineRoute(HTTPMethod.GET, "/ledgers/:id");
         return this._get(data, auth, { id });
     }

@@ -60,7 +60,7 @@ export class Products extends CRUDResource {
     private _get?: DefinedRoute;
     get<T extends Metadata = Metadata>(
         id: string,
-        data?: SendData<void>,
+        data?: SendData<void> | null,
         auth?: AuthParams,
     ): Promise<ResponseProduct<T>> {
         this._get = this._get ?? this._getRoute();
