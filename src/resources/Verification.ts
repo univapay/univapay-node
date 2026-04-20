@@ -54,7 +54,7 @@ export class Verification extends CRUDResource {
     }
 
     private _get?: DefinedRoute;
-    get(data?: SendData<void>, auth?: AuthParams): Promise<ResponseVerification> {
+    get(data?: SendData<void> | null, auth?: AuthParams): Promise<ResponseVerification> {
         this._get = this._get ?? this.defineRoute(HTTPMethod.GET, this._routeBase);
         return this._get(data, auth);
     }
