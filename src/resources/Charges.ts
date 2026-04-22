@@ -79,7 +79,7 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
     /**
      * Pricing token jwt
      */
-    multiCurrencyPricingToken?: string;
+    mcpToken?: string;
 
     /**
      * IP address override for backend usage in order to identify the user

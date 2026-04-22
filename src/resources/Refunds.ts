@@ -40,7 +40,7 @@ export interface RefundCreateParams<T extends Metadata = Metadata> {
     /**
      * Pricing token jwt
      */
-    multiCurrencyPricingToken?: string;
+    mcpToken?: string;
 }
 
 export interface RefundUpdateParams<T extends Metadata = Metadata> {
