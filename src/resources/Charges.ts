@@ -112,18 +112,15 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     chargedCurrency: string;
     chargedAmountFormatted: number;
 
-    mcpTokenId?: string;
-
     threeDs?: {
         mode?: ChargeThreeDsMode;
         redirectEndpoint?: string;
         redirectId?: string;
     };
-    multiCurrency?: {
-        enabled?: boolean;
+    mcp?: {
+        enabled: boolean;
         amount?: number;
         currency?: string;
-        jti?: string;
     };
 
     ledgerId?: string;
@@ -145,7 +142,11 @@ export interface IssuerTokenItem {
     callMethod: "http_get" | "http_post" | "sdk";
 }
 
-export type ChargeListItem<T extends Metadata = Metadata> = WithStoreMerchantName<ChargeItem<T>>;
+export type ChargeListItem<T extends Metadata = Metadata> = Omit<WithStoreMerchantName<ChargeItem<T>>, "mcp"> & {
+    mcp?: {
+        enabled: boolean;
+    };
+};
 
 export type ResponseCharge<T extends Metadata = Metadata> = ChargeItem<T>;
 export type ResponseCharges<T extends Metadata = Metadata> = CRUDAOSItemsResponse<ChargeListItem<T>>;
