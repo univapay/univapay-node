@@ -60,7 +60,11 @@ export interface RefundItem<T extends Metadata = Metadata> {
     storeId: string;
     chargeId: string;
     ledgerId?: string;
-    mcpTokenId?: string;
+    mcp?: {
+        enabled: boolean;
+        amount?: number;
+        currency?: string;
+    };
     status: RefundStatus;
     amount: number;
     currency: string;
@@ -73,7 +77,11 @@ export interface RefundItem<T extends Metadata = Metadata> {
     createdOn: string;
 }
 
-export type RefundListItem<T extends Metadata = Metadata> = RefundItem<T>;
+export type RefundListItem<T extends Metadata = Metadata> = Omit<RefundItem<T>, "mcp"> & {
+    mcp?: {
+        enabled: boolean;
+    };
+};
 
 export type ResponseRefund<T extends Metadata = Metadata> = RefundItem<T>;
 export type ResponseRefunds<T extends Metadata = Metadata> = CRUDAOSItemsResponse<RefundListItem<T>>;
