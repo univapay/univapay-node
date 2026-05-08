@@ -38,7 +38,14 @@ export enum WebHookTrigger {
 }
 
 /* Request */
-export type WebHooksListParams = CRUDPaginationParams;
+export type WebHooksListParams = CRUDPaginationParams & {
+    createdOn?: string;
+    /**
+     * Filters by the data main ID - charge_id, transaction_token_id, refund_id etc.
+     */
+    referenceId?: string;
+    emailAddress?: string;
+};
 
 export interface WebHookCreateParams<Trigger = WebHookTrigger> {
     triggers: Trigger[];
