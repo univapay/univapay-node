@@ -119,8 +119,6 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     };
     mcp?: {
         enabled: boolean;
-        amount?: number;
-        currency?: string;
     };
 
     ledgerId?: string;
