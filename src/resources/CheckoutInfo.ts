@@ -38,6 +38,7 @@ export interface CheckoutColors {
     primaryText: string;
     secondaryText: string;
     baseText: string;
+    bodyBackground: string;
 }
 
 export interface SupportedBrand {

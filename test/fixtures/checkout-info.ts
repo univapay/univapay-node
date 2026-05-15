@@ -40,6 +40,7 @@ export const generateFixture = (): CheckoutInfoItem => ({
             primaryText: "#000",
             secondaryText: "#000",
             baseText: "#000",
+            bodyBackground: "#FFF",
         },
     },
     supportedBrands: [
