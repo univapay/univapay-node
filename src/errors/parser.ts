@@ -61,6 +61,7 @@ export const getProcessingErrorCodeByStatus = (status: number, message?: string)
         356: ResponseErrorCode.CardNotEnrolledInThreeDS,
         358: ResponseErrorCode.ThreeDsCouldNotBeCompleted,
         359: ResponseErrorCode.CardRejected,
+        363: ResponseErrorCode.IdentityVerificationIncomplete,
         400: ResponseErrorCode.BadRequest,
         401: ResponseErrorCode.NotAuthorized,
         403: ResponseErrorCode.Forbidden,

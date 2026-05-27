@@ -224,6 +224,7 @@ export enum ResponseErrorCode {
     DecoupledAuthNotRequested = "DECOUPLED_AUTH_NOT_REQUESTED",
     InsufficientTimeForDecoupledAuth = "INSUFFICIENT_TIME_FOR_DECOUPLED_AUTH",
     AuthAttemptedButNotExecutedByCardholder = "AUTH_ATTEMPTED_BUT_NOT_EXECUTED_BY_CARDHOLDER",
+    IdentityVerificationIncomplete = "IDENTITY_VERIFICATION_INCOMPLETE",
 
     ImpersonationNotAllowed = "IMPERSONATION_NOT_ALLOWED",
 
