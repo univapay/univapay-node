@@ -117,9 +117,7 @@ export interface ChargeItem<T extends Metadata = Metadata> {
         redirectEndpoint?: string;
         redirectId?: string;
     };
-    mcp?: {
-        enabled: boolean;
-    };
+    mcpTokenId?: string;
 
     ledgerId?: string;
     subscriptionId?: string;
@@ -140,11 +138,7 @@ export interface IssuerTokenItem {
     callMethod: "http_get" | "http_post" | "sdk";
 }
 
-export type ChargeListItem<T extends Metadata = Metadata> = Omit<WithStoreMerchantName<ChargeItem<T>>, "mcp"> & {
-    mcp?: {
-        enabled: boolean;
-    };
-};
+export type ChargeListItem<T extends Metadata = Metadata> = WithStoreMerchantName<ChargeItem<T>>;
 
 export type ResponseCharge<T extends Metadata = Metadata> = ChargeItem<T>;
 export type ResponseCharges<T extends Metadata = Metadata> = CRUDAOSItemsResponse<ChargeListItem<T>>;
