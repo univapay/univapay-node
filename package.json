@@ -8,7 +8,7 @@
   },
   "bugs": "https://github.com/univapay/univapay-node/issues",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "sideEffects": false,
   "type": "module",
