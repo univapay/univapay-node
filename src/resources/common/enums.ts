@@ -89,6 +89,7 @@ export enum QRBrand {
     HOKUHOKU_PAY_HOKKAIDO = "hokuhoku_pay_hokkaido",
     HOKUHOKU_PAY_HOKURIKU = "hokuhoku_pay_hokuriku",
     IDRAM = "idram",
+    IFAST_GLOBAL_BANK = "ifast_global_bank",
     JKOPAY = "jkopay",
     KAKAOPAY = "kakaopay",
     LINE_PAY = "line_pay",
@@ -107,6 +108,7 @@ export enum QRBrand {
     SMBC = "smbc",
     TOUCH_N_GO = "tng",
     TRUEMONEY = "truemoney",
+    UABPAY = "uabpay",
     VCB = "vcb",
     YOKA_PAY_FUKUOKA = "yoka_pay_fukuoka",
     YOKA_PAY_KUMAMOTO = "yoka_pay_kumamoto",
@@ -114,6 +116,7 @@ export enum QRBrand {
     YUCHO_PAY = "yucho_pay",
     WE_CHAT = "we_chat",
     WE_CHAT_MPM = "we_chat_mpm",
+    WISE = "wise",
 }
 
 export enum QRGateway {
