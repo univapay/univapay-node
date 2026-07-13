@@ -3,17 +3,17 @@ import fetchMock from "fetch-mock";
 import { v4 as uuid } from "uuid";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
-import { Refers } from "../../src/resources/index.js";
+import { CustomerManagement } from "../../src/resources/index.js";
 import { testEndpoint } from "../utils/index.js";
 import { pathToRegexMatcher } from "../utils/routes.js";
 
-describe("Refers", () => {
+describe("Customer management", () => {
     let api: RestAPI;
-    let refers: Refers;
+    let customerManagement: CustomerManagement;
 
     beforeEach(() => {
         api = new RestAPI({ endpoint: testEndpoint });
-        refers = new Refers(api);
+        customerManagement = new CustomerManagement(api);
     });
 
     afterEach(() => {
@@ -31,9 +31,9 @@ describe("Refers", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(refers.authorize(uuid(), { email: "myemail@univapay.com", otp: "test" })).to.become(
-                recordData,
-            );
+            await expect(
+                customerManagement.authorize(uuid(), { email: "myemail@univapay.com", otp: "test" }),
+            ).to.become(recordData);
         });
 
         it("should get send code response", async () => {
@@ -43,7 +43,7 @@ describe("Refers", () => {
                 headers: { "Content-Type": "application/json" },
             });
 
-            await expect(refers.sendCode(uuid(), { email: "myemail@univapay.com" })).to.become(recordData);
+            await expect(customerManagement.sendCode(uuid(), { email: "myemail@univapay.com" })).to.become(recordData);
         });
     });
 });
