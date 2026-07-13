@@ -275,7 +275,7 @@ export interface UserTransactionsConfiguration {
     notifyOnDirectDebitTransferResult?: boolean;
 
     /**
-     * Boolean when the ${customer_refer_link} parameter should be shown on the subscription templates
+     * Boolean when the customer management system link (`${customer_refer_link}` parameter) should be shown on the subscription templates
      */
     customerReferLinkEnabled?: boolean;
 }
