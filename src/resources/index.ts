@@ -22,7 +22,7 @@ export * from "./LinksProducts.js";
 export * from "./Merchants.js";
 export * from "./Platforms.js";
 export * from "./Products.js";
-export * from "./Refers.js";
+export * from "./CustomerManagement.js";
 export * from "./Refunds.js";
 export * from "./Resource.js";
 export * from "./Stores.js";

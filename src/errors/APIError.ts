@@ -512,7 +512,7 @@ export enum ResponseErrorCode {
     InvalidFormatUuid = "INVALID_FORMAT_UUID",
     DateGreater = "DATE_GREATER",
 
-    /* Refer */
+    /* Customer management */
     CustomerLoginNotEnabled = "CUSTOMER_LOGIN_NOT_ENABLED",
     InvalidStoreId = "INVALID_STORE_ID",
     InvalidEmailAddress = "INVALID_EMAIL_ADDRESS",
