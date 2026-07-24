@@ -14,7 +14,7 @@
 [cla-url]: https://cla-assistant.io/univapay/univapay-node
 [shield-node]: https://img.shields.io/node/v/univapay-node.svg
 [shield-npm]: https://img.shields.io/npm/v/univapay-node.svg
-[shield-build]: https://img.shields.io/github/workflow/status/univapay/univapay-node/test/master
+[shield-build]: https://img.shields.io/github/actions/workflow/status/univapay/univapay-node/continuous-integration-workflow.yml?branch=master
 [shield-downloads]: https://img.shields.io/npm/dm/univapay-node.svg
 [shield-license]: https://img.shields.io/npm/l/univapay-node.svg
 [shield-coverage]: https://coveralls.io/repos/github/univapay/univapay-node/badge.svg?branch=master
