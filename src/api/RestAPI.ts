@@ -424,11 +424,16 @@ export class RestAPI extends EventEmitter {
 
         return execRequest(async () => {
             let internalErrorCount = 0;
+            let timedOut = false;
 
-            const computedInterval = typeof interval === "number" ? interval : interval();
-            const sleepInterval = () => new Promise((resolve) => setTimeout(resolve, computedInterval));
+            const sleepInterval = () =>
+                new Promise((resolve) => setTimeout(resolve, typeof interval === "number" ? interval : interval()));
 
             const repeater = async (): Promise<Response | null> => {
+                if (timedOut) {
+                    return null;
+                }
+
                 if (browserSkipCallForInactiveTabs && document?.hidden) {
                     await sleepInterval();
                     return repeater();
@@ -462,7 +467,10 @@ export class RestAPI extends EventEmitter {
                 }
             };
 
-            return pTimeout(repeater(), timeout, new TimeoutError(timeout));
+            return pTimeout(repeater(), timeout, () => {
+                timedOut = true;
+                throw new TimeoutError(timeout);
+            });
         });
     }
 

@@ -14,6 +14,7 @@ import {
 import { APIError, ResponseErrorCode } from "../../src/errors/APIError.js";
 import { fromError } from "../../src/errors/parser.js";
 import { ResponseError } from "../../src/errors/RequestResponseError.js";
+import { TimeoutError } from "../../src/errors/TimeoutError.js";
 import { isBlob } from "../../src/utils/object.js";
 import { testEndpoint } from "../utils/index.js";
 
@@ -673,5 +674,51 @@ describe("API", function () {
             requestInit: { redirect: "manual" },
         });
         expect(response).to.eql(okResponse);
+    });
+
+    describe("longPolling", function () {
+        let clock: sinon.SinonFakeTimers;
+
+        beforeEach(function () {
+            clock = sinon.useFakeTimers();
+        });
+
+        afterEach(function () {
+            clock.restore();
+        });
+
+        it("should stop calling the executor after timeout", async function () {
+            const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+            const execute = sinon.spy(() => Promise.resolve({ ok: false }));
+
+            const request = api.longPolling(execute, {
+                successCondition: ({ ok }: { ok: boolean }) => ok,
+                interval: 100,
+                timeout: 1000,
+            });
+
+            await clock.tickAsync(1000);
+            await expect(request).to.eventually.be.rejectedWith(TimeoutError);
+
+            const callCountAtTimeout = execute.callCount;
+            await clock.tickAsync(2000);
+            expect(execute.callCount).to.eql(callCountAtTimeout);
+        });
+
+        it("should compute the poll interval on every iteration", async function () {
+            const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+            let executeCount = 0;
+            const execute = () => Promise.resolve({ ok: ++executeCount >= 3 });
+            const interval = sinon.spy(() => 100);
+
+            const request = api.longPolling(execute, {
+                successCondition: ({ ok }: { ok: boolean }) => ok,
+                interval,
+            });
+
+            await clock.tickAsync(300);
+            await expect(request).to.become({ ok: true });
+            expect(interval.callCount).to.eql(2);
+        });
     });
 });
