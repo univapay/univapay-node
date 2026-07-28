@@ -705,19 +705,28 @@ describe("API", function () {
             expect(execute.callCount).to.eql(callCountAtTimeout);
         });
 
-        it("should compute the poll interval on every iteration", async function () {
+        it("should sleep for the interval recomputed before each poll", async function () {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+            const pollTimes: number[] = [];
             let executeCount = 0;
-            const execute = () => Promise.resolve({ ok: ++executeCount >= 3 });
-            const interval = sinon.spy(() => 100);
+            const execute = () => {
+                pollTimes.push(Date.now());
+                return Promise.resolve({ ok: ++executeCount >= 3 });
+            };
+            // A backoff: each call returns a longer interval than the previous one.
+            const intervals = [100, 500];
+            const interval = sinon.spy(() => intervals.shift() ?? 0);
 
             const request = api.longPolling(execute, {
                 successCondition: ({ ok }: { ok: boolean }) => ok,
                 interval,
             });
 
-            await clock.tickAsync(300);
+            await clock.tickAsync(1000);
             await expect(request).to.become({ ok: true });
+            // Polls happen at 0, 0 + 100, 100 + 500: each sleep uses the value returned
+            // by the call made just before it, not the first one.
+            expect(pollTimes).to.eql([0, 100, 600]);
             expect(interval.callCount).to.eql(2);
         });
     });
