@@ -225,7 +225,7 @@ export enum ResponseErrorCode {
     InsufficientTimeForDecoupledAuth = "INSUFFICIENT_TIME_FOR_DECOUPLED_AUTH",
     AuthAttemptedButNotExecutedByCardholder = "AUTH_ATTEMPTED_BUT_NOT_EXECUTED_BY_CARDHOLDER",
     IdentityVerificationIncomplete = "IDENTITY_VERIFICATION_INCOMPLETE",
-    InstalmentCyclesNotAvailableForMethod = "INSTALLMENT_CYCLES_NOT_AVAILABLE_FOR_METHOD",
+    InstallmentCyclesNotAvailableForMethod = "INSTALLMENT_CYCLES_NOT_AVAILABLE_FOR_METHOD",
 
     ImpersonationNotAllowed = "IMPERSONATION_NOT_ALLOWED",
 
