@@ -33,14 +33,16 @@ export const generateFixture = (): CheckoutInfoItem => ({
     logoImage: "http://fake.com/logo.jpg",
     theme: {
         colors: {
-            mainBackground: "#000",
-            secondaryBackground: "#000",
             mainColor: "#000",
+            secondaryBackground: "#000",
+            bodyBackground: "#FFF",
+            buttonBackground: "#001",
+            mainBackground: "#000",
+
             mainText: "#000",
             primaryText: "#000",
             secondaryText: "#000",
             baseText: "#000",
-            bodyBackground: "#FFF",
         },
     },
     supportedBrands: [
