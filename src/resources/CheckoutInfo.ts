@@ -31,14 +31,16 @@ export interface CheckoutInfoParams {
 
 /* Response */
 export interface CheckoutColors {
-    mainBackground: string;
+    bodyBackground: string;
+    buttonBackground: string;
     secondaryBackground: string;
     mainColor: string;
+    mainBackground: string;
+
     mainText: string;
     primaryText: string;
     secondaryText: string;
     baseText: string;
-    bodyBackground: string;
 }
 
 export interface SupportedBrand {
