@@ -325,6 +325,7 @@ export interface ConfigurationItem {
     convenienceConfiguration: ConvenienceConfigurationItem;
     onlineConfiguration: OnlineConfigurationItem;
     paidyConfiguration: PaidyConfigurationItem;
+    paymentErrorTranslationEnabled?: boolean;
     country: string;
     displayTimeZone: string;
     flatFees: AmountWithCurrency[];
