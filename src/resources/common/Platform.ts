@@ -20,6 +20,7 @@ type CheckoutConfiguration = {
 export interface PlatformUserDefaults {
     bankTransferConfiguration: BankTransferConfiguration;
     convenienceConfiguration: ConvenienceConfigurationItem;
+    paymentErrorTranslationEnabled?: boolean;
     cardConfiguration: {
         allowDirectTokenCreation: boolean;
         threeDsRequired?: boolean;
