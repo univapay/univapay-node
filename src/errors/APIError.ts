@@ -19,6 +19,7 @@ export enum ResponseErrorCode {
     NoGatewayAvailableToProcessRequest = "NO_GATEWAY_AVAILABLE_TO_PROCESS_REQUEST",
     NotAuthorized = "NOT_AUTHORIZED",
     ProcessingError = "PROCESSING_ERROR",
+    ThreeDSIssuerTokenCreationFailure = "THREE_DS_ISSUER_TOKEN_CREATION_FAILURE",
 
     /* global */
     UnknownError = "UNKNOWN_ERROR",
@@ -204,6 +205,16 @@ export enum ResponseErrorCode {
     ThreeDsCouldNotBeCompleted = "THREE_DS_COULD_NOT_BE_COMPLETED",
     InternalError = "INTERNAL_ERROR",
     ProcessFailed = "PROCESS_FAIL",
+    VirtualBankAccountAwaitingPeriodExpired = "VIRTUAL_BANK_ACCOUNT_AWAITING_PERIOD_EXPIRED",
+    VirtualBankAccountHasNonZeroBalance = "VIRTUAL_BANK_ACCOUNT_HAS_NON_ZERO_BALANCE",
+    NoPaymentMethodAvailable = "NO_PAYMENT_METHOD_AVAILABLE",
+    MerchantAccountSuspended = "MERCHANT_ACCOUNT_SUSPENDED",
+    InvalidUserAuthorization = "INVALID_USER_AUTHORIZATION",
+    InvalidAuthData = "INVALID_AUTH_DATA",
+    CardIsEnrolledWithoutThreeDS = "CARD_IS_ENROLLED_WITHOUT_THREE_DS",
+    NoTerminalIdAvailable = "NO_TERMINAL_ID_AVAILABLE",
+    TerminalIdSequenceIsFull = "TERMINAL_ID_SEQUENCE_IS_FULL",
+    TokenizedCardDataNotFound = "TOKENIZED_CARD_DATA_NOT_FOUND",
 
     // Charge 3DS generic error
     GenericThreeDsProcessingError = "GENERIC_THREE_DS_PROCESSING_ERROR",
