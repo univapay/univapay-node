@@ -114,6 +114,7 @@ export const generateFixtureDirectDebitConfiguration = (): DirectDebitConfigurat
 });
 
 export const generateFixture = (): ConfigurationItem => ({
+    paymentErrorTranslationEnabled: true,
     cardBrandPercentFees: {},
     cardConfiguration: generateFixtureCardConfiguration(),
     qrScanConfiguration: generateFixtureQRScanConfiguration(),

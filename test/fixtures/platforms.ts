@@ -70,6 +70,7 @@ export const generateFixture = (): PlatformConfigurationItem => ({
             platformCredentialsEnabled: true,
             taggedPlatformCredentialsEnabled: true,
             minRefundThreshold: 5,
+            paymentErrorTranslationEnabled: true,
         },
         refundPercentLimit: 5,
         paymentDefaults: {

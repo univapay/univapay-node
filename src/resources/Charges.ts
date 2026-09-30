@@ -94,6 +94,11 @@ export interface ChargeCreateParams<T extends Metadata = Metadata> {
 
 export type ChargeIssuerTokenGetParams = void;
 
+export enum ChargeType {
+    NORMAL = "normal",
+    CVV_AUTH = "cvv_auth",
+}
+
 /* Response */
 export interface ChargeItem<T extends Metadata = Metadata> {
     id: string;
@@ -132,6 +137,8 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     feeCurrency?: string | null;
     feeAmountFormatted?: string | null;
     metadata?: T;
+
+    type?: ChargeType;
 }
 export interface IssuerTokenItem {
     issuerToken: string;
