@@ -1,6 +1,6 @@
 {
   "name": "univapay-node",
-  "version": "4.0.166",
+  "version": "4.0.167",
   "description": "UnivaPay SDK library for Node.js",
   "license": "MIT",
   "repository": {
