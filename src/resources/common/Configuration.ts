@@ -353,6 +353,7 @@ export interface ConfigurationItem {
 
 export interface ConfigurationParams {
     logoUrl?: string;
+    paymentErrorTranslationEnabled?: boolean;
 
     bankTransferConfiguration?: Partial<BankTransferConfiguration>;
     cardConfiguration?: Partial<CardConfigurationItem>;
