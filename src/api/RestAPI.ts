@@ -14,6 +14,7 @@ import {
     ENV_KEY_APPLICATION_JWT,
     ENV_KEY_ENDPOINT,
     ENV_KEY_SECRET,
+    getEnv,
     IDEMPOTENCY_KEY_HEADER,
     POLLING_INTERVAL,
     POLLING_TIMEOUT,
@@ -244,14 +245,14 @@ export class RestAPI extends EventEmitter {
     constructor(options: RestAPIOptions = {}) {
         super();
 
-        this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
+        this.endpoint = options.endpoint || getEnv(ENV_KEY_ENDPOINT) || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
-        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT] || undefined;
+        this.jwtRaw = options.jwt || getEnv(ENV_KEY_APPLICATION_JWT) || undefined;
         this.handleUpdateJWT = options.handleUpdateJWT || undefined;
         this.defaultAuthParams = options.authParams;
 
-        this.appId = options.appId || process.env[ENV_KEY_APP_ID];
-        this.secret = options.secret || process.env[ENV_KEY_SECRET];
+        this.appId = options.appId || getEnv(ENV_KEY_APP_ID);
+        this.secret = options.secret || getEnv(ENV_KEY_SECRET);
         this.authToken = options.authToken;
     }
 
