@@ -27,7 +27,7 @@
     "noImplicitThis": false,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
+    "strict": true,
     "baseUrl": ".",
     "outDir": "./dist/esm",
     "paths": {

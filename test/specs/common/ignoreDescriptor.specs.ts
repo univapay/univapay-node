@@ -30,6 +30,23 @@ describe("Common > Ignore descriptor", () => {
         await expect(ignoreDescriptor(execute, data)).to.become({});
     });
 
+    it("should query again without descriptor when descriptor error is an async rejection", async () => {
+        const data = { descriptor: "dummy-descriptor" };
+        const execute = sinon.stub().callsFake(async (data) => {
+            if (!data.descriptor) {
+                return data;
+            }
+
+            throw new ResponseError({
+                code: ResponseErrorCode.ValidationError,
+                httpCode: 400,
+                errors: [{ field: "descriptor", reason: ResponseErrorCode.NotSupportedByProcessor }],
+            });
+        });
+
+        await expect(ignoreDescriptor(execute, data)).to.become({});
+    });
+
     it("should throw error with other errors", async () => {
         const data = { descriptor: "dummy-descriptor" };
         const execute = sinon.stub().callsFake(() => {

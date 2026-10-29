@@ -1,18 +1,22 @@
 import { ResponseErrorCode } from "../../errors/APIError.js";
+import { RequestResponseBaseError } from "../../errors/RequestResponseError.js";
 
 type WithOptionalDescriptor<Data> = Data | Omit<Data, "descriptor">;
-export const ignoreDescriptor = async <Data extends { descriptor?: string }>(
-    execute: (data: WithOptionalDescriptor<Data>) => Promise<WithOptionalDescriptor<Data>>,
+export const ignoreDescriptor = async <Data extends { descriptor?: string }, Response>(
+    execute: (data: WithOptionalDescriptor<Data>) => Promise<Response>,
     data: Data,
-): Promise<WithOptionalDescriptor<Data>> => {
+): Promise<Response> => {
     try {
-        return execute(data);
+        // Await so rejected promises reach the catch block
+        return await execute(data);
     } catch (error) {
         const isDescriptorNotSupportedError =
+            error instanceof RequestResponseBaseError &&
             error.errorResponse.code === ResponseErrorCode.ValidationError &&
             error.errorResponse.errors.length === 1 &&
             error.errorResponse.errors.find(
-                (e) => e.field === "descriptor" && e.reason === ResponseErrorCode.NotSupportedByProcessor,
+                (e) =>
+                    "field" in e && e.field === "descriptor" && e.reason === ResponseErrorCode.NotSupportedByProcessor,
             );
 
         if (isDescriptorNotSupportedError) {

@@ -213,7 +213,7 @@ const execRequest = async <Response>(execute: () => Promise<Response>): Promise<
         return response;
     } catch (error) {
         const formattedError =
-            error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error);
+            error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error as Error);
 
         throw formattedError;
     }
@@ -221,7 +221,7 @@ const execRequest = async <Response>(execute: () => Promise<Response>): Promise<
 
 export class RestAPI extends EventEmitter {
     endpoint: string;
-    jwt: JWTPayload<unknown> | null;
+    jwt: JWTPayload<unknown> | null = null;
     origin?: string;
     secret?: string;
 

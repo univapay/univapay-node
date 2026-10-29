@@ -30,8 +30,8 @@ const isSymbol = (value: unknown): value is string | number | boolean =>
  */
 const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest | ErrorResponse): FormattedErrorRequest => {
     const formattedErrors = arrify(rawErrors)
-        .filter(Boolean)
-        .map((error: ErrorItem) => {
+        .filter((error): error is ErrorItem => Boolean(error))
+        .map((error) => {
             if (typeof error === "string") {
                 const errorCodeKeys = [...Object.keys(ResponseErrorCode), ...Object.keys(RequestErrorCode)];
                 const upperCaseError = error.toUpperCase();

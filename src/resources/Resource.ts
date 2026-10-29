@@ -36,7 +36,7 @@ export type DefinedRoute = (
  * @param path The full path to compile, e.g. `(/merchant/:merchantId)/store/:storeId`
  * @param pathParams Object of params to fill into the path, e.g. `{ merchantId: "abc" }`
  */
-const compilePath = (path: string, pathParams: Record<string, string | undefined>): string =>
+const compilePath = (path: string, pathParams: Record<string, string | undefined | null>): string =>
     path
         .replace(/\((\w|:|-|\/)+\)/gi, (o: string) => {
             const part = o.replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);
@@ -103,7 +103,7 @@ export abstract class Resource extends EventEmitter {
         return <A, B>(
             originalData?: SendData<A>,
             auth?: AuthParams | null,
-            pathParams: Record<string, string | undefined> = {},
+            pathParams: Record<string, string | undefined | null> = {},
         ): Promise<B> => {
             const { requiredParams = [], ...sendOptions } = options;
 
