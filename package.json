@@ -105,5 +105,8 @@
     "docs": "typedoc --options typedoc.json",
     "release": "np --yolo --no-yarn --no-publish",
     "prepare": "husky"
+  },
+  "overrides": {
+    "tmp": "^0.2.7"
   }
 }
