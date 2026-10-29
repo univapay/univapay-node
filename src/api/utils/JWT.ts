@@ -2,7 +2,7 @@
  *  @internal
  *  @module Utils
  */
-import decode from "jwt-decode";
+import { jwtDecode as decode } from "jwt-decode";
 
 import { JWTError } from "../../errors/JWTError.js";
 import { toCamelCase, transformKeys } from "../../utils/object.js";

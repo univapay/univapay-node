@@ -21,7 +21,7 @@ describe("Emails", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /checkout/emails/:id", () => {

@@ -14,7 +14,7 @@ describe("EC Info", () => {
 
     const recordData = generateECInfo();
     const recordPathMatcher = new RegExp(
-        `^${testEndpoint}${pathToRegexp("/checkout/info/:id", [], { start: false, end: false }).source}`,
+        `^${testEndpoint}${pathToRegexp("/checkout/info/:id", { end: false }).regexp.source.slice(1)}`,
     );
 
     beforeEach(() => {
@@ -23,22 +23,22 @@ describe("EC Info", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /checkout/info/:id", () => {
         it("should get response", async () => {
             fetchMock.getOnce(
-                {
-                    url: recordPathMatcher,
-                    query: {
-                        secret: "mysecret",
-                    },
-                },
+                recordPathMatcher,
                 {
                     status: 200,
                     body: recordData,
                     headers: { "Content-Type": "application/json" },
+                },
+                {
+                    query: {
+                        secret: "mysecret",
+                    },
                 },
             );
 

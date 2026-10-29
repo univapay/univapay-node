@@ -21,8 +21,8 @@ describe("Web Hooks", () => {
     let api: RestAPI;
     let webHooks: WebHooks;
 
-    const recordBasePathMatcher = pathToRegexMatcher(`${testEndpoint}/:storesPart(stores/[^/]+)?/webhooks`);
-    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/:storesPart(stores/[^/]+)?/webhooks/:id`);
+    const recordBasePathMatcher = pathToRegexMatcher(`${testEndpoint}{/stores/:storeId}/webhooks`);
+    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}{/stores/:storeId}/webhooks/:id`);
     const recordData = generateWebHook();
 
     beforeEach(() => {
@@ -31,7 +31,7 @@ describe("Web Hooks", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("POST [/stores/:storeId]/webhooks", () => {

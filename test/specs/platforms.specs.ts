@@ -18,7 +18,7 @@ describe("Platforms", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /platform", () => {

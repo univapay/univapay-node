@@ -5,8 +5,8 @@
 import { stringify } from "@apimatic/json-bigint";
 import { EventEmitter } from "events";
 import pTimeout from "p-timeout";
-import { stringify as stringifyQuery } from "query-string";
-import flatten from "flat";
+import queryString from "query-string";
+import { flatten } from "flat";
 
 import {
     DEFAULT_ENDPOINT,
@@ -199,7 +199,7 @@ const getRequestBody = <Data>(
           : stringify(transformKeys(data, keyFormatter, ignoreKeysFormatting));
 
 const stringifyParams = (data: unknown): string => {
-    const query = stringifyQuery(flatten(transformKeys(data, toSnakeCase), { safe: true }), {
+    const query = queryString.stringify(flatten(transformKeys(data, toSnakeCase), { safe: true }), {
         arrayFormat: "bracket",
     });
 
@@ -467,9 +467,12 @@ export class RestAPI extends EventEmitter {
                 }
             };
 
-            return pTimeout(repeater(), timeout, () => {
-                timedOut = true;
-                throw new TimeoutError(timeout);
+            return pTimeout(repeater(), {
+                milliseconds: timeout,
+                fallback: () => {
+                    timedOut = true;
+                    throw new TimeoutError(timeout);
+                },
             });
         });
     }

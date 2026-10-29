@@ -21,7 +21,7 @@ describe("EC Forms", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /checkout/forms/:id", () => {

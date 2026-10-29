@@ -19,7 +19,7 @@ describe("Captures", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("POST /stores/:storeId/charges/:chargeId/captures", () => {

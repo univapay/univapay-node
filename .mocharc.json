@@ -5,6 +5,6 @@
   "fullTrace": true,
   "spec": ["test/specs/*.specs.ts", "test/specs/**/*.specs.ts"],
   "extension": ["js", "ts"],
-  "loader": ["ts-node/esm"],
-  "require": ["cross-fetch/dist/node-polyfill.js", "isomorphic-form-data"]
+  "require": ["cross-fetch/dist/node-polyfill.js", "isomorphic-form-data"],
+  "import": "tsx"
 }

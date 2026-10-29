@@ -23,7 +23,7 @@ describe("Ledgers", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /transfers/:transferId/ledgers", () => {

@@ -70,8 +70,7 @@ export interface ScheduledPaymentItem {
 export type SchedulePaymentListItem = ScheduledPaymentItem;
 
 export type InstallmentPlanItem =
-    | { planType: InstallmentPlan.REVOLVING }
-    | { planType: InstallmentPlan.FIXED_CYCLES; fixedCycles: number };
+    { planType: InstallmentPlan.REVOLVING } | { planType: InstallmentPlan.FIXED_CYCLES; fixedCycles: number };
 
 export type SubscriptionPlanItem =
     | { planType: InstallmentPlan.FIXED_CYCLES; fixedCycles: number }
