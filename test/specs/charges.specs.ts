@@ -9,7 +9,7 @@ import { ChargeCreateParams, Charges, ChargeStatus, ResponseCharge } from "../..
 import { generateFixture as generateCharge } from "../fixtures/charge.js";
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
-import { testEndpoint } from "../utils/index.js";
+import { fakeTimersConfig, testEndpoint } from "../utils/index.js";
 import {
     assertPoll,
     assertPollCancel,
@@ -33,12 +33,12 @@ describe("Charges", () => {
         charges = new Charges(api);
         sandbox = sinon.createSandbox({
             properties: ["spy", "clock"],
-            useFakeTimers: true,
+            useFakeTimers: fakeTimersConfig,
         });
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
         sandbox.restore();
     });
 
@@ -82,7 +82,7 @@ describe("Charges", () => {
                 recordGenerator: generateCharge,
             });
 
-            fetchMock.get(pathToRegexMatcher(`${testEndpoint}/:storesPart(stores/[^/]+)?/charges`), {
+            fetchMock.get(pathToRegexMatcher(`${testEndpoint}{/stores/:storeId}/charges`), {
                 status: 200,
                 body: listData,
                 headers: { "Content-Type": "application/json" },

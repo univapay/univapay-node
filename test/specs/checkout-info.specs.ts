@@ -22,7 +22,7 @@ describe("Checkout Info", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /checkout_info", () => {

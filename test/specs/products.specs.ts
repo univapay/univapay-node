@@ -20,7 +20,7 @@ describe("Products", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /checkout/products/:id", () => {

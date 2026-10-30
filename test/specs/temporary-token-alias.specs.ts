@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
-import { parse } from "query-string";
-import url from "url";
+import queryString from "query-string";
 
 import { RestAPI } from "../../src/api/RestAPI.js";
 import {
@@ -30,7 +29,7 @@ describe("Temporary Token Alias", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("POST /tokens/alias", () => {
@@ -52,8 +51,8 @@ describe("Temporary Token Alias", () => {
         it("should get response", async () => {
             const blobBody = await new Response(new ArrayBuffer(2)).blob();
 
-            fetchMock.get(recordPathMatcher, (uri) => {
-                const params = parse(url.parse(uri).query || "");
+            fetchMock.get(recordPathMatcher, ({ url }) => {
+                const params = queryString.parseUrl(url).query;
                 const isBlob = params.media === TemporaryTokenAliasMedia.QR;
 
                 return {

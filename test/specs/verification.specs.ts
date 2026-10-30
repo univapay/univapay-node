@@ -52,7 +52,7 @@ describe("Verification", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("POST /verification", () => {

@@ -5,8 +5,8 @@
 import { stringify } from "@apimatic/json-bigint";
 import { EventEmitter } from "events";
 import pTimeout from "p-timeout";
-import { stringify as stringifyQuery } from "query-string";
-import flatten from "flat";
+import queryString from "query-string";
+import { flatten } from "flat";
 
 import {
     DEFAULT_ENDPOINT,
@@ -14,6 +14,7 @@ import {
     ENV_KEY_APPLICATION_JWT,
     ENV_KEY_ENDPOINT,
     ENV_KEY_SECRET,
+    getEnv,
     IDEMPOTENCY_KEY_HEADER,
     POLLING_INTERVAL,
     POLLING_TIMEOUT,
@@ -199,7 +200,7 @@ const getRequestBody = <Data>(
           : stringify(transformKeys(data, keyFormatter, ignoreKeysFormatting));
 
 const stringifyParams = (data: unknown): string => {
-    const query = stringifyQuery(flatten(transformKeys(data, toSnakeCase), { safe: true }), {
+    const query = queryString.stringify(flatten(transformKeys(data, toSnakeCase), { safe: true }), {
         arrayFormat: "bracket",
     });
 
@@ -213,7 +214,7 @@ const execRequest = async <Response>(execute: () => Promise<Response>): Promise<
         return response;
     } catch (error) {
         const formattedError =
-            error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error);
+            error instanceof TimeoutError || error instanceof ResponseError ? error : fromError(error as Error);
 
         throw formattedError;
     }
@@ -221,7 +222,7 @@ const execRequest = async <Response>(execute: () => Promise<Response>): Promise<
 
 export class RestAPI extends EventEmitter {
     endpoint: string;
-    jwt: JWTPayload<unknown> | null;
+    jwt: JWTPayload<unknown> | null = null;
     origin?: string;
     secret?: string;
 
@@ -244,14 +245,14 @@ export class RestAPI extends EventEmitter {
     constructor(options: RestAPIOptions = {}) {
         super();
 
-        this.endpoint = options.endpoint || process.env[ENV_KEY_ENDPOINT] || DEFAULT_ENDPOINT;
+        this.endpoint = options.endpoint || getEnv(ENV_KEY_ENDPOINT) || DEFAULT_ENDPOINT;
         this.origin = options.origin || this.origin;
-        this.jwtRaw = options.jwt || process.env[ENV_KEY_APPLICATION_JWT] || undefined;
+        this.jwtRaw = options.jwt || getEnv(ENV_KEY_APPLICATION_JWT) || undefined;
         this.handleUpdateJWT = options.handleUpdateJWT || undefined;
         this.defaultAuthParams = options.authParams;
 
-        this.appId = options.appId || process.env[ENV_KEY_APP_ID];
-        this.secret = options.secret || process.env[ENV_KEY_SECRET];
+        this.appId = options.appId || getEnv(ENV_KEY_APP_ID);
+        this.secret = options.secret || getEnv(ENV_KEY_SECRET);
         this.authToken = options.authToken;
     }
 
@@ -467,9 +468,12 @@ export class RestAPI extends EventEmitter {
                 }
             };
 
-            return pTimeout(repeater(), timeout, () => {
-                timedOut = true;
-                throw new TimeoutError(timeout);
+            return pTimeout(repeater(), {
+                milliseconds: timeout,
+                fallback: () => {
+                    timedOut = true;
+                    throw new TimeoutError(timeout);
+                },
             });
         });
     }

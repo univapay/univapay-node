@@ -2,7 +2,6 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "downlevelIteration": true,
     "importHelpers": true,
     "sourceMap": true,
     "target": "es2020",
@@ -21,20 +20,18 @@
     ],
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noImplicitThis": false,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
-    "baseUrl": ".",
+    "strict": true,
     "outDir": "./dist/esm",
-    "paths": {
-      "*": [
-        "types/*.d.ts"
-      ]
-    }
+    "rootDir": "./src",
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "src/**/*.ts"

@@ -171,7 +171,7 @@ export class Charges extends CRUDResource {
         auth?: AuthParams,
     ): Promise<ResponseCharge<T>> {
         return ignoreDescriptor(
-            (updatedData: ChargeCreateParams) =>
+            (updatedData) =>
                 this.defineRoute(HTTPMethod.POST, "/charges", { requiredParams: Charges.requiredParams })(
                     updatedData,
                     auth,

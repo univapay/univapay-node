@@ -21,7 +21,7 @@ describe("Transfers", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /transfers", () => {

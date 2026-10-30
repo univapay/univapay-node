@@ -19,7 +19,7 @@ import {
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateRefund } from "../fixtures/refund.js";
-import { testEndpoint } from "../utils/index.js";
+import { fakeTimersConfig, testEndpoint } from "../utils/index.js";
 import {
     assertPoll,
     assertPollCancel,
@@ -44,12 +44,12 @@ describe("Refunds", () => {
         refunds = new Refunds(api);
         sandbox = sinon.createSandbox({
             properties: ["spy", "clock"],
-            useFakeTimers: true,
+            useFakeTimers: fakeTimersConfig,
         });
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
         sandbox.restore();
     });
 

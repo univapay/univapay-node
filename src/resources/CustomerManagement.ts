@@ -37,7 +37,7 @@ export type ParsedAuthenticateToken = {
 export class CustomerManagement extends CRUDResource {
     static routeBase = "(/stores/:storeId)/customers";
 
-    private _authorize: DefinedRoute;
+    private _authorize?: DefinedRoute;
     authorize(
         storeId: string,
         data: SendData<CustomerManagementAuthenticatePayload>,
@@ -48,7 +48,7 @@ export class CustomerManagement extends CRUDResource {
         return this._authorize(data, auth, { storeId });
     }
 
-    private _sendCode: DefinedRoute;
+    private _sendCode?: DefinedRoute;
     sendCode(
         storeId: string,
         data: SendData<CustomerManagementSendCodePayload>,
