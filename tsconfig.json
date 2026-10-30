@@ -20,7 +20,7 @@
     ],
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noImplicitThis": false,
