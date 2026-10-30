@@ -114,7 +114,7 @@ export abstract class Resource extends EventEmitter {
              *
              * Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create#custom_and_null_objects
              */
-            const data = getObjectType(originalData) === "object" ? { ...originalData } as DataType : originalData;
+            const data = getObjectType(originalData) === "object" ? ({ ...originalData } as DataType) : originalData;
             const url = compilePath(path, pathParams);
 
             // Validate required path parameters
@@ -125,13 +125,14 @@ export abstract class Resource extends EventEmitter {
             }
 
             // Validate required body parameters
-            const firstMissingParam = data && typeof data === "object"
-                ? requiredParams.find((key) =>
-                      typeof key === "string"
-                          ? (data as Record<string, unknown>)[key] === undefined
-                          : key.every((orKey) => (data as Record<string, unknown>)[orKey] === undefined),
-                  )
-                : requiredParams[0];
+            const firstMissingParam =
+                data && typeof data === "object"
+                    ? requiredParams.find((key) =>
+                          typeof key === "string"
+                              ? (data as Record<string, unknown>)[key] === undefined
+                              : key.every((orKey) => (data as Record<string, unknown>)[orKey] === undefined),
+                      )
+                    : requiredParams[0];
             if (firstMissingParam) {
                 const error = fromError(
                     new RequestParameterError(

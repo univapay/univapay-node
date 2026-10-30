@@ -75,7 +75,7 @@
     "tsx": "^4.23.15",
     "typedoc": "^0.28.20",
     "typedoc-plugin-internal-external": "^2.2.0",
-    "typescript": "^7.0.2",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.1",
     "uuid": "^14.0.3"
   },
