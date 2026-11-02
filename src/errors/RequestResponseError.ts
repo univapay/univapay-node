@@ -34,9 +34,11 @@ const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest | ErrorRes
         .map((error) => {
             if (typeof error === "string") {
                 const upperCaseError = error.toUpperCase();
-                const isValidError =
-                    Object.values(ResponseErrorCode).some((code) => code === upperCaseError) ||
-                    Object.values(RequestErrorCode).some((code) => code === upperCaseError);
+                const VALID_ERROR_CODES = new Set<string>([
+                    ...Object.values(ResponseErrorCode),
+                    ...Object.values(RequestErrorCode),
+                ]);
+                const isValidError = VALID_ERROR_CODES.has(upperCaseError);
 
                 return {
                     reason: isValidError ? (upperCaseError as ResponseErrorCode) : ResponseErrorCode.UnknownError,
