@@ -22,7 +22,7 @@ describe("Links Products", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET (/merchants/:merchantId)(/stores/:storeId)/checkout/links/:linkId/products", () => {

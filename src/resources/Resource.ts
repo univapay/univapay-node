@@ -36,7 +36,7 @@ export type DefinedRoute = (
  * @param path The full path to compile, e.g. `(/merchant/:merchantId)/store/:storeId`
  * @param pathParams Object of params to fill into the path, e.g. `{ merchantId: "abc" }`
  */
-const compilePath = (path: string, pathParams: Record<string, string | undefined>): string =>
+const compilePath = (path: string, pathParams: Record<string, string | undefined | null>): string =>
     path
         .replace(/\((\w|:|-|\/)+\)/gi, (o: string) => {
             const part = o.replace(/:(\w+)/gi, (s: string, p: string) => pathParams[p] || s);
@@ -100,11 +100,11 @@ export abstract class Resource extends EventEmitter {
     }
 
     protected defineRoute(method: HTTPMethod, path: string, options: DefineRouteOptions = {}): DefinedRoute {
-        return <A, B>(
-            originalData?: SendData<A>,
+        return <DataType = Record<string, unknown>, ReturnType = unknown>(
+            originalData?: SendData<DataType>,
             auth?: AuthParams | null,
-            pathParams: Record<string, string | undefined> = {},
-        ): Promise<B> => {
+            pathParams: Record<string, string | undefined | null> = {},
+        ): Promise<ReturnType> => {
             const { requiredParams = [], ...sendOptions } = options;
 
             /**
@@ -114,7 +114,7 @@ export abstract class Resource extends EventEmitter {
              *
              * Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create#custom_and_null_objects
              */
-            const data = getObjectType(originalData) === "object" ? { ...originalData } : originalData;
+            const data = getObjectType(originalData) === "object" ? ({ ...originalData } as DataType) : originalData;
             const url = compilePath(path, pathParams);
 
             // Validate required path parameters
@@ -125,13 +125,14 @@ export abstract class Resource extends EventEmitter {
             }
 
             // Validate required body parameters
-            const firstMissingParam = data
-                ? requiredParams.find((key) =>
-                      typeof key === "string"
-                          ? data[key] === undefined
-                          : key.every((orKey) => data[orKey] === undefined),
-                  )
-                : requiredParams[0];
+            const firstMissingParam =
+                data && typeof data === "object"
+                    ? requiredParams.find((key) =>
+                          typeof key === "string"
+                              ? (data as Record<string, unknown>)[key] === undefined
+                              : key.every((orKey) => (data as Record<string, unknown>)[orKey] === undefined),
+                      )
+                    : requiredParams[0];
             if (firstMissingParam) {
                 const error = fromError(
                     new RequestParameterError(
@@ -141,7 +142,7 @@ export abstract class Resource extends EventEmitter {
                 return Promise.reject(error);
             }
 
-            return this.api.send(method, url, data, auth, sendOptions) as Promise<B>;
+            return this.api.send(method, url, data, auth, sendOptions) as Promise<ReturnType>;
         };
     }
 }

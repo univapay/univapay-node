@@ -17,7 +17,7 @@ describe("Customer management", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("POST (/stores/:storeId)/customers/authenticate", () => {

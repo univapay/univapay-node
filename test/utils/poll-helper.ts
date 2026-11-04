@@ -1,6 +1,6 @@
 import arrify from "arrify";
 import { expect } from "chai";
-import fetchMock from "fetch-mock";
+import fetchMock, { RouteMatcher } from "fetch-mock";
 import pMap from "p-map";
 import * as sinon from "sinon";
 
@@ -13,14 +13,14 @@ const tickPoll = (sandbox: sinon.SinonSandbox, ticks = 3) =>
 const timeoutPoll = (sandbox: sinon.SinonSandbox) => sandbox.clock.tickAsync(POLLING_TIMEOUT);
 
 const headers = { "Content-Type": "application/json" };
-const mockFetchGetOnce = <Item>(pathMatcher: fetchMock.MockMatcher, name: string, body: Item, status = 200) =>
+const mockFetchGetOnce = <Item>(pathMatcher: RouteMatcher, name: string, body: Item, status = 200) =>
     fetchMock.getOnce(pathMatcher, { status, body, headers }, { name });
 
 const mockFetchGet = <Item>(pathMatcher, name: string, body: Item, status = 200) =>
     fetchMock.get(pathMatcher, { status, body, headers }, { name });
 
 export const assertPoll = async <Item>(
-    pathMatcher: fetchMock.MockMatcher,
+    pathMatcher: RouteMatcher,
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
     successItem: Item,
@@ -39,7 +39,7 @@ export const assertPoll = async <Item>(
 };
 
 export const assertPollCancel = async <Item>(
-    pathMatcher: fetchMock.MockMatcher,
+    pathMatcher: RouteMatcher,
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
     cancelItem: Item,
@@ -58,7 +58,7 @@ export const assertPollCancel = async <Item>(
 };
 
 export const assertPollTimeout = async <Item>(
-    pathMatcher: fetchMock.MockMatcher,
+    pathMatcher: RouteMatcher,
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
     pendingItem: Item,
@@ -72,7 +72,7 @@ export const assertPollTimeout = async <Item>(
 };
 
 export const assertPollNotFoundError = async <Item>(
-    pathMatcher: fetchMock.MockMatcher,
+    pathMatcher: RouteMatcher,
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
 ) => {
@@ -89,7 +89,7 @@ export const assertPollNotFoundError = async <Item>(
 };
 
 export const assertPollInternalServerError = async <Item>(
-    pathMatcher: fetchMock.MockMatcher,
+    pathMatcher: RouteMatcher,
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
     successItem: Item,
@@ -104,7 +104,7 @@ export const assertPollInternalServerError = async <Item>(
 };
 
 export const assertPollInternalServerErrorMaxRetry = async <Item>(
-    pathMatcher: fetchMock.MockMatcher,
+    pathMatcher: RouteMatcher,
     call: () => Promise<Item>,
     sandbox: sinon.SinonSandbox,
 ) => {

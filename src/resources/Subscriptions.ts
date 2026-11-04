@@ -70,8 +70,7 @@ export interface ScheduledPaymentItem {
 export type SchedulePaymentListItem = ScheduledPaymentItem;
 
 export type InstallmentPlanItem =
-    | { planType: InstallmentPlan.REVOLVING }
-    | { planType: InstallmentPlan.FIXED_CYCLES; fixedCycles: number };
+    { planType: InstallmentPlan.REVOLVING } | { planType: InstallmentPlan.FIXED_CYCLES; fixedCycles: number };
 
 export type SubscriptionPlanItem =
     | { planType: InstallmentPlan.FIXED_CYCLES; fixedCycles: number }
@@ -373,7 +372,7 @@ export class Subscriptions extends CRUDResource {
         this.chargesResource = new Charges(api);
     }
 
-    private _list: DefinedRoute;
+    private _list?: DefinedRoute;
     list<T extends Metadata = Metadata>(
         data?: SendData<SubscriptionsListParams>,
         auth?: AuthParams,
@@ -424,7 +423,7 @@ export class Subscriptions extends CRUDResource {
         auth?: AuthParams,
     ): Promise<ResponseSubscription<T>> {
         return ignoreDescriptor(
-            (updatedData: SubscriptionCreateParams) =>
+            (updatedData) =>
                 this.defineRoute(HTTPMethod.POST, "/subscriptions", { requiredParams: Subscriptions.requiredParams })(
                     updatedData,
                     auth,
@@ -434,14 +433,10 @@ export class Subscriptions extends CRUDResource {
     }
 
     createBatch(data: BatchSubscriptionCreateParams, auth?: AuthParams): Promise<BatchSubscriptionResponse> {
-        return ignoreDescriptor(
-            (updatedData: BatchSubscriptionCreateParams) =>
-                this.defineRoute(HTTPMethod.POST, "/subscriptions/batches")(updatedData, auth),
-            data,
-        );
+        return this.defineRoute(HTTPMethod.POST, "/subscriptions/batches")(data, auth);
     }
 
-    private _get: DefinedRoute;
+    private _get?: DefinedRoute;
     get<T extends Metadata = Metadata>(
         storeId: string | null,
         id: string | null,
@@ -452,13 +447,13 @@ export class Subscriptions extends CRUDResource {
         return this._get(data, auth, { storeId, id });
     }
 
-    private _getBatch: DefinedRoute;
+    private _getBatch?: DefinedRoute;
     getBatch(batchId: string, data?: SendData<PollData>, auth?: AuthParams): Promise<BatchSubscriptionResponse> {
         this._getBatch = this._getBatch ?? this.defineRoute(HTTPMethod.GET, "/subscriptions/batches/:batchId");
         return this._getBatch(data, auth, { batchId });
     }
 
-    private _update: DefinedRoute;
+    private _update?: DefinedRoute;
     update<T extends Metadata = Metadata>(
         storeId: string | null,
         id: string | null,
@@ -469,13 +464,13 @@ export class Subscriptions extends CRUDResource {
         return this._update(data, auth, { storeId, id });
     }
 
-    private _delete: DefinedRoute;
+    private _delete?: DefinedRoute;
     delete(storeId: string | null, id: string | null, data?: SendData<void> | null, auth?: AuthParams): Promise<void> {
         this._delete = this._delete ?? this._deleteRoute();
         return this._delete(data, auth, { storeId, id });
     }
 
-    private _charges: DefinedRoute;
+    private _charges?: DefinedRoute;
     charges<T extends Metadata = Metadata>(
         storeId: string | null,
         id: string | null,
@@ -534,7 +529,7 @@ export class Subscriptions extends CRUDResource {
         return { subscription, charge };
     }
 
-    private _simulation: DefinedRoute;
+    private _simulation?: DefinedRoute;
     simulation(
         data: SendData<SubscriptionSimulationParams>,
         auth?: AuthParams,

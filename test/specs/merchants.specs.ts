@@ -16,7 +16,7 @@ describe("Merchants", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /me", () => {

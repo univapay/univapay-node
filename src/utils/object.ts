@@ -8,9 +8,12 @@ import isBuffer from "is-buffer";
 
 export type Transformer = (...args: any[]) => string;
 
-export const toCamelCase = (key: string) => camelCase(key, { stripRegexp: /[^A-Z0-9.]/gi });
+// Dots are kept as nested key separators, each segment is converted independently
+const preserveDots = (transform: (input: string) => string) => (key: string) => key.split(".").map(transform).join(".");
 
-export const toSnakeCase = (key: string) => snakeCase(key, { stripRegexp: /[^A-Z0-9.]/gi });
+export const toCamelCase = preserveDots(camelCase);
+
+export const toSnakeCase = preserveDots(snakeCase);
 
 const isObject = (value: unknown): value is Record<string, any> => typeof value === "object" && Boolean(value);
 

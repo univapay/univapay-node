@@ -20,7 +20,7 @@ describe("EC Form links", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("GET /checkout/links/:id", () => {

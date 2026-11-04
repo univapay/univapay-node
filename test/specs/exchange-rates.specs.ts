@@ -18,7 +18,7 @@ describe("Exchange rates", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("POST /exchange_rates/calculate", () => {

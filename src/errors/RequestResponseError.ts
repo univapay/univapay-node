@@ -31,13 +31,14 @@ const isSymbol = (value: unknown): value is string | number | boolean =>
 const formatErrors = ({ errors: rawErrors, ...rest }: RawErrorRequest | ErrorResponse): FormattedErrorRequest => {
     const formattedErrors = arrify(rawErrors)
         .filter(Boolean)
-        .map((error: ErrorItem) => {
+        .map((error) => {
             if (typeof error === "string") {
-                const errorCodeKeys = [...Object.keys(ResponseErrorCode), ...Object.keys(RequestErrorCode)];
                 const upperCaseError = error.toUpperCase();
-                const isValidError = errorCodeKeys.some(
-                    (key) => ResponseErrorCode[key] === upperCaseError || RequestErrorCode[key] === upperCaseError,
-                );
+                const VALID_ERROR_CODES = new Set<string>([
+                    ...Object.values(ResponseErrorCode),
+                    ...Object.values(RequestErrorCode),
+                ]);
+                const isValidError = VALID_ERROR_CODES.has(upperCaseError);
 
                 return {
                     reason: isValidError ? (upperCaseError as ResponseErrorCode) : ResponseErrorCode.UnknownError,

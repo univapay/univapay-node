@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import fetchMock, { FetchMockStatic } from "fetch-mock";
+import fetchMock, { FetchMock } from "fetch-mock";
 import jwt from "jsonwebtoken";
-import { parseUrl } from "query-string";
+import queryString from "query-string";
 import sinon, { SinonSandbox } from "sinon";
 
 import { BodyTransferType, HTTPMethod, RestAPI, RestAPIOptions } from "../../src/api/RestAPI.js";
@@ -30,7 +30,7 @@ describe("API", function () {
     });
 
     afterEach(function () {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
         sandbox.restore();
     });
 
@@ -189,7 +189,7 @@ describe("API", function () {
             [{ secret: "secret" }, { jwt: jwtToken1 }, `Bearer secret.${jwtToken1}`],
         ];
 
-        const mock: FetchMockStatic = fetchMock.get(
+        const mock: FetchMock = fetchMock.get(
             `${testEndpoint}/header`,
             {
                 status: 200,
@@ -205,7 +205,7 @@ describe("API", function () {
         for (const [initParams, sendParams, authHeader] of asserts) {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint, ...initParams });
             const response = await api.send(HTTPMethod.GET, "/header", null, sendParams);
-            const { request } = mock.lastCall() as fetchMock.MockCall;
+            const { request } = mock.callHistory.lastCall()!;
             const reqAuthHeader = (request as Request).headers.get("Authorization");
 
             expect(reqAuthHeader).to.eql(authHeader || null);
@@ -242,7 +242,8 @@ describe("API", function () {
             headers: { "Content-Type": "application/json" },
         });
 
-        const onResponse = sinon.spy();
+        // Clone at emit time since the SDK consumes the body afterwards
+        const onResponse = sinon.spy((response: Response) => response.clone());
 
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
         api.on("response", onResponse);
@@ -250,13 +251,11 @@ describe("API", function () {
 
         // eslint-disable-next-line
         expect(onResponse).to.have.been.calledOnce;
-        expect(onResponse.firstCall.lastArg)
-            .to.include({
-                status: 200,
-                statusText: "OK",
-            })
-            .and.have.property("body")
-            .eql(Buffer.from(JSON.stringify(okResponse)));
+        expect(onResponse.firstCall.lastArg).to.include({
+            status: 200,
+            statusText: "OK",
+        });
+        await expect(onResponse.firstCall.returnValue.json()).to.become(okResponse);
     });
 
     it("should send request with Origin header", async function () {
@@ -270,7 +269,7 @@ describe("API", function () {
             [{ origin: "origin1" }, { origin: "origin2" }],
         ];
 
-        const mock: FetchMockStatic = fetchMock.get(
+        const mock: FetchMock = fetchMock.get(
             `${testEndpoint}/origin`,
             {
                 status: 200,
@@ -286,7 +285,7 @@ describe("API", function () {
         for (const [initParams, sendParams] of asserts) {
             const api: RestAPI = new RestAPI({ endpoint: testEndpoint, ...initParams });
             const response = await api.send(HTTPMethod.GET, "/origin", null, sendParams);
-            const { request } = mock.lastCall() as fetchMock.MockCall;
+            const { request } = mock.callHistory.lastCall()!;
             const reqOriginHeader = (request as Request).headers.get("Origin");
 
             expect(reqOriginHeader).to.be.equal(
@@ -318,7 +317,7 @@ describe("API", function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
 
         const response = await api.send(HTTPMethod.GET, "/login");
-        const { request: loginReq } = loginMock.lastCall() as fetchMock.MockCall;
+        const { request: loginReq } = loginMock.callHistory.lastCall()!;
         const loginReqCredentials = (loginReq as Request).credentials;
         expect(loginReqCredentials).to.be.equal("same-origin");
         expect(response).to.eql(okResponse);
@@ -333,7 +332,7 @@ describe("API", function () {
         });
 
         const someResponse = await api.send(HTTPMethod.GET, "/somerequest", null, { useCredentials: true });
-        const { request } = someReqMock.lastCall() as fetchMock.MockCall;
+        const { request } = someReqMock.callHistory.lastCall()!;
         const reqCredentials = (request as Request).credentials;
         expect(reqCredentials).to.be.equal("include");
         expect(someResponse).to.eql(okResponse);
@@ -424,7 +423,7 @@ describe("API", function () {
     });
 
     it("should send request with idempotent key", async function () {
-        const mock: FetchMockStatic = fetchMock.getOnce(`${testEndpoint}/header`, {
+        const mock: FetchMock = fetchMock.getOnce(`${testEndpoint}/header`, {
             status: 200,
             body: okResponse,
             headers: { "Content-Type": "application/json" },
@@ -433,14 +432,14 @@ describe("API", function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
         await api.send(HTTPMethod.GET, "/header", null, { idempotentKey: "test" });
 
-        const { request } = mock.lastCall() as fetchMock.MockCall;
+        const { request } = mock.callHistory.lastCall()!;
         const keyHeader = (request as Request).headers.get(IDEMPOTENCY_KEY_HEADER);
 
         expect(keyHeader).to.equal("test");
     });
 
     it("should convert all params to underscore", async function () {
-        const mock: FetchMockStatic = fetchMock.mock(`begin:${testEndpoint}/camel`, {
+        const mock: FetchMock = fetchMock.route(`begin:${testEndpoint}/camel`, {
             status: 200,
             headers: { "Content-Type": "application/json" },
         });
@@ -469,15 +468,15 @@ describe("API", function () {
         // For request with payload
         for (const assert of asserts) {
             await api.send(HTTPMethod.POST, "/camel", assert);
-            const req = (mock.lastCall() as fetchMock.MockCall).request;
+            const req = mock.callHistory.lastCall()!.request;
             await expect(req?.json()).to.become(expectationPost);
         }
 
         // For request without payload
         for (const assert of asserts) {
             await api.send(HTTPMethod.GET, "/camel", assert);
-            const url = mock.lastUrl() as string;
-            const { query } = parseUrl(url);
+            const { url } = mock.callHistory.lastCall()!;
+            const { query } = queryString.parseUrl(url);
             expect(query).to.eql(expectationGet);
         }
     });
@@ -589,7 +588,7 @@ describe("API", function () {
         const payload = { foo: 1, bar: "foobar" };
         const requestToJson = (request: Request | undefined, hasPayload: boolean) =>
             hasPayload ? request?.json() : new Promise((resolve) => resolve(request?.body));
-        const mock: FetchMockStatic = fetchMock.mock(`begin:${testEndpoint}/encoding`, {
+        const mock: FetchMock = fetchMock.route(`begin:${testEndpoint}/encoding`, {
             status: 200,
             headers: { "Content-Type": "application/json" },
         });
@@ -628,7 +627,7 @@ describe("API", function () {
             const hasEntityPayload = result === "entity";
 
             await api.send(method, "/encoding", payload, undefined, { bodyTransferEncoding: override });
-            const req = (mock.lastCall() as fetchMock.MockCall).request;
+            const req = mock.callHistory.lastCall()!.request;
 
             expect(req!.url).to.eql(!hasEntityPayload ? `${url}?bar=foobar&foo=1` : url);
             expect(requestToJson(req, hasEntityPayload)).to.become(hasEntityPayload ? payload : null);
@@ -638,7 +637,7 @@ describe("API", function () {
     it("should use query impersonate", async function () {
         const url = "http://mock-api/encoding";
         const payload = { foo: 1, bar: "foobar" };
-        const mock: FetchMockStatic = fetchMock.mock(`begin:${testEndpoint}/encoding`, {
+        const mock: FetchMock = fetchMock.route(`begin:${testEndpoint}/encoding`, {
             status: 200,
             headers: { "Content-Type": "application/json" },
         });
@@ -646,23 +645,23 @@ describe("API", function () {
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
 
         await api.send(HTTPMethod.POST, "/encoding", payload, undefined, { queryImpersonate: "1234" });
-        const postReq = (mock.lastCall() as fetchMock.MockCall).request;
+        const postReq = mock.callHistory.lastCall()!.request;
         expect(postReq!.url).to.eql(`${url}?impersonate=1234`);
         expect(postReq?.json()).to.become(payload);
 
         await api.send(HTTPMethod.GET, "/encoding", payload, undefined, { queryImpersonate: "1234" });
-        const getReq = (mock.lastCall() as fetchMock.MockCall).request;
+        const getReq = mock.callHistory.lastCall()!.request;
         expect(getReq!.url).to.eql(`${url}?bar=foobar&foo=1&impersonate=1234`);
         expect(getReq?.body).to.eq(null);
     });
 
     it("should send the manual query", async function () {
         const payload = { foo: 1, bar: "foobar" };
-        fetchMock.mock(`begin:${testEndpoint}/redirect`, {
+        fetchMock.route(`begin:${testEndpoint}/redirect`, {
             status: 303,
             headers: { "Content-Type": "application/json", "Location": "http://mock-api-redirect/test" },
         });
-        fetchMock.mock("begin:http://mock-api-redirect/test", {
+        fetchMock.route("begin:http://mock-api-redirect/test", {
             status: 200,
             headers: { "Content-Type": "application/json" },
             body: okResponse,

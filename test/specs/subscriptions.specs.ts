@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import fetchMock, { MockMatcher } from "fetch-mock";
+import fetchMock, { RouteMatcher } from "fetch-mock";
 import * as sinon from "sinon";
 import { SinonSandbox } from "sinon";
 import { v4 as uuid } from "uuid";
@@ -29,7 +29,7 @@ import {
     generateFixture as generateSubscription,
     generateBatchSubscriptionResponse,
 } from "../fixtures/subscription.js";
-import { testEndpoint } from "../utils/index.js";
+import { fakeTimersConfig, testEndpoint } from "../utils/index.js";
 import {
     assertPoll,
     assertPollCancel,
@@ -54,12 +54,12 @@ describe("Subscriptions", () => {
         subscriptions = new Subscriptions(api);
         sandbox = sinon.createSandbox({
             properties: ["spy", "clock"],
-            useFakeTimers: true,
+            useFakeTimers: fakeTimersConfig,
         });
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
         sandbox.restore();
     });
 
@@ -173,7 +173,7 @@ describe("Subscriptions", () => {
                 recordGenerator: generateSubscription,
             });
 
-            fetchMock.get(pathToRegexMatcher(`${testEndpoint}/:storesPart(stores/[^/]+)?/subscriptions`), {
+            fetchMock.get(pathToRegexMatcher(`${testEndpoint}{/stores/:storeId}/subscriptions`), {
                 status: 200,
                 body: listData,
                 headers: { "Content-Type": "application/json" },
@@ -374,14 +374,11 @@ describe("Subscriptions", () => {
                 cycles: [],
             };
 
-            fetchMock.post(
-                pathToRegexMatcher(`${testEndpoint}/:storesPart(stores/[^/]+)?/subscriptions/simulate_plan`),
-                {
-                    status: 200,
-                    body: simulationData,
-                    headers: { "Content-Type": "application/json" },
-                },
-            );
+            fetchMock.post(pathToRegexMatcher(`${testEndpoint}{/stores/:storeId}/subscriptions/simulate_plan`), {
+                status: 200,
+                body: simulationData,
+                headers: { "Content-Type": "application/json" },
+            });
 
             const data: SubscriptionSimulationParams = {
                 installmentPlan: { planType: InstallmentPlan.FIXED_CYCLES, fixedCycles: 3 },
@@ -520,7 +517,7 @@ describe("Subscriptions", () => {
     });
 
     context("Poll subscription and first charge", () => {
-        const mockGetSuccessOnce = (recordPathMatcher: MockMatcher, body: unknown, name: string) =>
+        const mockGetSuccessOnce = (recordPathMatcher: RouteMatcher, body: unknown, name: string) =>
             fetchMock.getOnce(
                 recordPathMatcher,
                 { status: 200, body, headers: { "Content-Type": "application/json" } },

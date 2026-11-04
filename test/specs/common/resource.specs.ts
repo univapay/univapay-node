@@ -7,10 +7,8 @@ import { testEndpoint } from "../../utils/index.js";
 import { Resource } from "../../../src/resources/Resource.js";
 
 describe("Common > Resource", () => {
-    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/test/:fooPart(foo/[^/]+)?/bar/:bar`);
-    const recordWithDashInPatPathMatcher = pathToRegexMatcher(
-        `${testEndpoint}/test/:fooPart(foo-foos/[^/]+)?/bar/:bar`,
-    );
+    const recordPathMatcher = pathToRegexMatcher(`${testEndpoint}/test{/foo/:foo}/bar/:bar`);
+    const recordWithDashInPatPathMatcher = pathToRegexMatcher(`${testEndpoint}/test{/foo-foos/:foo}/bar/:bar`);
     class CustomResource extends Resource {
         static routeBase = "/test";
 
@@ -50,7 +48,7 @@ describe("Common > Resource", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     describe("Path parameter validation", () => {

@@ -31,7 +31,7 @@ describe("Bank Accounts", () => {
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
     });
 
     context("POST /bank_accounts", () => {

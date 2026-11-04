@@ -18,7 +18,7 @@ import {
 import { createRequestError } from "../fixtures/errors.js";
 import { generateList } from "../fixtures/list.js";
 import { generateFixture as generateTransactionToken } from "../fixtures/transaction-tokens.js";
-import { testEndpoint } from "../utils/index.js";
+import { fakeTimersConfig, testEndpoint } from "../utils/index.js";
 import { pathToRegexMatcher } from "../utils/routes.js";
 
 describe("Transaction Tokens", () => {
@@ -34,12 +34,12 @@ describe("Transaction Tokens", () => {
         transactionTokens = new TransactionTokens(api);
         sandbox = sinon.createSandbox({
             properties: ["spy", "clock"],
-            useFakeTimers: true,
+            useFakeTimers: fakeTimersConfig,
         });
     });
 
     afterEach(() => {
-        fetchMock.restore();
+        fetchMock.removeRoutes().clearHistory();
         sandbox.restore();
     });
 
@@ -93,7 +93,7 @@ describe("Transaction Tokens", () => {
                 recordGenerator: generateTransactionToken,
             });
 
-            fetchMock.get(pathToRegexMatcher(`${testEndpoint}/:storesPart(stores/[^/]+)?/tokens`), {
+            fetchMock.get(pathToRegexMatcher(`${testEndpoint}{/stores/:storeId}/tokens`), {
                 status: 200,
                 body: listData,
                 headers: { "Content-Type": "application/json" },
