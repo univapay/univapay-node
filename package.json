@@ -102,7 +102,7 @@
     "build": "npm run build:esm && npm run build:cjs",
     "preversion": "npm test",
     "docs": "typedoc --options typedoc.json",
-    "release": "np --yolo --no-yarn --no-publish",
+    "release": "np --no-publish",
     "prepare": "husky"
   },
   "overrides": {
