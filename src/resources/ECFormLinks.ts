@@ -52,19 +52,19 @@ export type ECFormLinkItem<T extends Metadata = Metadata> = {
     allowCardInstallments: boolean | null;
 
     // Subscription
-    subscriptionStartOn?: string;
-    subscriptionStartIn?: string;
-    subscriptionStartInMonths?: number;
-    subscriptionStartDayOfMonth?: number;
-    subscriptionPreserveEndOfMonth?: boolean;
-    subscriptionInitialAmount?: number;
-    subscriptionCycles?: number;
+    subscriptionStartOn?: string | null;
+    subscriptionStartIn?: string | null;
+    subscriptionStartInMonths?: number | null;
+    subscriptionStartDayOfMonth?: number | null;
+    subscriptionPreserveEndOfMonth?: boolean | null;
+    subscriptionInitialAmount?: number | null;
+    subscriptionCycles?: number | null;
 
     /**
      * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter
      */
     subscriptionCyclicalPeriod?: string | null;
-    subscriptionPeriod?: SubscriptionPeriod;
+    subscriptionPeriod?: SubscriptionPeriod | null;
 
     /**
      * ISO 8601 period. e.g P1M, P23D. Can not be used with the `period` parameter

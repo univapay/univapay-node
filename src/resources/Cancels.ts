@@ -30,7 +30,7 @@ export interface CancelItem<T extends Metadata = Metadata> {
     chargeId: string;
     storeId?: string;
     status: CancelStatus;
-    error?: PaymentError;
+    error?: PaymentError | null;
     metadata?: T;
     mode: ProcessingMode;
     createdOn: string;

@@ -67,7 +67,7 @@ export interface RefundItem<T extends Metadata = Metadata> {
     amountFormatted: number;
     reason?: RefundReason;
     message?: string;
-    error?: PaymentError;
+    error?: PaymentError | null;
     metadata?: T;
     mode: ProcessingMode;
     createdOn: string;
