@@ -55,12 +55,12 @@
     "chai-arrays": "^2.2.0",
     "chai-as-promised": "^8.0.2",
     "cross-fetch": "^4.1.0",
-    "eslint": "^10.13.0",
+    "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.7",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "fetch-mock": "^12.6.0",
-    "globals": "^17.13.0",
+    "globals": "^17.14.0",
     "husky": "^9.1.7",
     "isomorphic-form-data": "^2.0.0",
     "jsonwebtoken": "^9.0.3",
@@ -89,9 +89,9 @@
     "flat": "^6.0.1",
     "is-buffer": "^2.0.5",
     "jwt-decode": "^4.0.0",
-    "p-timeout": "^8.0.0",
+    "p-timeout": "^8.1.0",
     "query-string": "^10.0.0",
-    "tslib": "^2.8.1"
+    "tslib": "^2.9.1"
   },
   "scripts": {
     "lint": "eslint --cache .",
