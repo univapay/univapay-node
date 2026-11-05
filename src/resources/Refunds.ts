@@ -25,6 +25,7 @@ export enum RefundReason {
     CHARGEBACK_FEE_EXEMPT = "chargeback_fee_exempt",
     CHARGEBACK_REVERSE = "chargeback_reverse",
     SYSTEM_FAILURE = "system_failure",
+    ADMIN_INITIATED_SILENT = "admin_initiated_silent",
 }
 
 /* Request */
