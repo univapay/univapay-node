@@ -6,7 +6,7 @@ import { stringify } from "@apimatic/json-bigint";
 import { EventEmitter } from "events";
 import pTimeout from "p-timeout";
 import queryString from "query-string";
-import flatten from "flat";
+import { flatten } from "flat";
 
 import {
     DEFAULT_ENDPOINT,
@@ -468,9 +468,12 @@ export class RestAPI extends EventEmitter {
                 }
             };
 
-            return pTimeout(repeater(), timeout, () => {
-                timedOut = true;
-                throw new TimeoutError(timeout);
+            return pTimeout(repeater(), {
+                milliseconds: timeout,
+                fallback: () => {
+                    timedOut = true;
+                    throw new TimeoutError(timeout);
+                },
             });
         });
     }
