@@ -9,7 +9,11 @@ import isBuffer from "is-buffer";
 export type Transformer = (...args: any[]) => string;
 
 // Dots are kept as nested key separators, each segment is converted independently
-const preserveDots = (transform: (input: string) => string) => (key: string) => key.split(".").map(transform).join(".");
+const preserveDots = (transform: (input: string) => string) => (key: string) =>
+    key
+        .split(".")
+        .map((segment) => transform(segment))
+        .join(".");
 
 export const toCamelCase = preserveDots(camelCase);
 

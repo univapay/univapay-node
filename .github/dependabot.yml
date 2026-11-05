@@ -11,9 +11,19 @@ updates:
         patterns:
           - "@typescript-eslint/*"
     ignore:
-      - dependency-name: "query-string" # v10 uses regex v flag, breaks consumer babel builds
-      - dependency-name: "arrify" # esm-only
-      - dependency-name: "p-timeout" # esm-only
+      # Majors above these are esm-only, breaking cjs consumers (jest, ts-node)
+      - dependency-name: "query-string"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "arrify"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "p-timeout"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "change-case"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "flat"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/flat"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
