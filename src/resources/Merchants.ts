@@ -12,12 +12,12 @@ import { DefinedRoute } from "./Resource.js";
 /* Request */
 
 /* Response */
-export interface MerchantConfigurationItem extends ConfigurationItem {
+export type MerchantConfigurationItem = ConfigurationItem & {
     waitPeriod?: string;
     transferSchedule?: TransferScheduleItem;
-}
+};
 
-export interface MerchantItem {
+export type MerchantItem = {
     id: string;
     verificationDataId?: string;
     name: string;
@@ -27,13 +27,13 @@ export interface MerchantItem {
     configuration: MerchantConfigurationItem;
     notificationEmail?: string;
     financeNotificationEmail?: string;
-}
+};
 
 export type ResponseMerchant = MerchantItem;
 
-export interface MerchantBanParams {
+export type MerchantBanParams = {
     reason: string;
-}
+};
 
 export class Merchants extends CRUDResource {
     private _me?: DefinedRoute;

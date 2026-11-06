@@ -5,7 +5,7 @@
 
 import { PhoneNumber } from "./types.js";
 
-export interface ContactInfo {
+export type ContactInfo = {
     name: string;
     companyName: string;
     phoneNumber: PhoneNumber;
@@ -15,6 +15,6 @@ export interface ContactInfo {
     state: string;
     country: string;
     zip: string;
-}
+};
 
 export type ContactInfoPartial = Partial<ContactInfo>;
