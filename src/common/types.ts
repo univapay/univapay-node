@@ -1,8 +1,8 @@
+type AnyFunction = (...args: unknown[]) => unknown;
 type Primitive = string | number | boolean | bigint | symbol | undefined | null;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-type Builtin = Primitive | Date | RegExp | Function | Error;
+type Leaf = Primitive | Date | RegExp | Error | AnyFunction | ReadonlyMap<unknown, unknown> | ReadonlySet<unknown>;
 
-type DeepNullInner<T> = T extends Builtin
+type DeepNullInner<T> = T extends Leaf
     ? T
     : T extends Map<infer K, infer V>
       ? Map<K, DeepNullInner<V>>
