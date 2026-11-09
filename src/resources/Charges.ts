@@ -128,7 +128,7 @@ export interface ChargeItem<T extends Metadata = Metadata> {
     subscriptionId?: string;
     captureAt?: string;
     captureStatus?: CaptureStatus;
-    error?: PaymentError;
+    error?: PaymentError | null;
     transactionTokenId?: string;
     redirect?: {
         redirectId?: string;

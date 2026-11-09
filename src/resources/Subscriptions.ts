@@ -217,7 +217,7 @@ export type SubscriptionItem<T extends Metadata = Metadata> = {
     subsequentCyclesStart?: string;
     installmentPlan?: InstallmentPlanItem;
     subscriptionPlan?: SubscriptionPlanItem;
-    period?: SubscriptionPeriod;
+    period?: SubscriptionPeriod | null;
     cyclicalPeriod?: string | null;
     cyclesLeft?: number;
     metadata?: T;

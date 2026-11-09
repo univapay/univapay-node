@@ -3,6 +3,7 @@
  *  @module Types
  */
 
+import { RecursiveNull } from "../../common/types.js";
 import { RecurringTokenPrivilege } from "../TransactionTokens.js";
 
 import { CardBrand, ProcessingMode } from "./enums.js";
@@ -29,17 +30,17 @@ export enum CustomerRole {
     SUBSCRIPTION_DELETE = "subscription_delete",
 }
 
-export type CustomerManagementConfiguration = {
+export type CustomerManagementConfiguration = RecursiveNull<{
     enabled: boolean;
     defaultRoles: CustomerRole[];
     defaultMode: ProcessingMode;
-};
+}>;
 
-export interface PaymentTypeConfiguration {
+export type PaymentTypeConfiguration = RecursiveNull<{
     enabled?: boolean;
-}
+}>;
 
-export interface CardBrandPercentFeesItem {
+export type CardBrandPercentFeesItem = {
     americanExpress?: number;
     dinersClub?: number;
     discover?: number;
@@ -48,7 +49,7 @@ export interface CardBrandPercentFeesItem {
     mastercard?: number;
     unionPay?: number;
     visa?: number;
-}
+};
 
 export type CardConfigurationMonthlyLimit = AmountWithCurrency & { duration: string };
 
@@ -57,158 +58,163 @@ export enum DirectDebitTransferDateType {
     END_OF_MONTH = "twenty_seven",
 }
 
-export interface CardConfigurationItem extends PaymentTypeConfiguration {
-    debitEnabled: boolean;
-    debitAuthorizationEnabled: boolean;
-    prepaidEnabled: boolean;
-    prepaidAuthorizationEnabled: boolean;
-    forbiddenCardBrands: CardBrand[];
-    foreignCardsAllowed: boolean;
-    failOnNewEmail: boolean;
-    allowedCountriesByIp: string[];
-    cardLimit: CardConfigurationMonthlyLimit;
-    allowEmptyCvv: boolean;
-    onlyDirectCurrency: boolean;
-    allowDirectTokenCreation: boolean;
-    threeDsAddressRequired?: boolean;
-    threeDsPhoneNumberRequired?: boolean;
-    threeDsRequired?: boolean;
-    threeDsSkipEnabled?: boolean;
-}
+export type CardConfigurationItem = PaymentTypeConfiguration &
+    RecursiveNull<{
+        debitEnabled: boolean;
+        debitAuthorizationEnabled: boolean;
+        prepaidEnabled: boolean;
+        prepaidAuthorizationEnabled: boolean;
+        forbiddenCardBrands: CardBrand[];
+        foreignCardsAllowed: boolean;
+        failOnNewEmail: boolean | null;
+        allowedCountriesByIp: string[] | null;
+        cardLimit: RecursiveNull<CardConfigurationMonthlyLimit> | null;
+        allowEmptyCvv: boolean;
+        onlyDirectCurrency: boolean;
+        allowDirectTokenCreation: boolean;
+        threeDsAddressRequired?: boolean;
+        threeDsPhoneNumberRequired?: boolean;
+        threeDsRequired?: boolean;
+        threeDsSkipEnabled?: boolean;
+    }>;
 
-export interface QRScanConfigurationItem extends PaymentTypeConfiguration {
-    forbiddenQrScanGateways: string[];
-}
+export type QRScanConfigurationItem = PaymentTypeConfiguration &
+    RecursiveNull<{
+        forbiddenQrScanGateways: string[];
+    }>;
 
 export type QRMerchantConfigurationItem = PaymentTypeConfiguration;
 
-export type ConvenienceConfigurationItem = PaymentTypeConfiguration & {
-    expiration: string;
-    /**
-     * Ensure that the charge expires when the merchant "expects" it to expire.
-     */
-    expirationTimeShift: {
-        enabled: boolean;
-
+export type ConvenienceConfigurationItem = PaymentTypeConfiguration &
+    RecursiveNull<{
+        expiration: string;
         /**
-         * Time with Time Zone.
-         * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
+         * Ensure that the charge expires when the merchant "expects" it to expire.
          */
-        value: string;
-    };
-};
+        expirationTimeShift: {
+            enabled: boolean;
+
+            /**
+             * Time with Time Zone.
+             * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
+             */
+            value: string;
+        };
+    }>;
 
 export type OnlineConfigurationItem = PaymentTypeConfiguration;
 
 export type PaidyConfigurationItem = PaymentTypeConfiguration;
 
-export type BankTransferConfiguration = PaymentTypeConfiguration & {
-    matchAmount: TransferMatchAmount;
-    expiration: string;
-    /**
-     * Ensure that the charge expires when the merchant "expects" it to expire.
-     */
-    expirationTimeShift: {
-        enabled: boolean;
+export type BankTransferConfiguration = PaymentTypeConfiguration &
+    RecursiveNull<{
+        matchAmount: TransferMatchAmount;
+        expiration: string;
+        /**
+         * Ensure that the charge expires when the merchant "expects" it to expire.
+         */
+        expirationTimeShift: {
+            enabled: boolean;
+
+            /**
+             * Time with Time Zone.
+             * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
+             */
+            value: string;
+        };
 
         /**
-         * Time with Time Zone.
-         * HH:mm:ss.SSSZ  (e.g: 09:00:00.000+09:00)
+         * Number of accounts left before fetching more accounts
          */
-        value: string;
-    };
+        virtualBankAccountsThreshold: number;
 
-    /**
-     * Number of accounts left before fetching more accounts
-     */
-    virtualBankAccountsThreshold: number;
+        /**
+         * How many accounts to fetch
+         */
+        virtualBankAccountsFetchCount: number;
 
-    /**
-     * How many accounts to fetch
-     */
-    virtualBankAccountsFetchCount: number;
+        /**
+         * Period (e.g P1DT9H)  How long to extend a charge expiration by default
+         */
+        defaultExtensionPeriod: string;
 
-    /**
-     * Period (e.g P1DT9H)  How long to extend a charge expiration by default
-     */
-    defaultExtensionPeriod: string;
+        /**
+         * Period (e.g P1DT9H) Maximum period a charge can be extended for, when using a custom period
+         */
+        maximumExtensionPeriod: string;
 
-    /**
-     * Period (e.g P1DT9H) Maximum period a charge can be extended for, when using a custom period
-     */
-    maximumExtensionPeriod: string;
+        /**
+         * Boolean when a charge should be auto-extended after expiration
+         */
+        automaticExtensionEnabled: boolean;
 
-    /**
-     * Boolean when a charge should be auto-extended after expiration
-     */
-    automaticExtensionEnabled: boolean;
+        /**
+         * Boolean when a reminder email should be sent
+         */
+        remindNotificationEnabled: boolean;
 
-    /**
-     * Boolean when a reminder email should be sent
-     */
-    remindNotificationEnabled: boolean;
+        /**
+         * Period (e.g P1DT9H) How long before the charge expiry to send to the customer the charge expiry reminder email template. If none, no reminder is sent
+         */
+        remindNotificationPeriod: string;
 
-    /**
-     * Period (e.g P1DT9H) How long before the charge expiry to send to the customer the charge expiry reminder email template. If none, no reminder is sent
-     */
-    remindNotificationPeriod: string;
+        /**
+         * Boolean when a charge request should be notified
+         */
+        chargeRequestNotificationEnabled: boolean;
 
-    /**
-     * Boolean when a charge request should be notified
-     */
-    chargeRequestNotificationEnabled: boolean;
+        /**
+         * Boolean when a deposit reception should be notified
+         */
+        depositReceivedNotificationEnabled: boolean;
 
-    /**
-     * Boolean when a deposit reception should be notified
-     */
-    depositReceivedNotificationEnabled: boolean;
+        /**
+         * Boolean when a deposit bellow the transaction value should be notified
+         */
+        depositInsufficientNotificationEnabled: boolean;
 
-    /**
-     * Boolean when a deposit bellow the transaction value should be notified
-     */
-    depositInsufficientNotificationEnabled: boolean;
+        /**
+         * Boolean when a deposit exceeding the transaction value should be notified
+         */
+        depositExceededNotificationEnabled: boolean;
 
-    /**
-     * Boolean when a deposit exceeding the transaction value should be notified
-     */
-    depositExceededNotificationEnabled: boolean;
+        /**
+         * Boolean when a charge extension should be notified
+         */
+        extensionNotificationEnabled: boolean;
 
-    /**
-     * Boolean when a charge extension should be notified
-     */
-    extensionNotificationEnabled: boolean;
+        /**
+         * Boolean when a charge expiration should be notified
+         */
+        chargeExpiredNotificationEnabled?: boolean;
 
-    /**
-     * Boolean when a charge expiration should be notified
-     */
-    chargeExpiredNotificationEnabled?: boolean;
+        /**
+         * Boolean when a charge cancel should be notified
+         */
+        chargeRequestCanceledNotificationEnabled?: boolean;
+    }>;
 
-    /**
-     * Boolean when a charge cancel should be notified
-     */
-    chargeRequestCanceledNotificationEnabled?: boolean;
-};
+export type DirectDebitConfiguration = PaymentTypeConfiguration &
+    RecursiveNull<{
+        legacyId?: string;
+        debitDate?: DirectDebitTransferDateType;
+        consignorCode?: string;
+        classifier?: string;
+        signature?: string;
+    }>;
 
-export type DirectDebitConfiguration = PaymentTypeConfiguration & {
-    legacyId?: string;
-    debitDate?: DirectDebitTransferDateType;
-    consignorCode?: string;
-    classifier?: string;
-    signature?: string;
-};
-
-export interface InstallmentsConfiguration {
+export type InstallmentsConfiguration = RecursiveNull<{
     enabled?: boolean;
     minChargeAmount?: AmountWithCurrency;
     maxPayoutPeriod?: string;
     failedCyclesToCancel?: number;
     onlyWithProcessor?: boolean;
     cardProcessor?: { fixedCycle: boolean; revolving: boolean } | null;
-}
+}>;
 
-export interface InstallmentsConfigurationItem extends PaymentTypeConfiguration, InstallmentsConfiguration {}
+export type InstallmentsConfigurationItem = PaymentTypeConfiguration & InstallmentsConfiguration;
 
-export type SubscriptionPlanConfiguration = {
+export type SubscriptionPlanConfiguration = RecursiveNull<{
     enabled: boolean | null;
     fixedCycle: boolean | null;
     fixedCycleAmount: boolean | null;
@@ -223,9 +229,9 @@ export type SubscriptionPlanConfiguration = {
      * Period e.g: P1Y
      */
     maxPayoutPeriod: string | null;
-};
+}>;
 
-export interface SecurityConfiguration {
+export type SecurityConfiguration = RecursiveNull<{
     inspectSuspiciousLoginAfter?: string;
     limitChargeByCardConfiguration?: {
         quantityOfCharges: number;
@@ -247,9 +253,9 @@ export interface SecurityConfiguration {
         period?: Period;
         rollingWindow?: boolean;
     };
-}
+}>;
 
-export interface UserTransactionsConfiguration {
+export type UserTransactionsConfiguration = RecursiveNull<{
     enabled?: boolean;
     notifyCustomer?: boolean;
     notifyOnTest?: boolean;
@@ -278,33 +284,34 @@ export interface UserTransactionsConfiguration {
      * Boolean when the customer management system link (`${customer_refer_link}` parameter) should be shown on the subscription templates
      */
     customerReferLinkEnabled?: boolean;
-}
+}>;
 
-export interface RecurringTokenConfiguration {
+export type RecurringTokenConfiguration = RecursiveNull<{
     recurringType?: RecurringTokenPrivilege;
     chargeWaitPeriod?: string;
     cardChargeCvvConfirmation?: {
         enabled?: boolean;
         threshold?: AmountWithCurrency[];
     };
-}
+}>;
 
-export interface SubscriptionsConfiguration {
+export type SubscriptionsConfiguration = RecursiveNull<{
     enabled?: boolean;
     failedChargesToCancel: number;
     suspendOnCancel: boolean;
     allowMerchantAmountPatch?: boolean;
     allowMerchantDueDatePatch?: boolean;
-}
+}>;
 
-export interface DescriptorProvidedConfiguration {
+export type DescriptorProvidedConfiguration = RecursiveNull<{
     name: string;
     phoneNumber: string;
-}
-export type CheckoutConfiguration = {
+}>;
+
+export type CheckoutConfiguration = RecursiveNull<{
     ecEmail: { enabled?: boolean };
     ecProducts: { enabled?: boolean };
-};
+}>;
 
 export enum Period {
     DAILY = "daily",
@@ -317,7 +324,7 @@ export enum Period {
     ANNUALLY = "annually",
 }
 
-export interface ConfigurationItem {
+export type ConfigurationItem = RecursiveNull<{
     bankTransferConfiguration: BankTransferConfiguration;
     cardBrandPercentFees: CardBrandPercentFeesItem;
     cardConfiguration: CardConfigurationItem;
@@ -349,9 +356,9 @@ export interface ConfigurationItem {
     platformCredentialsEnabled?: boolean;
     taggedPlatformCredentialsEnabled?: boolean;
     foreignCardsEnabled?: boolean;
-}
+}>;
 
-export interface ConfigurationParams {
+export type ConfigurationParams = RecursiveNull<{
     logoUrl?: string;
     paymentErrorTranslationEnabled?: boolean;
 
@@ -371,7 +378,7 @@ export interface ConfigurationParams {
     subscriptionPlanConfiguration?: SubscriptionPlanConfiguration;
     securityConfiguration?: Partial<SecurityConfiguration>;
     customerManagementConfiguration?: Partial<CustomerManagementConfiguration>;
-}
+}>;
 
 export type ConfigurationCreateParams = ConfigurationParams;
 export type ConfigurationUpdateParams = ConfigurationParams;
