@@ -45,6 +45,7 @@ export enum UsageLimit {
 
 export enum PaymentType {
     CARD = "card",
+    EXTERNAL_CARD = "external_card",
     QR_SCAN = "qr_scan",
     KONBINI = "konbini",
     APPLE_PAY = "apple_pay",
@@ -138,6 +139,13 @@ export interface TransactionTokenCardData {
     };
 }
 
+export type TransactionTokenExternalCardData = TransactionTokenCardData & {
+    external: {
+        gateway: string;
+        gateway_transaction_id: string;
+    };
+};
+
 export interface TransactionTokenQRScanData {
     scannedQR: string;
 }
@@ -217,6 +225,7 @@ export interface TransactionTokenCreateParams {
     usageLimit?: UsageLimit;
     data:
         | TransactionTokenCardData
+        | TransactionTokenExternalCardData
         | TransactionTokenQRScanData
         | TransactionTokenConvenienceData
         | TransactionTokenOnlineData
