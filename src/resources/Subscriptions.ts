@@ -7,7 +7,7 @@ import { AuthParams, HTTPMethod, PollData, PollParams, RestAPI, SendData } from 
 import { ProcessingMode } from "./common/enums.js";
 import { ignoreDescriptor } from "./common/ignoreDescriptor.js";
 import { Metadata, WithStoreMerchantName } from "./common/types.js";
-import { ChargeCreateParams, Charges, ChargeThreeDsMode } from "./Charges.js";
+import { ChargeCreateParams, Charges, ChargeStatus, ChargeThreeDsMode } from "./Charges.js";
 import { ChargesListParams, ResponseCharges } from "./Charges.js";
 import { CRUDAOSItemsResponse, CRUDPaginationParams, CRUDResource } from "./CRUDResource.js";
 import { ResponseCharge } from "./index.js";
@@ -347,15 +347,6 @@ export class ScheduledPayments extends CRUDResource {
     }
 }
 
-const hasImmediateCharge = (subscription: SubscriptionItem) => {
-    const { initialAmount, scheduleSettings } = subscription;
-    return (
-        !!initialAmount ||
-        !scheduleSettings ||
-        (scheduleSettings.startOn && new Date(scheduleSettings.startOn) <= new Date())
-    );
-};
-
 export class Subscriptions extends CRUDResource {
     static requiredParams = ["transactionTokenId", "amount", "currency", ["period", "cyclicalPeriod"]];
     static requiredSimulationParams = ["paymentType", "currency", ["period", "cyclicalPeriod"]];
@@ -514,18 +505,47 @@ export class Subscriptions extends CRUDResource {
         id: string,
         data?: SendData<PollData>,
         auth?: AuthParams,
+        initialAmount?: number | null,
+        options?: {
+            subscriptionIterationCallback?: (subscription: ResponseSubscription<T>) => void;
+            chargeIterationCallback?: (charge: ResponseCharge<T2>) => void;
+        },
     ): Promise<{ subscription: ResponseSubscription<T>; charge: ResponseCharge<T2> | null }> {
-        const subscription = await this.poll<T>(storeId, id, data, auth);
+        let firstCharge: ResponseCharge<T2> | null = null;
+        let failed = false;
+        const cancelCondition = () => failed;
 
-        const charge = hasImmediateCharge(subscription)
-            ? await (
-                  this.api.longPolling(() => this.charges(storeId, id, undefined, auth), {
-                      successCondition: (charges) => !!charges.items.length,
-                  }) as Promise<ResponseCharges>
-              ).then(({ items: charges }) =>
-                  this.chargesResource.poll<T2>(charges[0].storeId, charges[0].id, data, auth),
-              )
-            : null;
+        const [subscription, charge] = await Promise.all([
+            this.poll<T>(storeId, id, data, auth, {
+                successCondition: ({ status }) =>
+                    status !== SubscriptionStatus.UNVERIFIED ||
+                    (!!firstCharge && [ChargeStatus.AUTHORIZED, ChargeStatus.AWAITING].includes(firstCharge.status)),
+                cancelCondition,
+                iterationCallback: options?.subscriptionIterationCallback,
+            }),
+            initialAmount === 0
+                ? null
+                : (
+                      this.api.longPolling(() => this.charges(storeId, id, undefined, auth), {
+                          successCondition: (charges) => !!charges.items.length,
+                          cancelCondition,
+                      }) as Promise<ResponseCharges | null>
+                  ).then(
+                      (charges) =>
+                          charges &&
+                          this.chargesResource.poll<T2>(charges.items[0].storeId, charges.items[0].id, data, auth, {
+                              cancelCondition,
+                              iterationCallback: (polledCharge) => {
+                                  firstCharge = polledCharge;
+                                  options?.chargeIterationCallback?.(polledCharge);
+                              },
+                          }),
+                  ),
+        ]).catch((error) => {
+            failed = true;
+            throw error;
+        });
+
         return { subscription, charge };
     }
 
