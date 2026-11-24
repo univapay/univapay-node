@@ -558,37 +558,20 @@ describe("Subscriptions", () => {
         };
 
         it("should poll the subscription and first charge", async () => {
-            const expectedSubscription = mockSubscriptionPoll();
+            const expectedSubscription = mockSubscriptionPoll({ initialAmount: 1000 });
             mockChargesPoll();
             const expectedCharge = mockChargePoll();
 
-            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
+            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, 1000);
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
 
             await expect(request).to.become({ subscription: expectedSubscription, charge: expectedCharge });
         });
 
-        it("should poll the charge when the charge date is today", async () => {
+        it("should poll the charge when there is no initial amount and no start date", async () => {
             const expectedSubscription = mockSubscriptionPoll({
                 initialAmount: null,
-                scheduleSettings: { startOn: new Date().toISOString(), zoneId: "Asia/Tokyo", preserveEndOfMonth: true },
-            });
-            mockChargesPoll();
-            const expectedCharge = mockChargePoll();
-
-            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
-            await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
-
-            await expect(request).to.become({
-                subscription: expectedSubscription,
-                charge: expectedCharge,
-            });
-        });
-
-        it("should poll the charge when scheduleSettings is not provided", async () => {
-            const expectedSubscription = mockSubscriptionPoll({
-                initialAmount: null,
-                scheduleSettings: null,
+                scheduleSettings: { zoneId: "Asia/Tokyo", preserveEndOfMonth: true },
             });
             mockChargesPoll();
             const expectedCharge = mockChargePoll();
@@ -599,17 +582,32 @@ describe("Subscriptions", () => {
             await expect(request).to.become({ subscription: expectedSubscription, charge: expectedCharge });
         });
 
-        it("should not poll the charge when the subscription is not immediate", async () => {
+        it("should poll the charge when the start date is in the future", async () => {
             const futureDate = new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).toISOString();
             const expectedSubscription = mockSubscriptionPoll({
                 initialAmount: null,
                 scheduleSettings: { startOn: futureDate, zoneId: "Asia/Tokyo", preserveEndOfMonth: true },
             });
+            mockChargesPoll();
+            const expectedCharge = mockChargePoll();
 
             const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid());
+            await sandbox.clock.tickAsync(POLLING_INTERVAL * 6);
+
+            await expect(request).to.become({ subscription: expectedSubscription, charge: expectedCharge });
+        });
+
+        it("should not poll the charge when the initial amount is 0", async () => {
+            const expectedSubscription = mockSubscriptionPoll({ initialAmount: 0 });
+
+            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, 0);
             await sandbox.clock.tickAsync(POLLING_INTERVAL * 2);
 
             await expect(request).to.become({ subscription: expectedSubscription, charge: null });
+            const chargesCalled = fetchMock.callHistory
+                .calls()
+                .some(({ url }) => new URL(url).pathname.endsWith("/charges"));
+            expect(chargesCalled).to.equal(false);
         });
     });
 });
