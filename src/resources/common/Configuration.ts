@@ -58,6 +58,8 @@ export enum DirectDebitTransferDateType {
     END_OF_MONTH = "twenty_seven",
 }
 
+export type ExternalCardConfigurationItem = PaymentTypeConfiguration;
+
 export type CardConfigurationItem = PaymentTypeConfiguration &
     RecursiveNull<{
         debitEnabled: boolean;
@@ -328,6 +330,7 @@ export type ConfigurationItem = RecursiveNull<{
     bankTransferConfiguration: BankTransferConfiguration;
     cardBrandPercentFees: CardBrandPercentFeesItem;
     cardConfiguration: CardConfigurationItem;
+    externalCardConfiguration?: ExternalCardConfigurationItem;
     directDebitConfiguration?: DirectDebitConfiguration;
     convenienceConfiguration: ConvenienceConfigurationItem;
     onlineConfiguration: OnlineConfigurationItem;
@@ -364,6 +367,7 @@ export type ConfigurationParams = RecursiveNull<{
 
     bankTransferConfiguration?: Partial<BankTransferConfiguration>;
     cardConfiguration?: Partial<CardConfigurationItem>;
+    externalCardConfiguration?: Partial<ExternalCardConfigurationItem>;
     directDebitConfiguration?: Partial<DirectDebitConfiguration>;
     checkoutConfiguration?: Partial<CheckoutConfiguration>;
     convenienceConfiguration?: Partial<ConvenienceConfigurationItem>;
