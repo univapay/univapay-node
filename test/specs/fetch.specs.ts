@@ -1,8 +1,11 @@
 import { stringify } from "@apimatic/json-bigint";
 import { expect } from "chai";
+import sinon, { SinonSandbox } from "sinon";
 
-import { APIError } from "../../src/errors/APIError.js";
-import { checkStatus, parseJSON } from "../../src/utils/fetch.js";
+import { APIError, ResponseErrorCode } from "../../src/errors/APIError.js";
+import { ResponseError } from "../../src/errors/RequestResponseError.js";
+import { checkStatus, parseJSON, rateLimit } from "../../src/utils/fetch.js";
+import { fakeTimersConfig } from "../utils/index.js";
 
 const createResponse = (data: Record<string, unknown>, status = 200) =>
     new Response(status === 204 ? null : stringify(data, null, 2), { status, statusText: "Dummy status" });
@@ -58,6 +61,61 @@ describe("Fetch Helpers", () => {
             const response = createResponse({ key1: "1" }, 400);
 
             await expect(checkStatus(response)).to.be.rejectedWith(APIError, "API request failed with status 400");
+        });
+    });
+
+    describe("rateLimit", () => {
+        let sandbox: SinonSandbox;
+
+        const tooManyRequestsError = () => new ResponseError({ code: ResponseErrorCode.TooManyRequests, errors: [] });
+
+        beforeEach(() => {
+            sandbox = sinon.createSandbox({ properties: ["spy", "clock"], useFakeTimers: fakeTimersConfig });
+        });
+
+        afterEach(() => {
+            sandbox.restore();
+        });
+
+        it("return the result of the executor", async () => {
+            await expect(rateLimit(() => Promise.resolve("ok"))).to.become("ok");
+        });
+
+        it("rejects without retrying when the error is not a rate limit error", async () => {
+            const error = new Error("Other error");
+            const exec = sandbox.spy(() => Promise.reject(error));
+
+            await expect(rateLimit(exec)).to.be.rejectedWith(error);
+            expect(exec.callCount).to.equal(1);
+        });
+
+        it("retries when the request is rate limited", async () => {
+            const httpCodeError = new ResponseError({
+                code: ResponseErrorCode.UnknownError,
+                httpCode: 429,
+                errors: [],
+            });
+            const exec = sandbox.stub();
+            exec.onFirstCall().rejects(tooManyRequestsError());
+            exec.onSecondCall().rejects(httpCodeError);
+            exec.onThirdCall().resolves("ok");
+
+            const request = rateLimit(exec);
+            await sandbox.clock.tickAsync(1000);
+
+            await expect(request).to.become("ok");
+            expect(exec.callCount).to.equal(3);
+        });
+
+        it("rejects when the request is rate limited more than the fail threshold", async () => {
+            const exec = sandbox.spy(() => Promise.reject(tooManyRequestsError()));
+
+            const request = rateLimit(exec);
+            const assertion = expect(request).to.be.rejectedWith(ResponseError);
+            await sandbox.clock.tickAsync(10000);
+
+            await assertion;
+            expect(exec.callCount).to.equal(11);
         });
     });
 });

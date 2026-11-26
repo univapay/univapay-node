@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import sinon from "sinon";
 
 import { containsBinaryData, objectToFormData } from "../../src/api/utils/payload.js";
 
@@ -125,5 +126,22 @@ describe("Payload Helpers", () => {
         );
 
         expect(names).to.be.array().which.deep.equals(["foo", "foo2[0]", "fooBar.fizzBuzz"]);
+    });
+
+    it("should append Blob values as is to the FormData", () => {
+        // The FormData polyfill used in tests cannot stream a Blob, only the append call is asserted
+        const append = sinon.stub(FormData.prototype, "append");
+        const file = new Blob(["test"]);
+
+        try {
+            objectToFormData({ fooBar: { file } });
+            expect(append).to.have.been.calledOnceWithExactly("foo_bar.file", file);
+
+            append.resetHistory();
+            objectToFormData(file);
+            expect(append).to.have.been.calledOnceWithExactly("", file);
+        } finally {
+            append.restore();
+        }
     });
 });

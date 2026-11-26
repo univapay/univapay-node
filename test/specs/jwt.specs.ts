@@ -73,6 +73,12 @@ describe("JWT", () => {
         expect(extractJWT(new Response("foo", { headers }))).to.equal(null);
     });
 
+    it("should extract the raw bearer value when it cannot be decoded as JWT", () => {
+        const headers = new Headers({ Authorization: "Bearer invalid", "Content-Type": "application/json" });
+
+        expect(extractJWT(new Response("foo", { headers }))).to.equal("invalid");
+    });
+
     it.skip("should not extract JWT from HTTP when the token is invalid", () => {
         const headers = new Headers({
             "Content-Type": "application/json",

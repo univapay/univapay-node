@@ -552,8 +552,6 @@ describe("API", function () {
             ["raw", "foo", "text/plain"],
             ["blob", blobBody, "application/octet-stream"],
             ["unknown", blobBody, undefined],
-            // TODO: We can't really test form-data case in NodeJS environment at this point
-            // ["form-data", new FormData(), "multipart/form-data"],
         ];
 
         const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
@@ -581,6 +579,32 @@ describe("API", function () {
                     .and.be.a(typeof body);
             }
         }
+    });
+
+    it("should parse multipart response as form data", async function () {
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+        fetchMock.getOnce(`${testEndpoint}/form-data`, {
+            status: 200,
+            body: '--boundary\r\nContent-Disposition: form-data; name="foo"\r\n\r\nbar\r\n--boundary--\r\n',
+            headers: { "Content-Type": "multipart/form-data; boundary=boundary" },
+        });
+
+        const response = (await api.send(HTTPMethod.GET, "/form-data")) as FormData;
+
+        expect(response.get("foo")).to.eql("bar");
+    });
+
+    it("should log request steps when debug is enabled", async function () {
+        const info = sandbox.stub(console, "info");
+        const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+        fetchMock.getOnce(`${testEndpoint}/debug`, {
+            status: 200,
+            body: okResponse,
+            headers: { "Content-Type": "application/json" },
+        });
+
+        await expect(api.send(HTTPMethod.GET, "/debug", undefined, undefined, { debug: true })).to.become(okResponse);
+        expect(info.called).to.equal(true);
     });
 
     it("should use default body transfer encoding", async function () {
@@ -727,6 +751,32 @@ describe("API", function () {
             // by the call made just before it, not the first one.
             expect(pollTimes).to.eql([0, 100, 600]);
             expect(interval.callCount).to.eql(2);
+        });
+
+        it("should skip polling while the browser tab is inactive", async function () {
+            const api: RestAPI = new RestAPI({ endpoint: testEndpoint });
+            const execute = sinon.spy(() => Promise.resolve({ ok: true }));
+            const document = { hidden: true };
+            Object.defineProperty(globalThis, "document", { value: document, configurable: true });
+
+            try {
+                const request = api.longPolling(execute, {
+                    successCondition: ({ ok }: { ok: boolean }) => ok,
+                    interval: 100,
+                    browserSkipCallForInactiveTabs: true,
+                });
+
+                await clock.tickAsync(300);
+                expect(execute.callCount).to.eql(0);
+
+                document.hidden = false;
+                await clock.tickAsync(100);
+
+                await expect(request).to.become({ ok: true });
+                expect(execute.callCount).to.eql(1);
+            } finally {
+                delete (globalThis as { document?: unknown }).document;
+            }
         });
     });
 });

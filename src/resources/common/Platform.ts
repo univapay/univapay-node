@@ -74,7 +74,7 @@ export interface PlatformPaymentDefaults {
     onlineEnabled: boolean;
     paidyEnabled: boolean;
     bankTransferEnabled: boolean;
-    externalCardsEnabled: boolean;
+    externalCardEnabled: boolean;
 }
 
 export interface PlatformItem extends WithCreatedOn {

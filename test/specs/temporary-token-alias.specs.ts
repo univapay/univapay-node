@@ -84,6 +84,24 @@ describe("Temporary Token Alias", () => {
         });
     });
 
+    context("GET /stores/:storeId/tokens/alias/:id as QR code", () => {
+        it("should request a PNG image", async () => {
+            const blobBody = await new Response(new ArrayBuffer(2)).blob();
+            const mock = fetchMock.getOnce(recordPathMatcher, {
+                status: 200,
+                body: blobBody,
+                headers: { "Content-Type": "image/png" },
+            });
+
+            const response = await temporaryTokenAlias.get(recordData.storeId || "", recordData.id || "", {
+                media: TemporaryTokenAliasMedia.QR,
+            });
+
+            expect(response).to.have.property("size").that.eql(blobBody.size);
+            expect(mock.callHistory.lastCall()?.request?.headers.get("Accept")).to.eql("image/png");
+        });
+    });
+
     context("DELETE /stores/:storeId/tokens/alias/:id", () => {
         it("should get response", async () => {
             fetchMock.deleteOnce(recordPathMatcher, {

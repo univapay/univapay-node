@@ -597,6 +597,28 @@ describe("Subscriptions", () => {
             await expect(request).to.become({ subscription: expectedSubscription, charge: expectedCharge });
         });
 
+        it("should reject and stop polling when the subscription poll fails", async () => {
+            fetchMock.get(
+                pathToRegexMatcher(`${testEndpoint}/stores/:storeId/subscriptions/:id`),
+                {
+                    status: 404,
+                    body: { code: "NOT_FOUND", errors: [] },
+                    headers: { "Content-Type": "application/json" },
+                },
+                { method: HTTPMethod.GET },
+            );
+            mockChargesPoll();
+
+            const request = subscriptions.pollSubscriptionWithFirstCharge(uuid(), uuid(), undefined, undefined, 1000);
+            const assertion = expect(request).to.be.rejected.and.eventually.have.nested.property(
+                "errorResponse.code",
+                "NOT_FOUND",
+            );
+            await sandbox.clock.tickAsync(POLLING_INTERVAL * 2);
+
+            await assertion;
+        });
+
         it("should not poll the charge when the initial amount is 0", async () => {
             const expectedSubscription = mockSubscriptionPoll({ initialAmount: 0 });
 
