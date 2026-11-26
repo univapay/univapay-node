@@ -89,7 +89,7 @@ export interface PlatformConfiguration {
     country: string;
     currency: string;
     defaultLanguage: string;
-    limitCardChargeByCardConfiguration?: {
+    limitChargeByCardConfiguration?: {
         quantityOfCharges: number;
         durationWindow: string;
     };
